@@ -25,6 +25,10 @@ namespace LimsServer.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        /// <summary>
+        /// Get a list of all the processors
+        /// </summary>
+        /// <returns></returns>
         // GET: api/Processors
         [HttpGet]
         public IActionResult Get()
@@ -38,10 +42,11 @@ namespace LimsServer.Controllers
                 fileNames.Add(Path.GetFileNameWithoutExtension(file.Name));
             }
 
-            JObject jo = new JObject();
-            jo["status"] = "Success";
-            jo["processors"] = JToken.FromObject(fileNames);
-
+            ReturnMessage rm = new ReturnMessage("success");
+            JObject jo = rm.ToJObject();
+            JObject joData = new JObject();            
+            joData["processors"] = JToken.FromObject(fileNames);
+            jo["data"] = joData;
             return Ok(jo);
 
             //MemoryStream ms = new MemoryStream();
@@ -65,17 +70,49 @@ namespace LimsServer.Controllers
         }
 
         // GET: api/Processors/Qubit2.0
-        [HttpGet("{name}", Name = "Get")]
-        public string Get(string name)
+        [HttpGet("{name}")]
+        //public string Get(string name)
+        public async Task<IActionResult> Download(string name)
         {
-            return name + " " + "hello";
-        }
+            ReturnMessage rm = new ReturnMessage("success");
+            var data = new Dictionary<string, string>()
+            {
+                {"processor", name }
+            };
+            rm.data = data;
+            string projectRootPath = _hostingEnvironment.ContentRootPath;
+            string filePath = Path.Combine(projectRootPath, "app_files", "processors", name);
+            filePath += ".json";
+            FileInfo fi = new FileInfo(filePath);
+            if (!fi.Exists )
+            {
+                rm.status = "failure";
+                rm.message = "Could not find processor";
+                return Ok(rm.ToJObject());
+            }
 
-        //[HttpPost, DisableRequestSizeLimit]
-        //public ActionResult UploadProcessor(IFormFile infile)
+            string processor = System.IO.File.ReadAllText(filePath);
+            JObject jo = rm.ToJObject();
+            jo["data"] = JObject.Parse(processor);
+            return Ok(jo);
+                  
+        }
+        
+        /// <summary>
+        /// Upload a json based processor file
+        /// It will be saved in the app_files/processors folder
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UploadProcessor(IFormFile file)
         {
+            Dictionary<string, string> data = new Dictionary<string, string>()
+            {
+                { "processor", file.FileName}
+            };
+
+            ReturnMessage rm = new ReturnMessage("failure", data);
             try
             {
                 string folderName = "temp";
@@ -83,6 +120,7 @@ namespace LimsServer.Controllers
                 string projectRootPath = _hostingEnvironment.ContentRootPath;
                 string newPath = Path.Combine(projectRootPath, "app_files", folderName, file.FileName);
 
+                JObject joProc = null;
                 List<string> lstTemplateFields = new List<string>();
                 if (file.Length > 0)
                 {
@@ -94,8 +132,8 @@ namespace LimsServer.Controllers
                         string sProc;
                         using (var reader = new StreamReader(stream))
                         {
-                            sProc = reader.ReadToEnd();                            
-                            var joProc = JObject.Parse(sProc);
+                            sProc = reader.ReadToEnd();
+                            joProc = JObject.Parse(sProc);
                             JObject fldMappings = joProc["field_mappings"] as JObject;
                             foreach (var x in fldMappings)
                             {
@@ -110,21 +148,27 @@ namespace LimsServer.Controllers
                 List<string> lstMissingFields = VerifyTemplateFields(lstTemplateFields);
                 if (lstMissingFields != null)
                 {
-                    JObject joMissingFields = new JObject();
-                    joMissingFields["status"] = "Error. Upload failed. Missing template fields.";
-                    joMissingFields["missing_fields"] = JToken.FromObject(lstMissingFields);
-                    return Ok(joMissingFields);
+                    rm.status = "Failure";
+                    rm.message = "Missing template fileds: " + String.Join(",", lstMissingFields);
+                    //JObject joMissingFields = new JObject();
+                    //joMissingFields["status"] = "Error. Upload failed. Missing template fields.";
+                    //joMissingFields["missing_fields"] = JToken.FromObject(lstMissingFields);
+                    return Ok(rm.ToJObject());
+                }
+                else
+                {
+                    string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
+                    System.IO.File.WriteAllText(filePath, joProc.ToString());
                 }
             }
             catch (Exception ex)
             {
-                JObject joExcept = new JObject();
-                joExcept["status"] = "Error. Upload failed. " + ex.Message;
-                return Ok(joExcept);
+                rm.status = "Failure";
+                rm.message = "Upload failed: " + ex.Message;
+                return Ok(rm.ToJObject());
             }
-            JObject jo = new JObject();
-            jo["status"] = "Successful upload";
-            return Ok(jo);
+            rm.status = "success";     
+            return Ok(rm.ToJObject());
 
         }
 
@@ -167,6 +211,26 @@ namespace LimsServer.Controllers
             return lstMissingFields;
 
 
+        }
+        
+    }
+
+    public class ReturnMessage
+    {
+        public string status;
+        public string message;
+        public Dictionary<string, string> data;
+
+        public ReturnMessage(string _status, Dictionary<string, string> _data = null, string _message = "")
+        {
+            status = _status;
+            data = _data;
+            message = _message;
+        }
+        public JObject ToJObject()
+        {
+            JObject jo = JToken.FromObject(this) as JObject;
+            return jo;
         }
     }
 }
