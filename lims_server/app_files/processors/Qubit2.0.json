@@ -1,0 +1,11 @@
+{
+    "instrument":"quibit2.0",
+    "date":"2019-09-12",
+    "field_mappings":
+    {
+        "aliquot" : "sed_id",
+        "analysis date/time" : "date/time",
+        "measured value" : "stock conc.",
+        "analyte identifier" : "assay type"
+    }
+}
