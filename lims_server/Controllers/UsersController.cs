@@ -24,13 +24,13 @@ namespace LimsServer.Controllers
         private IUserService _userService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public UsersController(
             IUserService userService,
             IMapper mapper,
             IOptions<AppSettings> appSettings,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         {
             _userService = userService;
             _mapper = mapper;
@@ -57,6 +57,10 @@ namespace LimsServer.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
+
+            //If the enabled field is false, user has been disabled.
+            if (!user.Enabled)
+                return Unauthorized();
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -105,10 +109,6 @@ namespace LimsServer.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<string> lst = new List<string>();
-            lst.Add("Whats up");
-            lst.Add("Hello World");
-            return Ok("Hello");
 
             var users =  _userService.GetAll();
             var userDtos = _mapper.Map<IList<UserDto>>(users);
@@ -143,11 +143,11 @@ namespace LimsServer.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _userService.Delete(id);
-            return Ok();
-        }
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    _userService.Delete(id);
+        //    return Ok();
+        //}
     }
 }

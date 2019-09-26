@@ -10,17 +10,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using OfficeOpenXml;
 using Newtonsoft.Json.Linq;
+using LimsServer.Entities;
+using LiteDB;
 
 namespace LimsServer.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProcessorsController : ControllerBase
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        //private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public ProcessorsController(IHostingEnvironment hostingEnvironment)
+        public ProcessorsController(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }
@@ -35,16 +38,16 @@ namespace LimsServer.Controllers
         {
             string projectRootPath = _hostingEnvironment.ContentRootPath;
             DirectoryInfo di = new DirectoryInfo(Path.Combine(projectRootPath, "app_files", "processors"));
-            FileInfo[] files= di.GetFiles();
+            FileInfo[] files = di.GetFiles();
             List<string> fileNames = new List<string>();
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 fileNames.Add(Path.GetFileNameWithoutExtension(file.Name));
             }
 
             ReturnMessage rm = new ReturnMessage("success");
             JObject jo = rm.ToJObject();
-            JObject joData = new JObject();            
+            JObject joData = new JObject();
             joData["processors"] = JToken.FromObject(fileNames);
             jo["data"] = joData;
             return Ok(jo);
@@ -72,9 +75,11 @@ namespace LimsServer.Controllers
         // GET: api/Processors/Qubit2.0
         [HttpGet("{name}")]
         //public string Get(string name)
-        public async Task<IActionResult> Download(string name)
+        public IActionResult Download(string name)
         {
             ReturnMessage rm = new ReturnMessage("success");
+            JObject jo = RetrieveProcessor(name);
+
             var data = new Dictionary<string, string>()
             {
                 {"processor", name }
@@ -84,7 +89,7 @@ namespace LimsServer.Controllers
             string filePath = Path.Combine(projectRootPath, "app_files", "processors", name);
             filePath += ".json";
             FileInfo fi = new FileInfo(filePath);
-            if (!fi.Exists )
+            if (!fi.Exists)
             {
                 rm.status = "failure";
                 rm.message = "Could not find processor";
@@ -92,12 +97,12 @@ namespace LimsServer.Controllers
             }
 
             string processor = System.IO.File.ReadAllText(filePath);
-            JObject jo = rm.ToJObject();
-            jo["data"] = JObject.Parse(processor);
-            return Ok(jo);
-                  
+            JObject joReturn = rm.ToJObject();
+            joReturn["data"] = JObject.Parse(processor);
+            return Ok(joReturn);
+
         }
-        
+
         /// <summary>
         /// Upload a json based processor file
         /// It will be saved in the app_files/processors folder
@@ -142,7 +147,7 @@ namespace LimsServer.Controllers
                                 string vProp = val.Value<string>();
                                 lstTemplateFields.Add(key);
                             }
-                        }                                                
+                        }
                     }
                 }
                 List<string> lstMissingFields = VerifyTemplateFields(lstTemplateFields);
@@ -167,7 +172,7 @@ namespace LimsServer.Controllers
                 rm.message = "Upload failed: " + ex.Message;
                 return Ok(rm.ToJObject());
             }
-            rm.status = "success";     
+            rm.status = "success";
             return Ok(rm.ToJObject());
 
         }
@@ -212,25 +217,38 @@ namespace LimsServer.Controllers
 
 
         }
-        
-    }
 
-    public class ReturnMessage
-    {
-        public string status;
-        public string message;
-        public Dictionary<string, string> data;
-
-        public ReturnMessage(string _status, Dictionary<string, string> _data = null, string _message = "")
+        private JObject RetrieveProcessor(string name)
         {
-            status = _status;
-            data = _data;
-            message = _message;
-        }
-        public JObject ToJObject()
-        {
-            JObject jo = JToken.FromObject(this) as JObject;
+            JObject jo = null;
+            using (var db = new LiteDatabase(@"lims_objects.db"))
+            {
+                // Get user collection
+                var processors = db.GetCollection<Processor>("processors");
+                Processor processor = processors.Find(x => x.name == name).FirstOrDefault();
+                jo = (JObject)JToken.FromObject(processor);
+            }
             return jo;
+
+        }
+
+        public class ReturnMessage
+        {
+            public string status;
+            public string message;
+            public Dictionary<string, string> data;
+
+            public ReturnMessage(string _status, Dictionary<string, string> _data = null, string _message = "")
+            {
+                status = _status;
+                data = _data;
+                message = _message;
+            }
+            public JObject ToJObject()
+            {
+                JObject jo = JToken.FromObject(this) as JObject;
+                return jo;
+            }
         }
     }
 }

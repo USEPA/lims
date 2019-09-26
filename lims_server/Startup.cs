@@ -17,8 +17,8 @@ namespace LimsServer
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             _env = env;
             Configuration = configuration;
@@ -32,10 +32,11 @@ namespace LimsServer
             string projectRootPath = _env.ContentRootPath;
 
             services.AddCors();
+            //services.AddMvc(); // MvcOptions.EnableEndpointRouting = false
             string connString = "Data Source=TestAuthDb.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
             //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddAutoMapper();
 
             // configure strongly typed settings objects
@@ -83,7 +84,7 @@ namespace LimsServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // global cors policy
             app.UseCors(x => x
@@ -92,8 +93,14 @@ namespace LimsServer
                 .AllowAnyHeader());
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc();
+            //app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
