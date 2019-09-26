@@ -1,2 +1,2 @@
 # lims
-Support for Laboratory Information System
+Support for Laboratory Information Management System
