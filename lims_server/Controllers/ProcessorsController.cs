@@ -60,15 +60,16 @@ namespace LimsServer.Controllers
                 SQLiteCommand command = conn.CreateCommand();
                 command.CommandText = query;                
                 var reader = command.ExecuteReader();
-                List<string> row = new List<string>();
+                
                 while (reader.Read())
                 {
+                    List<string> row = new List<string>();
                     int id = reader.GetInt32(0);
                     string name = reader.GetString(1);
-                    row.Append(id.ToString());
-                    row.Append(name);
-                    string processor = reader.GetString(2);
-                    retData.Append(row);
+                    row.Add(id.ToString());
+                    row.Add(name);
+                    //string processor = reader.GetString(2);
+                    retData.Add(row);
                 }
             }
             return retData;
@@ -80,26 +81,27 @@ namespace LimsServer.Controllers
         /// <returns></returns>
         // GET: api/Processors
         [HttpGet]
-        public IActionResult Get()
+        public List<List<string>> Get()
         {
-            List<List<string>> data = SelectQuery("select id, name from processors");
-
-            string projectRootPath = _hostingEnvironment.ContentRootPath;
-            //DirectoryInfo di = new DirectoryInfo(Path.Combine(projectRootPath, "app_files", "database"));
-            
-            //FileInfo[] files = di.GetFiles();
-            //List<string> fileNames = new List<string>();
-            //foreach (var file in files)
-            //{
-            //    fileNames.Add(Path.GetFileNameWithoutExtension(file.Name));
-            //}
-
             ReturnMessage rm = new ReturnMessage("success");
-            JObject jo = rm.ToJObject();
-            JObject joData = new JObject();
-            joData["processors"] = JToken.FromObject(data);
-            jo["data"] = joData;
-            return Ok(jo);
+            try
+            {
+
+                List<List<string>> data = SelectQuery("select id, name from processors");              
+                             
+                JObject jo = rm.ToJObject();
+                JObject joData = new JObject();
+                joData["processors"] = JToken.FromObject(data);
+                jo["data"] = joData;
+                return data;
+
+            }
+            catch (Exception ex)
+            {
+                rm.status = "failure";
+                rm.message = ex.Message;
+                return null;
+            }            
 
             //MemoryStream ms = new MemoryStream();
             //using (FileStream file = new FileStream("Batch14_2019-03-14.xlsx", FileMode.Open, FileAccess.Read))
@@ -208,8 +210,8 @@ namespace LimsServer.Controllers
                 List<string> lstMissingFields = VerifyTemplateFields(lstTemplateFields);
                 if (lstMissingFields != null)
                 {
-                    rm.status = "Failure";
-                    rm.message = "Missing template fileds: " + String.Join(",", lstMissingFields);                    
+                    rm.status = "failure";
+                    rm.message = "issing template fields: " + String.Join(",", lstMissingFields);                    
                     return Ok(rm.ToJObject());
                 }
                 else
@@ -280,23 +282,6 @@ namespace LimsServer.Controllers
 
         }
 
-        public class ReturnMessage
-        {
-            public string status;
-            public string message;
-            public Dictionary<string, string> data;
-
-            public ReturnMessage(string _status, Dictionary<string, string> _data = null, string _message = "")
-            {
-                status = _status;
-                data = _data;
-                message = _message;
-            }
-            public JObject ToJObject()
-            {
-                JObject jo = JToken.FromObject(this) as JObject;
-                return jo;
-            }
-        }
+        
     }
 }
