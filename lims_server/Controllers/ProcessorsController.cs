@@ -29,7 +29,22 @@ namespace LimsServer.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        private List<List<string>> Query(string query)
+        private void InsertProcessorIntoDB(string name, string jsonProcessor)
+        {
+            string projectRootPath = _hostingEnvironment.ContentRootPath;
+            string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
+            using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
+            {
+                conn.Open();
+                SQLiteCommand command = conn.CreateCommand();
+                command.CommandText = string.Format("insert into processors (name, processor) values ({0}, json($text1))", name);
+                command.Parameters.AddWithValue("$text1", jsonProcessor);
+                command.ExecuteNonQuery();
+            }
+        }
+
+
+        private List<List<string>> SelectQuery(string query)
         {
             List<List<string>> retData = new List<List<string>>();
             string projectRootPath = _hostingEnvironment.ContentRootPath;
@@ -62,7 +77,7 @@ namespace LimsServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<List<string>> data = Query("select id, name from processors");
+            List<List<string>> data = SelectQuery("select id, name from processors");
 
             string projectRootPath = _hostingEnvironment.ContentRootPath;
             //DirectoryInfo di = new DirectoryInfo(Path.Combine(projectRootPath, "app_files", "database"));
@@ -142,6 +157,7 @@ namespace LimsServer.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadProcessor(IFormFile file)
         {
+            string sProc = "";
             Dictionary<string, string> data = new Dictionary<string, string>()
             {
                 { "processor", file.FileName}
@@ -151,12 +167,7 @@ namespace LimsServer.Controllers
 
             ReturnMessage rm = new ReturnMessage("failure", data);
             try
-            {
-                //string folderName = "temp";
-                //string webRootPath = _hostingEnvironment.WebRootPath;
-                //string projectRootPath = _hostingEnvironment.ContentRootPath;
-                //string newPath = Path.Combine(projectRootPath, "app_files", folderName, file.FileName);
-
+            {   
                 JObject joProc = null;
                 List<string> lstTemplateFields = new List<string>();
                 if (file.Length > 0)
@@ -166,7 +177,7 @@ namespace LimsServer.Controllers
                     {
                         await file.CopyToAsync(stream);
                         stream.Position = 0;
-                        string sProc;
+                        
                         using (var reader = new StreamReader(stream))
                         {
                             sProc = reader.ReadToEnd();
@@ -196,7 +207,9 @@ namespace LimsServer.Controllers
                 else
                 {
                     //string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
-                    System.IO.File.WriteAllText(filePath, joProc.ToString());
+
+                    InsertProcessorIntoDB(file.FileName, sProc);
+                    //System.IO.File.WriteAllText(filePath, joProc.ToString());
                 }
             }
             catch (Exception ex)
@@ -230,13 +243,14 @@ namespace LimsServer.Controllers
 
         private List<string> VerifyTemplateFields(List<string> fields)
         {
+            List<string> lstTemplateFields = Template.Fields.ToList();
             List<string> lstMissingFields = new List<string>();
-            string projPath = _hostingEnvironment.ContentRootPath;
-            string templateFile = Path.Combine(projPath, "app_files", "template");
-            string template = System.IO.File.ReadAllText(templateFile);
-            string[] template_fields = template.Split(",".ToCharArray());
+            //string projPath = _hostingEnvironment.ContentRootPath;
+            //string templateFile = Path.Combine(projPath, "app_files", "template");
+            //string template = System.IO.File.ReadAllText(templateFile);
+            //string[] template_fields = template.Split(",".ToCharArray());
 
-            List<string> lstTemplateFields = template_fields.ToList();
+            //List<string> lstTemplateFields = template_fields.ToList();
             foreach (string field in fields)
             {
                 if (!lstTemplateFields.Contains(field, StringComparer.OrdinalIgnoreCase))
@@ -247,8 +261,6 @@ namespace LimsServer.Controllers
                 lstMissingFields = null;
 
             return lstMissingFields;
-
-
         }
 
         private JObject RetrieveProcessor(string name)
