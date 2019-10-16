@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using OfficeOpenXml;
 using Newtonsoft.Json.Linq;
+using System.Data.SQLite;
 using LimsServer.Entities;
-using LiteDB;
+//using LiteDB;
 
 namespace LimsServer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ProcessorsController : ControllerBase
@@ -28,6 +29,31 @@ namespace LimsServer.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        private List<List<string>> Query(string query)
+        {
+            List<List<string>> retData = new List<List<string>>();
+            string projectRootPath = _hostingEnvironment.ContentRootPath;
+            string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
+            using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
+            {
+                conn.Open();
+                SQLiteCommand command = conn.CreateCommand();
+                command.CommandText = query;                
+                var reader = command.ExecuteReader();
+                List<string> row = new List<string>();
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
+                    row.Append(id.ToString());
+                    row.Append(name);
+                    string processor = reader.GetString(2);
+                    retData.Append(row);
+                }
+            }
+            return retData;
+        }
+
         /// <summary>
         /// Get a list of all the processors
         /// </summary>
@@ -36,19 +62,22 @@ namespace LimsServer.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            List<List<string>> data = Query("select id, name from processors");
+
             string projectRootPath = _hostingEnvironment.ContentRootPath;
-            DirectoryInfo di = new DirectoryInfo(Path.Combine(projectRootPath, "app_files", "processors"));
-            FileInfo[] files = di.GetFiles();
-            List<string> fileNames = new List<string>();
-            foreach (var file in files)
-            {
-                fileNames.Add(Path.GetFileNameWithoutExtension(file.Name));
-            }
+            //DirectoryInfo di = new DirectoryInfo(Path.Combine(projectRootPath, "app_files", "database"));
+            
+            //FileInfo[] files = di.GetFiles();
+            //List<string> fileNames = new List<string>();
+            //foreach (var file in files)
+            //{
+            //    fileNames.Add(Path.GetFileNameWithoutExtension(file.Name));
+            //}
 
             ReturnMessage rm = new ReturnMessage("success");
             JObject jo = rm.ToJObject();
             JObject joData = new JObject();
-            joData["processors"] = JToken.FromObject(fileNames);
+            joData["processors"] = JToken.FromObject(data);
             jo["data"] = joData;
             return Ok(jo);
 
@@ -72,6 +101,7 @@ namespace LimsServer.Controllers
             //return lst.ToArray();
         }
 
+        
         // GET: api/Processors/Qubit2.0
         [HttpGet("{name}")]
         //public string Get(string name)
@@ -117,13 +147,15 @@ namespace LimsServer.Controllers
                 { "processor", file.FileName}
             };
 
+            string[] fields = Template.Fields.Clone() as string[];
+
             ReturnMessage rm = new ReturnMessage("failure", data);
             try
             {
-                string folderName = "temp";
-                string webRootPath = _hostingEnvironment.WebRootPath;
-                string projectRootPath = _hostingEnvironment.ContentRootPath;
-                string newPath = Path.Combine(projectRootPath, "app_files", folderName, file.FileName);
+                //string folderName = "temp";
+                //string webRootPath = _hostingEnvironment.WebRootPath;
+                //string projectRootPath = _hostingEnvironment.ContentRootPath;
+                //string newPath = Path.Combine(projectRootPath, "app_files", folderName, file.FileName);
 
                 JObject joProc = null;
                 List<string> lstTemplateFields = new List<string>();
@@ -139,6 +171,7 @@ namespace LimsServer.Controllers
                         {
                             sProc = reader.ReadToEnd();
                             joProc = JObject.Parse(sProc);
+                            string name = joProc["instrument"].ToString();
                             JObject fldMappings = joProc["field_mappings"] as JObject;
                             foreach (var x in fldMappings)
                             {
@@ -162,7 +195,7 @@ namespace LimsServer.Controllers
                 }
                 else
                 {
-                    string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
+                    //string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
                     System.IO.File.WriteAllText(filePath, joProc.ToString());
                 }
             }
@@ -221,13 +254,7 @@ namespace LimsServer.Controllers
         private JObject RetrieveProcessor(string name)
         {
             JObject jo = null;
-            using (var db = new LiteDatabase(@"lims_objects.db"))
-            {
-                // Get user collection
-                var processors = db.GetCollection<Processor>("processors");
-                Processor processor = processors.Find(x => x.name == name).FirstOrDefault();
-                jo = (JObject)JToken.FromObject(processor);
-            }
+            
             return jo;
 
         }

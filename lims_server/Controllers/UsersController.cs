@@ -133,7 +133,8 @@ namespace LimsServer.Controllers
             try 
             {
                 // save 
-                _userService.Update(user, userDto.Password);
+                //_userService.Update(user, userDto.Password);
+                _userService.Update(user, userDto.Enabled);
                 return Ok();
             } 
             catch(AppException ex)

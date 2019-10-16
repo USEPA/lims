@@ -12,7 +12,8 @@ namespace LimsServer.Services
         IEnumerable<User> GetAll();
         User GetById(int id);
         User Create(User user, string password);
-        void Update(User user, string password = null);
+        //void Update(User user, string password = null);
+        void Update(User user, bool enabled);
         void Delete(int id);
     }
 
@@ -76,7 +77,8 @@ namespace LimsServer.Services
             return user;
         }
 
-        public void Update(User userParam, string password = null)
+        //public void Update(User userParam, string password = null)
+        public void Update(User userParam, bool enabled)
         {
             var user = _context.Users.Find(userParam.Id);
 
@@ -94,16 +96,17 @@ namespace LimsServer.Services
             user.FirstName = userParam.FirstName;
             user.LastName = userParam.LastName;
             user.Username = userParam.Username;
+            user.Enabled = userParam.Enabled;
 
             // update password if it was entered
-            if (!string.IsNullOrWhiteSpace(password))
-            {
-                byte[] passwordHash, passwordSalt;
-                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            //if (!string.IsNullOrWhiteSpace(password))
+            //{
+            //    byte[] passwordHash, passwordSalt;
+            //    CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-                user.PasswordHash = passwordHash;
-                user.PasswordSalt = passwordSalt;
-            }
+            //    user.PasswordHash = passwordHash;
+            //    user.PasswordSalt = passwordSalt;
+            //}
 
             _context.Users.Update(user);
             _context.SaveChanges();
