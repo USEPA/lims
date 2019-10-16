@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using OfficeOpenXml;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.Data.SQLite;
 using LimsServer.Entities;
 //using LiteDB;
@@ -36,8 +37,10 @@ namespace LimsServer.Controllers
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
             {
                 conn.Open();
+                conn.EnableExtensions(true);
+                conn.LoadExtension("SQLite.Interop.dll", "sqlite3_json_init");
                 SQLiteCommand command = conn.CreateCommand();
-                command.CommandText = string.Format("insert into processors (name, processor) values ({0}, json($text1))", name);
+                command.CommandText = string.Format("insert into processors (name, processor) values ('{0}', json($text1))", name);
                 command.Parameters.AddWithValue("$text1", jsonProcessor);
                 command.ExecuteNonQuery();
             }
@@ -52,6 +55,8 @@ namespace LimsServer.Controllers
             using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
             {
                 conn.Open();
+                conn.EnableExtensions(true);
+                conn.LoadExtension("SQLite.Interop.dll", "sqlite3_json_init");
                 SQLiteCommand command = conn.CreateCommand();
                 command.CommandText = query;                
                 var reader = command.ExecuteReader();
@@ -169,6 +174,7 @@ namespace LimsServer.Controllers
             try
             {   
                 JObject joProc = null;
+                Processor proc = null;
                 List<string> lstTemplateFields = new List<string>();
                 if (file.Length > 0)
                 {
@@ -181,8 +187,13 @@ namespace LimsServer.Controllers
                         using (var reader = new StreamReader(stream))
                         {
                             sProc = reader.ReadToEnd();
+                            
+                            
                             joProc = JObject.Parse(sProc);
-                            string name = joProc["instrument"].ToString();
+                            proc = JsonConvert.DeserializeObject<Processor>(joProc.ToString());
+
+                            //string name = joProc["instrument"].ToString();
+                            string name = proc.instrument;
                             JObject fldMappings = joProc["field_mappings"] as JObject;
                             foreach (var x in fldMappings)
                             {
@@ -198,17 +209,15 @@ namespace LimsServer.Controllers
                 if (lstMissingFields != null)
                 {
                     rm.status = "Failure";
-                    rm.message = "Missing template fileds: " + String.Join(",", lstMissingFields);
-                    //JObject joMissingFields = new JObject();
-                    //joMissingFields["status"] = "Error. Upload failed. Missing template fields.";
-                    //joMissingFields["missing_fields"] = JToken.FromObject(lstMissingFields);
+                    rm.message = "Missing template fileds: " + String.Join(",", lstMissingFields);                    
                     return Ok(rm.ToJObject());
                 }
                 else
                 {
                     //string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
 
-                    InsertProcessorIntoDB(file.FileName, sProc);
+                    string sProcessor = JsonConvert.SerializeObject(proc);
+                    InsertProcessorIntoDB(file.FileName, joProc.ToString(Formatting.None, null));
                     //System.IO.File.WriteAllText(filePath, joProc.ToString());
                 }
             }
