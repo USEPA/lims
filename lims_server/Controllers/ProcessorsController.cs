@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
+using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using OfficeOpenXml;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data.SQLite;
 using LimsServer.Entities;
+using PluginBase;
 //using LiteDB;
 
 namespace LimsServer.Controllers
@@ -24,12 +27,49 @@ namespace LimsServer.Controllers
     {
         //private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ILogger<ProcessorsController> _logger;
 
-        public ProcessorsController(IWebHostEnvironment hostingEnvironment)
+        public ProcessorsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
 
+
+        /// <summary>
+        /// Loop over the folders in the processors folder.
+        /// Each folder will contain a dll that has a class that 
+        /// implmenets the IProcessor interface
+        /// The dll will have the same name as the folder.
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetListOfProcessors()
+        {
+            List<string> lstProcessors = new List<string>();
+            try
+            {                
+                string projectRootPath = _hostingEnvironment.ContentRootPath;
+                string processorPath = Path.Combine(projectRootPath, "app_files", "processors");
+                DirectoryInfo dirInfo = new DirectoryInfo(processorPath);
+                DirectoryInfo[] dirs = dirInfo.GetDirectories();
+                foreach (DirectoryInfo di in dirs)
+                {
+                    lstProcessors.Add(di.Name);
+                }
+                //string line;
+                //using (StreamReader file = new System.IO.StreamReader(file_name))
+                //{
+                //    while ((line = file.ReadLine()) != null)                    
+                //        lstProcessors.Add(line.Trim());                    
+                //}
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, "Problem reading processors directory list.");
+            }
+            return lstProcessors;
+
+        }
         private void InsertProcessorIntoDB(string name, string jsonProcessor)
         {
             string projectRootPath = _hostingEnvironment.ContentRootPath;
@@ -79,48 +119,25 @@ namespace LimsServer.Controllers
         /// Get a list of all the processors
         /// </summary>
         /// <returns></returns>
-        // GET: api/Processors
+        // GET: Processors
         [HttpGet]
-        public List<List<string>> Get()
+        public DataResponseMessage Get()
         {
-            ReturnMessage rm = new ReturnMessage("success");
+            DataResponseMessage rm = new DataResponseMessage();
             try
             {
-
-                List<List<string>> data = SelectQuery("select id, name from processors");              
-                             
-                JObject jo = rm.ToJObject();
-                JObject joData = new JObject();
-                joData["processors"] = JToken.FromObject(data);
-                jo["data"] = joData;
-                return data;
-
+                List<string> lstProcessors = GetListOfProcessors();
+                rm.AddData("processors", JsonConvert.SerializeObject(lstProcessors));
+                rm.Message = "success";
+                return rm;                
             }
             catch (Exception ex)
-            {
-                rm.status = "failure";
-                rm.message = ex.Message;
-                return null;
-            }            
-
-            //MemoryStream ms = new MemoryStream();
-            //using (FileStream file = new FileStream("Batch14_2019-03-14.xlsx", FileMode.Open, FileAccess.Read))
-            //    file.CopyTo(ms);
-            List<string> lst = new List<string>();
-            FileInfo fi = new FileInfo("Batch14_2019-03-14.xlsx");
-            using (var package = new ExcelPackage(fi))
-            {
-                var worksheet = package.Workbook.Worksheets[1]; // Tip: To access the first worksheet, try index 1, not 0
-                string name = worksheet.Name;
-                int numRows = worksheet.Dimension.End.Row;
-                int numCols = worksheet.Dimension.End.Column;
-
-                lst.Add(name);
-                lst.Add("Hello World");
-                //return lst.ToArray();
-                //return Content(readExcelPackageToString(package, worksheet));
+            {                                
+                _logger.LogError(ex.Message, "Error getting processors");
+                rm.ErrorMessages.Add("Error retrieving list of processors");           
             }
-            //return lst.ToArray();
+
+            return rm;                        
         }
 
         
@@ -129,7 +146,7 @@ namespace LimsServer.Controllers
         //public string Get(string name)
         public IActionResult Download(string name)
         {
-            ReturnMessage rm = new ReturnMessage("success");
+            ResponseValue rm = new ResponseValue("success");
             JObject jo = RetrieveProcessor(name);
 
             var data = new Dictionary<string, string>()
@@ -143,8 +160,8 @@ namespace LimsServer.Controllers
             FileInfo fi = new FileInfo(filePath);
             if (!fi.Exists)
             {
-                rm.status = "failure";
-                rm.message = "Could not find processor";
+                //rm.status = "failure";
+                //rm.message = "Could not find processor";
                 return Ok(rm.ToJObject());
             }
 
@@ -156,81 +173,50 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// Upload a json based processor file
-        /// It will be saved in the app_files/processors folder
+        /// Upload a zip file containing the binary dll that implements an IProcessor interface.
+        /// It will be saved in a folder with the same name as the file
+        /// The zipped dll should have the same name as the zip file
+        /// It will be saved in the app_files/processors/{filename} folder
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> UploadProcessor(IFormFile file)
+        public async Task<ResponseMessage> UploadProcessor(IFormFile file)
         {
-            string sProc = "";
-            Dictionary<string, string> data = new Dictionary<string, string>()
+            DataResponseMessage rm = new DataResponseMessage();
+            if (file == null || file.FileName == "" || file.Length < 1)
             {
-                { "processor", file.FileName}
-            };
+                rm.AddErrorMessage("Upload processor file is null or empty");
+                return rm;
+            }
 
-            string[] fields = Template.Fields.Clone() as string[];
-
-            ReturnMessage rm = new ReturnMessage("failure", data);
-            try
-            {   
-                JObject joProc = null;
-                Processor proc = null;
-                List<string> lstTemplateFields = new List<string>();
-                if (file.Length > 0)
-                {
-                    //using (var stream = new FileStream(newPath, FileMode.Create))
-                    using (var stream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(stream);
-                        stream.Position = 0;
+            string tempPath = Path.GetTempFileName();
+            string fileName = file.FileName;
+            string projectRootPath = _hostingEnvironment.ContentRootPath;
+            string filePath = Path.Combine(projectRootPath, "app_files", "processors", fileName);
+            Directory.CreateDirectory(filePath);
                         
-                        using (var reader = new StreamReader(stream))
-                        {
-                            sProc = reader.ReadToEnd();
-                            
-                            
-                            joProc = JObject.Parse(sProc);
-                            proc = JsonConvert.DeserializeObject<Processor>(joProc.ToString());
+            try
+            {
 
-                            //string name = joProc["instrument"].ToString();
-                            string name = proc.instrument;
-                            JObject fldMappings = joProc["field_mappings"] as JObject;
-                            foreach (var x in fldMappings)
-                            {
-                                string key = x.Key;
-                                JToken val = x.Value;
-                                string vProp = val.Value<string>();
-                                lstTemplateFields.Add(key);
-                            }
-                        }
-                    }
-                }
-                List<string> lstMissingFields = VerifyTemplateFields(lstTemplateFields);
-                if (lstMissingFields != null)
+                //using (var stream = new FileStream(newPath, FileMode.Create))
+                using (var stream = System.IO.File.Create(tempPath))
                 {
-                    rm.status = "failure";
-                    rm.message = "issing template fields: " + String.Join(",", lstMissingFields);                    
-                    return Ok(rm.ToJObject());
+                    await file.CopyToAsync(stream);
                 }
-                else
-                {
-                    //string filePath = Path.Combine(projectRootPath, "app_files", "processors", file.FileName);
 
-                    string sProcessor = JsonConvert.SerializeObject(proc);
-                    InsertProcessorIntoDB(file.FileName, joProc.ToString(Formatting.None, null));
-                    //System.IO.File.WriteAllText(filePath, joProc.ToString());
-                }
+                System.IO.Compression.ZipFile.ExtractToDirectory(tempPath, filePath);
+                rm.Message = "Successfully uploaded file";
+                rm.Data.Add("file", fileName);
+
+                
             }
             catch (Exception ex)
             {
-                rm.status = "Failure";
-                rm.message = "Upload failed: " + ex.Message;
-                return Ok(rm.ToJObject());
+                rm.AddErrorAndLogMessage(string.Format("Error uploading file: {0}", fileName));
             }
-            rm.status = "success";
-            return Ok(rm.ToJObject());
+            //rm.status = "success";
+            return rm;
 
         }
 
@@ -251,28 +237,7 @@ namespace LimsServer.Controllers
         public void Delete(int id)
         {
         }
-
-        private List<string> VerifyTemplateFields(List<string> fields)
-        {
-            List<string> lstTemplateFields = Template.Fields.ToList();
-            List<string> lstMissingFields = new List<string>();
-            //string projPath = _hostingEnvironment.ContentRootPath;
-            //string templateFile = Path.Combine(projPath, "app_files", "template");
-            //string template = System.IO.File.ReadAllText(templateFile);
-            //string[] template_fields = template.Split(",".ToCharArray());
-
-            //List<string> lstTemplateFields = template_fields.ToList();
-            foreach (string field in fields)
-            {
-                if (!lstTemplateFields.Contains(field, StringComparer.OrdinalIgnoreCase))
-                    lstMissingFields.Add(field);
-            }
-
-            if (lstMissingFields.Count < 1)
-                lstMissingFields = null;
-
-            return lstMissingFields;
-        }
+        
 
         private JObject RetrieveProcessor(string name)
         {

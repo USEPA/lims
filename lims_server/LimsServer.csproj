@@ -10,6 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="NLog" Version="4.6.7" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.111" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
@@ -18,5 +20,15 @@
     <Folder Include="app_files\temp\" />
     <Folder Include="app_files\template\" />
     <Folder Include="app_files\processors\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nlog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppWithPlugin\AppWithPlugin.csproj" />
+    <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
