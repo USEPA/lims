@@ -60,8 +60,9 @@ namespace PluginBase
 
     public class ResponseMessage
     {
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> LogMessages { get { return new List<string>(_logMessages); } }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> ErrorMessages { get { return new List<string>(_errorMessages); } }
         public string Message { get; set;}

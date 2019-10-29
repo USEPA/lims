@@ -43,25 +43,17 @@ namespace LimsServer.Controllers
         /// The dll will have the same name as the folder.
         /// </summary>
         /// <returns></returns>
-        private List<string> GetListOfProcessors()
+        private List<ProcessorDTO> GetListOfProcessors()
         {
-            List<string> lstProcessors = new List<string>();
+            List<ProcessorDTO> lstProcessors = new List<ProcessorDTO>();
+            ProcessorManager procMgr = new ProcessorManager();
+           
             try
             {                
                 string projectRootPath = _hostingEnvironment.ContentRootPath;
                 string processorPath = Path.Combine(projectRootPath, "app_files", "processors");
-                DirectoryInfo dirInfo = new DirectoryInfo(processorPath);
-                DirectoryInfo[] dirs = dirInfo.GetDirectories();
-                foreach (DirectoryInfo di in dirs)
-                {
-                    lstProcessors.Add(di.Name);
-                }
-                //string line;
-                //using (StreamReader file = new System.IO.StreamReader(file_name))
-                //{
-                //    while ((line = file.ReadLine()) != null)                    
-                //        lstProcessors.Add(line.Trim());                    
-                //}
+                lstProcessors = procMgr.GetProcessors(processorPath);
+                
             }
             catch (Exception ex)
             {
@@ -126,7 +118,7 @@ namespace LimsServer.Controllers
             DataResponseMessage rm = new DataResponseMessage();
             try
             {
-                List<string> lstProcessors = GetListOfProcessors();
+                List<ProcessorDTO> lstProcessors = GetListOfProcessors();
                 rm.AddData("processors", JsonConvert.SerializeObject(lstProcessors));
                 rm.Message = "success";
                 return rm;                
@@ -193,7 +185,8 @@ namespace LimsServer.Controllers
             string tempPath = Path.GetTempFileName();
             string fileName = file.FileName;
             string projectRootPath = _hostingEnvironment.ContentRootPath;
-            string filePath = Path.Combine(projectRootPath, "app_files", "processors", fileName);
+            string fileNameNoExt = Path.GetFileNameWithoutExtension(fileName);
+            string filePath = Path.Combine(projectRootPath, "app_files", "processors", fileNameNoExt);
             Directory.CreateDirectory(filePath);
                         
             try
