@@ -61,10 +61,26 @@ namespace PluginBase
     public class ResponseMessage
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> LogMessages { get { return new List<string>(_logMessages); } }
+        public List<string> LogMessages { 
+            get 
+            { if (_logMessages == null)
+                    return null;
+              else 
+                    return new List<string>(_logMessages); 
+            } 
+        }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> ErrorMessages { get { return new List<string>(_errorMessages); } }
+        public List<string> ErrorMessages
+        {
+            get
+            {
+                if (_errorMessages == null)
+                    return null;
+                else 
+                    return new List<string>(_errorMessages);
+            }
+        }
         public string Message { get; set;}
 
         private List<string> _logMessages = null;
@@ -73,23 +89,28 @@ namespace PluginBase
         public ResponseMessage()
         {
             //_messages = new Dictionary<string, string>();
-            _logMessages = new List<string>();            
-            _errorMessages = new List<string>();
+            //_logMessages = new List<string>();            
+            //_errorMessages = new List<string>();
             
         }
 
         public void AddLogMessage(string message)
         {
+            if (_logMessages == null)
+                _logMessages = new List<string>();
+            
             _logMessages.Add(message);
         }
         public void AddErrorMessage(string message)
         {
-            _logMessages.Add(message);
+            if (_errorMessages == null)
+                _errorMessages = new List<string>();
+            _errorMessages.Add(message);
         }
         public void AddErrorAndLogMessage(string message)
         {
-            _logMessages.Add(message);
-            _errorMessages.Add(message);
+            AddLogMessage(message);
+            AddErrorMessage(message);
         }
     }
 

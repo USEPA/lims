@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace LimsServer
 {
@@ -36,7 +37,15 @@ namespace LimsServer
             string connString = "Data Source=TestAuthDb.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
             //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                });
+
             services.AddAutoMapper();
 
             // configure strongly typed settings objects
