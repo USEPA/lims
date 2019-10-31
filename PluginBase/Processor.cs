@@ -116,12 +116,15 @@ namespace PluginBase
 
     public class DataResponseMessage : ResponseMessage
     {
-        public Dictionary<string, string> Data { get; }
+        //public Dictionary<string, string> Data { get; }
+        public Dictionary<string, JArray> Data { get; }
         public DataResponseMessage()
         {
-            Data = new Dictionary<string, string>();
+            //Data = new Dictionary<string, string>();
+            Data = new Dictionary<string, JArray>();
         }
-        public void AddData(string key, string value)
+        //public void AddData(string key, string value)
+        public void AddData(string key, JArray value)
         {
             if (Data.ContainsKey(key))
                 Data[key] = value;

@@ -48,36 +48,70 @@ namespace LimsServer.Controllers
             List<ProcessorDTO> lstProcessors = new List<ProcessorDTO>();
             ProcessorManager procMgr = new ProcessorManager();
            
-            try
-            {                
+            //try
+            //{                
                 string projectRootPath = _hostingEnvironment.ContentRootPath;
                 string processorPath = Path.Combine(projectRootPath, "app_files", "processors");
-                lstProcessors = procMgr.GetProcessors(processorPath);
-                
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message, "Problem reading processors directory list.");
-            }
+                lstProcessors = procMgr.GetProcessors(processorPath);                
+            //}
+            //catch (Exception ex)
+            //{
+                //_logger.LogError(ex.Message, "Problem reading processors directory list.");                
+            //}
             return lstProcessors;
 
         }
-        private void InsertProcessorIntoDB(string name, string jsonProcessor)
+        private void InsertProcessorIntoDB(ProcessorDTO proc)
         {
-            string projectRootPath = _hostingEnvironment.ContentRootPath;
-            string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
-            {
-                conn.Open();
-                conn.EnableExtensions(true);
-                conn.LoadExtension("SQLite.Interop.dll", "sqlite3_json_init");
-                SQLiteCommand command = conn.CreateCommand();
-                command.CommandText = string.Format("insert into processors (name, processor) values ('{0}', json($text1))", name);
-                command.Parameters.AddWithValue("$text1", jsonProcessor);
-                command.ExecuteNonQuery();
-            }
+            
+            string qry = @"insert or replace into processors(unique_id, name, description, instrument_file_type, processor_found) 
+                        values('{0}', '{1}', '{2}', '{3}',  1)";
+
+            //'{1}', '{2}', '{3}', '{4}', 1)";
+
+            qry = string.Format(qry, proc.UniqueId, proc.Name, proc.Description, proc.InstrumentFileType, "1");
+
+            //try
+            //{
+                string projectRootPath = _hostingEnvironment.ContentRootPath;
+                string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
+                {
+                    conn.Open();
+                    SQLiteCommand command = conn.CreateCommand();
+                    command.CommandText = qry;
+                    //command.Parameters.AddWithValue("$text1", jsonProcessor);
+                    command.ExecuteNonQuery();
+                }
+            //}
+            //catch(Exception ex)
+            //{
+            //    string sval = ex.Message;
+            //}
         }
 
+        private void SetProcessorsToNotFound()
+        {
+
+            string qry = @"update processors set processor_found = 0 where processor_found = 1";                                                
+
+            //try
+            //{
+                string projectRootPath = _hostingEnvironment.ContentRootPath;
+                string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
+                {
+                    conn.Open();
+                    SQLiteCommand command = conn.CreateCommand();
+                    command.CommandText = qry;                    
+                    command.ExecuteNonQuery();
+                }
+            //}
+            //catch (Exception ex)
+            //{
+            //    string sval = ex.Message;
+            //}
+        }
 
         private List<List<string>> SelectQuery(string query)
         {
@@ -119,13 +153,21 @@ namespace LimsServer.Controllers
             try
             {
                 List<ProcessorDTO> lstProcessors = GetListOfProcessors();
-                rm.AddData("processors", JsonConvert.SerializeObject(lstProcessors));
+                SetProcessorsToNotFound();
+                foreach (ProcessorDTO proc in lstProcessors)
+                {
+                    InsertProcessorIntoDB(proc);
+                }
+                //rm.AddData("processors", JsonConvert.SerializeObject(lstProcessors));
+                string jsonProcessors= JsonConvert.SerializeObject(lstProcessors);                
+                var jaProcs = JArray.Parse(jsonProcessors);                
+                rm.AddData("processors", jaProcs);
                 rm.Message = "success";
                 return rm;                
             }
             catch (Exception ex)
             {                                
-                _logger.LogError(ex.Message, "Error getting processors");
+                _logger.LogError("Error getting processors", ex.Message);
                 rm.ErrorMessages.Add("Error retrieving list of processors");           
             }
 
@@ -133,36 +175,7 @@ namespace LimsServer.Controllers
         }
 
         
-        // GET: api/Processors/Qubit2.0
-        [HttpGet("{name}")]
-        //public string Get(string name)
-        public IActionResult Download(string name)
-        {
-            ResponseValue rm = new ResponseValue("success");
-            JObject jo = RetrieveProcessor(name);
-
-            var data = new Dictionary<string, string>()
-            {
-                {"processor", name }
-            };
-            rm.data = data;
-            string projectRootPath = _hostingEnvironment.ContentRootPath;
-            string filePath = Path.Combine(projectRootPath, "app_files", "processors", name);
-            filePath += ".json";
-            FileInfo fi = new FileInfo(filePath);
-            if (!fi.Exists)
-            {
-                //rm.status = "failure";
-                //rm.message = "Could not find processor";
-                return Ok(rm.ToJObject());
-            }
-
-            string processor = System.IO.File.ReadAllText(filePath);
-            JObject joReturn = rm.ToJObject();
-            joReturn["data"] = JObject.Parse(processor);
-            return Ok(joReturn);
-
-        }
+        
 
         /// <summary>
         /// Upload a zip file containing the binary dll that implements an IProcessor interface.
@@ -178,7 +191,7 @@ namespace LimsServer.Controllers
             DataResponseMessage rm = new DataResponseMessage();
             if (file == null || file.FileName == "" || file.Length < 1)
             {
-                rm.AddErrorMessage("Upload processor file is null or empty");
+                rm.AddErrorMessage("Uploaded processor file is null or empty");
                 return rm;
             }
 
@@ -200,7 +213,7 @@ namespace LimsServer.Controllers
 
                 System.IO.Compression.ZipFile.ExtractToDirectory(tempPath, filePath);
                 rm.Message = "Successfully uploaded file";
-                rm.Data.Add("file", fileName);
+                //rm.Data.Add("file", fileName);
 
                 
             }

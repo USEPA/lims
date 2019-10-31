@@ -14,6 +14,5 @@ namespace LimsServer.Entities
         //Interval in minutes
         public int PollingInterval { get; set; }
 
-
     }
 }

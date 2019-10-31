@@ -26,7 +26,6 @@
     <None Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppWithPlugin\AppWithPlugin.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
   </ItemGroup>
   <ItemGroup>

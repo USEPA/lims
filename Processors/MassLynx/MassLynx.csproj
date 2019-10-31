@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>E:\lims\lims_server\app_files\processors\Qubit2_0\</OutputPath>
+    <OutputPath>E:\lims\lims_server\app_files\processors\MassLynx\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

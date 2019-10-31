@@ -18,7 +18,7 @@ namespace Qubit2_0
 
         public string Description { get => "Processor used for Qubit2.0 translation to universal template"; }
 
-        public FileTypes InstrumentFileType { get => FileTypes.xlsx; }
+        public string InstrumentFileType { get => "xlsx"; }
 
         public string InputFile { get; set; }
 
