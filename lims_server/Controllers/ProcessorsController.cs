@@ -14,7 +14,6 @@ using OfficeOpenXml;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data.SQLite;
-using LimsServer.Entities;
 using PluginBase;
 //using LiteDB;
 

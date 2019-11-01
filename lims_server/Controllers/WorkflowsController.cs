@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using LimsServer.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -70,8 +71,18 @@ namespace LimsServer.Controllers
 
         // POST: api/Workflows
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Workflow value)
         {
+            try
+            {
+                Workflow wf = value;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+            
         }
 
         // PUT: api/Workflows/5

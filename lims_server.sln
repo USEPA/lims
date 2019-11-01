@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Processors", "Processors", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qubit2_0", "Processors\Qubit2_0\Qubit2_0.csproj", "{1BF4C55D-AAF1-4A83-8691-F0704B182F35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassLynx", "Processors\MassLynx\MassLynx.csproj", "{FB28C7C6-30D5-4527-909E-460CF281F421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassLynx", "Processors\MassLynx\MassLynx.csproj", "{FB28C7C6-30D5-4527-909E-460CF281F421}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
