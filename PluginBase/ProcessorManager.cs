@@ -14,6 +14,7 @@ namespace PluginBase
         public string InstrumentFileType { get; }
         public string InputFile { get; set; }
         public string OutputFile { get; set; }
+        public string Path { get; set; }
 
         public ProcessorDTO()
         {
@@ -26,6 +27,7 @@ namespace PluginBase
             InstrumentFileType = processor.InstrumentFileType;
             InputFile = processor.InputFile;
             OutputFile = processor.OutputFile;
+            Path = processor.Path;
         }
     }
     public class ProcessorManager
@@ -68,6 +70,7 @@ namespace PluginBase
                                 if (result != null)
                                 {
                                     ProcessorDTO pdto = new ProcessorDTO(result);
+                                    pdto.Path = fi.FullName;
                                     lstProcessors.Add(pdto);
                                 }
                             }
@@ -84,6 +87,46 @@ namespace PluginBase
 
             return lstProcessors;
 
+        }
+
+        public DataTableResponseMessage ExecuteProcessor(string processorsPath, string processorID, string inputFile, string outputFile)
+        {
+            DataTableResponseMessage dtRespMsg = null;
+            using (var fs = new FileStream(processorsPath, FileMode.Open, FileAccess.Read))
+            {
+                try
+                {
+                    var context = new CollectibleAssemblyLoadContext();
+                    var assembly = context.LoadFromStream(fs);
+                    //Can have multiple processors implmented in a single assembly
+                    foreach (Type type in assembly.GetTypes())
+                    {
+                        if (typeof(IProcessor).IsAssignableFrom(type))
+                        {
+                            IProcessor result = Activator.CreateInstance(type) as IProcessor;
+                            if (result != null)
+                            {
+                                if (string.Compare(result.UniqueId, processorID, true) == 0)
+                                {
+                                    result.InputFile = inputFile;
+                                    result.OutputFile = outputFile;
+                                    dtRespMsg = result.Execute();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    context.Unload();
+                }
+                //Handle unloadable libraries
+                catch (Exception ex)
+                {
+                    if (dtRespMsg == null)
+                        dtRespMsg = new DataTableResponseMessage();
+                    dtRespMsg.AddErrorAndLogMessage(ex.Message);
+                }
+                return dtRespMsg;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
@@ -20,6 +21,7 @@ namespace PluginBase
     }
     public class Processor
     {
+        
         public static readonly TemplateField[] Fields = new TemplateField[]
         {
                 new TemplateField("Aliquot", typeof(string)),
@@ -52,11 +54,22 @@ namespace PluginBase
                 new TemplateField("User Defined 20", typeof(string))
         };
 
-        public Processor()
+        public DataTable GetDataTable()
         {
-   
+            DataTable dt_template = new DataTable();
+            TemplateField[] fields = Processor.Fields;
+
+            for (int idx = 0; idx < fields.Length; idx++)
+            {
+                DataColumn dc = new DataColumn(fields[idx].Name, fields[idx].DataType);
+                if (fields[idx].DataType == typeof(string))
+                    dc.DefaultValue = "";
+                dt_template.Columns.Add(dc);
+            }
+
+            return dt_template;
         }
-    }
+}
 
     public class ResponseMessage
     {

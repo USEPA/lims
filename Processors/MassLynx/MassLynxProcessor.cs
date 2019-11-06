@@ -1,24 +1,122 @@
 ﻿using System;
 using PluginBase;
+using System.Reflection;
+using System.IO;
+using System.Data;
 
 namespace MassLynx
 {
     public class MassLynxProcessor : Processor, IProcessor
     {
-        public string UniqueId { get => "maxlynx_version1.0"; }
+        public string UniqueId { get => "masslynx_version1.0"; }
 
-        public string Name { get => "MaxLynx"; }
+        public string Name { get => "MassLynx"; }
 
-        public string Description { get => "Processor used for MaxLynx translation to universal template"; }
+        public string Description { get => "Processor used for MassLynx translation to universal template"; }
 
-        public string InstrumentFileType { get => "xlsx"; }
+        public string InstrumentFileType { get => "txt"; }
 
         public string InputFile { get; set; }
         public string OutputFile { get; set; }
+        public string Path { get; set; }
+
+        public MassLynxProcessor()
+        {
+            
+        }
+        
 
         public DataTableResponseMessage Execute()
         {
-            throw new NotImplementedException();
+            DataTableResponseMessage dtRespMsg = new DataTableResponseMessage();
+            DataTable dt = GetDataTable();
+            string aliquot = "";
+            DateTime analysisDateTime = DateTime.MinValue;
+
+            try
+            {
+                if (!File.Exists(InputFile))
+                {
+                    dtRespMsg.AddErrorAndLogMessage("Input file does not exist: " + InputFile);
+                    return dtRespMsg;
+                }
+                using (StreamReader sr = new StreamReader(InputFile))
+                {
+                    int idxRow = 1;
+                    string line;
+
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        line = line.Trim();
+                        idxRow++;
+                        
+                        //Data starts on line 21
+                        if (idxRow < 21)
+                            continue;
+
+                        //Should not be any more blank lines until we get to the end of the data
+                        if (string.IsNullOrWhiteSpace(line))
+                            break;
+
+                        //The sheet can contain mulitple data sets
+                        //The first row of each data set block contains the LIMS ID and analysis date
+                        //e.g. SW846_01DEC_18-2,AW325-S-38-01,,,,,,01-Dec-18,13:34:02
+                        //                      ^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^
+                        //                       LIMS ID           analysis date time
+                        //The data looks like:
+                        //e.g. 1,PFOA,30,7.0112,0,214.703,4589,16.0753,dd,2.6196,0,412.9 > 369,,20,26712.1,607300,7.0112,,,,,0,7.0112,0,0,0,6.9624,7.0491,214.703,0,412.9 > 169,1,4.5385,1,47.307,1035,3.169,556.637,108.689,1e-012,1e-012,0,,
+                        //       ^^^^             ^^^^^^^                 ^^^^^^
+                        //     analyte id         Area                    Measured conc   
+
+                        string[] tokens = line.Split(',');
+                        //If this is an int then its data, otherwise start of new dataset
+                        string col1 = tokens[0];
+                        int id;
+                        if (!Int32.TryParse(col1, out id))
+                        {
+                            aliquot = tokens[1];
+                            string date = tokens[tokens.Length - 2] + " " + tokens[tokens.Length - 1];
+                            analysisDateTime = Convert.ToDateTime(date);
+                            continue;
+                        }
+
+                        DataRow dr = dt.NewRow();
+                        //Aliquot
+                        dr[0] = aliquot;
+
+                        //Analyte id
+                        dr[1] = tokens[1];
+
+                        //Measured value
+                        if (string.IsNullOrWhiteSpace(tokens[9]))
+                            dr[2] = 0.0;
+                        else
+                            dr[2] = tokens[9];
+
+                        //Date/time
+                        dr[5] = analysisDateTime;
+
+                        //User defined 1
+                        if (string.IsNullOrWhiteSpace(tokens[9]))
+                            dr[8] = 0.0;
+                        else
+                            dr[8] = tokens[5];
+
+                        dt.Rows.Add(dr);
+
+                    }
+
+                    dtRespMsg.TemplateData = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                dtRespMsg.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", Name, ex.Message));
+                dtRespMsg.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", Name, InputFile));
+            }
+            
+            return dtRespMsg;
         }
     }
 }

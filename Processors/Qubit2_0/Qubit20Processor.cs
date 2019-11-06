@@ -4,6 +4,7 @@ using System.IO;
 using System.Data;
 using PluginBase;
 using OfficeOpenXml;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
@@ -24,6 +25,13 @@ namespace Qubit2_0
 
         public string OutputFile { get; set; }
 
+        public string Path { get; set; }
+        
+
+        public Qubit20Processor()
+        {
+        }
+
         public DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = new DataTableResponseMessage();            
@@ -40,7 +48,7 @@ namespace Qubit2_0
                 //Verify the file type extension is correct
                 FileInfo fi = new FileInfo(InputFile);
                 string ext = fi.Extension;
-                if (string.Compare(ext, "xlsx", StringComparison.OrdinalIgnoreCase) != 0)
+                if (string.Compare(ext, ".xlsx", StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", InputFile, "xlsx"));                    
                     return rm;                    
@@ -49,23 +57,23 @@ namespace Qubit2_0
                 using (var package = new ExcelPackage(fi))
                 {
                     //Data is in the 2nd sheet
-                    var worksheet = package.Workbook.Worksheets[2]; // Tip: To access the first worksheet, try index 1, not 0
+                    var worksheet = package.Workbook.Worksheets[1]; // Tip: To access the first worksheet, try index 1, not 0
                     string name = worksheet.Name;
                     int startRow = worksheet.Dimension.Start.Row;
                     int startCol = worksheet.Dimension.Start.Column;
                     int numRows = worksheet.Dimension.End.Row;
                     int numCols = worksheet.Dimension.End.Column;
 
-                    DataTable dt_template = new DataTable();
+                    DataTable dt_template = GetDataTable();
                     TemplateField[] fields = Processor.Fields;
 
-                    for (int idx = 0; idx < fields.Length; idx++)
-                    {
-                        DataColumn dc = new DataColumn(fields[idx].Name, fields[idx].DataType);
-                        if (fields[idx].DataType == typeof(string))
-                            dc.DefaultValue = "";
-                        dt_template.Columns.Add(dc);
-                    }
+                    //for (int idx = 0; idx < fields.Length; idx++)
+                    //{
+                    //    DataColumn dc = new DataColumn(fields[idx].Name, fields[idx].DataType);
+                    //    if (fields[idx].DataType == typeof(string))
+                    //        dc.DefaultValue = "";
+                    //    dt_template.Columns.Add(dc);
+                    //}
 
                     for (int row = 2; row <= numRows; row++)
                     {
