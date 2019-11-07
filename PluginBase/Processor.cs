@@ -69,7 +69,7 @@ namespace PluginBase
 
             return dt_template;
         }
-}
+    }
 
     public class ResponseMessage
     {
@@ -95,6 +95,7 @@ namespace PluginBase
             }
         }
         public string Message { get; set;}
+        public string OutputFile { get; set; }
 
         private List<string> _logMessages = null;
         private List<string> _errorMessages = null;                

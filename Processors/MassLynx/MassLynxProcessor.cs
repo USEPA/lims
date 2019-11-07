@@ -30,6 +30,7 @@ namespace MassLynx
         {
             DataTableResponseMessage dtRespMsg = new DataTableResponseMessage();
             DataTable dt = GetDataTable();
+            dt.TableName = System.IO.Path.GetFileNameWithoutExtension(InputFile);
             string aliquot = "";
             DateTime analysisDateTime = DateTime.MinValue;
 

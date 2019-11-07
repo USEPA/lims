@@ -45,6 +45,7 @@
             this.btnRun = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPath = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.templateDataGridView)).BeginInit();
             // 
             // comboBox1
@@ -201,11 +202,22 @@
             this.txtPath.Size = new System.Drawing.Size(483, 27);
             this.txtPath.TabIndex = 15;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(146, 143);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(94, 29);
+            this.btnSave.TabIndex = 16;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1035, 516);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnRun);
@@ -249,5 +261,6 @@
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button btnSave;
     }
 }

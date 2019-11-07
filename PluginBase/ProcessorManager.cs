@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using OfficeOpenXml;
+using System.Data;
 using System.Runtime.CompilerServices;
 
 namespace PluginBase
@@ -126,6 +128,44 @@ namespace PluginBase
                     dtRespMsg.AddErrorAndLogMessage(ex.Message);
                 }
                 return dtRespMsg;
+            }
+        }
+
+        public void WriteTemplateOutputFile(DataTable dt)
+        {
+            string fileName = dt.TableName +".xlsx";
+            try
+            {
+                FileInfo fi = new FileInfo(fileName);
+                using (ExcelPackage xlPkg = new ExcelPackage(fi))
+                {
+                    ExcelWorksheet workSheet = xlPkg.Workbook.Worksheets.Add("Sheet1");
+                    int numRows = dt.Rows.Count;
+                    int numCols = dt.Columns.Count;
+
+                    //Add column names
+                    for (int i = 0; i < numCols; i++)                    
+                        workSheet.Cells[1, i + 1].Value = dt.Columns[i].ColumnName;
+                    
+
+                    for (int i=0; i<numRows; i++)
+                    {
+                        DataRow row = dt.Rows[i];
+                        for (int j=0; j<numCols; j++)
+                        {
+                            if (j == 5)
+                                workSheet.Cells[i + 2, j + 1].Value = Convert.ToDateTime(row[j]).ToString();
+                            else
+                                workSheet.Cells[i + 2, j + 1].Value = row[j];
+                        }
+                    }
+
+                    xlPkg.Save();
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

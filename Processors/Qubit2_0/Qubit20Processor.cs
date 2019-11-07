@@ -64,7 +64,8 @@ namespace Qubit2_0
                     int numRows = worksheet.Dimension.End.Row;
                     int numCols = worksheet.Dimension.End.Column;
 
-                    DataTable dt_template = GetDataTable();
+                    DataTable dt_template = GetDataTable();                    
+                    dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                     TemplateField[] fields = Processor.Fields;
 
                     //for (int idx = 0; idx < fields.Length; idx++)

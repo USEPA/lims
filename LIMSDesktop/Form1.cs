@@ -53,5 +53,12 @@ namespace LIMSDesktop
 
             templateDataGridView.DataSource = dtRespMsg.TemplateData;
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            ProcessorManager procMgr = new ProcessorManager();
+            DataTable dt = templateDataGridView.DataSource as DataTable;
+            procMgr.WriteTemplateOutputFile(dt);
+        }
     }
 }
