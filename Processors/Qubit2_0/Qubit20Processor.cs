@@ -57,7 +57,7 @@ namespace Qubit2_0
                 using (var package = new ExcelPackage(fi))
                 {
                     //Data is in the 2nd sheet
-                    var worksheet = package.Workbook.Worksheets[1]; // Tip: To access the first worksheet, try index 1, not 0
+                    var worksheet = package.Workbook.Worksheets[1]; //Worksheets are zero-based index
                     string name = worksheet.Name;
                     int startRow = worksheet.Dimension.Start.Row;
                     int startCol = worksheet.Dimension.Start.Column;
@@ -68,13 +68,14 @@ namespace Qubit2_0
                     dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                     TemplateField[] fields = Processor.Fields;
 
-                    //for (int idx = 0; idx < fields.Length; idx++)
-                    //{
-                    //    DataColumn dc = new DataColumn(fields[idx].Name, fields[idx].DataType);
-                    //    if (fields[idx].DataType == typeof(string))
-                    //        dc.DefaultValue = "";
-                    //    dt_template.Columns.Add(dc);
-                    //}
+
+                    //The columns in the data file are as follows through column J
+                    //  A        B          C             D            E       F             G        H          I                   J
+                    //SED_ID	Name	  Date/Time	  Assay Conc.	Units	Stock Conc.	  Units	  Assay Type   Sample Vol (µL)	 Dilution Factor
+                    //^^^^^^^   ^^^^^     ^^^^^^^^    ^^^^^^^^^                                                                  ^^^^^^^^^^^^^^^
+
+                    //Aliquot  AssayType  Analysis    Measured                                                                   Dilution Factor   
+                    //ID                  Date/Time   Value
 
                     for (int row = 2; row <= numRows; row++)
                     {
