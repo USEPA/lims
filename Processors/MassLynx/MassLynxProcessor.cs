@@ -6,19 +6,18 @@ using System.Data;
 
 namespace MassLynx
 {
-    public class MassLynxProcessor : Processor, IProcessor
+    public class MassLynxProcessor : Processor
     {
-        public string UniqueId { get => "masslynx_version1.0"; }
+        public override string UniqueId { get => "masslynx_version1.0"; }
 
-        public string Name { get => "MassLynx"; }
+        public override string Name { get => "MassLynx"; }
 
-        public string Description { get => "Processor used for MassLynx translation to universal template"; }
+        public override string Description { get => "Processor used for MassLynx translation to universal template"; }
 
-        public string InstrumentFileType { get => "txt"; }
+        public override string InstrumentFileType { get => ".txt"; }
 
-        public string InputFile { get; set; }
-        public string OutputFile { get; set; }
-        public string Path { get; set; }
+        public override string InputFile { get; set; }        
+        public override string Path { get; set; }
 
         public MassLynxProcessor()
         {
@@ -26,9 +25,9 @@ namespace MassLynx
         }
         
 
-        public DataTableResponseMessage Execute()
+        public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage dtRespMsg = new DataTableResponseMessage();
+            DataTableResponseMessage rm = new DataTableResponseMessage();
             DataTable dt = GetDataTable();
             dt.TableName = System.IO.Path.GetFileNameWithoutExtension(InputFile);
             string aliquot = "";
@@ -36,11 +35,8 @@ namespace MassLynx
 
             try
             {
-                if (!File.Exists(InputFile))
-                {
-                    dtRespMsg.AddErrorAndLogMessage("Input file does not exist: " + InputFile);
-                    return dtRespMsg;
-                }
+                rm = VerifyInputFile();
+
                 using (StreamReader sr = new StreamReader(InputFile))
                 {
                     int idxRow = 1;
@@ -108,16 +104,16 @@ namespace MassLynx
 
                     }
 
-                    dtRespMsg.TemplateData = dt;
+                    rm.TemplateData = dt;
                 }
             }
             catch (Exception ex)
             {
-                dtRespMsg.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", Name, ex.Message));
-                dtRespMsg.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", Name, InputFile));
+                rm.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", Name, ex.Message));
+                rm.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", Name, InputFile));
             }
             
-            return dtRespMsg;
+            return rm;
         }
     }
 }

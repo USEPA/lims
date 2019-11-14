@@ -15,20 +15,20 @@ namespace PluginBase
         public string Description { get; }
         public string InstrumentFileType { get; }
         public string InputFile { get; set; }
-        public string OutputFile { get; set; }
+        //public string OutputFile { get; set; }
         public string Path { get; set; }
 
         public ProcessorDTO()
         {
         }
-        public ProcessorDTO(IProcessor processor)
+        public ProcessorDTO(Processor processor)
         {
             UniqueId = processor.UniqueId;
             Name = processor.Name;
             Description = processor.Description;
             InstrumentFileType = processor.InstrumentFileType;
             InputFile = processor.InputFile;
-            OutputFile = processor.OutputFile;
+            //OutputFile = processor.OutputFile;
             Path = processor.Path;
         }
     }
@@ -66,9 +66,9 @@ namespace PluginBase
                         //Can have multiple processors implmented in a single assembly
                         foreach (Type type in assembly.GetTypes())
                         {
-                            if (typeof(IProcessor).IsAssignableFrom(type))
+                            if (typeof(Processor).IsAssignableFrom(type))
                             {
-                                IProcessor result = Activator.CreateInstance(type) as IProcessor;
+                                Processor result = Activator.CreateInstance(type) as Processor;
                                 if (result != null)
                                 {
                                     ProcessorDTO pdto = new ProcessorDTO(result);
@@ -103,15 +103,15 @@ namespace PluginBase
                     //Can have multiple processors implmented in a single assembly
                     foreach (Type type in assembly.GetTypes())
                     {
-                        if (typeof(IProcessor).IsAssignableFrom(type))
+                        if (typeof(Processor).IsAssignableFrom(type))
                         {
-                            IProcessor result = Activator.CreateInstance(type) as IProcessor;
+                            Processor result = Activator.CreateInstance(type) as Processor;
                             if (result != null)
                             {
                                 if (string.Compare(result.UniqueId, processorID, true) == 0)
                                 {
                                     result.InputFile = inputFile;
-                                    result.OutputFile = outputFile;
+                                    //result.OutputFile = outputFile;
                                     dtRespMsg = result.Execute();
                                     break;
                                 }

@@ -10,49 +10,33 @@ using Newtonsoft.Json;
 
 namespace Qubit2_0
 {
-    public class Qubit20Processor : Processor, IProcessor
+    public class Qubit20Processor : Processor
     {
 
-        public string UniqueId { get => "qubit2.0_version1.0"; }
+        public override string UniqueId { get => "qubit2.0_version1.0"; }
 
-        public string Name { get => "Qubit2.0"; }
+        public override string Name { get => "Qubit2.0"; }
 
-        public string Description { get => "Processor used for Qubit2.0 translation to universal template"; }
+        public override string Description { get => "Processor used for Qubit2.0 translation to universal template"; }
 
-        public string InstrumentFileType { get => "xlsx"; }
+        public override string InstrumentFileType { get => ".xlsx"; }
 
-        public string InputFile { get; set; }
+        public override string InputFile { get; set; }
 
-        public string OutputFile { get; set; }
-
-        public string Path { get; set; }
+        public override string Path { get; set; }
         
 
         public Qubit20Processor()
         {
         }
 
-        public DataTableResponseMessage Execute()
+        public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();            
+            DataTableResponseMessage rm = new DataTableResponseMessage();
             try
             {
-                //Verify that the file exists
-                if (!File.Exists(InputFile))
-                {
-                    rm.ErrorMessages.Add(string.Format("Input data file not found: {0}", InputFile));
-                    rm.LogMessages.Add(string.Format("Input data file not found: {0}", InputFile));                    
-                    return rm;
-                }
-
-                //Verify the file type extension is correct
+                rm = VerifyInputFile();
                 FileInfo fi = new FileInfo(InputFile);
-                string ext = fi.Extension;
-                if (string.Compare(ext, ".xlsx", StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", InputFile, "xlsx"));                    
-                    return rm;                    
-                }
 
                 using (var package = new ExcelPackage(fi))
                 {
@@ -66,7 +50,7 @@ namespace Qubit2_0
 
                     DataTable dt_template = GetDataTable();                    
                     dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
-                    TemplateField[] fields = Processor.Fields;
+                    TemplateField[] fields = Fields;
 
 
                     //The columns in the data file are as follows through column J
@@ -115,7 +99,7 @@ namespace Qubit2_0
             }
             catch(Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file {1}", InputFile, OutputFile));
+                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", InputFile));
             }
 
             return rm;           

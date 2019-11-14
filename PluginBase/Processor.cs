@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Reflection;
+using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 
 
 namespace PluginBase
@@ -19,10 +21,17 @@ namespace PluginBase
             DataType = datatype;
         }
     }
-    public class Processor
+    public abstract class Processor
     {
-        
-        public static readonly TemplateField[] Fields = new TemplateField[]
+        public abstract string UniqueId { get; }
+        public abstract string Name { get; }
+        public abstract string Description { get; }
+        public abstract string InstrumentFileType { get; }
+        public abstract string InputFile { get; set; }
+        public abstract string Path { get; set; }
+        public abstract DataTableResponseMessage Execute();
+
+        public readonly TemplateField[] Fields = new TemplateField[]
         {
                 new TemplateField("Aliquot", typeof(string)),
                 new TemplateField("Analyte Identifier", typeof(string)),
@@ -57,7 +66,7 @@ namespace PluginBase
         public DataTable GetDataTable()
         {
             DataTable dt_template = new DataTable();
-            TemplateField[] fields = Processor.Fields;
+            TemplateField[] fields = Fields;
 
             for (int idx = 0; idx < fields.Length; idx++)
             {
@@ -68,6 +77,31 @@ namespace PluginBase
             }
 
             return dt_template;
+        }
+
+        public DataTableResponseMessage VerifyInputFile()
+        {
+            DataTableResponseMessage rm = new DataTableResponseMessage();
+
+            //Verify that the file exists
+            if (!File.Exists(InputFile))
+            {
+                rm.ErrorMessages.Add(string.Format("Input data file not found: {0}", InputFile));
+                rm.LogMessages.Add(string.Format("Input data file not found: {0}", InputFile));
+                return rm;
+            }
+
+            //Verify the file type extension is correct
+            FileInfo fi = new FileInfo(InputFile);
+            string ext = fi.Extension;
+            if (string.Compare(ext, InstrumentFileType, StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", InstrumentFileType, ext));
+                return rm;
+            }
+
+            //Nothing to see here
+            return null;
         }
     }
 
