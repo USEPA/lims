@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassLynx", "Processors\Mass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicoGreen", "Processors\PicoGreen\PicoGreen.csproj", "{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PicoGreen", "Processors\PicoGreen\PicoGreen.csproj", "{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracefinder", "Processors\Tracefinder\Tracefinder.csproj", "{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{1BF4C55D-AAF1-4A83-8691-F0704B182F35} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{FB28C7C6-30D5-4527-909E-460CF281F421} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C30C58D6-0637-4A2A-A42E-364C533B80B3}

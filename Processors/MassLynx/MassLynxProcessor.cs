@@ -9,14 +9,10 @@ namespace MassLynx
     public class MassLynxProcessor : Processor
     {
         public override string UniqueId { get => "masslynx_version1.0"; }
-
         public override string Name { get => "MassLynx"; }
-
         public override string Description { get => "Processor used for MassLynx translation to universal template"; }
-
         public override string InstrumentFileType { get => ".txt"; }
-
-        public override string InputFile { get; set; }        
+        public override string InputFile { get; set; }
         public override string Path { get; set; }
 
         public MassLynxProcessor()

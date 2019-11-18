@@ -11,15 +11,10 @@ namespace PicoGreen
     public class PicoGreenProcessor : Processor
     {
         public override string UniqueId { get => "pico_green_version1.0"; }
-
         public override string Name { get => "PicoGreen"; }
-
         public override string Description { get => "Processor used for PicoGreen translation to universal template"; }
-
         public override string InstrumentFileType { get => ".xlsx"; }
-
         public override string InputFile { get; set; }
-
         public override string Path { get; set; }
 
         public override DataTableResponseMessage Execute()

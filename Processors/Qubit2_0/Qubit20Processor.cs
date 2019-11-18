@@ -14,18 +14,12 @@ namespace Qubit2_0
     {
 
         public override string UniqueId { get => "qubit2.0_version1.0"; }
-
         public override string Name { get => "Qubit2.0"; }
-
         public override string Description { get => "Processor used for Qubit2.0 translation to universal template"; }
-
         public override string InstrumentFileType { get => ".xlsx"; }
-
         public override string InputFile { get; set; }
-
         public override string Path { get; set; }
         
-
         public Qubit20Processor()
         {
         }
@@ -64,9 +58,9 @@ namespace Qubit2_0
                     for (int row = 2; row <= numRows; row++)
                     {
 
-                        string aliquot_id = GetStringValue(worksheet.Cells[row, 1]);
+                        string aliquot_id = GetXLStringValue(worksheet.Cells[row, 1]);
 
-                        DateTime analysis_datetime = GetDateTimeValue(worksheet.Cells[row, 3]);
+                        DateTime analysis_datetime = GetXLDateTimeValue(worksheet.Cells[row, 3]);
 
                         double measured_val = default;
                         ExcelRange rng_meas_val = worksheet.Cells[row, 4];
@@ -76,13 +70,13 @@ namespace Qubit2_0
                             if (string.Compare(msr_val, "<0.50") == 0)
                                 measured_val = default;
                             else
-                                measured_val = GetDoubleValue(worksheet.Cells[row, 4]);
+                                measured_val = GetXLDoubleValue(worksheet.Cells[row, 4]);
                         }
 
 
-                        string analyte_id = GetStringValue(worksheet.Cells[row, 8]);
+                        string analyte_id = GetXLStringValue(worksheet.Cells[row, 8]);
 
-                        double dilution_factor = GetDoubleValue(worksheet.Cells[row, 10]);
+                        double dilution_factor = GetXLDoubleValue(worksheet.Cells[row, 10]);
 
                         DataRow dr = dt_template.NewRow();
                         dr[0] = aliquot_id;
@@ -105,36 +99,36 @@ namespace Qubit2_0
             return rm;           
         }
 
-        private double GetDoubleValue(ExcelRange cell)
-        {
-            double retVal = 0.0;
-            if (cell == null || cell.Value == null)
-                retVal = default;
-            else
-                retVal = Convert.ToDouble(cell.Value.ToString().Trim());
+        //private double GetDoubleValue(ExcelRange cell)
+        //{
+        //    double retVal = 0.0;
+        //    if (cell == null || cell.Value == null)
+        //        retVal = default;
+        //    else
+        //        retVal = Convert.ToDouble(cell.Value.ToString().Trim());
 
-            return retVal;
-        }
-        private string GetStringValue(ExcelRange cell)
-        {
-            string retVal = "";
-            if (cell == null || cell.Value == null)
-                retVal = default;
-            else
-                retVal = Convert.ToString(cell.Value.ToString().Trim());
+        //    return retVal;
+        //}
+        //private string GetStringValue(ExcelRange cell)
+        //{
+        //    string retVal = "";
+        //    if (cell == null || cell.Value == null)
+        //        retVal = default;
+        //    else
+        //        retVal = Convert.ToString(cell.Value.ToString().Trim());
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        private DateTime GetDateTimeValue(ExcelRange cell)
-        {
-            DateTime retVal = default;
-            if (cell == null || cell.Value == null)
-                retVal = default;
-            else
-                retVal = Convert.ToDateTime(cell.Value.ToString().Trim());
+        //private DateTime GetDateTimeValue(ExcelRange cell)
+        //{
+        //    DateTime retVal = default;
+        //    if (cell == null || cell.Value == null)
+        //        retVal = default;
+        //    else
+        //        retVal = Convert.ToDateTime(cell.Value.ToString().Trim());
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
     }
 }

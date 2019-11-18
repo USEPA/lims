@@ -103,6 +103,44 @@ namespace PluginBase
             //Nothing to see here
             return null;
         }
+
+        protected double GetXLDoubleValue(ExcelRange cell)
+        {
+            double dval = default;
+            try
+            {
+                bool bval = Double.TryParse(cell.Value.ToString().Trim(), out dval);
+                if (bval)
+                    return dval;
+            }
+            catch(Exception ex)
+            { }
+            return dval;
+            
+        }
+        protected string GetXLStringValue(ExcelRange cell)
+        {
+            string retVal = "";
+            try
+            {   
+                retVal = Convert.ToString(cell.Value.ToString().Trim());
+            }
+            catch(Exception ex)
+            { }
+            return retVal;
+        }
+
+        protected DateTime GetXLDateTimeValue(ExcelRange cell)
+        {
+            DateTime retVal = default;
+            try
+            {             
+                retVal = Convert.ToDateTime(cell.Value.ToString().Trim());
+            }
+            catch(Exception ex)
+            { }
+            return retVal;
+        }
     }
 
     public class ResponseMessage
