@@ -53,7 +53,7 @@ namespace Tracefinder
                 int numCols = worksheet2.Dimension.End.Column;
 
                 //More file validation
-                string sval = worksheet2.Cells[8, 1].Value.ToString().Trim();
+                string sval = GetXLStringValue(worksheet2.Cells[8, 1]);
                 if (string.Compare(sval, "Data File", true) != 0)
                 {
                     string msg = string.Format("Input file is not in correct format. String 'Data File' missing from cell A8.  {0}", InputFile);
@@ -65,7 +65,7 @@ namespace Tracefinder
                 //Sheet 2, Row 8, starting at column 2 contains Aliquots 
                 for (int col = 2; col <= numCols; col++)
                 {
-                    string sCell = worksheet2.Cells[8, col].Value.ToString().Trim();
+                    string sCell = GetXLStringValue(worksheet2.Cells[8, col]);
                     if (!"All Flags".Equals(sCell, StringComparison.OrdinalIgnoreCase))
                         lstAnalyteIDs.Add(sCell);
                     else
@@ -73,7 +73,7 @@ namespace Tracefinder
                     
                 }
 
-                string analyzeDate = worksheet2.Cells[8, numCols].Value.ToString().Trim();
+                string analyzeDate = GetXLStringValue(worksheet2.Cells[8, numCols]);
                 if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
                 {
                     string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
@@ -88,15 +88,15 @@ namespace Tracefinder
                 for (int row=9;row <= numRows; row++)
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
-                    string aliquot = worksheet2.Cells[row, 1].Value.ToString().Trim();
-                    analyzeDate = worksheet2.Cells[row, numCols].Value.ToString().Trim();
+                    string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
+                    analyzeDate = GetXLStringValue(worksheet2.Cells[row, numCols]);
                     for (int col = 2; col < numAliquots; col++)
                     {
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
                         dr["Analyte Identifier"] = lstAnalyteIDs[col - 2];
                         dr["Analysis Date/Time"] = analyzeDate;
-                        dr["Measured Value"] = worksheet2.Cells[row, col].Value.ToString().Trim();
+                        dr["Measured Value"] = GetXLStringValue(worksheet2.Cells[row, col]);
                         dt.Rows.Add(dr);
                     }
 
@@ -122,7 +122,7 @@ namespace Tracefinder
                 //Sheet 4, Row 8, starting at column 2 contains Aliquots 
                 for (int col = 2; col <= numCols; col++)
                 {
-                    string sCell = worksheet4.Cells[8, col].Value.ToString().Trim();
+                    string sCell = GetXLStringValue(worksheet4.Cells[8, col]);
                     if (!"All Flags".Equals(sCell, StringComparison.OrdinalIgnoreCase))
                         lstAnalyteIDs.Add(sCell);
                     else
@@ -137,7 +137,7 @@ namespace Tracefinder
                 for (int row = 9; row <= numRows; row++)
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
-                    string aliquot = worksheet4.Cells[row, 1].Value.ToString().Trim();
+                    string aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);
                     //analyzeDate = worksheet4.Cells[row, numCols].Value.ToString().Trim();
                     for (int col = 2; col < numAliquots; col++)
                     {
@@ -152,12 +152,12 @@ namespace Tracefinder
                             DataRow dr = dt.NewRow();
                             dr["Aliquot"] = aliquot;
                             dr["Analyte Identifier"] = analyte;
-                            dr["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
+                            dr["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
                             dt.Rows.Add(dr);
                         }
                         else
                         {
-                            drow["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
+                            drow["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
                         }                                                                           
                     }                    
                 }
