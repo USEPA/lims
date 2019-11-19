@@ -19,26 +19,32 @@ namespace PicoGreen
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = null;
             try
             {
                 rm = VerifyInputFile();
+                if (rm != null)
+                    return rm;
+
+                rm = new DataTableResponseMessage();
+                DataTable dt = GetDataTable();
                 FileInfo fi = new FileInfo(InputFile);
+                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
-                using (var package = new ExcelPackage(fi))
-                {
-                    //Data is in the 2nd sheet
-                    var worksheet = package.Workbook.Worksheets[1]; //Worksheets are zero-based index
-                    string name = worksheet.Name;
-                    int startRow = worksheet.Dimension.Start.Row;
-                    int startCol = worksheet.Dimension.Start.Column;
-                    int numRows = worksheet.Dimension.End.Row;
-                    int numCols = worksheet.Dimension.End.Column;
+                //This is a new way of using the 'using' keyword with braces                
+                using var package = new ExcelPackage(fi);
+                
+                //Data is in the 1st sheet
+                var worksheet = package.Workbook.Worksheets[0]; //Worksheets are zero-based index
+                string name = worksheet.Name;
+                int startRow = worksheet.Dimension.Start.Row;
+                int startCol = worksheet.Dimension.Start.Column;
+                int numRows = worksheet.Dimension.End.Row;
+                int numCols = worksheet.Dimension.End.Column;
 
-                    DataTable dt_template = GetDataTable();
-                    dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
-                    TemplateField[] fields = Fields;
-                }
+
+
+                            
 
             }
             catch (Exception ex)

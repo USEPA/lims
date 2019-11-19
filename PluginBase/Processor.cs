@@ -76,6 +76,11 @@ namespace PluginBase
                 dt_template.Columns.Add(dc);
             }
 
+            DataColumn[] primKeys = new DataColumn[2];
+            primKeys[0] = dt_template.Columns["Aliquot"];
+            primKeys[1] = dt_template.Columns["Analyte Identifier"];
+            dt_template.PrimaryKey = primKeys;
+
             return dt_template;
         }
 

@@ -141,10 +141,13 @@ namespace Tracefinder
                     //analyzeDate = worksheet4.Cells[row, numCols].Value.ToString().Trim();
                     for (int col = 2; col < numAliquots; col++)
                     {
-                        string analyte = lstAnalyteIDs[col - 2];
-                        string qry = string.Format("Aliquot = '{0}' and [Analyte Identifier]='{1}'", aliquot, analyte);
-                        DataRow[] rows = dt.Select(qry);
-                        if (rows.Length < 1)
+                        string analyte = lstAnalyteIDs[col - 2];                        
+                        string[] keys = new string[2];
+                        keys[0] = aliquot;
+                        keys[1] = analyte;
+                        DataRow drow = dt.Rows.Find(keys);
+                        //DataRow[] rows = dt.Select(qry);
+                        if (drow == null)
                         {
                             DataRow dr = dt.NewRow();
                             dr["Aliquot"] = aliquot;
@@ -154,10 +157,9 @@ namespace Tracefinder
                         }
                         else
                         {
-                            rows[0]["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
+                            drow["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
                         }                                                                           
-                    }
-
+                    }                    
                 }
 
                 rm.TemplateData = dt;
