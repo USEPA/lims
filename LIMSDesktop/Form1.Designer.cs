@@ -140,6 +140,7 @@
             this.templateDataGridView.RowHeadersWidth = 51;
             this.templateDataGridView.Size = new System.Drawing.Size(1000, 300);
             this.templateDataGridView.TabIndex = 8;
+            this.templateDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.templateDataGridView_DataBindingComplete);
             // 
             // txtID
             // 
