@@ -34,13 +34,15 @@ namespace Tracefinder
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
                 
+                
+                //Start Sheet 2 -------------------------------------------------------------------------------
                 //Data is in the 2nd sheet
                 var worksheet2 = package.Workbook.Worksheets[1];  //Worksheets are zero-based index                
                 string name = worksheet2.Name;
                 //File validation
                 if (worksheet2.Dimension == null)
                 {
-                    string msg = string.Format("Input file is not in correct format. String 'Data File' missing from cell A8.  {0}", InputFile);
+                    string msg = string.Format("No data in Sheet2 in InputFile:  {0}", InputFile);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -96,6 +98,64 @@ namespace Tracefinder
                         dr["Analysis Date/Time"] = analyzeDate;
                         dr["Measured Value"] = worksheet2.Cells[row, col].Value.ToString().Trim();
                         dt.Rows.Add(dr);
+                    }
+
+                }
+                //End Sheet 2 -------------------------------------------------------------------------------
+
+                //Start Sheet 4 -----------------------------------------------------------------------------
+                var worksheet4 = package.Workbook.Worksheets[3];  //Worksheets are zero-based index        
+                name = worksheet4.Name;
+                //File validation
+                if (worksheet4.Dimension == null)
+                {
+                    string msg = string.Format("No data in Sheet4 in InputFile:  {0}", InputFile);
+                    rm.AddErrorAndLogMessage(msg);
+                    return rm;
+                }
+                startRow = worksheet4.Dimension.Start.Row;
+                startCol = worksheet4.Dimension.Start.Column;
+                numRows = worksheet4.Dimension.End.Row;
+                numCols = worksheet4.Dimension.End.Column;
+
+                lstAnalyteIDs = new List<string>();
+                //Sheet 4, Row 8, starting at column 2 contains Aliquots 
+                for (int col = 2; col <= numCols; col++)
+                {
+                    string sCell = worksheet4.Cells[8, col].Value.ToString().Trim();
+                    if (!"All Flags".Equals(sCell, StringComparison.OrdinalIgnoreCase))
+                        lstAnalyteIDs.Add(sCell);
+                    else
+                        break;
+
+                }
+
+                numAliquots = lstAnalyteIDs.Count;
+
+                //Sheet 4, Row 9 down, Column 1 contains Aliquot name
+                //Sheet 4, Row 9 down, Column 2 until 'All Flags' contain data
+                for (int row = 9; row <= numRows; row++)
+                {
+                    //Sheet 2, Row 9 down, Column 1 contains Aliquot name
+                    string aliquot = worksheet4.Cells[row, 1].Value.ToString().Trim();
+                    //analyzeDate = worksheet4.Cells[row, numCols].Value.ToString().Trim();
+                    for (int col = 2; col < numAliquots; col++)
+                    {
+                        string analyte = lstAnalyteIDs[col - 2];
+                        string qry = string.Format("Aliquot = '{0}' and [Analyte Identifier]='{1}'", aliquot, analyte);
+                        DataRow[] rows = dt.Select(qry);
+                        if (rows.Length < 1)
+                        {
+                            DataRow dr = dt.NewRow();
+                            dr["Aliquot"] = aliquot;
+                            dr["Analyte Identifier"] = analyte;
+                            dr["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
+                            dt.Rows.Add(dr);
+                        }
+                        else
+                        {
+                            rows[0]["User Defined 1"] = worksheet4.Cells[row, col].Value.ToString().Trim();
+                        }                                                                           
                     }
 
                 }
