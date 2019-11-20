@@ -8,6 +8,23 @@ using PluginBase;
 
 namespace Tracefinder
 {
+    class AliquotAnalyte
+    {
+        public string Aliquot { get; set; }
+        public string AnalyteID { get; set; }
+        public string MeasuredValue { get; set; }
+        public string AnalysisDateTime { get; set; }
+        public string UserDefined1 { get; set; }
+
+        public AliquotAnalyte(string aliquot, string analyteID, string measuredVal="", string analysisDateTime="", string userDefined1 = "")
+        {
+            Aliquot = aliquot;
+            AnalyteID = analyteID;
+            MeasuredValue = measuredVal;
+            AnalysisDateTime = analysisDateTime;
+            UserDefined1 = userDefined1;
+        }
+    }
     public class TracefinderProcessor : Processor
     {
         public override string UniqueId { get => "tracefinder_version1.0"; }
@@ -28,6 +45,7 @@ namespace Tracefinder
 
                 rm = new DataTableResponseMessage();
                 DataTable dt = GetDataTable();
+                List<AliquotAnalyte> lstAliquotAnalytes = new List<AliquotAnalyte>();
                 FileInfo fi = new FileInfo(InputFile);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
@@ -93,11 +111,16 @@ namespace Tracefinder
                     for (int col = 2; col < numAliquots; col++)
                     {
                         DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;
-                        dr["Analyte Identifier"] = lstAnalyteIDs[col - 2];
-                        dr["Analysis Date/Time"] = analyzeDate;
-                        dr["Measured Value"] = GetXLStringValue(worksheet2.Cells[row, col]);
-                        dt.Rows.Add(dr);
+                        //dr["Aliquot"] = aliquot;
+                        //dr["Analyte Identifier"] = lstAnalyteIDs[col - 2];
+                        string analyteID = lstAnalyteIDs[col - 2];
+                        //dr["Analysis Date/Time"] = analyzeDate;
+                        //dr["Measured Value"] = GetXLStringValue(worksheet2.Cells[row, col]);
+                        string measuredVal = GetXLStringValue(worksheet2.Cells[row, col]);
+                        //dt.Rows.Add(dr);
+
+                        AliquotAnalyte al = new AliquotAnalyte(aliquot, analyteID, measuredVal, analyzeDate);
+                        lstAliquotAnalytes.Add(al);
                     }
 
                 }
@@ -137,29 +160,47 @@ namespace Tracefinder
                 for (int row = 9; row <= numRows; row++)
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
-                    string aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);
-                    //analyzeDate = worksheet4.Cells[row, numCols].Value.ToString().Trim();
+                    string aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);                    
                     for (int col = 2; col < numAliquots; col++)
                     {
-                        string analyte = lstAnalyteIDs[col - 2];                        
-                        string[] keys = new string[2];
-                        keys[0] = aliquot;
-                        keys[1] = analyte;
-                        DataRow drow = dt.Rows.Find(keys);
+                        string analyte = lstAnalyteIDs[col - 2];
+                        //string[] keys = new string[2];
+                        //keys[0] = aliquot;
+                        //keys[1] = analyte;
+                        var al = lstAliquotAnalytes.Find(x => x.Aliquot.Equals(aliquot, StringComparison.OrdinalIgnoreCase)
+                            && x.AnalyteID.Equals(analyte, StringComparison.OrdinalIgnoreCase));
+                        //DataRow drow = dt.Rows.Find(keys);
                         //DataRow[] rows = dt.Select(qry);
-                        if (drow == null)
+                        if (al == null)
                         {
-                            DataRow dr = dt.NewRow();
-                            dr["Aliquot"] = aliquot;
-                            dr["Analyte Identifier"] = analyte;
-                            dr["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
-                            dt.Rows.Add(dr);
+                            //DataRow dr = dt.NewRow();
+                            
+                            //dr["Aliquot"] = aliquot;
+                            //dr["Analyte Identifier"] = analyte;
+                            //dr["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
+                            string userDefined1= GetXLStringValue(worksheet4.Cells[row, col]);
+                            AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "", "", userDefined1);
+                            lstAliquotAnalytes.Add(al2);
                         }
                         else
                         {
-                            drow["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
+                            //drow["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
+                            al.UserDefined1 = GetXLStringValue(worksheet4.Cells[row, col]);
                         }                                                                           
                     }                    
+                }
+
+                for(int i=0;i<lstAliquotAnalytes.Count;i++)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = lstAliquotAnalytes[i].Aliquot;
+                    dr["Analyte Identifier"] = lstAliquotAnalytes[i].AnalyteID;
+                    dr["Analysis Date/Time"] = lstAliquotAnalytes[i].AnalysisDateTime;
+                    dr["Measured Value"] = lstAliquotAnalytes[i].MeasuredValue;
+                    dr["User Defined 1"] = lstAliquotAnalytes[i].UserDefined1;
+
+                    dt.Rows.Add(dr);
+
                 }
 
                 rm.TemplateData = dt;

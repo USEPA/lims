@@ -35,10 +35,13 @@ namespace PluginBase
         {
                 new TemplateField("Aliquot", typeof(string)),
                 new TemplateField("Analyte Identifier", typeof(string)),
-                new TemplateField("Measured Value", typeof(double)),
+                new TemplateField("Measured Value", typeof(string)),
+                //new TemplateField("Measured Value", typeof(double)),
                 new TemplateField("Units", typeof(string)),
-                new TemplateField("Dilution Factor", typeof(double)),
-                new TemplateField("Analysis Date/Time", typeof(DateTime)),
+                new TemplateField("Dilution Factor", typeof(string)),
+                //new TemplateField("Dilution Factor", typeof(double)),
+                new TemplateField("Analysis Date/Time", typeof(string)),
+                //new TemplateField("Analysis Date/Time", typeof(DateTime)),
                 new TemplateField("Comment", typeof(string)),
                 new TemplateField("Description", typeof(string)),
                 new TemplateField("User Defined 1", typeof(string)),
@@ -79,7 +82,7 @@ namespace PluginBase
             DataColumn[] primKeys = new DataColumn[2];
             primKeys[0] = dt_template.Columns["Aliquot"];
             primKeys[1] = dt_template.Columns["Analyte Identifier"];
-            dt_template.PrimaryKey = primKeys;
+            //dt_template.PrimaryKey = primKeys;
 
             return dt_template;
         }

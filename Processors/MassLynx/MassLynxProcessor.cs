@@ -32,6 +32,10 @@ namespace MassLynx
             try
             {
                 rm = VerifyInputFile();
+                if (rm != null)
+                    return rm;
+
+                rm = new DataTableResponseMessage();
 
                 using (StreamReader sr = new StreamReader(InputFile))
                 {

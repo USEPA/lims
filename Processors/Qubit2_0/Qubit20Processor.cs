@@ -30,6 +30,10 @@ namespace Qubit2_0
             try
             {
                 rm = VerifyInputFile();
+                if (rm != null)
+                    return rm;
+
+                rm = new DataTableResponseMessage();
                 FileInfo fi = new FileInfo(InputFile);
 
                 using (var package = new ExcelPackage(fi))

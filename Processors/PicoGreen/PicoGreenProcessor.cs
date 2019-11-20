@@ -17,6 +17,8 @@ namespace PicoGreen
         public override string InputFile { get; set; }
         public override string Path { get; set; }
 
+        private readonly string analyteID = "dsDNA";
+
         public override DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = null;
@@ -42,10 +44,42 @@ namespace PicoGreen
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
+                if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
+                {
 
+                    string msg = string.Format("Input file is not in correct format. String 'Well ID' missing from cell A18.  {0}", InputFile);
+                    rm.AddErrorAndLogMessage(msg);
+                    return rm;
+                }
 
-                            
+                //              Row 18 starts the data
+                //Data File||     Well ID	Name	 Well	      485/20,528/20	  [Concentration]
+                //Template ||               Aliquot  Description                  Measured Value      
 
+                //Analyte Identifier is dsDNA for every record
+                
+
+                for (int row = 18; row<=numRows; row++)
+                {
+                    wellID = GetXLStringValue(worksheet.Cells[row, 1]);
+                    //if the cell contains 'Well ID' then start new data block 
+                    if (wellID.Equals("Well ID", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    
+                    string aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
+                    string description = GetXLStringValue(worksheet.Cells[row, 3]);
+                    double measuredVal = GetXLDoubleValue(worksheet.Cells[row, 5]);
+
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Description"] = description;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Analyte Identifier"] = analyteID;
+
+                    dt.Rows.Add(dr);
+                }
+                rm.TemplateData = dt;
             }
             catch (Exception ex)
             {
