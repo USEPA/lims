@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using PluginBase;
@@ -56,7 +56,7 @@ namespace LIMSDesktop
         {
             ProcessorManager procMgr = new ProcessorManager();
             string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
-            DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(txtPath.Text, txtID.Text, txtInput.Text, output);
+            DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(txtPath.Text, txtID.Text, txtInput.Text);
 
             templateDataGridView.DataSource = dtRespMsg.TemplateData;
         }
@@ -65,7 +65,8 @@ namespace LIMSDesktop
         {
             ProcessorManager procMgr = new ProcessorManager();
             DataTable dt = templateDataGridView.DataSource as DataTable;
-            procMgr.WriteTemplateOutputFile(dt);
+            string outPath = Path.Combine(Path.GetDirectoryName(txtInput.Text), "output");
+            procMgr.WriteTemplateOutputFile(outPath, dt);
         }
     }
 }

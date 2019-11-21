@@ -91,7 +91,7 @@ namespace PluginBase
 
         }
 
-        public DataTableResponseMessage ExecuteProcessor(string processorsPath, string processorID, string inputFile, string outputFile)
+        public DataTableResponseMessage ExecuteProcessor(string processorsPath, string processorID, string inputFile)
         {
             DataTableResponseMessage dtRespMsg = null;
             using (var fs = new FileStream(processorsPath, FileMode.Open, FileAccess.Read))
@@ -131,11 +131,15 @@ namespace PluginBase
             }
         }
 
-        public void WriteTemplateOutputFile(DataTable dt)
+        public ResponseMessage WriteTemplateOutputFile(string outputPath, DataTable dt)
         {
-            string fileName = dt.TableName +".xlsx";
+            ResponseMessage rm = new ResponseMessage();
+            string fileName = Path.Combine(outputPath, dt.TableName + ".xlsx");
             try
             {
+                if (File.Exists(fileName))
+                    File.Delete(fileName);
+
                 FileInfo fi = new FileInfo(fileName);
                 using (ExcelPackage xlPkg = new ExcelPackage(fi))
                 {
@@ -153,20 +157,22 @@ namespace PluginBase
                         DataRow row = dt.Rows[i];
                         for (int j=0; j<numCols; j++)
                         {
-                            if (j == 5)
-                                workSheet.Cells[i + 2, j + 1].Value = Convert.ToDateTime(row[j]).ToString();
-                            else
+                            //if (j == 5)
+                            //    workSheet.Cells[i + 2, j + 1].Value = Convert.ToDateTime(row[j]).ToString();
+                            //else
                                 workSheet.Cells[i + 2, j + 1].Value = row[j];
                         }
                     }
 
                     xlPkg.Save();
+                    rm.Message = "";
                 }
             }
             catch(Exception ex)
             {
-
+                rm.AddErrorAndLogMessage("Error writing template file: " + fileName);
             }
+            return rm;
         }
     }
 }

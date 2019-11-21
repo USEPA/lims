@@ -111,33 +111,33 @@ namespace LimsServer.Controllers
             //}
         }
 
-        private List<List<string>> SelectQuery(string query)
-        {
-            List<List<string>> retData = new List<List<string>>();
-            string projectRootPath = _hostingEnvironment.ContentRootPath;
-            string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
-            {
-                conn.Open();
-                conn.EnableExtensions(true);
-                conn.LoadExtension("SQLite.Interop.dll", "sqlite3_json_init");
-                SQLiteCommand command = conn.CreateCommand();
-                command.CommandText = query;                
-                var reader = command.ExecuteReader();
+        //private List<List<string>> SelectQuery(string query)
+        //{
+        //    List<List<string>> retData = new List<List<string>>();
+        //    string projectRootPath = _hostingEnvironment.ContentRootPath;
+        //    string file_name = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
+        //    using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + file_name))
+        //    {
+        //        conn.Open();
+        //        conn.EnableExtensions(true);
+        //        conn.LoadExtension("SQLite.Interop.dll", "sqlite3_json_init");
+        //        SQLiteCommand command = conn.CreateCommand();
+        //        command.CommandText = query;                
+        //        var reader = command.ExecuteReader();
                 
-                while (reader.Read())
-                {
-                    List<string> row = new List<string>();
-                    int id = reader.GetInt32(0);
-                    string name = reader.GetString(1);
-                    row.Add(id.ToString());
-                    row.Add(name);
-                    //string processor = reader.GetString(2);
-                    retData.Add(row);
-                }
-            }
-            return retData;
-        }
+        //        while (reader.Read())
+        //        {
+        //            List<string> row = new List<string>();
+        //            int id = reader.GetInt32(0);
+        //            string name = reader.GetString(1);
+        //            row.Add(id.ToString());
+        //            row.Add(name);
+        //            //string processor = reader.GetString(2);
+        //            retData.Add(row);
+        //        }
+        //    }
+        //    return retData;
+        //}
 
         /// <summary>
         /// Get a list of all the processors
