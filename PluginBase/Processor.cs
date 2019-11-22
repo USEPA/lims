@@ -117,6 +117,9 @@ namespace PluginBase
             double dval = default;
             try
             {
+                if (cell == null || cell.Value == null)
+                    return dval;
+                
                 bool bval = Double.TryParse(cell.Value.ToString().Trim(), out dval);
                 if (bval)
                     return dval;
@@ -129,6 +132,8 @@ namespace PluginBase
         protected string GetXLStringValue(ExcelRange cell)
         {
             string retVal = "";
+            if (cell == null || cell.Value == null)
+                return retVal;
             try
             {   
                 retVal = Convert.ToString(cell.Value.ToString().Trim());
@@ -141,6 +146,8 @@ namespace PluginBase
         protected DateTime GetXLDateTimeValue(ExcelRange cell)
         {
             DateTime retVal = default;
+            if (cell == null || cell.Value == null)
+                return retVal;
             try
             {             
                 retVal = Convert.ToDateTime(cell.Value.ToString().Trim());
