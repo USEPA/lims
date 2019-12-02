@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
 
 namespace LimsServer
@@ -36,17 +37,21 @@ namespace LimsServer
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-              .ConfigureWebHostDefaults(webBuilder =>
-              {
-                  webBuilder.UseStartup<Startup>();
-                  webBuilder.UseUrls("http://localhost:4000");
-              })
-              .ConfigureLogging(logging =>
-              {
-                  logging.ClearProviders();
-                  logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);                  
-              })
-              .UseNLog();  // NLog: Setup NLog for Dependency injection
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<Worker>();
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://localhost:4000");
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);                  
+                })
+                .UseNLog();  // NLog: Setup NLog for Dependency injection
 
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
