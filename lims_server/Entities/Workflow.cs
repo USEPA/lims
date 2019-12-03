@@ -8,11 +8,12 @@ namespace LimsServer.Entities
     public class Workflow
     {
         private string BaseNetworkPath = @"\\AA\ORD\ORD\PRIV";
-        public string Processor { get; set; }
-        public string InputFolder { get; set; }
-        public string OutputFolder { get; set; }
+        public int id { get; set; }
+        public string processor { get; set; }
+        public string input_folder { get; set; }
+        public string output_folder { get; set; }
         //Interval in minutes
-        public int PollingInterval { get; set; }
+        public int interval { get; set; }
 
     }
 }

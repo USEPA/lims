@@ -34,7 +34,7 @@ namespace LimsServer
 
             services.AddCors();
             //services.AddMvc(); // MvcOptions.EnableEndpointRouting = false
-            string connString = "Data Source=TestAuthDb.db";
+            string connString = "Data Source=lims.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
             //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddMvc()
@@ -90,6 +90,9 @@ namespace LimsServer
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProcessorService, ProcessorService>();
+            services.AddScoped<IWorkflowService, WorkflowService>();
+            services.AddScoped<ITaskService, TaskService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
