@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data.SQLite;
+using LimsServer.Services;
+using LimsServer.Dtos;
+using LimsServer.Entities;
 using PluginBase;
 //using LiteDB;
 
@@ -24,13 +27,18 @@ namespace LimsServer.Controllers
     public class ProcessorsController : ControllerBase
     {
         //private readonly IHostingEnvironment _hostingEnvironment;
+        private IProcessorService _processorService;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<ProcessorsController> _logger;
 
-        public ProcessorsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
+        public ProcessorsController(
+            IWebHostEnvironment hostingEnvironment, 
+            ILogger<ProcessorsController> logger,
+            IProcessorService proccessorService)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
+            _processorService = proccessorService;
         }
 
 
@@ -41,8 +49,13 @@ namespace LimsServer.Controllers
         /// The dll will have the same name as the folder.
         /// </summary>
         /// <returns></returns>
-        private List<ProcessorDTO> GetListOfProcessors()
+        private List<Processor> GetListOfProcessors()
         {
+            List<Processor> lst = null;
+            return lst;
+
+            //return _processorService.GetAll().ToList();
+
             List<ProcessorDTO> lstProcessors = new List<ProcessorDTO>();
             ProcessorManager procMgr = new ProcessorManager();
            
@@ -56,7 +69,7 @@ namespace LimsServer.Controllers
             //{
                 //_logger.LogError(ex.Message, "Problem reading processors directory list.");                
             //}
-            return lstProcessors;
+            //return lstProcessors;
 
         }
         private void InsertProcessorIntoDB(ProcessorDTO proc)
