@@ -72,7 +72,7 @@ namespace LimsServer.Controllers
             //return lstProcessors;
 
         }
-        private void InsertProcessorIntoDB(ProcessorDTO proc)
+        private void InsertProcessorIntoDB(Processor proc)
         {
             
             string qry = @"insert or replace into processors(unique_id, name, description, instrument_file_type, processor_found) 
@@ -80,7 +80,7 @@ namespace LimsServer.Controllers
 
             //'{1}', '{2}', '{3}', '{4}', 1)";
 
-            qry = string.Format(qry, proc.UniqueId, proc.Name, proc.Description, proc.InstrumentFileType, "1");
+            qry = string.Format(qry, proc.id, proc.name, proc.description, proc.file_type, "1");
 
             //try
             //{
@@ -163,9 +163,9 @@ namespace LimsServer.Controllers
             DataResponseMessage rm = new DataResponseMessage();
             try
             {
-                List<ProcessorDTO> lstProcessors = GetListOfProcessors();
+                List<Processor> lstProcessors = GetListOfProcessors();
                 SetProcessorsToNotFound();
-                foreach (ProcessorDTO proc in lstProcessors)
+                foreach (Processor proc in lstProcessors)
                 {
                     InsertProcessorIntoDB(proc);
                 }

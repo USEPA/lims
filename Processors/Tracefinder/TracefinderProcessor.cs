@@ -25,7 +25,7 @@ namespace Tracefinder
             UserDefined1 = userDefined1;
         }
     }
-    public class TracefinderProcessor : Processor
+    public class TracefinderProcessor : DataProcessor
     {
         public override string UniqueId { get => "tracefinder_version1.0"; }
         public override string Name { get => "Tracefinder"; }

@@ -5,6 +5,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using LimsServer.Entities;
 using PluginBase;
 
 namespace LIMSDesktop
@@ -43,12 +44,12 @@ namespace LIMSDesktop
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ProcessorDTO proc = comboBox1.Items[comboBox1.SelectedIndex] as ProcessorDTO;
-            txtID.Text = proc.UniqueId;
-            txtName.Text = proc.Name;
-            txtDesc.Text = proc.Description;
-            txtFileType.Text = proc.InstrumentFileType;
-            txtPath.Text = proc.Path;
+            Processor proc = comboBox1.Items[comboBox1.SelectedIndex] as Processor;
+            txtID.Text = proc.id;
+            txtName.Text = proc.name;
+            txtDesc.Text = proc.description;
+            txtFileType.Text = proc.file_type;
+            //txtPath.Text = proc.;
 
         }
 

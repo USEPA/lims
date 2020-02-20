@@ -8,7 +8,7 @@ using PluginBase;
 
 namespace PicoGreen
 {
-    public class PicoGreenProcessor : Processor
+    public class PicoGreenProcessor : DataProcessor
     {
         public override string UniqueId { get => "pico_green_version1.0"; }
         public override string Name { get => "PicoGreen"; }

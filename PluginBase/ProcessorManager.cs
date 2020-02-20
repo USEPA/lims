@@ -21,7 +21,7 @@ namespace PluginBase
         public ProcessorDTO()
         {
         }
-        public ProcessorDTO(Processor processor)
+        public ProcessorDTO(DataProcessor processor)
         {
             UniqueId = processor.UniqueId;
             Name = processor.Name;
@@ -66,9 +66,9 @@ namespace PluginBase
                         //Can have multiple processors implmented in a single assembly
                         foreach (Type type in assembly.GetTypes())
                         {
-                            if (typeof(Processor).IsAssignableFrom(type))
+                            if (typeof(DataProcessor).IsAssignableFrom(type))
                             {
-                                Processor result = Activator.CreateInstance(type) as Processor;
+                                DataProcessor result = Activator.CreateInstance(type) as DataProcessor;
                                 if (result != null)
                                 {
                                     ProcessorDTO pdto = new ProcessorDTO(result);
@@ -103,9 +103,9 @@ namespace PluginBase
                     //Can have multiple processors implmented in a single assembly
                     foreach (Type type in assembly.GetTypes())
                     {
-                        if (typeof(Processor).IsAssignableFrom(type))
+                        if (typeof(DataProcessor).IsAssignableFrom(type))
                         {
-                            Processor result = Activator.CreateInstance(type) as Processor;
+                            DataProcessor result = Activator.CreateInstance(type) as DataProcessor;
                             if (result != null)
                             {
                                 if (string.Compare(result.UniqueId, processorID, true) == 0)

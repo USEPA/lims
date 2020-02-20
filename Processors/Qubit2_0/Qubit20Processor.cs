@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Qubit2_0
 {
-    public class Qubit20Processor : Processor
+    public class Qubit20Processor : DataProcessor
     {
 
         public override string UniqueId { get => "qubit2.0_version1.0"; }

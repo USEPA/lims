@@ -20,11 +20,13 @@
     <Folder Include="app_files\temp\" />
     <Folder Include="app_files\template\" />
     <Folder Include="app_files\processors\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ using System.Data;
 
 namespace MassLynx
 {
-    public class MassLynxProcessor : Processor
+    public class MassLynxProcessor : DataProcessor
     {
         public override string UniqueId { get => "masslynx_version1.0"; }
         public override string Name { get => "MassLynx"; }
