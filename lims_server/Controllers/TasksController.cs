@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Hangfire;
+using Hangfire.Storage.SQLite;
+using Hangfire.Storage.Monitoring;
 
 namespace LimsServer.Controllers
 {
@@ -15,6 +18,11 @@ namespace LimsServer.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            //SQLiteStorageOptions sQLiteStorageOptions = new SQLiteStorageOptions();
+            
+            Hangfire.Storage.SQLite.SQLiteStorage sqliteStorage = new SQLiteStorage("Data Source=lims_server.db;Version=3;");
+            var monitoringAPI = sqliteStorage.GetMonitoringApi();
+           
             return new string[] { "value1", "value2" };
         }
 

@@ -5,6 +5,11 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.9" />
+    <PackageReference Include="HangFire.Core" Version="1.7.9" />
+    <PackageReference Include="Hangfire.Heartbeat" Version="0.5.0" />
+    <PackageReference Include="Hangfire.JobsLogger" Version="0.2.1" />
+    <PackageReference Include="Hangfire.Storage.SQLite" Version="0.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />

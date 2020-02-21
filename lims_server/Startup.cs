@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,13 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Hangfire;
+using Hangfire.Storage.SQLite;
+using Hangfire.Storage.Monitoring;
+using Hangfire.JobsLogger;
+using Hangfire.Heartbeat;
+using Hangfire.Heartbeat.Server;
+
 
 namespace LimsServer
 {
@@ -93,6 +101,14 @@ namespace LimsServer
             services.AddScoped<IProcessorService, ProcessorService>();
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<ITaskService, TaskService>();
+
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSQLiteStorage("lims_server.db", new SQLiteStorageOptions())
+                .UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(30))
+                .UseJobsLogger()); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,14 +121,18 @@ namespace LimsServer
                 .AllowAnyHeader());
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            
 
             //app.UseMvc();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
+            app.UseHangfireDashboard("/dashboard");
         }
     }
 }
