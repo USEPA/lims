@@ -18,10 +18,9 @@ namespace LimsServer.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            //SQLiteStorageOptions sQLiteStorageOptions = new SQLiteStorageOptions();
+            var monAPI = JobStorage.Current.GetMonitoringApi();
+            var stats = monAPI.GetStatistics();
             
-            Hangfire.Storage.SQLite.SQLiteStorage sqliteStorage = new SQLiteStorage("Data Source=lims_server.db;Version=3;");
-            var monitoringAPI = sqliteStorage.GetMonitoringApi();
            
             return new string[] { "value1", "value2" };
         }
