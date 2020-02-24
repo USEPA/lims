@@ -10,12 +10,13 @@ namespace PicoGreen
 {
     public class PicoGreenProcessor : DataProcessor
     {
-        public override string UniqueId { get => "pico_green_version1.0"; }
-        public override string Name { get => "PicoGreen"; }
-        public override string Description { get => "Processor used for PicoGreen translation to universal template"; }
-        public override string InstrumentFileType { get => ".xlsx"; }
-        public override string InputFile { get; set; }
-        public override string Path { get; set; }
+        public override string id { get => "pico_green_version1.0"; }
+        public override string name { get => "PicoGreen"; }
+        public override string description { get => "Processor used for PicoGreen translation to universal template"; }
+        public override string file_type { get => ".xlsx"; }
+        public override string version { get => "1.0"; }
+        public override string input_file { get; set; }
+        public override string path { get; set; }
 
         private readonly string analyteID = "dsDNA";
 
@@ -30,7 +31,7 @@ namespace PicoGreen
 
                 rm = new DataTableResponseMessage();
                 DataTable dt = GetDataTable();
-                FileInfo fi = new FileInfo(InputFile);
+                FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
                 //This is a new way of using the 'using' keyword with braces                
@@ -48,7 +49,7 @@ namespace PicoGreen
                 if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
                 {
 
-                    string msg = string.Format("Input file is not in correct format. String 'Well ID' missing from cell A18.  {0}", InputFile);
+                    string msg = string.Format("Input file is not in correct format. String 'Well ID' missing from cell A18.  {0}", input_file);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -83,7 +84,7 @@ namespace PicoGreen
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", InputFile));
+                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
             }
 
             return rm;

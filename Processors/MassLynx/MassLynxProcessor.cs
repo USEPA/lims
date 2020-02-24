@@ -8,12 +8,13 @@ namespace MassLynx
 {
     public class MassLynxProcessor : DataProcessor
     {
-        public override string UniqueId { get => "masslynx_version1.0"; }
-        public override string Name { get => "MassLynx"; }
-        public override string Description { get => "Processor used for MassLynx translation to universal template"; }
-        public override string InstrumentFileType { get => ".txt"; }
-        public override string InputFile { get; set; }
-        public override string Path { get; set; }
+        public override string id { get => "masslynx_version1.0"; }
+        public override string name { get => "MassLynx"; }
+        public override string description { get => "Processor used for MassLynx translation to universal template"; }
+        public override string file_type { get => ".txt"; }
+        public override string version { get => "1.0"; }
+        public override string input_file { get; set; }
+        public override string path { get; set; }
 
         public MassLynxProcessor()
         {
@@ -25,7 +26,7 @@ namespace MassLynx
         {
             DataTableResponseMessage rm = new DataTableResponseMessage();
             DataTable dt = GetDataTable();
-            dt.TableName = System.IO.Path.GetFileNameWithoutExtension(InputFile);
+            dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);
             string aliquot = "";
             DateTime analysisDateTime = DateTime.MinValue;
 
@@ -37,7 +38,7 @@ namespace MassLynx
 
                 rm = new DataTableResponseMessage();
 
-                using (StreamReader sr = new StreamReader(InputFile))
+                using (StreamReader sr = new StreamReader(input_file))
                 {
                     int idxRow = 1;
                     string line;
@@ -109,8 +110,8 @@ namespace MassLynx
             }
             catch (Exception ex)
             {
-                rm.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", Name, ex.Message));
-                rm.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", Name, InputFile));
+                rm.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", name, ex.Message));
+                rm.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", name, input_file));
             }
             
             return rm;

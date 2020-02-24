@@ -23,12 +23,13 @@ namespace PluginBase
     }
     public abstract class DataProcessor
     {
-        public abstract string UniqueId { get; }
-        public abstract string Name { get; }
-        public abstract string Description { get; }
-        public abstract string InstrumentFileType { get; }
-        public abstract string InputFile { get; set; }
-        public abstract string Path { get; set; }
+        public abstract string id { get; }
+        public abstract string name { get; }
+        public abstract string description { get; }
+        public abstract string file_type { get; }
+        public abstract string input_file { get; set; }
+        public abstract string version { get; }
+        public abstract string path { get; set; }
         public abstract DataTableResponseMessage Execute();
 
         public readonly TemplateField[] Fields = new TemplateField[]
@@ -92,24 +93,48 @@ namespace PluginBase
             DataTableResponseMessage rm = new DataTableResponseMessage();
 
             //Verify that the file exists
-            if (!File.Exists(InputFile))
+            if (!File.Exists(input_file))
             {
-                rm.ErrorMessages.Add(string.Format("Input data file not found: {0}", InputFile));
-                rm.LogMessages.Add(string.Format("Input data file not found: {0}", InputFile));
+                rm.ErrorMessages.Add(string.Format("Input data file not found: {0}", input_file));
+                rm.LogMessages.Add(string.Format("Input data file not found: {0}", input_file));
                 return rm;
             }
 
             //Verify the file type extension is correct
-            FileInfo fi = new FileInfo(InputFile);
+            FileInfo fi = new FileInfo(input_file);
             string ext = fi.Extension;
-            if (string.Compare(ext, InstrumentFileType, StringComparison.OrdinalIgnoreCase) != 0)
+            if (string.Compare(ext, file_type, StringComparison.OrdinalIgnoreCase) != 0)
             {
-                rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", InstrumentFileType, ext));
+                rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", file_type, ext));
                 return rm;
             }
 
             //Nothing to see here
             return null;
+        }
+
+        protected string GetBaseFileName()
+        {
+            string baseFileName = Path.GetFileNameWithoutExtension(input_file);
+            return baseFileName;
+        }
+
+        // Sometimes the dilution factor will be appended to aliquot separated by a @
+        // e.g. AC1|11|ZF23|6A|MB132|10dpf@144.6
+        protected string[] GetAliquotDilutionFactor(string aliquot_dil_factor)
+        {
+            if (aliquot_dil_factor == null)
+                return new string[] { "", "" };
+            
+            List<string> tokens = new List<string>(aliquot_dil_factor.Split("@"));            
+            if (tokens.Count < 2)
+                tokens.Add("");
+
+            return tokens.ToArray();
+
+
+
+
         }
 
         protected double GetXLDoubleValue(ExcelRange cell)

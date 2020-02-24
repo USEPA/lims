@@ -23,13 +23,13 @@ namespace PluginBase
         }
         public ProcessorDTO(DataProcessor processor)
         {
-            UniqueId = processor.UniqueId;
-            Name = processor.Name;
-            Description = processor.Description;
-            InstrumentFileType = processor.InstrumentFileType;
-            InputFile = processor.InputFile;
+            UniqueId = processor.id;
+            Name = processor.name;
+            Description = processor.description;
+            InstrumentFileType = processor.file_type;
+            InputFile = processor.input_file;
             //OutputFile = processor.OutputFile;
-            Path = processor.Path;
+            Path = processor.path;
         }
     }
     public class ProcessorManager
@@ -108,9 +108,9 @@ namespace PluginBase
                             DataProcessor result = Activator.CreateInstance(type) as DataProcessor;
                             if (result != null)
                             {
-                                if (string.Compare(result.UniqueId, processorID, true) == 0)
+                                if (string.Compare(result.id, processorID, true) == 0)
                                 {
-                                    result.InputFile = inputFile;
+                                    result.input_file = inputFile;
                                     //result.OutputFile = outputFile;
                                     dtRespMsg = result.Execute();
                                     break;

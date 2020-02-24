@@ -27,12 +27,13 @@ namespace Tracefinder
     }
     public class TracefinderProcessor : DataProcessor
     {
-        public override string UniqueId { get => "tracefinder_version1.0"; }
-        public override string Name { get => "Tracefinder"; }
-        public override string Description { get => "Processor used for Tracefinder translation to universal template"; }
-        public override string InstrumentFileType { get => ".xlsx"; }
-        public override string InputFile { get; set; }
-        public override string Path { get; set; }
+        public override string id { get => "tracefinder_version1.0"; }
+        public override string name { get => "Tracefinder"; }
+        public override string description { get => "Processor used for Tracefinder translation to universal template"; }
+        public override string file_type { get => ".xlsx"; }
+        public override string version { get => "1.0"; }
+        public override string input_file { get; set; }
+        public override string path { get; set; }
 
         public override DataTableResponseMessage Execute()
         {
@@ -46,7 +47,7 @@ namespace Tracefinder
                 rm = new DataTableResponseMessage();
                 DataTable dt = GetDataTable();
                 List<AliquotAnalyte> lstAliquotAnalytes = new List<AliquotAnalyte>();
-                FileInfo fi = new FileInfo(InputFile);
+                FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
                 //This is a new way of using the 'using' keyword with braces
@@ -60,7 +61,7 @@ namespace Tracefinder
                 //File validation
                 if (worksheet2.Dimension == null)
                 {
-                    string msg = string.Format("No data in Sheet2 in InputFile:  {0}", InputFile);
+                    string msg = string.Format("No data in Sheet2 in InputFile:  {0}", input_file);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -74,7 +75,7 @@ namespace Tracefinder
                 string sval = GetXLStringValue(worksheet2.Cells[8, 1]);
                 if (string.Compare(sval, "Data File", true) != 0)
                 {
-                    string msg = string.Format("Input file is not in correct format. String 'Data File' missing from cell A8.  {0}", InputFile);
+                    string msg = string.Format("Input file is not in correct format. String 'Data File' missing from cell A8.  {0}", input_file);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -95,7 +96,7 @@ namespace Tracefinder
                 if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
                 {
                     string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
-                    rm.AddErrorAndLogMessage(String.Format(msg, 8, numCols, InputFile));
+                    rm.AddErrorAndLogMessage(String.Format(msg, 8, numCols, input_file));
                     return rm;   
                 }
 
@@ -132,7 +133,7 @@ namespace Tracefinder
                 //File validation
                 if (worksheet4.Dimension == null)
                 {
-                    string msg = string.Format("No data in Sheet4 in InputFile:  {0}", InputFile);
+                    string msg = string.Format("No data in Sheet4 in InputFile:  {0}", input_file);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -208,7 +209,7 @@ namespace Tracefinder
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Error processing input file: {0}", InputFile));
+                rm.AddErrorAndLogMessage(string.Format("Error processing input file: {0}", input_file));
             }
             return rm;
         }

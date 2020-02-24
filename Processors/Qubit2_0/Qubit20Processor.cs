@@ -13,12 +13,13 @@ namespace Qubit2_0
     public class Qubit20Processor : DataProcessor
     {
 
-        public override string UniqueId { get => "qubit2.0_version1.0"; }
-        public override string Name { get => "Qubit2.0"; }
-        public override string Description { get => "Processor used for Qubit2.0 translation to universal template"; }
-        public override string InstrumentFileType { get => ".xlsx"; }
-        public override string InputFile { get; set; }
-        public override string Path { get; set; }
+        public override string id { get => "qubit2.0_version1.0"; }
+        public override string name { get => "Qubit2.0"; }
+        public override string description { get => "Processor used for Qubit2.0 translation to universal template"; }
+        public override string file_type { get => ".xlsx"; }
+        public override string version { get => "1.0"; }
+        public override string input_file { get; set; }
+        public override string path { get; set; }
         
         public Qubit20Processor()
         {
@@ -34,7 +35,7 @@ namespace Qubit2_0
                     return rm;
 
                 rm = new DataTableResponseMessage();
-                FileInfo fi = new FileInfo(InputFile);
+                FileInfo fi = new FileInfo(input_file);
 
                 using (var package = new ExcelPackage(fi))
                 {
@@ -97,7 +98,7 @@ namespace Qubit2_0
             }
             catch(Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", InputFile));
+                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
             }
 
             return rm;           
