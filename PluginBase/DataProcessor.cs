@@ -132,9 +132,6 @@ namespace PluginBase
 
             return tokens.ToArray();
 
-
-
-
         }
 
         protected double GetXLDoubleValue(ExcelRange cell)
