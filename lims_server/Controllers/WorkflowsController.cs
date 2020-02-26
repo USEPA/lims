@@ -1,100 +1,117 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Data.SQLite;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using LimsServer.Entities;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace LimsServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class WorkflowsController : ControllerBase
     {
 
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<ProcessorsController> _logger;
+        private LimsServer.Services.WorkflowService _service;
 
-        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
+        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger, Services.WorkflowService service)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
+            _service = service;
         }
 
-        // GET: /Workflows
+        /// <summary>
+        /// GET: /workflows
+        /// </summary>
+        /// <returns>All workflows</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            string projectRootPath = _hostingEnvironment.ContentRootPath;
-            string dbPath = Path.Combine(projectRootPath, "app_files", "database", "lims.db");
-
-            try
-            {
-
-                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbPath))
-                {
-                    conn.Open();
-                    SQLiteCommand command = conn.CreateCommand();
-                    command.CommandText = "select * from workflows";
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        List<string> row = new List<string>();
-                        int id = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        row.Add(id.ToString());
-                        row.Add(name);
-                        //string processor = reader.GetString(2);
-
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
-
-            return new string[] { "value1", "value2" };
+            var workflows = await _service.GetAll();
+            return new ObjectResult(workflows);
         }
 
-        // GET: api/Workflows/5
+        /// <summary>
+        /// GET: api/workflows/ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{name}")]
-        public string Get(string name)
+        public async Task<IActionResult> Get(string id)
         {
-            return "value";
+            var workflows = await _service.GetById(id);
+            return new ObjectResult(workflows);
         }
 
-        // POST: api/Workflows
+        /// <summary>
+        /// POST: api/workflows
+        /// Creates a new workflow
+        /// </summary>
+        /// <param name="value">Serialized workflow</param>
         [HttpPost]
-        public void Post([FromBody] Workflow value)
+        public async Task<IActionResult> Post([FromBody] Workflow value)
         {
-            try
+            if (value == null)
+            {
+                // Returns 400
+                return BadRequest();
+            }
+            else
             {
                 Workflow wf = value;
+                var workflow = await _service.Create(wf);
+                if(workflow.message == null)
+                {
+                    // Returns 201 (successfully created new object)
+                    return CreatedAtAction(nameof(workflow.name), new { id = workflow.id }, workflow);
+                }
+                else
+                {
+                    // Returns 400 (Failed to create new object)
+                    return BadRequest(workflow.message);
+                }
+            }          
+        }
+
+        /// <summary>
+        /// PUT: api/workflows/ID
+        /// </summary>
+        /// <param name="id">ID of the workflow to update</param>
+        /// <param name="value">Updated workflow configuration</param>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id, [FromBody] Workflow value)
+        {
+            try
+            {
+                _service.Update(id, value);
+                return NoContent();
             }
             catch(Exception ex)
             {
-
+                return BadRequest(ex.Message);
             }
-            
-            
         }
 
-        // PUT: api/Workflows/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// DELETE: api/workflows/ID
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
+            try
+            {
+                _service.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

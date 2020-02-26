@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Hangfire;
 using Hangfire.Storage.SQLite;
 using Hangfire.Storage.Monitoring;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LimsServer.Controllers
 {
@@ -14,37 +17,55 @@ namespace LimsServer.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        // GET: api/Tasks
+
+        /// <summary>
+        /// GET: api/Tasks
+        /// </summary>
+        /// <returns>all Tasks</returns>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             var monAPI = JobStorage.Current.GetMonitoringApi();
             var stats = monAPI.GetStatistics();
-            
-           
+
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Tasks/5
+        /// <summary>
+        /// GET: api/Tasks/ID
+        /// </summary>
+        /// <param name="id">Task ID</param>
+        /// <returns>Task of the specified ID</returns>
         [HttpGet("{name}")]
-        public string Get(int name)
+        public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Tasks
+        /// <summary>
+        /// POST: api/Tasks
+        /// </summary>
+        /// <param name="value">Serialized string of a new task</param>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Tasks/5
+        /// <summary>
+        /// PUT: api/Tasks/ID
+        /// </summary>
+        /// <param name="id">task ID</param>
+        /// <param name="value">Serialized string with the updated task configuration</param>
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// DELETE: api/Tasks/ID
+        /// </summary>
+        /// <param name="id">ID of the task to be deleted.</param>
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
