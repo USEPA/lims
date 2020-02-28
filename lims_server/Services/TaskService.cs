@@ -13,11 +13,10 @@ namespace LimsServer.Services
 {
     public interface ITaskService
     {
-        IEnumerable<Task> GetAll();
-        Task GetById(int id);
+        System.Threading.Tasks.Task<IEnumerable<Task>> GetAll();
+        System.Threading.Tasks.Task<IEnumerable<Task>> GetById(string id);
         System.Threading.Tasks.Task<Task> Create(Task task);
-        void Update(Task task);
-        void Delete(int id);
+        System.Threading.Tasks.Task<bool> Delete(string id);
     }
     public class TaskService : ITaskService
     {
@@ -27,42 +26,37 @@ namespace LimsServer.Services
             _context = context;
         }
 
-        public async void RunTask(string id, PerformContext hfContext)
+        public async System.Threading.Tasks.Task RunTask(string id, PerformContext hfContext)
         {
-            string taskID = hfContext.BackgroundJob.Id;
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
-            task.taskID = taskID;
 
             // Step 1: If status!="SCHEDULED" cancel task
             if (!task.status.Equals("SCHEDULED"))
             {
-                task.status = "CANCELLED";
-                await _context.SaveChangesAsync();
+                await this.UpdateStatus(task.id, "CANCELLED");
                 return;
             }
             // Step 2: Change status to "STARTING"
-            task.status = "STARTING";
-            await _context.SaveChangesAsync();
+            await this.UpdateStatus(task.id, "STARTING");
 
             var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
             if(workflow == null)
             {
-                task.message = "Error attempting to get workflow of this task. Workflow ID: " + workflow.id;
-                task.status = "CANCELLED";
-                await _context.SaveChangesAsync();
+                await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + workflow.id);
                 return;
             }
 
             // Step 3: Check source directory for files
-            List<string> files = Directory.GetFiles(workflow.inputFolder).ToList();
-            // Step 4: If none exist reschedule task
+            List<string> files = new List<string>();
+            if (Directory.Exists(workflow.inputFolder))
+            {
+                files = Directory.GetFiles(workflow.inputFolder).ToList();
+            }
+            // Step 4: If directory or files do not exist reschedule task
             if(files.Count == 0)
             {
-                DateTime newStart = DateTime.Now.AddMinutes(workflow.interval);
-                task.start = newStart;
-                task.status = "SCHEDULED";
-                await _context.SaveChangesAsync();
-                BackgroundJob.Requeue(taskID);
+                await this.UpdateStatus(task.id, "CANCELLED");
+                await this.CreateNewTask(workflow.id, workflow.interval);
                 return;
             }
 
@@ -72,16 +66,34 @@ namespace LimsServer.Services
             await _context.SaveChangesAsync();
 
             ProcessorManager pm = new ProcessorManager();
-            string config = "PATHTOPROCESSORS";
+            string config = "./app_files/processors";
             ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
+            if(processor == null)
+            {
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
+                return;
+            }
 
             // Step 6: Run processor on source file
+            if (!Directory.Exists(workflow.outputFolder))
+            {
+                Directory.CreateDirectory(workflow.outputFolder);
+            }
+
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             foreach (string file in files)
             {
-                string fullFilePath = System.IO.Path.Combine(workflow.inputFolder, file);
-                DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, fullFilePath);
-                outputs.Add(fullFilePath, pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData));
+                DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
+                if (result.ErrorMessages.Count == 0)
+                {
+                    outputs.Add(file, pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData));
+                }
+                else
+                {
+                    await this.UpdateStatus(task.id, "CANCELLED");
+                    await this.CreateNewTask(workflow.id, workflow.interval);
+                    return;
+                }
             }
             // Step 7: Check if output file exists
             bool processed = false;
@@ -99,33 +111,71 @@ namespace LimsServer.Services
                 }
                 else
                 {
-                    task.message = "Error unable to export output. Error Messages: " + rm.Value.ErrorMessages.ToString();
-
-                    DateTime newStart = DateTime.Now.AddMinutes(workflow.interval);
-                    task.start = newStart;
-                    task.status = "SCHEDULED";
-                    await _context.SaveChangesAsync();
+                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + rm.Value.ErrorMessages.ToString());
                 }
             }
 
             // Step 9: Change task status to COMPLETED
             // Step 10: Create new Task and schedule
+            string newStatus = "";
             if (processed) 
             {
-                task.status = "COMPLETED";
-                await _context.SaveChangesAsync();
-                string newID = System.Guid.NewGuid().ToString();
-                Task newTask = new Task(newID, workflow.id, workflow.interval);
-                await this.Create(newTask);
-                return;
+                newStatus = "COMPLETED";
             }
             else
             {
-                task.inputFiles = new List<string>();
-                task.outputFiles = new List<string>();
-                BackgroundJob.Requeue(taskID);
-                return;
+                newStatus = "CANCELLED";               
             }
+            await this.UpdateStatus(task.id, newStatus);
+
+            await this.CreateNewTask(workflow.id, workflow.interval);
+            return;
+        }
+
+        /// <summary>
+        /// Helper method for updating a task status
+        /// </summary>
+        /// <param name="workflowID"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task UpdateStatus(string id, string status)
+        {
+            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            if(task != null)
+            {
+                task.status = status;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Helper method for updating a task status and message
+        /// </summary>
+        /// <param name="workflowID"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task UpdateStatus(string id, string status, string message)
+        {
+            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            if (task != null)
+            {
+                task.status = status;
+                task.message = message;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Helper method for creating a new Task
+        /// </summary>
+        /// <param name="workflowID"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task CreateNewTask(string workflowID, int interval)
+        {
+            string newID0 = System.Guid.NewGuid().ToString();
+            Task newTask0 = new Task(newID0, workflowID, interval);
+            await this.Create(newTask0);
         }
 
         /// <summary>
@@ -139,32 +189,54 @@ namespace LimsServer.Services
             await _context.SaveChangesAsync();
             var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
             var tsk = await _context.Tasks.SingleAsync(t => t.id == task.id);
-
-            BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), TimeSpan.FromMinutes(workflow.interval));
-
             tsk.status = "SCHEDULED";
+
+            tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), TimeSpan.FromMinutes(workflow.interval));
+            //await this.RunTask(tsk.id, null);
             await _context.SaveChangesAsync();
             return tsk;
         }
 
-        public void Delete(int id)
+        /// <summary>
+        /// Deletes the specified task, by the task GUID, not the Hangfire taskID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>True if task exists and is deleted, False if the task does not exist</returns>
+        public async System.Threading.Tasks.Task<bool> Delete(string id)
         {
-            throw new NotImplementedException();
+            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            if(task != null)
+            {
+                if(task.taskID != null)
+                {
+                    BackgroundJob.Delete(task.taskID);
+                }
+                task.status = "CANCELLED";
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public IEnumerable<Task> GetAll()
+        /// <summary>
+        /// Gets all Tasks
+        /// </summary>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<IEnumerable<Task>> GetAll()
         {
-            throw new NotImplementedException();
+            List<Task> tasks = await _context.Tasks.ToListAsync();
+            return tasks;
         }
 
-        public Task GetById(int id)
+        /// <summary>
+        /// Get a specified task by workflow ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<IEnumerable<Task>> GetById(string id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Task task)
-        {
-            throw new NotImplementedException();
+            List<Task> task = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
+            return task;
         }
     }
 }

@@ -4,23 +4,22 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using LimsServer.Entities;
 using System.Threading.Tasks;
+using LimsServer.Services;
 
 namespace LimsServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/workflow")]
     [ApiController]
     public class WorkflowsController : ControllerBase
     {
 
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<ProcessorsController> _logger;
-        private LimsServer.Services.WorkflowService _service;
 
-        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger, Services.WorkflowService service)
+        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
-            _service = service;
         }
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace LimsServer.Controllers
         /// </summary>
         /// <returns>All workflows</returns>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]IWorkflowService _service)
         {
             var workflows = await _service.GetAll();
             return new ObjectResult(workflows);
@@ -39,8 +38,8 @@ namespace LimsServer.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{name}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id, [FromServices]IWorkflowService _service)
         {
             var workflows = await _service.GetById(id);
             return new ObjectResult(workflows);
@@ -52,7 +51,7 @@ namespace LimsServer.Controllers
         /// </summary>
         /// <param name="value">Serialized workflow</param>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Workflow value)
+        public async Task<IActionResult> Post([FromBody] Workflow value, [FromServices]IWorkflowService _service)
         {
             if (value == null)
             {
@@ -66,7 +65,7 @@ namespace LimsServer.Controllers
                 if(workflow.message == null)
                 {
                     // Returns 201 (successfully created new object)
-                    return CreatedAtAction(nameof(workflow.name), new { id = workflow.id }, workflow);
+                    return CreatedAtAction(nameof(Get), new { id = workflow.id }, workflow);
                 }
                 else
                 {
@@ -82,7 +81,7 @@ namespace LimsServer.Controllers
         /// <param name="id">ID of the workflow to update</param>
         /// <param name="value">Updated workflow configuration</param>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody] Workflow value)
+        public async Task<IActionResult> Put(string id, [FromBody] Workflow value, [FromServices]IWorkflowService _service)
         {
             try
             {
@@ -100,7 +99,7 @@ namespace LimsServer.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, [FromServices]IWorkflowService _service)
         {
             try
             {

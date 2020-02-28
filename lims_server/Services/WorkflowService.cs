@@ -70,10 +70,10 @@ namespace LimsServer.Services
         /// Query all workflows from current db context
         /// </summary>
         /// <returns>List of workflows</returns>
-        public async Task<IEnumerable<Workflow>> GetAll()
+        public async System.Threading.Tasks.Task<IEnumerable<Workflow>> GetAll()
         {
             var workflows = await _context.Workflows.ToListAsync();
-            return workflows as IEnumerable<Workflow>;
+            return workflows as List<Workflow>;
         }
 
         /// <summary>

@@ -54,7 +54,6 @@ namespace LimsServer
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
-            services.AddAutoMapper();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -108,12 +107,17 @@ namespace LimsServer
                 .UseRecommendedSerializerSettings()
                 .UseSQLiteStorage("lims_server.db", new SQLiteStorageOptions())
                 .UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(30))
-                .UseJobsLogger()); ;
+                .UseJobsLogger());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseDeveloperExceptionPage();
+
+            app.UseStatusCodePages();
+
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
