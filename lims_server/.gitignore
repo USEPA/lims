@@ -44,3 +44,8 @@ client/app/**/*.js.map
 # .NET compiled files
 bin
 obj
+
+# Database Files
+.db
+.sqlite
+.sqlite3
