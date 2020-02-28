@@ -33,7 +33,7 @@ namespace LimsServer.Services
             // Step 1: If status!="SCHEDULED" cancel task
             if (!task.status.Equals("SCHEDULED"))
             {
-                await this.UpdateStatus(task.id, "CANCELLED");
+                await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
                 return;
             }
             // Step 2: Change status to "STARTING"
@@ -55,7 +55,7 @@ namespace LimsServer.Services
             // Step 4: If directory or files do not exist reschedule task
             if(files.Count == 0)
             {
-                await this.UpdateStatus(task.id, "CANCELLED");
+                await this.UpdateStatus(task.id, "CANCELLED", "No files found");
                 await this.CreateNewTask(workflow.id, workflow.interval);
                 return;
             }
@@ -90,7 +90,7 @@ namespace LimsServer.Services
                 }
                 else
                 {
-                    await this.UpdateStatus(task.id, "CANCELLED");
+                    await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + result.ErrorMessages.ToString());
                     await this.CreateNewTask(workflow.id, workflow.interval);
                     return;
                 }
