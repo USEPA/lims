@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Hangfire;
 using Hangfire.Server;
+using Hangfire.States;
 using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -56,8 +57,11 @@ namespace LimsServer.Services
             // Step 4: If directory or files do not exist reschedule task
             if(files.Count == 0)
             {
-                await this.UpdateStatus(task.id, "CANCELLED", "No files found");
-                await this.CreateNewTask(workflow.id, workflow.interval);
+                await this.UpdateStatus(task.id, "SCHEDULED", "No files found");
+
+                var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                backgroundClient.ChangeState(task.taskID, newSchedule);
                 return;
             }
 
@@ -94,7 +98,11 @@ namespace LimsServer.Services
                 else
                 {
                     await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + result.ErrorMessages.ToString());
-                    await this.CreateNewTask(workflow.id, workflow.interval);
+
+                    //var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                    //BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                    //backgroundClient.ChangeState(task.taskID, newSchedule);
+
                     return;
                 }
             }
@@ -110,7 +118,7 @@ namespace LimsServer.Services
                     processed = true;
                     string inputPath = System.IO.Path.Combine(workflow.inputFolder, output.Key);
                     File.Delete(inputPath);
-                    task.outputFiles.Add(outputPath);
+                    //task.outputFiles.Add(outputPath);
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -125,6 +133,7 @@ namespace LimsServer.Services
             if (processed) 
             {
                 newStatus = "COMPLETED";
+                await this.CreateNewTask(workflow.id, workflow.interval);
             }
             else
             {
@@ -132,7 +141,6 @@ namespace LimsServer.Services
             }
             await this.UpdateStatus(task.id, newStatus);
 
-            await this.CreateNewTask(workflow.id, workflow.interval);
             return;
         }
 
