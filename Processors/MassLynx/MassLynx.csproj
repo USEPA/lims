@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>E:\lims\lims_server\app_files\processors\MassLynx\</OutputPath>
+    <OutputPath>..\..\lims_server\app_files\processors\MassLynx\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="4.5.3.2" />
+    <PackageReference Include="EPPlus" Version="5.0.1-beta" />
   </ItemGroup>
 
   <ItemGroup>

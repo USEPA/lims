@@ -31,6 +31,7 @@ namespace LimsServer.Services
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
 
             // Step 1: If status!="SCHEDULED" cancel task
+            
             if (!task.status.Equals("SCHEDULED"))
             {
                 await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
@@ -81,12 +82,14 @@ namespace LimsServer.Services
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
-            foreach (string file in files)
+            for(int i = 0; i < files.Count; i++)
             {
+                string file = files[i];
                 DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
-                if (result.ErrorMessages.Count == 0)
+                if (result.ErrorMessages == null)
                 {
-                    outputs.Add(file, pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData));
+                    var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
+                    outputs.Add(file, output);
                 }
                 else
                 {
@@ -97,21 +100,22 @@ namespace LimsServer.Services
             }
             // Step 7: Check if output file exists
             bool processed = false;
-            foreach(KeyValuePair<string, ResponseMessage> rm in outputs)
+            for(int i = 0; i < outputs.Count; i++)
             {
-                string outputPath = System.IO.Path.Combine(workflow.outputFolder, rm.Value.OutputFile);
+                var output = outputs.ElementAt(i);
+                string outputPath = output.Value.OutputFile;
                 // Step 8: If output file does exist, update task outputFile and delete input file
                 if (File.Exists(outputPath))
                 {
                     processed = true;
-                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, rm.Key);
+                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, output.Key);
                     File.Delete(inputPath);
                     task.outputFiles.Add(outputPath);
                     await _context.SaveChangesAsync();
                 }
                 else
                 {
-                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + rm.Value.ErrorMessages.ToString());
+                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessages.ToString());
                 }
             }
 

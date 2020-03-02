@@ -166,6 +166,7 @@ namespace PluginBase
 
                     xlPkg.Save();
                     rm.Message = "";
+                    rm.OutputFile = fileName;
                 }
             }
             catch(Exception ex)
