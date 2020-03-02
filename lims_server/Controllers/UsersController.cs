@@ -92,7 +92,7 @@ namespace LimsServer.Controllers
         {
             // map dto to entity
             var user = _mapper.Map<User>(userDto);
-
+           
             try 
             {
                 // save 

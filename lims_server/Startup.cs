@@ -54,6 +54,7 @@ namespace LimsServer
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
+            services.AddAutoMapper(typeof(Startup));
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
