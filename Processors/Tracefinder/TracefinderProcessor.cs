@@ -50,6 +50,8 @@ namespace Tracefinder
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
+                //New in version 5 - must deal with License
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
                 
