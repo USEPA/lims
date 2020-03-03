@@ -37,6 +37,8 @@ namespace Qubit2_0
                 rm = new DataTableResponseMessage();
                 FileInfo fi = new FileInfo(input_file);
 
+                //New in version 5 - must deal with License
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using (var package = new ExcelPackage(fi))
                 {
                     //Data is in the 2nd sheet
