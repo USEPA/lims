@@ -21,8 +21,8 @@ using PluginBase;
 
 namespace LimsServer.Controllers
 {
-    //[Authorize]
-    [Route("[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProcessorsController : ControllerBase
     {

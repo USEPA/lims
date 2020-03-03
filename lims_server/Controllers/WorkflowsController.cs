@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using LimsServer.Entities;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ using LimsServer.Services;
 
 namespace LimsServer.Controllers
 {
-    [Route("api/workflow")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class WorkflowsController : ControllerBase
     {
