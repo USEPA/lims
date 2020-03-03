@@ -121,17 +121,17 @@ namespace PluginBase
 
         // Sometimes the dilution factor will be appended to aliquot separated by a @
         // e.g. AC1|11|ZF23|6A|MB132|10dpf@144.6
+        //Should return a string array with at least 2 elements even if they are empty
         protected string[] GetAliquotDilutionFactor(string aliquot_dil_factor)
         {
             if (aliquot_dil_factor == null)
                 return new string[] { "", "" };
             
-            List<string> tokens = new List<string>(aliquot_dil_factor.Split("@"));            
+            List<string> tokens = new List<string>(aliquot_dil_factor.Split("@"));
             if (tokens.Count < 2)
                 tokens.Add("");
-
+            
             return tokens.ToArray();
-
         }
 
         protected double GetXLDoubleValue(ExcelRange cell)
