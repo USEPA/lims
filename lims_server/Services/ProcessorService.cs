@@ -53,7 +53,7 @@ namespace LimsServer.Services
             catch (Exception ex)
             {
                 var result = new Processor();
-                result.message = ex.Message;
+                //result.message = ex.Message;
                 return result;
             }
         }

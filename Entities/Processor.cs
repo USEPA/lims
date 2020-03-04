@@ -14,6 +14,6 @@ namespace LimsServer.Entities
         public string file_type { get; set; }
         public bool enabled { get; set; }
         public int process_found { get; set; }
-        public string message { get; set; }
+        //public string message { get; set; }
     }
 }
