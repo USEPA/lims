@@ -35,6 +35,7 @@
     <Folder Include="app_files\template\" />
     <Folder Include="app_files\processors\" />
     <Folder Include="Entities\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nlog.config" />

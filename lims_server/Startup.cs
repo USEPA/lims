@@ -119,6 +119,9 @@ namespace LimsServer
 
             app.UseStatusCodePages();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
