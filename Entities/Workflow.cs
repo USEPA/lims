@@ -7,7 +7,7 @@ namespace LimsServer.Entities
 {
     public class Workflow
     {
-        private string BaseNetworkPath = @"\\AA\ORD\ORD\PRIV";
+        //private string BaseNetworkPath = @"\\AA\ORD\ORD\PRIV";
         public string id { get; set; }
         public string name { get; set; }
         public string processor { get; set; }

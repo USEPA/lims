@@ -63,8 +63,8 @@ namespace LIMSDesktop
             txtFileType.Text = proc.InstrumentFileType;            
 
             ProcessorManager procMgr = new ProcessorManager();
-            string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
-            string procPaths = @"E:\lims\lims_server\app_files\processors";
+            //string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
+            //string procPaths = @"E:\lims\lims_server\app_files\processors";
             DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtID.Text, txtInput.Text);
 
             templateDataGridView.DataSource = dtRespMsg.TemplateData;

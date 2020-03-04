@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Hangfire;
 using Hangfire.Storage.SQLite;
-using Hangfire.Storage.Monitoring;
 using Hangfire.JobsLogger;
 using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
