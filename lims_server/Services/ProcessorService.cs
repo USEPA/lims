@@ -87,7 +87,21 @@ namespace LimsServer.Services
         {            
             var oldProc = await _context.Processors.SingleAsync(w => w.id == id);
             oldProc = processor;
+            await _context.SaveChangesAsync();            
+        }
+
+        /// <summary>
+        /// Updates the processor provided by id
+        /// </summary>
+        /// <param name="processor"></param>
+        public async void Update(Processor[] processors)
+        {
+            _context.Processors.UpdateRange(processors);
+                                                                            
+            //oldProc = processor;
             await _context.SaveChangesAsync();
+
+
         }
 
 
@@ -100,7 +114,7 @@ namespace LimsServer.Services
         //        _context.SaveChanges();
         //    }
         //}
-        
+
 
         //public Processor GetById(int id)
         //{
