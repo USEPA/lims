@@ -17,8 +17,8 @@ using LimsServer.Entities;
 namespace LimsServer.Controllers
 {
     [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
@@ -92,7 +92,7 @@ namespace LimsServer.Controllers
         {
             // map dto to entity
             var user = _mapper.Map<User>(userDto);
-
+           
             try 
             {
                 // save 

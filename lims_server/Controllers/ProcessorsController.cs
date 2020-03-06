@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
 using System.IO;
-using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,31 +11,24 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Data.SQLite;
 using LimsServer.Services;
-using LimsServer.Dtos;
 using LimsServer.Entities;
 using PluginBase;
-//using LiteDB;
 
 namespace LimsServer.Controllers
 {
-    //[Authorize]
-    [Route("[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProcessorsController : ControllerBase
     {
-        //private readonly IHostingEnvironment _hostingEnvironment;
-        private IProcessorService _processorService;
+
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<ProcessorsController> _logger;
 
-        public ProcessorsController(
-            IWebHostEnvironment hostingEnvironment, 
-            ILogger<ProcessorsController> logger,
-            IProcessorService proccessorService)
+        public ProcessorsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
-            _processorService = proccessorService;
         }
 
 
@@ -49,6 +39,16 @@ namespace LimsServer.Controllers
         /// The dll will have the same name as the folder.
         /// </summary>
         /// <returns></returns>
+        /// <summary>
+        /// GET: /workflows
+        /// </summary>
+        /// <returns>All workflows</returns>
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]IProcessorService _service)
+        {
+            var workflows = await _service.GetAll();
+            return new ObjectResult(workflows);
+        }
         private List<Processor> GetListOfProcessors()
         {
             List<Processor> lst = null;

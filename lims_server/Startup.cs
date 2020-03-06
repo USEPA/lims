@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Hangfire;
 using Hangfire.Storage.SQLite;
-using Hangfire.Storage.Monitoring;
 using Hangfire.JobsLogger;
 using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
@@ -54,6 +53,7 @@ namespace LimsServer
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
+            services.AddAutoMapper(typeof(Startup));
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -118,6 +118,9 @@ namespace LimsServer
 
             app.UseStatusCodePages();
             app.UseSerilogRequestLogging();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             // global cors policy
             app.UseCors(x => x

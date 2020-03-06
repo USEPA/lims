@@ -34,7 +34,9 @@ namespace PicoGreen
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
-                //This is a new way of using the 'using' keyword with braces                
+                //New in version 5 - must deal with License
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
                 
                 //Data is in the 1st sheet
@@ -49,7 +51,7 @@ namespace PicoGreen
                 if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
                 {
 
-                    string msg = string.Format("Input file is not in correct format. String 'Well ID' missing from cell A18.  {0}", input_file);
+                    string msg = string.Format("Input file is not in correct format. Row 18, Column 1 should contain value 'Well ID'.  {0}", input_file);
                     rm.AddErrorAndLogMessage(msg);
                     return rm;
                 }
@@ -68,12 +70,15 @@ namespace PicoGreen
                     if (wellID.Equals("Well ID", StringComparison.OrdinalIgnoreCase))
                         continue;
                     
-                    string aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
+                    string[] aliquot_dilFactor = GetAliquotDilutionFactor(GetXLStringValue(worksheet.Cells[row, 2]));
+                    string aliquot = aliquot_dilFactor[0];
+                    string dilFactor = aliquot_dilFactor[1];
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
                     double measuredVal = GetXLDoubleValue(worksheet.Cells[row, 5]);
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
+                    dr["Dilution Factor"] = dilFactor;
                     dr["Description"] = description;
                     dr["Measured Value"] = measuredVal;
                     dr["Analyte Identifier"] = analyteID;

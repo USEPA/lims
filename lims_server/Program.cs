@@ -48,7 +48,7 @@ namespace LimsServer
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<LoadProcessors>();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

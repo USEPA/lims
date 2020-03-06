@@ -49,15 +49,23 @@ namespace LIMSDesktop
             txtName.Text = proc.Name;
             txtDesc.Text = proc.Description;
             txtFileType.Text = proc.InstrumentFileType;
+            
             //txtPath.Text = proc.;
 
         }
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            ProcessorDTO proc = comboBox1.Items[comboBox1.SelectedIndex] as ProcessorDTO;
+            txtID.Text = proc.UniqueId;
+            txtName.Text = proc.Name;
+            txtDesc.Text = proc.Description;
+            txtFileType.Text = proc.InstrumentFileType;            
+
             ProcessorManager procMgr = new ProcessorManager();
-            string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
-            DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(txtPath.Text, txtID.Text, txtInput.Text);
+            //string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
+            //string procPaths = @"E:\lims\lims_server\app_files\processors";
+            DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtID.Text, txtInput.Text);
 
             templateDataGridView.DataSource = dtRespMsg.TemplateData;
         }

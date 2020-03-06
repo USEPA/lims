@@ -34,6 +34,7 @@
     <Folder Include="app_files\template\" />
     <Folder Include="app_files\processors\" />
     <Folder Include="Entities\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj" />

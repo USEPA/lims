@@ -50,6 +50,8 @@ namespace Tracefinder
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
+                //New in version 5 - must deal with License
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
                 
@@ -100,7 +102,7 @@ namespace Tracefinder
                     return rm;   
                 }
 
-                int numAliquots = lstAnalyteIDs.Count;
+                int numAnalytes = lstAnalyteIDs.Count;
 
                 //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                 //Sheet 2, Row 9 down, Column 2 until 'All Flags' contain data
@@ -109,7 +111,7 @@ namespace Tracefinder
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
                     analyzeDate = GetXLStringValue(worksheet2.Cells[row, numCols]);
-                    for (int col = 2; col < numAliquots; col++)
+                    for (int col = 2; col < numAnalytes; col++)
                     {
                         DataRow dr = dt.NewRow();
                         //dr["Aliquot"] = aliquot;
@@ -154,7 +156,7 @@ namespace Tracefinder
 
                 }
 
-                numAliquots = lstAnalyteIDs.Count;
+                numAnalytes = lstAnalyteIDs.Count;
 
                 //Sheet 4, Row 9 down, Column 1 contains Aliquot name
                 //Sheet 4, Row 9 down, Column 2 until 'All Flags' contain data
@@ -162,7 +164,7 @@ namespace Tracefinder
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);                    
-                    for (int col = 2; col < numAliquots; col++)
+                    for (int col = 2; col < numAnalytes; col++)
                     {
                         string analyte = lstAnalyteIDs[col - 2];
                         //string[] keys = new string[2];

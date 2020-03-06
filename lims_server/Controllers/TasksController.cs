@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Hangfire;
 using Hangfire.Storage.SQLite;
 using Hangfire.Storage.Monitoring;
@@ -14,6 +15,7 @@ using LimsServer.Services;
 
 namespace LimsServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
