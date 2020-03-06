@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using NLog.Web;
+using Serilog;
+using System.Linq;
 
 namespace LimsServer
 {
@@ -13,24 +14,32 @@ namespace LimsServer
         
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
+                .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("/dashboard/")))             // The hangfire dashboard queries the api every 1sec, excluding those requests from log
+                .Filter.ByExcluding(c => c.Properties.Any(w => w.Value.ToString().Contains("Worker")))
+                .Filter.ByExcluding(c => c.Properties.Any(s => s.Value.ToString().Contains("Server")))
+                .Filter.ByExcluding(c => c.Properties.Any(e => e.Value.ToString().Contains("Executed DbCommand")))
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
 
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                //BuildWebHost(args).Run();            
-                logger.Debug("init main");
+                Log.Information("Starting LIMS server");         
                 CreateHostBuilder(args).Build().Run();
             }
             catch(Exception ex)
             {
-                //NLog: catch setup errors
-                logger.Error(ex, "Stopped program because of exception");
+                Log.Fatal(ex, "LIMS server failed to startup.");
                 throw;
             }
             finally
             {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
+                Log.CloseAndFlush();
             }
         }
 
@@ -46,23 +55,22 @@ namespace LimsServer
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://localhost:4000");
                 })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);                  
-                })
-                .UseNLog();  // NLog: Setup NLog for Dependency injection
+                //.ConfigureLogging(logging =>
+                //{
+                //    logging.ClearProviders();
+                //    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                //})
+                .UseSerilog();
 
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-                .UseNLog();  // NLog: setup NLog for Dependency injection
-
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseStartup<Startup>()
+        //        .ConfigureLogging(logging =>
+        //        {
+        //            logging.ClearProviders();
+        //            logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+        //        })
+        //        .UseSerilog();
     }
 }

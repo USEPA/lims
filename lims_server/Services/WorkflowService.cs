@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LimsServer.Services
 {
@@ -37,7 +38,9 @@ namespace LimsServer.Services
             {
                 var result = await _context.Workflows.AddAsync(workflow);
                 await _context.SaveChangesAsync();
-                string id = System.Guid.NewGuid().ToString();            
+                string id = System.Guid.NewGuid().ToString();
+                Log.Information("New LIMS Workflow, ID: {0}, Initial Task ID: {1}", workflowID, id);
+
                 LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
 
                 TaskService ts = new TaskService(this._context);
@@ -49,6 +52,7 @@ namespace LimsServer.Services
             {
                 var result = new Workflow();
                 result.message = ex.Message;
+                Log.Error(ex, "Error attempting to create new workflow and workflow task");
                 return result;
             }
         }
@@ -62,6 +66,7 @@ namespace LimsServer.Services
             //TODO: All Tasks of the specified workflow need to be cancelled.
 
             var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
+            Log.Information("Deleting LIMS Workflow, ID: {0}", id);
             _context.Workflows.Remove(workflow);
             await _context.SaveChangesAsync();
         }

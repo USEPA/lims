@@ -9,6 +9,7 @@ using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
 using PluginBase;
+using Serilog;
 
 namespace LimsServer.Services
 {
@@ -30,21 +31,24 @@ namespace LimsServer.Services
         public async System.Threading.Tasks.Task RunTask(string id, PerformContext hfContext)
         {
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            Log.Information("Executing Task. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
 
             // Step 1: If status!="SCHEDULED" cancel task
-            
+
             if (!task.status.Equals("SCHEDULED"))
             {
                 await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Task status is not marked as schedulled.");
                 return;
             }
             // Step 2: Change status to "STARTING"
-            await this.UpdateStatus(task.id, "STARTING");
+            await this.UpdateStatus(task.id, "STARTING", "");
 
             var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
             if(workflow == null)
             {
                 await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + workflow.id);
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Workflow for the Task.");
                 return;
             }
 
@@ -58,10 +62,10 @@ namespace LimsServer.Services
             if(files.Count == 0)
             {
                 await this.UpdateStatus(task.id, "SCHEDULED", "No files found");
-
                 var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
                 BackgroundJobClient backgroundClient = new BackgroundJobClient();
                 backgroundClient.ChangeState(task.taskID, newSchedule);
+                Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "No files found in input directory.");
                 return;
             }
 
@@ -76,6 +80,7 @@ namespace LimsServer.Services
             if(processor == null)
             {
                 await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Processor for the Task.");
                 return;
             }
 
@@ -97,12 +102,9 @@ namespace LimsServer.Services
                 }
                 else
                 {
-                    await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + result.ErrorMessages.ToString());
-
-                    //var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
-                    //BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                    //backgroundClient.ChangeState(task.taskID, newSchedule);
-
+                    string errorMessage = result.ErrorMessages.ToString();
+                    await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
+                    Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, errorMessage);
                     return;
                 }
             }
@@ -133,15 +135,15 @@ namespace LimsServer.Services
             if (processed) 
             {
                 newStatus = "COMPLETED";
+                Log.Information("Task Completed. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
                 await this.CreateNewTask(workflow.id, workflow.interval);
             }
             else
             {
-                newStatus = "CANCELLED";               
+                newStatus = "CANCELLED";
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Failed to process input file");
             }
-            await this.UpdateStatus(task.id, newStatus);
-
-            return;
+            await this.UpdateStatus(task.id, newStatus);          
         }
 
         /// <summary>
@@ -206,6 +208,7 @@ namespace LimsServer.Services
             tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), TimeSpan.FromMinutes(workflow.interval));
             //await this.RunTask(tsk.id, null);
             await _context.SaveChangesAsync();
+            Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
             return tsk;
         }
 
@@ -225,6 +228,7 @@ namespace LimsServer.Services
                 }
                 task.status = "CANCELLED";
                 await _context.SaveChangesAsync();
+                Log.Information("Deleted Task. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
                 return true;
             }
             return false;

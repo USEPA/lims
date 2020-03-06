@@ -19,7 +19,7 @@ using Hangfire.Storage.SQLite;
 using Hangfire.JobsLogger;
 using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
-
+using Serilog;
 
 namespace LimsServer
 {
@@ -117,6 +117,7 @@ namespace LimsServer
             app.UseDeveloperExceptionPage();
 
             app.UseStatusCodePages();
+            app.UseSerilogRequestLogging();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using LimsServer.Entities;
 using System.Threading.Tasks;
 using LimsServer.Services;
+using Serilog;
 
 namespace LimsServer.Controllers
 {
@@ -16,9 +17,9 @@ namespace LimsServer.Controllers
     {
 
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly ILogger<ProcessorsController> _logger;
+        private readonly ILogger<WorkflowsController> _logger;
 
-        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<ProcessorsController> logger)
+        public WorkflowsController(IWebHostEnvironment hostingEnvironment, ILogger<WorkflowsController> logger)
         {
             _hostingEnvironment = hostingEnvironment;
             _logger = logger;
