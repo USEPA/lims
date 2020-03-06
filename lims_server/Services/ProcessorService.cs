@@ -15,6 +15,7 @@ namespace LimsServer.Services
         Task<Processor> GetById(string id);
         Task<Processor> Create(Processor processor);
         void Update(string id, Processor processor);
+        void Update(Processor[] processor);
         //void Delete(string id);
 
 
