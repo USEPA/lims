@@ -76,8 +76,8 @@ namespace LimsServer.Services
         /// <returns>the processor with the specified ID</returns>
         public async Task<Processor> GetById(string id)
         {
-            var processors = await _context.Processors.SingleAsync(w => w.id == id);
-            return processors as Processor;
+            var processor = await _context.Processors.SingleAsync(w => w.name == id);
+            return processor as Processor;
         }
 
         /// <summary>

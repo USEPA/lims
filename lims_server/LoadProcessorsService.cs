@@ -27,7 +27,7 @@ namespace LimsServer
             _serviceProvider = serviceProvider;
             _hostingEnvironment = hostingEnvironment;
         }
-        protected override System.Threading.Tasks.Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async System.Threading.Tasks.Task ExecuteAsync(CancellationToken stoppingToken)
         {
             string projectRootPath = _hostingEnvironment.ContentRootPath;
             string processorPath = Path.Combine(projectRootPath, "app_files", "processors");
@@ -44,8 +44,8 @@ namespace LimsServer
             {
                 // Get the DbContext instance
                 var procService = scope.ServiceProvider.GetRequiredService<IProcessorService>();
-                var procs = procService.GetAll();
-                var dbProcs = procs.Result;
+                var dbProcs = await procService.GetAll();
+                //var dbProcs = procs.Result;
                 List<Processor> lstProcs = new List<Processor>();
                 foreach (Processor proc in dbProcs)
                 {
@@ -61,7 +61,8 @@ namespace LimsServer
                 lstProcs = new List<Processor>();
                 foreach (string proc in procsIntersect)
                 {
-                    Processor processor = procService.GetById(proc).Result;
+                    var processor = await procService.GetById(proc);
+                    //Processor processor = result.Result;
                     processor.enabled = true;
                     lstProcs.Add(processor);
                 }
@@ -80,13 +81,15 @@ namespace LimsServer
                     processor.enabled = true;
                     processor.description = proc.Description;
                     processor.file_type = proc.InstrumentFileType;
-                    processor.id = proc.UniqueId;
-                    processor.name = proc.Name;
+                    processor.id = proc.UniqueId.ToLower();
+                    processor.name = proc.Name.ToLower();
 
-                    procService.Create(processor);
+                    await procService.Create(processor);
                 }
-            }            
-            return System.Threading.Tasks.Task.CompletedTask;
+            }
+
+            //return System.Threading.Tasks.Task.CompletedTask;
+            return;
             
         }
     }
