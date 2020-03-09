@@ -58,9 +58,33 @@ namespace LimsServer
                 procService.Update(lstProcs.ToArray());
 
                 var procsIntersect = procsDiskNames.Intersect(procsInDb);
+                lstProcs = new List<Processor>();
+                foreach (string proc in procsIntersect)
+                {
+                    Processor processor = procService.GetById(proc).Result;
+                    processor.enabled = true;
+                    lstProcs.Add(processor);
+                }
 
+                //Set all the processors in the db that are also on disk to enabled = true
+                procService.Update(lstProcs.ToArray());
 
+                var newProcs = procsDiskNames.Except(procsInDb);
+                List<ProcessorDTO> lstProcDTO = new List<ProcessorDTO>();
+                foreach(string proc in newProcs)                
+                    lstProcDTO.Add(procsFromDisk.Find(x => x.Name.ToLower() == proc.ToLower()));
 
+                foreach (ProcessorDTO proc in lstProcDTO)
+                {
+                    Processor processor = new Processor();
+                    processor.enabled = true;
+                    processor.description = proc.Description;
+                    processor.file_type = proc.InstrumentFileType;
+                    processor.id = proc.UniqueId;
+                    processor.name = proc.Name;
+
+                    procService.Create(processor);
+                }
             }            
             return System.Threading.Tasks.Task.CompletedTask;
             
