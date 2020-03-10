@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PluginBase\PluginBase.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+  </Target>
+
+</Project>
