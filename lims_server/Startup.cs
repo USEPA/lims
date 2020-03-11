@@ -120,7 +120,17 @@ namespace LimsServer
             app.UseSerilogRequestLogging();
 
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = context =>
+                {
+                    if (context.File.Name == "index.html")
+                    {
+                        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                        context.Context.Response.Headers.Add("Expires", "-1");
+                    }
+                }
+            });
 
             // global cors policy
             app.UseCors(x => x
