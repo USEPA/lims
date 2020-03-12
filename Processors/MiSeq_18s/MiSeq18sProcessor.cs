@@ -41,12 +41,59 @@ namespace MiSeq_18s
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
 
-                var worksheet = package.Workbook.Worksheets[0];  //Worksheets are zero-based index                
+                var worksheet = package.Workbook.Worksheets[1];  //Worksheets are zero-based index                
                 string name = worksheet.Name;
-            }
+
+                //File validation
+                if (worksheet.Dimension == null)
+                {
+                    string msg = string.Format("No data in Sheet 1 in InputFile:  {0}", input_file);
+                    rm.AddErrorAndLogMessage(msg);
+                    return rm;
+                }                
+
+                int startRow = worksheet.Dimension.Start.Row;
+                int startCol = worksheet.Dimension.Start.Column;
+                int numRows = worksheet.Dimension.End.Row;
+                int numCols = worksheet.Dimension.End.Column;                                               
+
+                for (int col = 3; col <= numCols; col++)                    
+                {
+                    string aliquot = GetXLStringValue(worksheet.Cells[1, col]);
+                    if (aliquot.ToLower() == "reads/otu")
+                        break;
+
+                    if (string.IsNullOrWhiteSpace(aliquot))
+                        break;
+
+                    
+                    for (int row = 2; row <= numRows; row++)
+                    {
+                        DataRow dr = dt.NewRow();
+                        string analyteID = GetXLStringValue(worksheet.Cells[row, 1]);
+                        string desc = GetXLStringValue(worksheet.Cells[row, 2]);
+                        string measuredVal = GetXLStringValue(worksheet.Cells[row, col]);
+                        if (string.IsNullOrWhiteSpace(measuredVal))
+                            measuredVal = "0";
+                        dr["Aliquot"] = aliquot;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+                        dr["Description"] = desc;
+
+                        dt.Rows.Add(dr);
+
+                    }
+                }
+                rm.TemplateData = dt;
+
+
+
+
+                }
             catch (Exception ex)
             {
-
+                rm.AddErrorAndLogMessage("Error processing file: " + input_file);
+                rm.AddErrorAndLogMessage(ex.Message);
             }
 
             return rm;
