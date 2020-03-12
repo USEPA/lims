@@ -63,6 +63,9 @@ namespace LimsServer.Services
             {
                 await this.UpdateStatus(task.id, "SCHEDULED", "No files found");
                 var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                task.start = DateTime.Now.AddMinutes(workflow.interval);
+                await _context.SaveChangesAsync();
+
                 BackgroundJobClient backgroundClient = new BackgroundJobClient();
                 backgroundClient.ChangeState(task.taskID, newSchedule);
                 Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "No files found in input directory.");
@@ -70,7 +73,7 @@ namespace LimsServer.Services
             }
 
             // Step 5: If file does exist, update task inputFile
-            task.inputFiles = files;
+            task.inputFile = files.First();
             task.status = "PROCESSING";
             await _context.SaveChangesAsync();
 
@@ -91,23 +94,21 @@ namespace LimsServer.Services
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
-            for(int i = 0; i < files.Count; i++)
+            string file = task.inputFile;
+            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
+            if (result.ErrorMessages == null)
             {
-                string file = files[i];
-                DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
-                if (result.ErrorMessages == null)
-                {
-                    var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
-                    outputs.Add(file, output);
-                }
-                else
-                {
-                    string errorMessage = result.ErrorMessages.ToString();
-                    await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
-                    Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, errorMessage);
-                    return;
-                }
+                var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
+                outputs.Add(file, output);
             }
+            else
+            {
+                string errorMessage = result.ErrorMessages.ToString();
+                await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, errorMessage);
+                return;
+            }
+
             // Step 7: Check if output file exists
             bool processed = false;
             for(int i = 0; i < outputs.Count; i++)
@@ -120,7 +121,7 @@ namespace LimsServer.Services
                     processed = true;
                     string inputPath = System.IO.Path.Combine(workflow.inputFolder, output.Key);
                     File.Delete(inputPath);
-                    //task.outputFiles.Add(outputPath);
+                    task.outputFile = outputPath;
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -136,7 +137,14 @@ namespace LimsServer.Services
             {
                 newStatus = "COMPLETED";
                 Log.Information("Task Completed. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
-                await this.CreateNewTask(workflow.id, workflow.interval);
+                if (files.Count > 1)
+                {
+                    await this.CreateNewTask(workflow.id, 0);
+                }
+                else
+                {
+                    await this.CreateNewTask(workflow.id, workflow.interval);
+                }
             }
             else
             {

@@ -11,10 +11,8 @@ namespace LimsServer.Entities
         public string id { get; set; }
         public string taskID { get; set; }
         public string workflowID { get; set; }
-        [NotMapped]
-        public List<string> inputFiles { get; set; }
-        [NotMapped]
-        public List<string> outputFiles { get; set; }
+        public string inputFile { get; set; }
+        public string outputFile { get; set; }
         public string status { get; set; }
         public string message { get; set; }
         public DateTime start { get; set; }
@@ -26,8 +24,8 @@ namespace LimsServer.Entities
             this.id = id;
             this.taskID = null;
             this.workflowID = workflow;
-            this.inputFiles = new List<string>();
-            this.outputFiles = new List<string>();
+            this.inputFile = "";
+            this.outputFile = "";
             this.status = "PENDING";
             this.message = null;
             this.start = DateTime.Now.AddMinutes(interval);

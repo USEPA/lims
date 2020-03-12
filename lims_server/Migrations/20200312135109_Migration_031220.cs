@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LimsServer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Migration_031220 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,6 +31,8 @@ namespace LimsServer.Migrations
                     id = table.Column<string>(nullable: false),
                     taskID = table.Column<string>(nullable: true),
                     workflowID = table.Column<string>(nullable: true),
+                    inputFile = table.Column<string>(nullable: true),
+                    outputFile = table.Column<string>(nullable: true),
                     status = table.Column<string>(nullable: true),
                     message = table.Column<string>(nullable: true),
                     start = table.Column<DateTime>(nullable: false)
@@ -68,7 +70,8 @@ namespace LimsServer.Migrations
                     inputFolder = table.Column<string>(nullable: true),
                     outputFolder = table.Column<string>(nullable: true),
                     interval = table.Column<int>(nullable: false),
-                    message = table.Column<string>(nullable: true)
+                    message = table.Column<string>(nullable: true),
+                    active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

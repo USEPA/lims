@@ -49,7 +49,13 @@ namespace LimsServer.Migrations
                     b.Property<string>("id")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("inputFile")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("outputFile")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("start")
@@ -102,6 +108,9 @@ namespace LimsServer.Migrations
                 {
                     b.Property<string>("id")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("active")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("inputFolder")
                         .HasColumnType("TEXT");
