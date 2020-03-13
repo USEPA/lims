@@ -81,14 +81,13 @@ namespace LimsServer.Controllers
         /// <summary>
         /// PUT: api/workflows/ID
         /// </summary>
-        /// <param name="id">ID of the workflow to update</param>
         /// <param name="value">Updated workflow configuration</param>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody] Workflow value, [FromServices]IWorkflowService _service)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] Workflow value, [FromServices]IWorkflowService _service)
         {
             try
             {
-                _service.Update(id, value);
+                _service.Update(value);
                 return NoContent();
             }
             catch(Exception ex)

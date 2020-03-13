@@ -20,6 +20,7 @@ using Hangfire.JobsLogger;
 using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
 using Serilog;
+using Microsoft.Extensions.Hosting;
 
 namespace LimsServer
 {
@@ -114,7 +115,16 @@ namespace LimsServer
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            app.UseDeveloperExceptionPage();
+            UpdateDatabase(app);
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
             app.UseStatusCodePages();
             app.UseSerilogRequestLogging();
@@ -151,6 +161,19 @@ namespace LimsServer
 
             app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
             app.UseHangfireDashboard("/dashboard");
+        }
+
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DbContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
