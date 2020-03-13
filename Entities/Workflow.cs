@@ -19,5 +19,18 @@ namespace LimsServer.Entities
 
         public bool active { get; set; }
 
+        public Workflow() { }
+
+        public void Update(Workflow wf)
+        {
+            this.name = wf.name;
+            this.processor = wf.processor;
+            this.inputFolder = wf.inputFolder;
+            this.outputFolder = wf.outputFolder;
+            this.interval = wf.interval;
+            this.message = "";
+            this.active = true;
+        }
+
     }
 }
