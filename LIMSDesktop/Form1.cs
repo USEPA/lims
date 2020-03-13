@@ -28,8 +28,8 @@ namespace LIMSDesktop
 
         private void templateDataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            foreach (DataGridViewRow row in templateDataGridView.Rows)
-                row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
+            //foreach (DataGridViewRow row in templateDataGridView.Rows)
+            //    row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
