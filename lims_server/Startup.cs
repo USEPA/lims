@@ -115,7 +115,7 @@ namespace LimsServer
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            UpdateDatabase(app);
+            //UpdateDatabase(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -171,7 +171,7 @@ namespace LimsServer
             {
                 using (var context = serviceScope.ServiceProvider.GetService<DbContext>())
                 {
-                    context.Database.Migrate();
+                    //context.Database.Migrate();
                 }
             }
         }

@@ -44,7 +44,8 @@ namespace LimsServer
             {
                 // Get the DbContext instance
                 var procService = scope.ServiceProvider.GetRequiredService<IProcessorService>();
-                var dbProcs = await procService.GetAll();
+                //var dbProcs = await procService.GetAll();
+                var dbProcs = procService.GetAll();
                 //var dbProcs = procs.Result;
                 List<Processor> lstProcs = new List<Processor>();
                 foreach (Processor proc in dbProcs)

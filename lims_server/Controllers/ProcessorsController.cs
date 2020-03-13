@@ -47,7 +47,8 @@ namespace LimsServer.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]IProcessorService _service)
         {
-            var processors = await _service.GetAll();
+            //var processors = await _service.GetAll();
+            var processors = _service.GetAll();
             return new ObjectResult(processors);
         }
 

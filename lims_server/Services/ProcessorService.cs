@@ -11,7 +11,8 @@ namespace LimsServer.Services
 {
     public interface IProcessorService
     {
-        Task<IEnumerable<Processor>> GetAll();
+        //Task<IEnumerable<Processor>> GetAll();
+        public IEnumerable<Processor> GetAll();
         Task<Processor> GetById(string id);
         Task<Processor> Create(Processor processor);
         void Update(string id, Processor processor);
@@ -63,9 +64,14 @@ namespace LimsServer.Services
         /// Query all processors from current db context
         /// </summary>
         /// <returns>List of processors</returns>
-        public async System.Threading.Tasks.Task<IEnumerable<Processor>> GetAll()
+        //public async System.Threading.Tasks.Task<IEnumerable<Processor>> GetAll()
+        //{
+        //    var processors = await _context.Processors.ToListAsync();
+        //    return processors as List<Processor>;
+        //}
+        public IEnumerable<Processor> GetAll()
         {
-            var processors = await _context.Processors.ToListAsync();
+            var processors = _context.Processors.ToList();
             return processors as List<Processor>;
         }
 
