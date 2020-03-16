@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using LimsServer.Entities;
 using System.Threading.Tasks;
 using LimsServer.Services;
-using Serilog;
 
 namespace LimsServer.Controllers
 {
@@ -87,7 +86,7 @@ namespace LimsServer.Controllers
         {
             try
             {
-                _service.Update(value);
+                await _service.Update(value);
                 return NoContent();
             }
             catch(Exception ex)
@@ -105,7 +104,7 @@ namespace LimsServer.Controllers
         {
             try
             {
-                _service.Delete(id);
+                await _service.Delete(id);
                 return NoContent();
             }
             catch (Exception ex)

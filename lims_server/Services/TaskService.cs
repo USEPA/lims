@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Hangfire;
 using Hangfire.Server;
-using Hangfire.States;
 using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -160,7 +159,7 @@ namespace LimsServer.Services
         /// <param name="workflowID"></param>
         /// <param name="interval"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task UpdateStatus(string id, string status)
+        protected async System.Threading.Tasks.Task UpdateStatus(string id, string status)
         {
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
             if(task != null)
@@ -176,7 +175,7 @@ namespace LimsServer.Services
         /// <param name="workflowID"></param>
         /// <param name="interval"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task UpdateStatus(string id, string status, string message)
+        protected async System.Threading.Tasks.Task UpdateStatus(string id, string status, string message)
         {
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
             if (task != null)
@@ -193,7 +192,7 @@ namespace LimsServer.Services
         /// <param name="workflowID"></param>
         /// <param name="interval"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateNewTask(string workflowID, int interval)
+        protected async System.Threading.Tasks.Task CreateNewTask(string workflowID, int interval)
         {
             string newID0 = System.Guid.NewGuid().ToString();
             Task newTask0 = new Task(newID0, workflowID, interval);

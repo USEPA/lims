@@ -15,8 +15,8 @@ namespace LimsServer.Services
         Task<IEnumerable<Workflow>> GetAll();
         Task<Workflow> GetById(string id);
         Task<Workflow> Create(Workflow workflow);
-        void Update(Workflow workflow);
-        void Delete(string id);
+        Task<bool> Update(Workflow workflow);
+        Task<bool> Delete(string id);
     }
     public class WorkflowService : IWorkflowService
     {
@@ -64,7 +64,7 @@ namespace LimsServer.Services
         /// Marks the specified workflow as inactive and cancels all currently scheduled tasks for that 
         /// </summary>
         /// <param name="id"></param>
-        public async void Delete(string id)
+        public async System.Threading.Tasks.Task<bool> Delete(string id)
         {
             var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
             if(workflow != null)
@@ -87,10 +87,12 @@ namespace LimsServer.Services
                 Log.Information("Setting LIMS Workflow, ID: {0} to inactive", id);
                 workflow.active = false;
                 await _context.SaveChangesAsync();
+                return true;
             }
             else
             {
                 Log.Information("Unable to cancel Workflow: {0}, ID not found.", id);
+                return false;
             }
         }
 
@@ -119,7 +121,7 @@ namespace LimsServer.Services
         /// Updates the workflow provided by id
         /// </summary>
         /// <param name="workflow"></param>
-        public async void Update(Workflow _workflow)
+        public async System.Threading.Tasks.Task<bool> Update(Workflow _workflow)
         {
             string id = _workflow.id;
             var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
@@ -146,10 +148,12 @@ namespace LimsServer.Services
                 var task = await ts.Create(tsk);
                 await _context.SaveChangesAsync();
                 Log.Information("Created new Task for updated Workflow ID: {0}, Updated Task ID: {1}, Hangfire ID: {2}", id, tsk.id, tsk.taskID);
+                return true;
             }
             else
             {
                 Log.Information("Unable to cancel Workflow: {0}, ID not found.", id);
+                return false;
             }
         }
     }
