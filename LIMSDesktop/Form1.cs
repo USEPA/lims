@@ -35,7 +35,8 @@ namespace LIMSDesktop
         private void Form1_Load(object sender, EventArgs e)
         {
             ProcessorManager procMgr = new ProcessorManager();
-            string procPaths = @"E:\lims\lims_server\app_files\processors";
+            //string procPaths = @"E:\lims\lims_server\app_files\processors";
+            string procPaths = @"..\..\..\..\lims_server\app_files\processors";
             var lstProc = procMgr.GetProcessors(procPaths);
             comboBox1.DataSource = lstProc;
             comboBox1.DisplayMember = "Name";
