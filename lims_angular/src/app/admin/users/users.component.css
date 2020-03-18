@@ -1,0 +1,61 @@
+.mat-card {
+  width: 66%;
+  border-radius: 0px;
+  margin-top: 4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.mat-table {
+  width: 99%;
+}
+
+.mat-cell {
+  text-align: center;
+  padding: 24px;
+}
+
+.mat-header-cell {
+  text-align: center;
+  padding: 24px 18px 24px 30px;
+}
+
+.mat-column-name,
+.mat-column-date-added,
+.mat-column-date-disabled {
+  flex: 0 0 33%;
+  width: 33%;
+  text-align: center;
+}
+
+.centered {
+  width: 100%;
+}
+
+.control {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+}
+
+.mat-button {
+  border: 1px solid #303030;
+}
+
+.mat-form-field {
+  margin: 10px;
+}
+
+.mat-spinner {
+  margin: 0 auto;
+}
+
+.statusMessage {
+  margin-top: 1em;
+  text-align: center;
+}
