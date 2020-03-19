@@ -74,7 +74,7 @@ export class AuthService {
     return this.http
       .post<any>(environment.authUrl + "register/", newUser, this.httpOptions)
       .pipe(
-        timeout(5000),
+        // timeout(10000),
         tap((response: any) => {
           console.log("response from users/register: " + response);
         }),
@@ -95,7 +95,7 @@ export class AuthService {
     return this.http
       .post<any>(environment.authUrl + "authenticate/", login, this.httpOptions)
       .pipe(
-        timeout(10000),
+        // timeout(10000),
         tap((response: any) => {
           this.authToken.access = response.token;
           this.authToken.refresh = response.refresh;
