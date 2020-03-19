@@ -9,7 +9,7 @@ using System;
 namespace LimsServer.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/tasks")]
     [ApiController]
     public class TasksController : ControllerBase
     {

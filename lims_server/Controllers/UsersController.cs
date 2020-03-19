@@ -17,7 +17,7 @@ using LimsServer.Entities;
 namespace LimsServer.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {

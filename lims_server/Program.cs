@@ -51,7 +51,6 @@ namespace LimsServer
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://*");
-                    //webBuilder.UseIIS();
                 })
                 .UseSerilog();
 

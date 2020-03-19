@@ -10,7 +10,7 @@ using LimsServer.Services;
 namespace LimsServer.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/workflows")]
     [ApiController]
     public class WorkflowsController : ControllerBase
     {

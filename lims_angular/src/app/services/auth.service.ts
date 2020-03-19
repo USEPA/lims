@@ -95,13 +95,14 @@ export class AuthService {
     return this.http
       .post<any>(environment.authUrl + "authenticate/", login, this.httpOptions)
       .pipe(
-        timeout(5000),
+        timeout(10000),
         tap((response: any) => {
           this.authToken.access = response.token;
           this.authToken.refresh = response.refresh;
           this.authenticated = true;
         }),
         catchError(err => {
+          console.log(err);
           return of({ error: "falied to login user!" });
         })
       );
