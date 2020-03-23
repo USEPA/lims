@@ -103,6 +103,8 @@ namespace LimsServer
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<ITaskService, TaskService>();
 
+            services.AddHostedService<LoadProcessors>();
+
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
