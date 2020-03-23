@@ -35,7 +35,7 @@ export class TaskManagerService implements OnInit {
     };
 
     return this.http.get<any>(environment.apiUrl + "tasks/", options).pipe(
-      timeout(5000),
+      // timeout(5000),
       tap(tasks => {
         if (tasks) {
           this.taskList = [...tasks];
@@ -79,7 +79,7 @@ export class TaskManagerService implements OnInit {
       })
     };
     return this.http.get<any>(environment.apiUrl + "workflows/", options).pipe(
-      timeout(5000),
+      // timeout(5000),
       tap(workflows => {
         if (workflows) {
           this.workflows = [...workflows];
@@ -119,7 +119,7 @@ export class TaskManagerService implements OnInit {
     return this.http
       .post<any>(environment.apiUrl + "workflows/", newWorkflow, options)
       .pipe(
-        timeout(5000),
+        // timeout(5000),
         tap(() => {
           console.log("added new workflow");
         }),
@@ -148,7 +148,7 @@ export class TaskManagerService implements OnInit {
       })
     };
     return this.http.get<any>(environment.apiUrl + "processors/", options).pipe(
-      timeout(5000),
+      // timeout(5000),
       tap(processors => {
         if (processors) {
           this.processors = [...processors];

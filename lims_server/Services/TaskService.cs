@@ -119,6 +119,10 @@ namespace LimsServer.Services
                 {
                     processed = true;
                     string inputPath = System.IO.Path.Combine(workflow.inputFolder, output.Key);
+
+                    DataBackup dbBackup = new DataBackup();
+                    dbBackup.DumpData(id, inputPath, outputPath);
+
                     File.Delete(inputPath);
                     task.outputFile = outputPath;
                     await _context.SaveChangesAsync();

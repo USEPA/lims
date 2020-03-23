@@ -162,6 +162,9 @@ namespace LimsServer
 
             app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
             app.UseHangfireDashboard("/dashboard");
+
+            DataBackup db = new DataBackup();
+            db.ScheduleCleanup();
         }
 
         private static void UpdateDatabase(IApplicationBuilder app)
