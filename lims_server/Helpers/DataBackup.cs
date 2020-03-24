@@ -17,6 +17,7 @@ namespace LimsServer.Helpers
     public class DataBackup
     {
         string backupDB = "lims_data.db";
+        int daysStored = 7;
 
         public DataBackup() { }
 
@@ -82,6 +83,44 @@ namespace LimsServer.Helpers
             return true;
         }
 
+        public string DataCheck(string id, DataContext context)
+        {
+            // Check lims.db for task ID entry
+            List<Entities.Task> task = context.Tasks.Where(t => t.id == id).ToList();
+            if (task.Count == 0)
+            {
+                return String.Format("No task ID found with that id: {0}.", id);
+            }
+
+            // Check lims_data.db for input and output data entries.
+            var conStrBuilder = new SqliteConnectionStringBuilder();
+            conStrBuilder.DataSource = this.backupDB;
+            using (var conn = new SqliteConnection(conStrBuilder.ConnectionString))
+            {
+                conn.Open();
+                string inQuery = "SELECT COUNT(*) FROM InputData WHERE id=@id";
+                var inCmd = conn.CreateCommand();
+                inCmd.CommandText = inQuery;
+                inCmd.Parameters.Add("@id", SqliteType.Text).Value = id;
+                int inCount = Convert.ToInt32(inCmd.ExecuteScalar());
+
+                string outQuery = "SELECT COUNT(*) FROM OutputData WHERE id=@id";
+                var outCmd = conn.CreateCommand();
+                outCmd.CommandText = outQuery;
+                outCmd.Parameters.Add("@id", SqliteType.Text).Value = id;
+                int outCount = Convert.ToInt32(outCmd.ExecuteScalar());
+
+                inCmd.Dispose();
+                outCmd.Dispose();
+                conn.Close();
+                if(inCount == 0 || outCount == 0)
+                {
+                    return String.Format("Data for task ID: {0} is no longer backed up. Backup expired.");
+                }
+            }
+            return "";
+        }
+
         public Dictionary<string, byte[]> GetData(string id)
         {
             var conStrBuilder = new SqliteConnectionStringBuilder();
@@ -129,20 +168,10 @@ namespace LimsServer.Helpers
 
         public byte[] GetTaskData(string id, DataContext context)
         {
-            Entities.Task task = context.Tasks.Where(t => t.id == id).FirstOrDefault();
-            if (task == null)
-            {
-                return null;
-            }
+            Entities.Task task = context.Tasks.Where(t => t.id == id).First();
+
             Dictionary<string, byte[]> data = this.GetData(task.id);
-            if(data == null)
-            {
-                return null;
-            }
-            if(data.Count == 0)
-            {
-                return null;
-            }
+
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             if (data.ContainsKey("input"))
             {
@@ -178,7 +207,7 @@ namespace LimsServer.Helpers
         public void Cleanup()
         {
             // Current data store life set to 1 week
-            long oneWeekTick = DateTime.Now.AddDays(-7).Ticks;       // Tick difference for one week.
+            long oneWeekTick = DateTime.Now.AddDays(-1 * this.daysStored).Ticks;       // Tick difference for one week.
 
             var conStrBuilder = new SqliteConnectionStringBuilder();
             conStrBuilder.DataSource = this.backupDB;

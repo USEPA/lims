@@ -29,10 +29,16 @@ namespace LimsServer.Controllers
         [HttpGet("task/{id}")]
         public async Task<IActionResult> GetTaskData(string id)
         {
-            string fileName = id + "_backup.zip";
             DataBackup db = new DataBackup();
+            string check = db.DataCheck(id, this._context);
+            if (check.Length > 0)
+            {
+                return BadRequest(check);
+            }
+
             try
             {
+                string fileName = id + "_backup.zip";
                 byte[] dataBytes = db.GetTaskData(id, this._context);
                 if (dataBytes == null)
                 {
@@ -51,7 +57,7 @@ namespace LimsServer.Controllers
             catch(Exception ex)
             {
                 Log.Warning(ex, "Error downloading task data.");
-                return View();
+                return BadRequest("Invalid data request.");
             }
         }
 
