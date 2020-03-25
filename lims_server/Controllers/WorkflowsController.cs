@@ -25,9 +25,9 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET: /workflows
+        /// Get all workflows
         /// </summary>
-        /// <returns>All workflows</returns>
+        /// <returns>List of workflows</returns>
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]IWorkflowService _service)
         {
@@ -36,10 +36,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET: api/workflows/ID
+        /// Get the details of a single workflow
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">workflow ID</param>
+        /// <returns>Details of workflow</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, [FromServices]IWorkflowService _service)
         {
@@ -48,10 +48,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// POST: api/workflows
         /// Creates a new workflow
         /// </summary>
-        /// <param name="value">Serialized workflow</param>
+        /// <param name="value">json object containing the variables for a new workflow</param>
+        /// <returns>201 on success with assigned id, 400 on fail</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Workflow value, [FromServices]IWorkflowService _service)
         {
@@ -78,9 +78,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// PUT: api/workflows/ID
+        /// Update workflow with new details
         /// </summary>
-        /// <param name="value">Updated workflow configuration</param>
+        /// <param name="value">json object containing the variables for a workflow</param>
+        /// <returns>No content on success, 400 on fail.</returns>
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] Workflow value, [FromServices]IWorkflowService _service)
         {
@@ -96,9 +97,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// DELETE: api/workflows/ID
+        /// Delete the specified user (marks user as inactive)
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">User to delete</param>
+        /// <returns>No content on success, 400 on fail.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id, [FromServices]IWorkflowService _service)
         {

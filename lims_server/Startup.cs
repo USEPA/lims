@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite;
 using LimsServer.Helpers;
 using LimsServer.Services;
 using AutoMapper;
@@ -13,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Hangfire;
 using Hangfire.Storage.SQLite;
 using Hangfire.JobsLogger;
@@ -21,6 +19,9 @@ using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
 using Serilog;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace LimsServer
 {
@@ -44,7 +45,6 @@ namespace LimsServer
             //services.AddMvc(); // MvcOptions.EnableEndpointRouting = false
             string connString = "Data Source=lims.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
-            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
@@ -112,6 +112,16 @@ namespace LimsServer
                 .UseSQLiteStorage("lims_server.db", new SQLiteStorageOptions())
                 .UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(30))
                 .UseJobsLogger());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Laboratory Information Management System", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,6 +141,12 @@ namespace LimsServer
 
             app.UseStatusCodePages();
             app.UseSerilogRequestLogging();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LIMS API v1");
+            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions

@@ -35,20 +35,14 @@ namespace LimsServer.Controllers
 
         /// <summary>
         /// Loop over the folders in the processors folder.
-        /// Each folder will contain a dll that has a class that 
-        /// implmenets the IProcessor interface
+        /// Each folder will contain a dll that has a class that implmenets the IProcessor interface.
         /// The dll will have the same name as the folder.
-        /// </summary>
-        /// <returns></returns>
-        /// <summary>
-        /// GET: /workflows
         /// </summary>
         /// <returns>All workflows</returns>
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]IProcessorService _service)
         {
             var processors = await _service.GetAll();
-            //var processors = _service.GetAll();
             return new ObjectResult(processors);
         }
 

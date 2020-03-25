@@ -24,9 +24,9 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET: api/Tasks
+        /// Gets details for all tasks.
         /// </summary>
-        /// <returns>all Tasks</returns>
+        /// <returns>Collection of tasks</returns>
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]ITaskService _service)
         {
@@ -35,10 +35,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET: api/Tasks/ID
+        /// Gets details for a single task, specified by ID.
         /// </summary>
-        /// <param name="id">Task ID</param>
-        /// <returns>Task of the specified ID</returns>
+        /// <param name="id">task ID</param>
+        /// <returns>Single task</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, [FromServices]ITaskService _service)
         {
@@ -47,9 +47,9 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// DELETE: api/Tasks/ID
+        /// Deletes a single task, specified by ID. (sets status to CANCELLED)
         /// </summary>
-        /// <param name="id">ID of the task to be deleted.</param>
+        /// <param name="id">task ID</param>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id, [FromServices]ITaskService _service)
         {

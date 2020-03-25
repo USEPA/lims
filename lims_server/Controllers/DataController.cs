@@ -21,10 +21,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET the input and output data for a specified task ID, if available
+        /// Gets the input and output data for a specified task ID, if available.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Random task ID generated on task creation.</param>
+        /// <returns>Compressed zip file containing both input and output files.</returns>
         [AllowAnonymous]
         [HttpGet("task/{id}")]
         public async Task<IActionResult> GetTaskData(string id)

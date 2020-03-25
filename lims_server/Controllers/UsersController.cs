@@ -16,6 +16,7 @@ using LimsServer.Entities;
 
 namespace LimsServer.Controllers
 {
+
     [Authorize]
     [Route("api/users")]
     [ApiController]
@@ -38,17 +39,11 @@ namespace LimsServer.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        //[HttpGet]
-        //public ActionResult<IEnumerable<string>> Get()
-        //{
-        //    string projectRootPath = _hostingEnvironment.ContentRootPath;
-        //    List<string> lst = new List<string>();
-        //    lst.Add(projectRootPath);
-        //    lst.Add("Hello World");
-        //    return lst.ToArray();
-        //}
-
-
+        /// <summary>
+        /// Request to authenticate an existing user with a username and password.
+        /// </summary>
+        /// <param name="userDto">json object containing username and password parameters</param>
+        /// <returns>Authenticated user with security token on success</returns>
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]UserDto userDto)
@@ -86,6 +81,11 @@ namespace LimsServer.Controllers
             });
         }
 
+        /// <summary>
+        /// Register a new user.
+        /// </summary>
+        /// <param name="userDto">json object containing new user parameters</param>
+        /// <returns>Ok on success, BadRequest on fail.</returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody]UserDto userDto)
@@ -106,15 +106,23 @@ namespace LimsServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all registered users.
+        /// </summary>
+        /// <returns>List of users</returns>
         [HttpGet]
         public IActionResult GetAll()
         {
-
             var users =  _userService.GetAll();
             var userDtos = _mapper.Map<IList<UserDto>>(users);
             return Ok(userDtos);
         }
 
+        /// <summary>
+        /// Get details user by specified ID.
+        /// </summary>
+        /// <param name="id">user ID</param>
+        /// <returns>User details</returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -123,6 +131,12 @@ namespace LimsServer.Controllers
             return Ok(userDto);
         }
 
+        /// <summary>
+        /// Update the specified user details
+        /// </summary>
+        /// <param name="id">user ID to be updated</param>
+        /// <param name="userDto">json object for the new details of the user</param>
+        /// <returns>Ok on success, BadRequest on fail</returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]UserDto userDto)
         {
@@ -144,11 +158,5 @@ namespace LimsServer.Controllers
             }
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    _userService.Delete(id);
-        //    return Ok();
-        //}
     }
 }
