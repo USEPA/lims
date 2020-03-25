@@ -53,21 +53,29 @@ namespace LimsServer.Services
 
             // Step 3: Check source directory for files
             List<string> files = new List<string>();
-            if (Directory.Exists(workflow.inputFolder))
+            string dirFileMessage = "";
+            if (new DirectoryInfo(@workflow.inputFolder).Exists)
             {
-                files = Directory.GetFiles(workflow.inputFolder).ToList();
+                files = Directory.GetFiles(@workflow.inputFolder).ToList();
+            }
+            else
+            {
+                dirFileMessage = String.Format("Input directory {0} not found", workflow.inputFolder);
+                Log.Information(dirFileMessage);
+       
             }
             // Step 4: If directory or files do not exist reschedule task
-            if(files.Count == 0)
+            if (files.Count == 0)
             {
-                await this.UpdateStatus(task.id, "SCHEDULED", "No files found");
+                dirFileMessage = (dirFileMessage.Length > 0) ? dirFileMessage : String.Format("No files found in directory: {0}", workflow.inputFolder);
+                await this.UpdateStatus(task.id, "SCHEDULED", dirFileMessage);
                 var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
                 task.start = DateTime.Now.AddMinutes(workflow.interval);
                 await _context.SaveChangesAsync();
 
                 BackgroundJobClient backgroundClient = new BackgroundJobClient();
                 backgroundClient.ChangeState(task.taskID, newSchedule);
-                Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "No files found in input directory.");
+                Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", task.workflowID, task.id, task.taskID, workflow.inputFolder, "No files found in input directory.");
                 return;
             }
 
@@ -87,9 +95,9 @@ namespace LimsServer.Services
             }
 
             // Step 6: Run processor on source file
-            if (!Directory.Exists(workflow.outputFolder))
+            if (!Directory.Exists(@workflow.outputFolder))
             {
-                Directory.CreateDirectory(workflow.outputFolder);
+                Directory.CreateDirectory(@workflow.outputFolder);
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
