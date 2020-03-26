@@ -18,10 +18,10 @@ namespace LimsServer
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
                 .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("/dashboard")))             // The hangfire dashboard queries the api every 1sec, excluding those requests from log
                 .Filter.ByExcluding(c => c.Properties.Any(w => w.Value.ToString().Contains("Worker")))
-                //.Filter.ByExcluding(c => c.Properties.Any(s => s.Value.ToString().Contains("Server")))
                 .Filter.ByExcluding(c => c.Properties.Any(e => e.Value.ToString().Contains("Executed DbCommand")))
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
+                .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try

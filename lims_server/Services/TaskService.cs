@@ -103,14 +103,22 @@ namespace LimsServer.Services
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
             DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
-            if (result.ErrorMessages == null)
+            if (result.ErrorMessages == null && result.TemplateData != null)
             {
                 var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
                 outputs.Add(file, output);
             }
             else
             {
-                string errorMessage = result.ErrorMessages.ToString();
+                string errorMessage = "";
+                if (result.TemplateData == null)
+                {
+                    errorMessage = "Processor results template data is null. ";
+                }
+                if (result.ErrorMessages != null)
+                {
+                    errorMessage = errorMessage + result.ErrorMessages.ToString();
+                }
                 await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
                 Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, errorMessage);
                 return;
@@ -226,8 +234,8 @@ namespace LimsServer.Services
 
             TimeSpan scheduledStart = task.start - DateTime.Now;
 
-            tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), scheduledStart);
-            //await this.RunTask(tsk.id, null);
+            //tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), scheduledStart);
+            await this.RunTask(tsk.id, null);
             await _context.SaveChangesAsync();
             Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
             return tsk;
