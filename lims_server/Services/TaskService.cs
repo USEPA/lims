@@ -103,7 +103,7 @@ namespace LimsServer.Services
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
             DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
-            if (result.ErrorMessages == null && result.TemplateData != null)
+            if (result.ErrorMessage == null && result.TemplateData != null)
             {
                 var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
                 outputs.Add(file, output);
@@ -111,16 +111,22 @@ namespace LimsServer.Services
             else
             {
                 string errorMessage = "";
+                string logMessage = "";
                 if (result.TemplateData == null)
                 {
                     errorMessage = "Processor results template data is null. ";
                 }
-                if (result.ErrorMessages != null)
+                if (result.ErrorMessage != null)
                 {
-                    errorMessage = errorMessage + result.ErrorMessages.ToString();
+                    errorMessage = errorMessage + result.ErrorMessage.ToString();
+                    logMessage = errorMessage;
+                }
+                if (result.LogMessage != null)
+                {
+                    logMessage = result.LogMessage.ToString();
                 }
                 await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, errorMessage);
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, logMessage);
                 return;
             }
 
