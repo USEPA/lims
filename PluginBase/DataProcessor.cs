@@ -204,6 +204,7 @@ namespace PluginBase
             }
         }
         public string Message { get; set;}
+        public string LogMessage { get; set; }
         public string OutputFile { get; set; }
 
         private List<string> _logMessages = null;
