@@ -151,7 +151,7 @@ namespace LimsServer.Services
                 }
                 else
                 {
-                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessages.ToString());
+                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessage);
                 }
             }
 
