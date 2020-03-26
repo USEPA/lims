@@ -234,8 +234,8 @@ namespace LimsServer.Services
 
             TimeSpan scheduledStart = task.start - DateTime.Now;
 
-            //tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), scheduledStart);
-            await this.RunTask(tsk.id, null);
+            tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), scheduledStart);
+            //await this.RunTask(tsk.id, null);
             await _context.SaveChangesAsync();
             Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
             return tsk;
