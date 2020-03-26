@@ -100,7 +100,8 @@ namespace Qubit2_0
             }
             catch(Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
 
             return rm;           

@@ -125,7 +125,7 @@ namespace PluginBase
                 {
                     if (dtRespMsg == null)
                         dtRespMsg = new DataTableResponseMessage();
-                    dtRespMsg.AddErrorAndLogMessage(ex.Message);
+                    dtRespMsg.LogMessage = string.Format("Error processing file: {0}  with Exception - {1}", inputFile,  ex.Message);
                 }
                 return dtRespMsg;
             }
@@ -171,7 +171,7 @@ namespace PluginBase
             }
             catch(Exception ex)
             {
-                rm.AddErrorAndLogMessage("Error writing template file: " + fileName);
+                rm.ErrorMessage = string.Format("Error writing template file: {0}",  fileName);
             }
             return rm;
         }

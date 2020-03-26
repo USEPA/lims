@@ -49,7 +49,8 @@ namespace MiSeq_16s
                 if (worksheet.Dimension == null)
                 {
                     string msg = string.Format("No data in Sheet 1 in InputFile:  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage =msg;
+                    rm.ErrorMessage = msg;
                     return rm;
                 }                
 
@@ -146,8 +147,8 @@ namespace MiSeq_16s
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
-                rm.AddErrorAndLogMessage("Error message: " + ex.Message);
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
 
             rm.TemplateData = dt;

@@ -117,8 +117,8 @@ namespace MassLynx
             }
             catch (Exception ex)
             {
-                rm.AddLogMessage(string.Format("Processor: {0}, Exception: {1}", name, ex.Message));
-                rm.AddErrorAndLogMessage(string.Format("Problem executing processor {0} on input file {1}.", name, input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
             
             return rm;

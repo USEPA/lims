@@ -95,8 +95,8 @@ namespace PluginBase
             //Verify that the file exists
             if (!File.Exists(input_file))
             {
-                rm.ErrorMessages.Add(string.Format("Input data file not found: {0}", input_file));
-                rm.LogMessages.Add(string.Format("Input data file not found: {0}", input_file));
+                rm.ErrorMessage = string.Format("Input data file not found: {0}", input_file);
+                rm.LogMessage = string.Format("Input data file not found: {0}", input_file);
                 return rm;
             }
 
@@ -105,7 +105,8 @@ namespace PluginBase
             string ext = fi.Extension;
             if (string.Compare(ext, file_type, StringComparison.OrdinalIgnoreCase) != 0)
             {
-                rm.AddErrorAndLogMessage(string.Format("Input data file not correct file type. Need {0} , found {1}", file_type, ext));
+                rm.ErrorMessage = string.Format("Input data file not correct file type. Need {0} , found {1}", file_type, ext);
+                rm.LogMessage = string.Format("Input data file not correct file type: {0}", input_file);                
                 return rm;
             }
 
@@ -183,32 +184,17 @@ namespace PluginBase
     public class ResponseMessage
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> LogMessages { 
-            get 
-            { if (_logMessages == null)
-                    return null;
-              else 
-                    return new List<string>(_logMessages); 
-            } 
-        }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> ErrorMessages
-        {
-            get
-            {
-                if (_errorMessages == null)
-                    return null;
-                else 
-                    return new List<string>(_errorMessages);
-            }
-        }
+        public string LogMessage { get; set; } = null;
+        public string ErrorMessage { get; set; } = null;
+
+        
         public string Message { get; set;}
-        public string LogMessage { get; set; }
+       
         public string OutputFile { get; set; }
 
-        private List<string> _logMessages = null;
-        private List<string> _errorMessages = null;                
+        //private List<string> _logMessages = null;
+        //private List<string> _errorMessages = null;                
 
         public ResponseMessage()
         {
@@ -218,43 +204,43 @@ namespace PluginBase
             
         }
 
-        public void AddLogMessage(string message)
-        {
-            if (_logMessages == null)
-                _logMessages = new List<string>();
+        //public void AddLogMessage(string message)
+        //{
+        //    if (_logMessages == null)
+        //        _logMessages = new List<string>();
             
-            _logMessages.Add(message);
-        }
-        public void AddErrorMessage(string message)
-        {
-            if (_errorMessages == null)
-                _errorMessages = new List<string>();
-            _errorMessages.Add(message);
-        }
-        public void AddErrorAndLogMessage(string message)
-        {
-            AddLogMessage(message);
-            AddErrorMessage(message);
-        }
+        //    _logMessages.Add(message);
+        //}
+        //public void AddErrorMessage(string message)
+        //{
+        //    if (_errorMessages == null)
+        //        _errorMessages = new List<string>();
+        //    _errorMessages.Add(message);
+        //}
+        //public void AddErrorAndLogMessage(string message)
+        //{
+        //    AddLogMessage(message);
+        //    AddErrorMessage(message);
+        //}
     }
 
     public class DataResponseMessage : ResponseMessage
     {
         //public Dictionary<string, string> Data { get; }
-        public Dictionary<string, JArray> Data { get; }
+        //public Dictionary<string, JArray> Data { get; }
         public DataResponseMessage()
         {
             //Data = new Dictionary<string, string>();
-            Data = new Dictionary<string, JArray>();
+            //Data = new Dictionary<string, JArray>();
         }
         //public void AddData(string key, string value)
-        public void AddData(string key, JArray value)
-        {
-            if (Data.ContainsKey(key))
-                Data[key] = value;
-            else
-                Data.Add(key, value);
-        }
+        //public void AddData(string key, JArray value)
+        //{
+        //    if (Data.ContainsKey(key))
+        //        Data[key] = value;
+        //    else
+        //        Data.Add(key, value);
+        //}
     }
 
     public class DataTableResponseMessage : ResponseMessage
