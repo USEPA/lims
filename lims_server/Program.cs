@@ -21,7 +21,7 @@ namespace LimsServer
                 .Filter.ByExcluding(c => c.Properties.Any(e => e.Value.ToString().Contains("Executed DbCommand")))
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 14)
                 .CreateLogger();
 
             try
