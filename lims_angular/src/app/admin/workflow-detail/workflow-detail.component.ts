@@ -22,7 +22,6 @@ export class WorkflowDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get("id");
     if (id) {
       this.workflow = this.taskMgr.getWorkflow(id);
-      console.log(this.workflow);
     }
   }
 
