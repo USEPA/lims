@@ -20,17 +20,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   registerUser(
-    email: HTMLInputElement,
+    username: HTMLInputElement,
     password: HTMLInputElement,
     firstname?: HTMLInputElement,
     lastname?: HTMLInputElement,
-    username?: HTMLInputElement
+    email?: HTMLInputElement
   ) {
+    if (username.value.length < 1 || password.value.length < 1) {
+      alert("Username and Password are required");
+      return;
+    }
     this.waitingForResponse = true;
     this.errorMessage = "";
     this.auth
       .registerNewUser(
-        email.value,
+        username.value,
         password.value,
         "unknown",
         "unknown",
