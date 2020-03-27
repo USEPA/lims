@@ -20,21 +20,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   registerUser(
-    firstname: HTMLInputElement,
-    lastname: HTMLInputElement,
-    username: HTMLInputElement,
     email: HTMLInputElement,
-    password: HTMLInputElement
+    password: HTMLInputElement,
+    firstname?: HTMLInputElement,
+    lastname?: HTMLInputElement,
+    username?: HTMLInputElement
   ) {
     this.waitingForResponse = true;
     this.errorMessage = "";
     this.auth
       .registerNewUser(
-        firstname.value,
-        lastname.value,
-        username.value,
         email.value,
         password.value
+        // firstname.value,
+        // lastname.value,
+        // username.value
       )
       .subscribe(response => {
         this.handleRegisterResponse(response);

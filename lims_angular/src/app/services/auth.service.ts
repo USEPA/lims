@@ -58,18 +58,18 @@ export class AuthService {
   // required params - username, password
   // No authentication required
   registerNewUser(
-    firstname: string,
-    lastname: string,
-    email: string,
     username: string,
-    password: string
+    password: string,
+    firstname?: string,
+    lastname?: string,
+    email?: string
   ): Observable<User> {
     const newUser = {
-      firstname,
-      lastname,
-      email,
       username,
-      password
+      password,
+      firstname: firstname || "unknown",
+      lastname: lastname || "unknown",
+      email: email || "unknown"
     };
     return this.http
       .post<any>(environment.authUrl + "register/", newUser, this.httpOptions)

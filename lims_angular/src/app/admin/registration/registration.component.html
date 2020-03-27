@@ -4,7 +4,7 @@
       <mat-card-title>Register New User</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field>
+      <!-- <mat-form-field>
         <mat-label>First Name: </mat-label>
         <input matInput name="f-name" #firstName />
       </mat-form-field>
@@ -15,7 +15,7 @@
       <mat-form-field>
         <mat-label>Email: </mat-label>
         <input matInput name="email" #email />
-      </mat-form-field>
+      </mat-form-field> -->
       <mat-form-field>
         <mat-label>User Name: </mat-label>
         <input matInput name="username" #username />
@@ -30,7 +30,7 @@
         <button
           mat-button
           class="control"
-          (click)="registerUser(firstName, lastName, email, username, password)"
+          (click)="registerUser(username, password)"
         >
           Register User
         </button>
