@@ -1,10 +1,16 @@
 .mat-card {
   border-radius: 0px;
-  min-width: 200px;
+  max-width: 404px;
+}
+
+@media (max-width: 675px) {
+  .mat-card {
+    min-width: 208px;
+    max-width: 208px;
+  }
 }
 
 .centered {
-  width: 35%;
   margin-left: auto;
   margin-right: auto;
 }
