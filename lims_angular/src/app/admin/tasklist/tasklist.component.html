@@ -4,14 +4,8 @@
       <h2>Tasks</h2>
     </mat-card-header>
     <ng-container *ngIf="!loadingTasklist && !loadingWorkflows">
-      <table
-        mat-table
-        [dataSource]="sortableData"
-        matSort
-        matSortActive="task"
-        matSortDirection="asc"
-      >
-        <ng-container matColumnDef="task">
+      <table mat-table [dataSource]="sortableData" matSort>
+        <ng-container matColumnDef="taskID">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Task ID</th>
           <td mat-cell *matCellDef="let element">
             <button mat-button (click)="gotoTaskDetail(element.id)">
@@ -38,7 +32,7 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="date">
+        <ng-container matColumnDef="start">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</th>
           <td mat-cell *matCellDef="let element">
             {{ getFormattedDate(element.start) || "unknown" }}

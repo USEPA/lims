@@ -6,13 +6,13 @@
       </mat-card-header>
       <mat-card-content>
         <p>Workflow: {{ getWorkflowName(task.workflowID) || "unknown" }}</p>
-        <p>Status: {{ task.status || "unknown" }}</p>
-        <p>Start Time: {{ task.start || "unknown" }}</p>
+        <p>Processor: {{ getProcessorName(task.workflowID) || "unknown" }}</p>
+        <p>Start Time: {{ getFormattedDate(task.start) || "unknown" }}</p>
         <p>
           Input Folder: {{ getInputFolderPath(task.workflowID) || "unknown" }}
         </p>
-        <p>Processor: {{ getProcessorName(task.workflowID) || "unknown" }}</p>
-        <p>Error: {{ task.error || "none" }}</p>
+        <p>Status: {{ task.status || "unknown" }}</p>
+        <p>Status message: {{ task.message || "none" }}</p>
       </mat-card-content>
       <div class="controls">
         <button mat-button class="control" (click)="rerunTask()">

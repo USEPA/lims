@@ -48,4 +48,8 @@ export class TaskDetailComponent implements OnInit {
   back(): void {
     this.location.back();
   }
+
+  getFormattedDate(date): string {
+    return new Date(date).toLocaleString();
+  }
 }

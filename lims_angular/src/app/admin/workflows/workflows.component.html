@@ -28,7 +28,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="input-path">
+      <ng-container matColumnDef="inputFolder">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Input File Location
         </th>
@@ -37,7 +37,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="output-path">
+      <ng-container matColumnDef="outputFolder">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Output File Destination
         </th>
@@ -46,7 +46,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="frequency">
+      <ng-container matColumnDef="interval">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Interval</th>
         <td mat-cell *matCellDef="let element">
           {{ element.interval || "unknown" }}

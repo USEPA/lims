@@ -19,7 +19,7 @@ export class TasklistComponent implements OnInit {
   loadingWorkflows: boolean;
   statusMessage: string;
 
-  columnNames = ["task", "workflow", "status", "date"];
+  columnNames = ["taskID", "workflow", "status", "start"];
   taskList: Task[];
   sortableData = new MatTableDataSource();
   workflows: Workflow[];
@@ -84,11 +84,7 @@ export class TasklistComponent implements OnInit {
   }
 
   getFormattedDate(date) {
-    const _date = new Date(date);
-    const hours = _date.getHours();
-    const mins = _date.getMinutes();
-    const secs = _date.getSeconds();
-    return `${hours}:${mins}:${secs} ${_date.toDateString()}`;
+    return new Date(date).toLocaleString();
   }
 
   cancelTask(): void {

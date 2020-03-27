@@ -19,9 +19,9 @@ export class WorkflowsComponent implements OnInit {
   columnNames = [
     "name",
     "processor",
-    "input-path",
-    "output-path",
-    "frequency",
+    "inputFolder",
+    "outputFolder",
+    "interval",
     "active"
   ];
   workflows: Workflow[];
