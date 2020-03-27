@@ -97,14 +97,14 @@ namespace LimsServer.Services
             try
             {
                 // Step 6: Run processor on source file
-                if (!Directory.Exists(@workflow.outputFolder))
+                if (!new DirectoryInfo(@workflow.outputFolder).Exists)
                 {
                     Directory.CreateDirectory(@workflow.outputFolder);
                 }
             }
-            catch(Exception ex)
+            catch(UnauthorizedAccessException ex)
             {
-                Log.Warning("Task unable to create output directory. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Output Directory: {3}", task.workflowID, task.id, task.taskID, workflow.outputFolder);
+                Log.Warning("Task unable to create output directory, unauthorized access exception. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Output Directory: {3}", task.workflowID, task.id, task.taskID, workflow.outputFolder);
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
