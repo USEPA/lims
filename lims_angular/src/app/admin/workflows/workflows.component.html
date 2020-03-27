@@ -1,7 +1,15 @@
 <div class="centered">
+  <ng-container *ngIf="editingWorkflow">
+    <app-workflow-editor (editing)="isEditing($event)"></app-workflow-editor>
+  </ng-container>
+
   <mat-card>
     <mat-card-header>
       <h2>Workflows</h2>
+      <div class="centered"></div>
+      <button mat-button class="control" (click)="addWorkflow()">
+        Add Workflow
+      </button>
     </mat-card-header>
     <table mat-table [dataSource]="sortableData" matSort>
       <ng-container matColumnDef="name">
@@ -55,14 +63,5 @@
     <ng-container *ngIf="statusMessage">
       <div class="statusMessage">{{ statusMessage }}</div>
     </ng-container>
-
-    <div class="controls">
-      <button mat-button class="control" (click)="addWorkflow()">
-        Add Workflow
-      </button>
-    </div>
   </mat-card>
-  <ng-container *ngIf="editingWorkflow">
-    <app-workflow-editor (editing)="isEditing($event)"></app-workflow-editor>
-  </ng-container>
 </div>
