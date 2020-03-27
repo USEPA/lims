@@ -45,8 +45,24 @@ export class WorkflowEditorComponent implements OnInit {
     outputFolder: HTMLInputElement,
     interval: HTMLInputElement
   ): void {
+    if (name.value.length < 1) {
+      this.statusMessage = "Workflows must include a workflow name";
+      return;
+    }
     if (processor.value === "null" || processor.value === undefined) {
       this.statusMessage = "Workflows must include a valid processor";
+      return;
+    }
+    if (inputFolder.value.length < 1) {
+      this.statusMessage = "You must provide a path to the input folder";
+      return;
+    }
+    if (outputFolder.value.length < 1) {
+      this.statusMessage = "You must provide a path to the output folder";
+      return;
+    }
+    if (+interval.value < 1) {
+      this.statusMessage = "Intervals must be at least one minute induration";
       return;
     }
     const newWorkflow = {
