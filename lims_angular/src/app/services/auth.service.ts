@@ -60,16 +60,16 @@ export class AuthService {
   registerNewUser(
     username: string,
     password: string,
-    firstname?: string,
-    lastname?: string,
-    email?: string
+    firstname: string,
+    lastname: string,
+    email: string
   ): Observable<User> {
     const newUser = {
       username,
       password,
-      firstname: firstname || "unknown",
-      lastname: lastname || "unknown",
-      email: email || "unknown"
+      firstname,
+      lastname,
+      email
     };
     return this.http
       .post<any>(environment.authUrl + "register/", newUser, this.httpOptions)

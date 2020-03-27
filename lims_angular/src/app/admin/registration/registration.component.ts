@@ -31,10 +31,10 @@ export class RegistrationComponent implements OnInit {
     this.auth
       .registerNewUser(
         email.value,
-        password.value
-        // firstname.value,
-        // lastname.value,
-        // username.value
+        password.value,
+        "unknown",
+        "unknown",
+        "unknown"
       )
       .subscribe(response => {
         this.handleRegisterResponse(response);
@@ -46,12 +46,13 @@ export class RegistrationComponent implements OnInit {
     this.waitingForResponse = false;
     if (response) {
       if (response.error) {
-        this.errorMessage = response.error;
+        this.errorMessage = "Failed to register user!";
       } else {
-        console.log(response);
+        console.log("this is the registration response: " + response);
         this.cancel();
       }
     } else {
+      this.errorMessage = "Failed to register user!";
       this.cancel();
     }
   }
