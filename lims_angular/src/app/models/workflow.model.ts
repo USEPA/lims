@@ -5,4 +5,5 @@ export interface Workflow {
   inputFolder: string;
   outputFolder: string;
   interval: number;
+  active: boolean;
 }

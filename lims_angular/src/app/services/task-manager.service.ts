@@ -103,7 +103,8 @@ export class TaskManagerService implements OnInit {
       processor: null,
       inputFolder: null,
       outputFolder: null,
-      interval: null
+      interval: null,
+      active: null
     };
   }
 
@@ -135,8 +136,25 @@ export class TaskManagerService implements OnInit {
   }
 
   // api call
-  removeWorkflow(id: number): void {
-    // rend request to remove task from tasklist
+  disableWorkflow(id: number): Observable<any> {
+    console.log("disabling workflow: ", id);
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: "Bearer " + this.auth.getAuthToken(),
+        "Content-Type": "application/json"
+      })
+    };
+    return this.http
+      .delete<any>(environment.apiUrl + "workflows/" + id, options)
+      .pipe(
+        // timeout(5000),
+        tap(() => {
+          console.log("disabled workflow: ", id);
+        }),
+        catchError(err => {
+          return of({ error: "failed to disable workflow!" });
+        })
+      );
   }
 
   // api/processors

@@ -12,13 +12,18 @@
         <p>Input Folder: {{ workflow.inputFolder || "unknown" }}</p>
         <p>Output Folder: {{ workflow.outputFolder || "unknown" }}</p>
         <p>Interval: {{ workflow.interval || "unknown" }}</p>
+        <p>Active: {{ workflow.active }}</p>
       </mat-card-content>
       <div class="controls">
-        <button mat-button class="control" (click)="editWorkflow()">
+        <!-- <button mat-button class="control" (click)="editWorkflow()">
           Edit Workflow
-        </button>
-        <button mat-button class="control" (click)="deleteWorkflow()">
-          Delete Workflow
+        </button> -->
+        <button
+          mat-button
+          class="control"
+          (click)="disableWorkflow(workflow.id)"
+        >
+          Disable Workflow
         </button>
         <button mat-button class="control" (click)="back()">Back</button>
       </div>

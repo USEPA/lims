@@ -16,7 +16,14 @@ export class WorkflowsComponent implements OnInit {
   loadingWorkflows: boolean;
   statusMessage: string;
 
-  columnNames = ["name", "processor", "input-path", "output-path", "frequency"];
+  columnNames = [
+    "name",
+    "processor",
+    "input-path",
+    "output-path",
+    "frequency",
+    "active"
+  ];
   workflows: Workflow[];
   sortableData = new MatTableDataSource();
 

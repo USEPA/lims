@@ -22,6 +22,7 @@ export class WorkflowDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get("id");
     if (id) {
       this.workflow = this.taskMgr.getWorkflow(id);
+      console.log(this.workflow);
     }
   }
 
@@ -31,8 +32,8 @@ export class WorkflowDetailComponent implements OnInit {
   }
 
   // api call
-  deleteWorkflow(): void {
-    // remove workflow from workflow list
+  disableWorkflow(workflowID): void {
+    this.taskMgr.disableWorkflow(workflowID).subscribe();
   }
 
   back(): void {
