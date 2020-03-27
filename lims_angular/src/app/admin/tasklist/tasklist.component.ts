@@ -19,7 +19,7 @@ export class TasklistComponent implements OnInit {
   loadingWorkflows: boolean;
   statusMessage: string;
 
-  columnNames = ["task", "workflow", "status", "date", "cancel"];
+  columnNames = ["task", "workflow", "status", "date"];
   taskList: Task[];
   sortableData = new MatTableDataSource();
   workflows: Workflow[];
