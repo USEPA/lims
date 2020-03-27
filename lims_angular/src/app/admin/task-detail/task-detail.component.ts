@@ -20,7 +20,6 @@ export class TaskDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // the + is a TS macro for converting type of a string to a number
     const id = this.route.snapshot.paramMap.get("id");
     this.task = this.taskMgr.getTask(id);
   }
