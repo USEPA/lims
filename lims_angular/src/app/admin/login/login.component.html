@@ -1,5 +1,9 @@
 <div class="centered">
-  <mat-card class="login" *ngIf="!registeringUser">
+  <mat-card
+    class="login"
+    *ngIf="!registeringUser"
+    (keyup.enter)="login(username, password)"
+  >
     <h2>Login</h2>
     <mat-card-content>
       <div class="centered">

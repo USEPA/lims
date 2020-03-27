@@ -1,5 +1,8 @@
 <div class="centered">
-  <mat-card class="task-detail">
+  <mat-card
+    class="task-detail"
+    (keyup.enter)="registerUser(username, password)"
+  >
     <mat-card-header>
       <mat-card-title>Register New User</mat-card-title>
     </mat-card-header>
