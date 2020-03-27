@@ -115,7 +115,7 @@ namespace LimsServer.Helpers
                 conn.Close();
                 if(inCount == 0 || outCount == 0)
                 {
-                    return String.Format("Data for task ID: {0} is no longer backed up. Backup expired.");
+                    return String.Format("Data for task ID: {0} is no longer backed up. Backup expired.", id);
                 }
             }
             return "";
@@ -206,8 +206,13 @@ namespace LimsServer.Helpers
 
         public void Cleanup()
         {
+            Log.Information("Backup database cleanup started. Current data storage time: {0}", this.daysStored);
             // Current data store life set to 1 week
-            long oneWeekTick = DateTime.Now.AddDays(-1 * this.daysStored).Ticks;       // Tick difference for one week.
+            long oneWeekTick = DateTime.UtcNow.AddDays(-1 * this.daysStored).Ticks;       // Tick difference for one week.
+
+            // TESTING
+            // long testTick = DateTime.UtcNow.AddMinutes(-5).Ticks;
+            // oneWeekTick = testTick;
 
             var conStrBuilder = new SqliteConnectionStringBuilder();
             conStrBuilder.DataSource = this.backupDB;
@@ -219,23 +224,27 @@ namespace LimsServer.Helpers
                     conn.Open();
                     using (var trans = conn.BeginTransaction())
                     {
-                        var com = conn.CreateCommand();
+                        var com1 = conn.CreateCommand();
+                        string query = String.Format("DELETE FROM InputData WHERE create_date < @tick");
+                        com1.CommandText = query;
+                        com1.Parameters.Add("@tick", SqliteType.Integer).Value = oneWeekTick;
+                        com1.ExecuteNonQuery();
 
-                        string query = String.Format("DELETE FROM InputData WHERE create_date < {0})", oneWeekTick);
-                        com.CommandText = query;
-                        com.ExecuteNonQuery();
-
-                        query = String.Format("DELETE FROM OutputData WHERE create_date < {0})", oneWeekTick);
-                        com.CommandText = query;
-                        com.ExecuteNonQuery();
-
-                        query = String.Format("VACUUM");
-                        com.CommandText = query;
-                        com.ExecuteNonQuery();
+                        var com2 = conn.CreateCommand();
+                        query = String.Format("DELETE FROM OutputData WHERE create_date < @tick");
+                        com2.CommandText = query;
+                        com2.Parameters.Add("@tick", SqliteType.Integer).Value = oneWeekTick;
+                        com2.ExecuteNonQuery();
 
                         trans.Commit();
                     }
+                    var com3 = conn.CreateCommand();
+                    string query3 = String.Format("VACUUM");
+                    com3.CommandText = query3;
+                    com3.ExecuteNonQuery();
+
                 }
+                Log.Information("Backup database cleanup completed.");
             }
             catch (SqliteException ex)
             {
@@ -250,6 +259,9 @@ namespace LimsServer.Helpers
 
             // Cleanup Scheduled for every 24 hours.
             RecurringJob.AddOrUpdate(id, () => this.Cleanup(), Cron.Daily);
+            //TESTING
+            //RecurringJob.AddOrUpdate(id, () => this.Cleanup(), Cron.Minutely);
+
         }
     }
 }

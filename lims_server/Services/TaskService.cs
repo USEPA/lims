@@ -36,8 +36,8 @@ namespace LimsServer.Services
 
             if (!task.status.Equals("SCHEDULED"))
             {
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Current Status: {3}, Message: {4}", task.workflowID, task.id, task.taskID, task.status, "Task status is not marked as schedulled.");
                 await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Task status is not marked as schedulled.");
                 return;
             }
             // Step 2: Change status to "STARTING"
@@ -46,8 +46,8 @@ namespace LimsServer.Services
             var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
             if(workflow == null)
             {
-                await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + workflow.id);
                 Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Workflow for the Task.");
+                await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + workflow.id);
                 return;
             }
 
@@ -89,15 +89,22 @@ namespace LimsServer.Services
             ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
             if(processor == null)
             {
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}, Processor: {4}", task.workflowID, task.id, task.taskID, "Unable to find Processor for the Task.", workflow.processor);
                 await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Processor for the Task.");
                 return;
             }
 
-            // Step 6: Run processor on source file
-            if (!Directory.Exists(@workflow.outputFolder))
+            try
             {
-                Directory.CreateDirectory(@workflow.outputFolder);
+                // Step 6: Run processor on source file
+                if (!Directory.Exists(@workflow.outputFolder))
+                {
+                    Directory.CreateDirectory(@workflow.outputFolder);
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Warning("Task unable to create output directory. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Output Directory: {3}", task.workflowID, task.id, task.taskID, workflow.outputFolder);
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
@@ -118,12 +125,12 @@ namespace LimsServer.Services
                 }
                 if (result.ErrorMessage != null)
                 {
-                    errorMessage = errorMessage + result.ErrorMessage.ToString();
+                    errorMessage = errorMessage + result.ErrorMessage;
                     logMessage = errorMessage;
                 }
                 if (result.LogMessage != null)
                 {
-                    logMessage = result.LogMessage.ToString();
+                    logMessage = result.LogMessage;
                 }
                 await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
                 Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, logMessage);
@@ -174,7 +181,7 @@ namespace LimsServer.Services
             else
             {
                 newStatus = "CANCELLED";
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Failed to process input file");
+                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Failed to process input file.");
             }
             await this.UpdateStatus(task.id, newStatus);          
         }
