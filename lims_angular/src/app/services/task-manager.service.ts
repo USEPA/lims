@@ -69,7 +69,6 @@ export class TaskManagerService implements OnInit {
   cancelTask(id: number): void {
     // remove task from tasklist
   }
-
   // GET/api/workflow - returns all workflows
   getWorkflows(): Observable<any> {
     const options = {
