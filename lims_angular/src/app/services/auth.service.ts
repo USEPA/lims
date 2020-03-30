@@ -6,7 +6,10 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError, of } from "rxjs";
 import { timeout, catchError, tap } from "rxjs/operators";
 
+import { CookieService } from "ngx-cookie-service";
+
 import { User } from "../models/user.model";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
@@ -23,7 +26,11 @@ export class AuthService {
   private authenticated = false;
   private authToken = { access: null, refresh: null };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+    private router: Router
+  ) {}
 
   // /Users - returns json: all registered users
   getUsers(): Observable<any> {
@@ -97,9 +104,9 @@ export class AuthService {
       .pipe(
         // timeout(10000),
         tap((response: any) => {
-          this.authToken.access = response.token;
-          this.authToken.refresh = response.refresh;
-          this.authenticated = true;
+          // this.authToken.access = response.token;
+          // this.authToken.refresh = response.refresh;
+          this.setToken(response.token, response.refresh);
         }),
         catchError(err => {
           console.log(err);
@@ -109,8 +116,11 @@ export class AuthService {
   }
 
   logout(): void {
+    // need to send refresh token to server to invalidate stored token?
     this.authenticated = false;
     this.authToken = { access: null, refresh: null };
+    this.cookieService.set("JWT_TOKEN", null);
+    this.cookieService.set("JWT_REFRESH_TOKEN", null);
   }
 
   // api call
@@ -131,5 +141,21 @@ export class AuthService {
 
   getAuthRefreshToken(): string {
     return this.authToken.refresh;
+  }
+
+  checkForStoredToken(token, rToken): void {
+    if (token && token !== null && token !== "null") {
+      this.setToken(token, rToken);
+    }
+  }
+
+  setToken(token, rToken) {
+    this.authToken = {
+      access: token,
+      refresh: rToken
+    };
+    this.cookieService.set("JWT_TOKEN", token);
+    this.cookieService.set("JWT_REFRESH_TOKEN", rToken);
+    this.authenticated = true;
   }
 }

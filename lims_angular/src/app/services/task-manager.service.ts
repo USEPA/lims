@@ -137,7 +137,6 @@ export class TaskManagerService implements OnInit {
 
   // api call
   disableWorkflow(id: number): Observable<any> {
-    console.log("disabling workflow: ", id);
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
@@ -148,9 +147,6 @@ export class TaskManagerService implements OnInit {
       .delete<any>(environment.apiUrl + "workflows/" + id, options)
       .pipe(
         // timeout(5000),
-        tap(() => {
-          console.log("disabled workflow: ", id);
-        }),
         catchError(err => {
           return of({ error: "failed to disable workflow!" });
         })

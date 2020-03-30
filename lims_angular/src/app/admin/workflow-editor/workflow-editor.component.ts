@@ -3,6 +3,7 @@ import { TaskManagerService } from "src/app/services/task-manager.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { Workflow } from "src/app/models/workflow.model";
+import { CompileShallowModuleMetadata } from "@angular/compiler";
 
 @Component({
   selector: "app-workflow-editor",
@@ -36,6 +37,10 @@ export class WorkflowEditorComponent implements OnInit {
         }
       }
     });
+  }
+
+  updateInputPath(event): void {
+    console.log(event);
   }
 
   saveWorkflow(

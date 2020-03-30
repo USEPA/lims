@@ -32,7 +32,9 @@ export class WorkflowDetailComponent implements OnInit {
 
   // api call
   disableWorkflow(workflowID): void {
-    this.taskMgr.disableWorkflow(workflowID).subscribe();
+    this.taskMgr.disableWorkflow(workflowID).subscribe(() => {
+      this.back();
+    });
   }
 
   back(): void {
