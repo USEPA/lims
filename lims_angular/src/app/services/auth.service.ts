@@ -82,9 +82,6 @@ export class AuthService {
       .post<any>(environment.authUrl + "register/", newUser, this.httpOptions)
       .pipe(
         // timeout(10000),
-        tap((response: any) => {
-          console.log("response from users/register: " + response);
-        }),
         catchError(err => {
           return of({ error: "failed to register user!" });
         })

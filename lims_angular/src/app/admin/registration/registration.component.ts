@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 
 import { AuthService } from "src/app/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-registration",
@@ -12,7 +13,7 @@ export class RegistrationComponent implements OnInit {
   waitingForResponse: boolean;
   errorMessage: string;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.waitingForResponse = false;
@@ -41,23 +42,31 @@ export class RegistrationComponent implements OnInit {
         "unknown"
       )
       .subscribe(response => {
-        this.handleRegisterResponse(response);
+        this.handleRegisterResponse(response, username.value, password.value);
       });
   }
 
-  handleRegisterResponse(response): void {
-    // this endpoint returns null on success
+  handleRegisterResponse(response, username, password): void {
+    // this endpoint returns a null response on success
     this.waitingForResponse = false;
     if (response) {
       if (response.error) {
         this.errorMessage = "Failed to register user!";
       } else {
-        console.log("this is the registration response: " + response);
+        // should never get here
+        console.log("response not null and no error: " + response);
         this.cancel();
       }
     } else {
-      this.errorMessage = "Failed to register user!";
-      this.cancel();
+      // registration successful, log in user
+      this.auth.login(username, password).subscribe(res => {
+        if (res.error) {
+          this.errorMessage = "Registered new user, but auto login failed";
+        } else {
+          this.cancel();
+          this.router.navigateByUrl("/tasks");
+        }
+      });
     }
   }
 
