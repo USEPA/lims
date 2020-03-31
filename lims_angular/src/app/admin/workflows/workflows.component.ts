@@ -31,7 +31,7 @@ export class WorkflowsComponent implements OnInit {
 
   constructor(private taskMgr: TaskManagerService, private router: Router) {}
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   ngOnInit() {
     this.loadingWorkflows = true;
     this.statusMessage = "";
@@ -49,6 +49,11 @@ export class WorkflowsComponent implements OnInit {
             this.workflows = [...workflows];
             this.sortableData.data = [...this.workflows];
             this.sortableData.sort = this.sort;
+            this.sort.sort({
+              id: "name",
+              start: "desc",
+              disableClear: false
+            });
             this.statusMessage = "";
           } else {
             this.statusMessage = "There are currently no Workflows available";

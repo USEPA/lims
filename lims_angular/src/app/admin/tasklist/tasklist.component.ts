@@ -22,7 +22,7 @@ export class TasklistComponent implements OnInit {
   loadingWorkflows: boolean;
   statusMessage: string;
 
-  columnNames = ["taskID", "workflowName", "status", "start"];
+  columnNames = ["taskID", "workflowID", "status", "start"];
   taskList: Task[];
   sortableData = new MatTableDataSource();
   workflows: Workflow[];
@@ -33,7 +33,7 @@ export class TasklistComponent implements OnInit {
     private router: Router
   ) {}
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   ngOnInit() {
     this.loadingTasklist = true;
     this.loadingWorkflows = true;
@@ -55,8 +55,22 @@ export class TasklistComponent implements OnInit {
           } else {
             if (tasks && tasks.length > 0) {
               this.taskList = [...tasks];
-              this.sortableData.data = this.taskList;
+              const colsOnly = [];
+              for (let task of this.taskList) {
+                colsOnly.push({
+                  taskID: task.taskID,
+                  workflowID: task.workflowID,
+                  status: task.status,
+                  start: task.start
+                });
+              }
+              this.sortableData.data = [...colsOnly];
               this.sortableData.sort = this.sort;
+              this.sort.sort({
+                id: "taskID",
+                start: "desc",
+                disableClear: false
+              });
               this.statusMessage = "";
             } else {
               this.statusMessage = "There are currently no Tasks scheduled";

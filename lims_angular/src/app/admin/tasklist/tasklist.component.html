@@ -3,10 +3,12 @@
     <mat-card-header>
       <h2>Tasks</h2>
     </mat-card-header>
-    <ng-container *ngIf="!loadingTasklist && !loadingWorkflows">
-      <table mat-table [dataSource]="sortableData" matSort matSortStart="desc">
+    <ng-container>
+      <table mat-table [dataSource]="sortableData" matSort>
         <ng-container matColumnDef="taskID">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Task ID</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header start="asc">
+            Task ID
+          </th>
           <td mat-cell *matCellDef="let element">
             <button mat-button (click)="gotoTaskDetail(element.id)">
               {{ element.taskID || "unknown" }}
@@ -14,7 +16,7 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="workflowName">
+        <ng-container matColumnDef="workflowID">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Workflow
           </th>
