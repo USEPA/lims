@@ -67,6 +67,10 @@ namespace PicoGreen
                 for (int row = 18; row<=numRows; row++)
                 {
                     wellID = GetXLStringValue(worksheet.Cells[row, 1]);
+                    //if the cell is empty then start new data block 
+                    if (string.IsNullOrWhiteSpace(wellID))
+                        continue;
+
                     //if the cell contains 'Well ID' then start new data block 
                     if (wellID.Equals("Well ID", StringComparison.OrdinalIgnoreCase))
                         continue;
@@ -75,7 +79,14 @@ namespace PicoGreen
                     string aliquot = aliquot_dilFactor[0];
                     string dilFactor = aliquot_dilFactor[1];
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
-                    double measuredVal = GetXLDoubleValue(worksheet.Cells[row, 5]);
+                    string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
+
+                    //If measured value is “<0.0” report value as 0
+                    //If measured value is “>1050.0” report value as 1050
+                    if (measuredVal.Contains("<"))
+                        measuredVal = "0";
+                    else if (measuredVal.Contains(">"))
+                        measuredVal = "1050";
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;

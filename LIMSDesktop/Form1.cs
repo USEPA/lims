@@ -76,7 +76,7 @@ namespace LIMSDesktop
             else
                 lblMessage.Text = dtRespMsg.Message;
 
-            if (string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
+            if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
                 LogMessage(dtRespMsg.LogMessage);
             else
 
@@ -85,23 +85,29 @@ namespace LIMSDesktop
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Title = "Save output file";
-            sfd.FileName = txtInput.Text + ".xlsx";
-            DialogResult dr = sfd.ShowDialog();
+            //SaveFileDialog sfd = new SaveFileDialog();
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Save output file location";
+            fbd.ShowNewFolderButton = true;
+            string fName = Path.GetFileNameWithoutExtension(txtInput.Text);
+            
+            //sfd.FileName = fName;
+            //sfd.Filter = @"Excel Files (*.xlsx)|*.xlsx";
+            DialogResult dr = fbd.ShowDialog();
             if (dr != DialogResult.OK)
                 return;
 
             
             ProcessorManager procMgr = new ProcessorManager();
             DataTable dt = templateDataGridView.DataSource as DataTable;
+            //string dir = Path.GetDirectoryName(sfd.FileName);
 
-            string outPath = Path.Combine(sfd.FileName, "output");
-            DirectoryInfo di = new DirectoryInfo(outPath);
+            //string outPath = Path.Combine(sfd.FileName, "output");
+            DirectoryInfo di = new DirectoryInfo(fbd.SelectedPath);
             if (!di.Exists)
                 di.Create();
 
-            procMgr.WriteTemplateOutputFile(sfd.FileName, dt);
+            procMgr.WriteTemplateOutputFile(fbd.SelectedPath, dt);
         }
 
         private void LogMessage(string message)
