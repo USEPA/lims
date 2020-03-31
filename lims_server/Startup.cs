@@ -22,6 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace LimsServer
 {
@@ -129,6 +130,17 @@ namespace LimsServer
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
+            app.Use(async (HttpContext context, Func<Task> next) =>
+            {
+                await next.Invoke();
+
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = new PathString("/index.html");
+                    await next.Invoke();
+                }
+            });
+
             //UpdateDatabase(app);
             if (env.IsDevelopment())
             {
@@ -140,7 +152,7 @@ namespace LimsServer
                 app.UseHsts();
             }
 
-            app.UseStatusCodePages();
+            //app.UseStatusCodePages();
             app.UseSerilogRequestLogging();
 
             app.UseSwagger();
@@ -160,6 +172,7 @@ namespace LimsServer
                         context.Context.Response.Headers.Add("Expires", "-1");
                     }
                 }
+                
             });
 
             // global cors policy
