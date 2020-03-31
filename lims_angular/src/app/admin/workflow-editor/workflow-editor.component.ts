@@ -1,9 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { TaskManagerService } from "src/app/services/task-manager.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 import { Workflow } from "src/app/models/workflow.model";
-import { CompileShallowModuleMetadata } from "@angular/compiler";
 
 @Component({
   selector: "app-workflow-editor",
@@ -19,7 +18,6 @@ export class WorkflowEditorComponent implements OnInit {
 
   constructor(
     private taskMgr: TaskManagerService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 

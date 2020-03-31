@@ -7,6 +7,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
+import { CookieService } from "ngx-cookie-service";
+
 import { EffectsModule } from "@ngrx/effects";
 
 import { MatInputModule } from "@angular/material/input";
@@ -68,7 +70,7 @@ import { ProcessorsComponent } from "./admin/processors/processors.component";
     MatFileUploadModule,
     MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
