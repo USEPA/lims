@@ -77,6 +77,7 @@ namespace LimsServer.Controllers
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Admin = user.Admin,
                 Token = tokenString
             });
         }
