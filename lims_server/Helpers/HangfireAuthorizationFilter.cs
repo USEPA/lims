@@ -22,7 +22,7 @@ namespace LimsServer.Helpers
         {
             var http = context.GetHttpContext();
             var jwt = http.Request.Cookies["JWT_TOKEN"];
-            if(jwt == null) 
+            if(jwt == "null") 
             { 
                 return false; 
             }
@@ -37,7 +37,7 @@ namespace LimsServer.Helpers
             var userID = Int32.Parse(token.Claims.First(c => c.Type == "unique_name").Value);
             var userService = context.GetHttpContext().RequestServices.GetRequiredService<IUserService>();
             var user = userService.GetById(userID);
-            if(user.Admin)
+            if(user != null)
             {
                 return true;
             }
