@@ -14,8 +14,8 @@ namespace LimsServer.Services
     {
         Task<IEnumerable<Workflow>> GetAll();
         Task<Workflow> GetById(string id);
-        Task<Workflow> Create(Workflow workflow);
-        Task<bool> Update(Workflow workflow);
+        Task<Workflow> Create(Workflow workflow, bool bypass = false);
+        Task<bool> Update(Workflow workflow, bool bypass = false);
         Task<bool> Delete(string id);
     }
     public class WorkflowService : IWorkflowService
@@ -31,7 +31,7 @@ namespace LimsServer.Services
         /// </summary>
         /// <param name="workflow">New workflow to add</param>
         /// <returns>The added workflow, as seen from the db context, or an empty workflow with an error message.</returns>
-        public async Task<Workflow> Create(Workflow workflow)
+        public async Task<Workflow> Create(Workflow workflow, bool bypass = false)
         {
             string workflowID = System.Guid.NewGuid().ToString();
             workflow.id = workflowID;
@@ -42,13 +42,14 @@ namespace LimsServer.Services
                 await _context.SaveChangesAsync();
                 string id = System.Guid.NewGuid().ToString();
                 Log.Information("New LIMS Workflow, ID: {0}, Initial Task ID: {1}", workflowID, id);
+                if (!bypass)
+                {
+                    LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
 
-                LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
-
-                TaskService ts = new TaskService(this._context);
-                var task = await ts.Create(tsk);
-                await _context.SaveChangesAsync();
-
+                    TaskService ts = new TaskService(this._context);
+                    var task = await ts.Create(tsk);
+                    await _context.SaveChangesAsync();
+                }
                 return result.Entity;
             }
             catch(Exception ex)
@@ -113,15 +114,23 @@ namespace LimsServer.Services
         /// <returns>the workflow with the specified ID</returns>
         public async Task<Workflow> GetById(string id)
         {
-            var workflows = await _context.Workflows.SingleAsync(w => w.id == id);
-            return workflows as Workflow;
+            try
+            {
+                var workflows = await _context.Workflows.SingleAsync(w => w.id == id);
+                return workflows as Workflow;
+            }
+            catch(Exception ex)
+            {
+                Log.Information("No workflow found with id: {0}", id);
+                return new Workflow();
+            }
         }
 
         /// <summary>
         /// Updates the workflow provided by id
         /// </summary>
         /// <param name="workflow"></param>
-        public async System.Threading.Tasks.Task<bool> Update(Workflow _workflow)
+        public async System.Threading.Tasks.Task<bool> Update(Workflow _workflow, bool bypass = false)
         {
             string id = _workflow.id;
             var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
@@ -143,11 +152,14 @@ namespace LimsServer.Services
                         Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
                     }
                 }
-                LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
-                TaskService ts = new TaskService(this._context);
-                var task = await ts.Create(tsk);
-                await _context.SaveChangesAsync();
-                Log.Information("Created new Task for updated Workflow ID: {0}, Updated Task ID: {1}, Hangfire ID: {2}", id, tsk.id, tsk.taskID);
+                if (!bypass)
+                {
+                    LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
+                    TaskService ts = new TaskService(this._context);
+                    var task = await ts.Create(tsk);
+                    await _context.SaveChangesAsync();
+                    Log.Information("Created new Task for updated Workflow ID: {0}, Updated Task ID: {1}, Hangfire ID: {2}", id, tsk.id, tsk.taskID);
+                }
                 return true;
             }
             else
