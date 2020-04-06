@@ -141,7 +141,6 @@ namespace LimsServer
                 }
             });
 
-            //UpdateDatabase(app);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -182,7 +181,6 @@ namespace LimsServer
                 .AllowAnyHeader());
 
             app.UseAuthentication();
-            
 
             //app.UseMvc();
             app.UseRouting();
@@ -193,23 +191,13 @@ namespace LimsServer
             });
 
             app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
-            app.UseHangfireDashboard("/dashboard");
+            app.UseHangfireDashboard("/dashboard", new DashboardOptions
+            {
+                Authorization = new [] { new HangfireAuthorizationFilter() },               
+            });
 
             DataBackup db = new DataBackup();
             db.ScheduleCleanup();
-        }
-
-        private static void UpdateDatabase(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>()
-                .CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<DbContext>())
-                {
-                    //context.Database.Migrate();
-                }
-            }
         }
     }
 }

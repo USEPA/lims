@@ -69,6 +69,7 @@ namespace LimsServer.Services
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Admin = false;
 
             _context.Users.Add(user);            
             _context.SaveChanges();

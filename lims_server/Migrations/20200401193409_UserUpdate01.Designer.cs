@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LimsServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200312135109_Migration_031220")]
-    partial class Migration_031220
+    [Migration("20200401193409_UserUpdate01")]
+    partial class UserUpdate01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,6 +81,9 @@ namespace LimsServer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Admin")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Enabled")

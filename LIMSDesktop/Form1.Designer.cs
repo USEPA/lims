@@ -234,7 +234,8 @@
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // lblMessage
-            // 
+            //
+            this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom  | System.Windows.Forms.AnchorStyles.Left))));
             this.lblMessage.AutoSize = true;
             this.lblMessage.Location = new System.Drawing.Point(25, 611);
             this.lblMessage.Name = "lblMessage";

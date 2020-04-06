@@ -81,6 +81,9 @@ namespace LimsServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Admin")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("INTEGER");
 

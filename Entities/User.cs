@@ -7,6 +7,7 @@ namespace LimsServer.Entities
         public string LastName { get; set; }
         public string Username { get; set; }
         public bool Enabled { get; set; }
+        public bool Admin { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
