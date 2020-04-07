@@ -59,55 +59,86 @@ namespace LIMSDesktop
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            lblMessage.Text = "Running";
-            ProcessorDTO proc = comboBox1.Items[comboBox1.SelectedIndex] as ProcessorDTO;
-            txtID.Text = proc.UniqueId;
-            txtName.Text = proc.Name;
-            txtDesc.Text = proc.Description;
-            txtFileType.Text = proc.InstrumentFileType;            
+            DataTableResponseMessage dtRespMsg = null;
+            try
+            {
+                templateDataGridView.DataSource = null;
+                UserMessage("Running");
+                ProcessorDTO proc = comboBox1.Items[comboBox1.SelectedIndex] as ProcessorDTO;
+                txtID.Text = proc.UniqueId;
+                txtName.Text = proc.Name;
+                txtDesc.Text = proc.Description;
+                txtFileType.Text = proc.InstrumentFileType;
 
-            ProcessorManager procMgr = new ProcessorManager();
-            //string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
-            //string procPaths = @"E:\lims\lims_server\app_files\processors";
-            DataTableResponseMessage dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtID.Text, txtInput.Text);
+                ProcessorManager procMgr = new ProcessorManager();
+                //string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
+                //string procPaths = @"E:\lims\lims_server\app_files\processors";
+                dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtID.Text, txtInput.Text);
 
-            if (string.IsNullOrWhiteSpace(dtRespMsg.Message))
-                lblMessage.Text = "Success";
-            else
-                lblMessage.Text = dtRespMsg.Message;
+                if (dtRespMsg.ErrorMessage != null)
+                    UserMessage(dtRespMsg.ErrorMessage);
+                
+                if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
+                    LogMessage(dtRespMsg.LogMessage);
 
-            if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
-                LogMessage(dtRespMsg.LogMessage);
-            else
-
-            templateDataGridView.DataSource = dtRespMsg.TemplateData;
+                if (dtRespMsg.TemplateData != null)
+                {
+                    templateDataGridView.DataSource = dtRespMsg.TemplateData;
+                    UserMessage("Success");
+                }
+            }
+            catch(Exception ex)
+            {
+                LogMessage(string.Format("Error executing processor {0} with input {1}", txtID.Text, txtInput.Text));
+                if (dtRespMsg != null && dtRespMsg.LogMessage != null)
+                    LogMessage(dtRespMsg.LogMessage);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //SaveFileDialog sfd = new SaveFileDialog();
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = "Save output file location";
-            fbd.ShowNewFolderButton = true;
-            string fName = Path.GetFileNameWithoutExtension(txtInput.Text);
-            
-            //sfd.FileName = fName;
-            //sfd.Filter = @"Excel Files (*.xlsx)|*.xlsx";
-            DialogResult dr = fbd.ShowDialog();
-            if (dr != DialogResult.OK)
-                return;
+            UserMessage("");
+            string dtName = "";
+            try
+            {
+                //SaveFileDialog sfd = new SaveFileDialog();
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                fbd.Description = "Save output file location";
+                fbd.ShowNewFolderButton = true;
+                string fName = Path.GetFileNameWithoutExtension(txtInput.Text);
 
-            
-            ProcessorManager procMgr = new ProcessorManager();
-            DataTable dt = templateDataGridView.DataSource as DataTable;
-            //string dir = Path.GetDirectoryName(sfd.FileName);
+                //sfd.FileName = fName;
+                //sfd.Filter = @"Excel Files (*.xlsx)|*.xlsx";
+                DialogResult dr = fbd.ShowDialog();
+                if (dr != DialogResult.OK)
+                    return;
 
-            //string outPath = Path.Combine(sfd.FileName, "output");
-            DirectoryInfo di = new DirectoryInfo(fbd.SelectedPath);
-            if (!di.Exists)
-                di.Create();
+                ProcessorManager procMgr = new ProcessorManager();
+                DataTable dt = templateDataGridView.DataSource as DataTable;
+                if (dt != null)
+                    dtName = dt.TableName;
 
-            procMgr.WriteTemplateOutputFile(fbd.SelectedPath, dt);
+                //string dir = Path.GetDirectoryName(sfd.FileName);
+
+                //string outPath = Path.Combine(sfd.FileName, "output");
+                DirectoryInfo di = new DirectoryInfo(fbd.SelectedPath);
+                if (!di.Exists)
+                    di.Create();
+
+                procMgr.WriteTemplateOutputFile(fbd.SelectedPath, dt);
+                UserMessage("Success");
+            }
+            catch(Exception ex)
+            {
+                LogMessage(string.Format("Error saving output {0}", dtName));
+                LogMessage(ex.Message);               
+            }
+        }
+
+        private void UserMessage(string message)
+        {
+            string msg = string.Format("Message: {0}", message);
+            lblMessage.Text = msg;
         }
 
         private void LogMessage(string message)
@@ -128,6 +159,7 @@ namespace LIMSDesktop
             catch(Exception ex)
             {
                 MessageBox.Show("Error writing to log file. " + ex.Message);
+                UserMessage("Error writing to log file - " + ex.Message);
             }
 
             return;
