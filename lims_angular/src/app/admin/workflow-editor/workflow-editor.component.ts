@@ -104,7 +104,6 @@ export class WorkflowEditorComponent implements OnInit {
       interval,
     };
     if (this.redirect) {
-      console.log("PUT: ", newWorkflow);
       this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
         // TODO: error checking/messaging
         this.cancel();
