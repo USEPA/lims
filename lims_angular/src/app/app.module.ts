@@ -11,6 +11,8 @@ import { CookieService } from "ngx-cookie-service";
 
 import { EffectsModule } from "@ngrx/effects";
 
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -59,6 +61,8 @@ import { ProcessorsComponent } from "./admin/processors/processors.component";
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatToolbarModule,
     MatTableModule,

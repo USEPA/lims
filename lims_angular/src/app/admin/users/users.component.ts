@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   editingUser = false;
   statusMessage = "";
 
-  columnNames = ["username", "date-added", "date-disabled"];
+  columnNames = ["username", "date-disabled"];
   users: User[];
   sortableData = new MatTableDataSource();
 
