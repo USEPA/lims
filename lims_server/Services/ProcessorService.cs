@@ -70,7 +70,7 @@ namespace LimsServer.Services
         {
             try
             {
-                var processor = await _context.Processors.SingleAsync(w => w.id == id);
+                var processor = await _context.Processors.SingleAsync(w => w.name == id);
                 return processor as Processor;
             }
             catch (InvalidOperationException)
@@ -86,12 +86,19 @@ namespace LimsServer.Services
         /// <param name="processor"></param>
         public async System.Threading.Tasks.Task Update(string id, Processor processor)
         {
-            var p = await this._context.Processors.SingleAsync(p0 => p0.id == id);
-            p.name = processor.name;
-            p.version = processor.version;
-            p.file_type = processor.file_type;
-            p.description = processor.description;
-            await _context.SaveChangesAsync();
+            try
+            {
+                var p = await this._context.Processors.SingleAsync(p0 => p0.id == id);
+                p.name = processor.name;
+                p.version = processor.version;
+                p.file_type = processor.file_type;
+                p.description = processor.description;
+                await _context.SaveChangesAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                Log.Information("Processor not updated, no processor found with ID: {0}", id);
+            }
         }
 
         /// <summary>

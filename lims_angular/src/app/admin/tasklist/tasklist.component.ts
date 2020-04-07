@@ -22,7 +22,7 @@ export class TasklistComponent implements OnInit {
   loadingWorkflows: boolean;
   statusMessage: string;
 
-  columnNames = ["taskID", "workflowName", "status", "start"];
+  columnNames = ["taskID", "workflowID", "status", "start"];
   taskList: Task[];
   sortableData = new MatTableDataSource();
   workflows: Workflow[];
@@ -55,7 +55,7 @@ export class TasklistComponent implements OnInit {
           } else {
             if (tasks && tasks.length > 0) {
               this.taskList = [...tasks];
-              this.sortableData.data = this.taskList;
+              this.sortableData.data = [...this.taskList];
               this.sortableData.sort = this.sort;
               this.statusMessage = "";
             } else {

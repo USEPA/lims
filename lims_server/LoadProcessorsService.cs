@@ -56,7 +56,7 @@ namespace LimsServer
                 }
                 
                 //Set all the processors in the db to enabled = false
-                procService.Update(lstProcs.ToArray());
+                await procService.Update(lstProcs.ToArray());
 
                 var procsIntersect = procsDiskNames.Intersect(procsInDb);
                 lstProcs = new List<Processor>();
@@ -69,7 +69,7 @@ namespace LimsServer
                 }
 
                 //Set all the processors in the db that are also on disk to enabled = true
-                procService.Update(lstProcs.ToArray());
+                await procService.Update(lstProcs.ToArray());
 
                 var newProcs = procsDiskNames.Except(procsInDb);
                 List<ProcessorDTO> lstProcDTO = new List<ProcessorDTO>();

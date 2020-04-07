@@ -1,52 +1,50 @@
 <div class="centered">
   <mat-card class="task-detail">
     <mat-card-header>
-      <mat-card-title>Add Workflow</mat-card-title>
+      <mat-card-title>{{ cardTitle }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput type="text" name="name" #name />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Processor</mat-label>
-        <mat-select #processor>
-          <ng-container *ngIf="processors.length > 0; else noProcessors">
-            <mat-option
-              *ngFor="let processor of processors"
-              [value]="processor.name"
-            >
-              {{ processor.name }}
-            </mat-option>
-          </ng-container>
-          <ng-template #noProcessors>
-            <mat-option value="null">No processors installed</mat-option>
-          </ng-template>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Input File Path</mat-label>
-        <input matInput type="text" name="iFilePath" #input />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Output File Path</mat-label>
-        <input matInput type="text" name="oFilePath" #output />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Interval</mat-label>
-        <input matInput type="text" name="frequency" #interval />
-      </mat-form-field>
-      <ng-container *ngIf="statusMessage">
-        <div class="statusMessage">{{ statusMessage }}</div>
-      </ng-container>
+      <form [formGroup]="workflowForm">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Processor</mat-label>
+          <mat-select formControlName="processor">
+            <ng-container *ngIf="processors.length > 0; else noProcessors">
+              <mat-option
+                *ngFor="let processor of processors"
+                [value]="processor.name"
+              >
+                {{ processor.name }}
+              </mat-option>
+            </ng-container>
+            <ng-template #noProcessors>
+              <mat-option value="null">No processors installed</mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Input File Path</mat-label>
+          <input matInput type="text" formControlName="inputFolder" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Output File Path</mat-label>
+          <input matInput type="text" formControlName="outputFolder" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Interval</mat-label>
+          <input matInput type="text" formControlName="interval" />
+        </mat-form-field>
+        <ng-container *ngIf="statusMessage">
+          <div class="statusMessage">{{ statusMessage }}</div>
+        </ng-container>
+      </form>
     </mat-card-content>
     <mat-card-actions class="controls">
-      <button
-        mat-button
-        class="control"
-        (click)="saveWorkflow(name, processor, input, output, interval)"
-      >
-        Save
+      <button mat-button class="control" (click)="saveWorkflow()">
+        {{ buttonText }}
       </button>
       <button mat-button class="control" (click)="cancel()">Cancel</button>
     </mat-card-actions>

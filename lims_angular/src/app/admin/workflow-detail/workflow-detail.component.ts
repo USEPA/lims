@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { TaskManagerService } from "../../services/task-manager.service";
 import { Workflow } from "../../models/workflow.model";
@@ -14,6 +14,7 @@ export class WorkflowDetailComponent implements OnInit {
   workflow: Workflow;
   constructor(
     private taskMgr: TaskManagerService,
+    private router: Router,
     private route: ActivatedRoute,
     private location: Location
   ) {}
@@ -26,8 +27,8 @@ export class WorkflowDetailComponent implements OnInit {
   }
 
   // api call
-  editWorkflow(): void {
-    // open edit component
+  editWorkflow(workflow): void {
+    this.router.navigateByUrl("workflows/edit/" + workflow.id);
   }
 
   // api call

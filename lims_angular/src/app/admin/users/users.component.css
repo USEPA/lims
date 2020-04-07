@@ -1,5 +1,5 @@
 .mat-card {
-  width: 66%;
+  width: 40%;
   border-radius: 0px;
   margin-top: 4em;
   margin-left: auto;
@@ -24,7 +24,7 @@ table.mat-table {
 .mat-column-date-added,
 .mat-column-date-disabled {
   flex: 0 0 33%;
-  width: 33%;
+  width: 50%;
   text-align: center;
 }
 
