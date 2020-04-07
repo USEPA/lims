@@ -264,9 +264,16 @@ namespace LimsServer.Services
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
             if(task != null)
             {
-                if(task.taskID != null)
+                try
                 {
-                    BackgroundJob.Delete(task.taskID);
+                    if (task.taskID != null)
+                    {
+                        BackgroundJob.Delete(task.taskID);
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    Log.Information("No Hangfire task found for ID: {0}", task.taskID);
                 }
                 task.status = "CANCELLED";
                 await _context.SaveChangesAsync();

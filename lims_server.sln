@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiSeq_16s", "Processors\MiS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiSeq_18s", "Processors\MiSeq_18s\MiSeq_18s.csproj", "{02AA500E-6F73-4786-8D97-8FB8EF81E4C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimsServerTests", "LimsServerTests\LimsServerTests.csproj", "{B5A48670-3771-442D-9993-E7D8531D307B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{02AA500E-6F73-4786-8D97-8FB8EF81E4C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02AA500E-6F73-4786-8D97-8FB8EF81E4C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02AA500E-6F73-4786-8D97-8FB8EF81E4C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5A48670-3771-442D-9993-E7D8531D307B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A48670-3771-442D-9993-E7D8531D307B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A48670-3771-442D-9993-E7D8531D307B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A48670-3771-442D-9993-E7D8531D307B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

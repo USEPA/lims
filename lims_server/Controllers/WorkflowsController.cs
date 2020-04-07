@@ -63,7 +63,7 @@ namespace LimsServer.Controllers
             else
             {
                 Workflow wf = value;
-                var workflow = await _service.Create(wf);
+                var workflow = await _service.Create(wf, false);
                 if(workflow.message == null)
                 {
                     // Returns 201 (successfully created new object)

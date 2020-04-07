@@ -43,7 +43,6 @@ namespace LimsServer
             string projectRootPath = _env.ContentRootPath;
 
             services.AddCors();
-            //services.AddMvc(); // MvcOptions.EnableEndpointRouting = false
             string connString = "Data Source=lims.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
             services.AddMvc()

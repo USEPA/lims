@@ -5,28 +5,18 @@ using System.Threading.Tasks;
 using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
-
+using Serilog;
 
 namespace LimsServer.Services
 {
     public interface IProcessorService
     {
-        //Task<IEnumerable<Processor>> GetAll();
         System.Threading.Tasks.Task<IEnumerable<Processor>> GetAll();
-        //public IEnumerable<Processor> GetAll();
         Task<Processor> GetById(string id);
         Task<Processor> Create(Processor processor);
-        void Update(string id, Processor processor);
-        void Update(Processor[] processor);
-        //void Delete(string id);
+        System.Threading.Tasks.Task Update(string id, Processor processor);
+        System.Threading.Tasks.Task Update(Processor[] processor);
 
-
-        //IEnumerable<Processor> GetAll();
-        //Processor GetById(int id);
-        //Processor Create(Processor processor);
-        ////void Update(User user, string password = null);
-        //void Update(Processor processor, int processor_found);
-        //void Delete(int id);
     }
 
     public class ProcessorService : IProcessorService
@@ -70,11 +60,6 @@ namespace LimsServer.Services
             var processors = await _context.Processors.ToListAsync();
             return processors as List<Processor>;
         }
-        //public async IEnumerable<Processor> GetAll()
-        //{
-        //    var processors = _context.Processors.ToList();
-        //    return processors as List<Processor>;
-        //}
 
         /// <summary>
         /// Query processors for specified id.
@@ -83,65 +68,41 @@ namespace LimsServer.Services
         /// <returns>the processor with the specified ID</returns>
         public async Task<Processor> GetById(string id)
         {
-            var processor = await _context.Processors.SingleAsync(w => w.name == id);
-            return processor as Processor;
+            try
+            {
+                var processor = await _context.Processors.SingleAsync(w => w.id == id);
+                return processor as Processor;
+            }
+            catch (InvalidOperationException)
+            {
+                Log.Information("No processor found with ID: {0}", id);
+                return null;
+            }
         }
 
         /// <summary>
         /// Updates the processor provided by id
         /// </summary>
         /// <param name="processor"></param>
-        public async void Update(string id, Processor processor)
-        {            
-            var oldProc = await _context.Processors.SingleAsync(w => w.id == id);
-            oldProc = processor;
-            await _context.SaveChangesAsync();            
-        }
-
-        /// <summary>
-        /// Updates the processor provided by id
-        /// </summary>
-        /// <param name="processor"></param>
-        public async void Update(Processor[] processors)
+        public async System.Threading.Tasks.Task Update(string id, Processor processor)
         {
-            _context.Processors.UpdateRange(processors);
-                                                                            
-            //oldProc = processor;
+            var p = await this._context.Processors.SingleAsync(p0 => p0.id == id);
+            p.name = processor.name;
+            p.version = processor.version;
+            p.file_type = processor.file_type;
+            p.description = processor.description;
             await _context.SaveChangesAsync();
-
-
         }
 
+        /// <summary>
+        /// Updates the processor provided by id
+        /// </summary>
+        /// <param name="processor"></param>
+        public async System.Threading.Tasks.Task Update(Processor[] processors)
+        {
+            _context.Processors.UpdateRange(processors);                                                                            
+            await _context.SaveChangesAsync();
+        }
 
-        //public void Delete(int id)
-        //{
-        //    var processor = _context.Processors.Find(id);
-        //    if (processor != null)
-        //    {
-        //        _context.Processors.Remove(processor);
-        //        _context.SaveChanges();
-        //    }
-        //}
-
-
-        //public Processor GetById(int id)
-        //{
-        //    return _context.Processors.Find(id);
-        //}
-
-
-
-        //public void Update(Processor processorParam, int processor_found)
-        //{
-        //    Processor processor = _context.Processors.Find(processorParam.id);
-
-        //    if (processor == null)
-        //        throw new AppException($"Processor: {processor.name} with id: {processor.id} not found in database.");
-
-        //    processor.name = processorParam.name;
-        //    processor.file_type = processorParam.file_type;
-        //    processor.description = processorParam.description;
-        //    processor.process_found = processorParam.process_found;
-        //}
     }
 }
