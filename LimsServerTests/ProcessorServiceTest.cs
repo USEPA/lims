@@ -44,6 +44,10 @@ namespace LimsServerTests
             var p0 = ps.Create(p).Result;
             var result = this._context.Processors.SingleAsync(x => x.id == p.id).Result;
             Assert.NotNull(result);
+
+            Processor p2 = new Processor();
+            var r2 = ps.Create(p2).Result;
+            Assert.Null(r2.id);
         }
 
         [Theory]
@@ -98,7 +102,7 @@ namespace LimsServerTests
             this._context.Processors.AddAsync(p1);
             this._context.SaveChangesAsync();
 
-            var result = ps.GetById(p1.id).Result;
+            var result = ps.GetById(p1.name).Result;
             Assert.NotNull(result);
 
             var badResult = ps.GetById("fakeID").Result;
@@ -135,7 +139,11 @@ namespace LimsServerTests
 
             var t = ps.Update(p1.id, p2);
             var result = this._context.Processors.SingleAsync(p => p.id == p1.id).Result;
-            Assert.Equal(p2.name, result.name);
+            Assert.Equal(p2.name, result.name);             // P1 processor updated with P2
+
+            var t2 = ps.Update("invalid", p1);
+            var result2 = this._context.Processors.SingleAsync(p => p.id == p1.id).Result;
+            Assert.Equal(p2.name, result2.name);            // No update expected.
         }
 
         [Fact]
