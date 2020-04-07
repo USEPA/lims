@@ -137,29 +137,22 @@ namespace LimsServer.Services
             if (workflow != null)
             {
                 workflow.Update(_workflow);
+                await _context.SaveChangesAsync();
                 Log.Information("Updating Workflow: {0}, and cancelling existing Tasks.", id);
                 var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
                 foreach (LimsServer.Entities.Task t in tasks)
                 {
                     if (t.status == "SCHEDULED")
                     {
-                        t.status = "CANCELLED";
-                        t.message = "Corresponding workflow updated.";
-                        var newState = new Hangfire.States.DeletedState();
+                        var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                        t.start = DateTime.Now.AddMinutes(workflow.interval);
+                        await _context.SaveChangesAsync();
 
                         BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                        backgroundClient.ChangeState(t.taskID, newState);
-                        Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
+                        backgroundClient.ChangeState(t.taskID, newSchedule);
+                        Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", t.workflowID, t.id, t.taskID, workflow.inputFolder, "Workflow updated, task rescheduled to new workflow configuration.");
                     }
-                }
-                if (!bypass)
-                {
-                    LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
-                    TaskService ts = new TaskService(this._context);
-                    var task = await ts.Create(tsk);
-                    await _context.SaveChangesAsync();
-                    Log.Information("Created new Task for updated Workflow ID: {0}, Updated Task ID: {1}, Hangfire ID: {2}", id, tsk.id, tsk.taskID);
-                }
+                }              
                 return true;
             }
             else

@@ -11,8 +11,5 @@ namespace LimsServer.Helpers
         public DbSet<Processor> Processors { get; set; }
         public DbSet<Workflow> Workflows { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder options)
-        //    => options.UseSqlite("Data Source=lims.db");
-
     }
 }
