@@ -12,7 +12,7 @@ import { Task } from "../models/task.model";
 import { Workflow } from "../models/workflow.model";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class TaskManagerService implements OnInit {
   private taskList: Task[];
@@ -30,18 +30,18 @@ export class TaskManagerService implements OnInit {
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     };
 
     return this.http.get<any>(environment.apiUrl + "tasks/", options).pipe(
       // timeout(5000),
-      tap(tasks => {
+      tap((tasks) => {
         if (tasks) {
           this.taskList = [...tasks];
         }
       }),
-      catchError(err => {
+      catchError((err) => {
         return of({ error: "failed to retrieve tasks!" });
       })
     );
@@ -61,7 +61,7 @@ export class TaskManagerService implements OnInit {
       processor: null,
       workflowID: null,
       status: null,
-      error: null
+      error: null,
     };
   }
 
@@ -75,17 +75,17 @@ export class TaskManagerService implements OnInit {
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     };
     return this.http.get<any>(environment.apiUrl + "workflows/", options).pipe(
       // timeout(5000),
-      tap(workflows => {
+      tap((workflows) => {
         if (workflows) {
           this.workflows = [...workflows];
         }
       }),
-      catchError(err => {
+      catchError((err) => {
         return of({ error: "failed to retrieve workflows!" });
       })
     );
@@ -104,7 +104,7 @@ export class TaskManagerService implements OnInit {
       inputFolder: null,
       outputFolder: null,
       interval: null,
-      active: null
+      active: null,
     };
   }
 
@@ -113,8 +113,8 @@ export class TaskManagerService implements OnInit {
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     };
     const newWorkflow = JSON.stringify(workflow);
     return this.http
@@ -124,15 +124,32 @@ export class TaskManagerService implements OnInit {
         tap(() => {
           console.log("added new workflow");
         }),
-        catchError(err => {
+        catchError((err) => {
           return of({ error: "failed to add workflow!" });
         })
       );
   }
 
-  // api call
-  editWorkflow(id: number): void {
-    // edit existing workflow and update workflows
+  // PUT/api/workflows - updates an existing workflow
+  updateWorkflow(workflow: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: "Bearer " + this.auth.getAuthToken(),
+        "Content-Type": "application/json",
+      }),
+    };
+    const newWorkflow = JSON.stringify(workflow);
+    return this.http
+      .put<any>(environment.apiUrl + "workflows/", newWorkflow, options)
+      .pipe(
+        // timeout(5000),
+        tap(() => {
+          console.log("updated workflow");
+        }),
+        catchError((err) => {
+          return of({ error: "failed to update workflow!" });
+        })
+      );
   }
 
   // api call
@@ -140,14 +157,14 @@ export class TaskManagerService implements OnInit {
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     };
     return this.http
       .delete<any>(environment.apiUrl + "workflows/" + id, options)
       .pipe(
         // timeout(5000),
-        catchError(err => {
+        catchError((err) => {
           return of({ error: "failed to disable workflow!" });
         })
       );
@@ -158,17 +175,17 @@ export class TaskManagerService implements OnInit {
     const options = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json"
-      })
+        "Content-Type": "application/json",
+      }),
     };
     return this.http.get<any>(environment.apiUrl + "processors/", options).pipe(
       // timeout(5000),
-      tap(processors => {
+      tap((processors) => {
         if (processors) {
           this.processors = [...processors];
         }
       }),
-      catchError(err => {
+      catchError((err) => {
         return of({ error: "failed to retrieve processors!" });
       })
     );

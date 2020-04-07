@@ -9,7 +9,7 @@ import { Workflow } from "src/app/models/workflow.model";
 @Component({
   selector: "app-workflow-editor",
   templateUrl: "./workflow-editor.component.html",
-  styleUrls: ["./workflow-editor.component.css"]
+  styleUrls: ["./workflow-editor.component.css"],
 })
 export class WorkflowEditorComponent implements OnInit {
   @Output() editing = new EventEmitter<boolean>();
@@ -37,7 +37,7 @@ export class WorkflowEditorComponent implements OnInit {
       processor: [null, Validators.required],
       inputFolder: [null, Validators.required],
       outputFolder: [null, Validators.required],
-      interval: [null, Validators.required]
+      interval: [null, Validators.required],
     });
 
     if (id) {
@@ -48,7 +48,7 @@ export class WorkflowEditorComponent implements OnInit {
       this.populateForm(this.workflow);
     }
 
-    this.taskMgr.getProcessors().subscribe(response => {
+    this.taskMgr.getProcessors().subscribe((response) => {
       if (response.error) {
         this.statusMessage = "No processors installed";
       } else {
@@ -101,12 +101,20 @@ export class WorkflowEditorComponent implements OnInit {
       processor,
       inputFolder,
       outputFolder,
-      interval
+      interval,
     };
-    this.taskMgr.addWorkflow(newWorkflow).subscribe(() => {
-      // TODO: error checking/messaging
-      this.cancel();
-    });
+    if (this.redirect) {
+      console.log("PUT: ", newWorkflow);
+      this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
+        // TODO: error checking/messaging
+        this.cancel();
+      });
+    } else {
+      this.taskMgr.addWorkflow(newWorkflow).subscribe(() => {
+        // TODO: error checking/messaging
+        this.cancel();
+      });
+    }
   }
 
   cancel(): void {
