@@ -132,11 +132,13 @@ export class TaskManagerService implements OnInit {
 
   // PUT/api/workflows - updates an existing workflow
   updateWorkflow(workflow: any): Observable<any> {
-    const wf = this.workflows.find((w) => {
-      return w.name === workflow.name;
-    });
+    if (!workflow.id) {
+      const wf = this.workflows.find((w) => {
+        return w.name === workflow.name;
+      });
 
-    workflow = { id: wf.id, ...workflow };
+      workflow = { id: wf.id, ...workflow };
+    }
     console.log(workflow);
 
     const options = {
@@ -169,23 +171,6 @@ export class TaskManagerService implements OnInit {
     };
     return this.http
       .delete<any>(environment.apiUrl + "workflows/" + id, options)
-      .pipe(
-        // timeout(5000),
-        catchError((err) => {
-          return of({ error: "failed to disable workflow!" });
-        })
-      );
-  }
-
-  enableWorkflow(id: number): Observable<any> {
-    const options = {
-      headers: new HttpHeaders({
-        Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json",
-      }),
-    };
-    return this.http
-      .put<any>(environment.apiUrl + "workflows/" + id, options)
       .pipe(
         // timeout(5000),
         catchError((err) => {

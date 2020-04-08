@@ -40,7 +40,7 @@ export class WorkflowDetailComponent implements OnInit {
         this.back();
       });
     } else {
-      this.taskMgr.enableWorkflow(workflow.id).subscribe(() => {
+      this.taskMgr.updateWorkflow(workflow).subscribe(() => {
         this.back();
       });
     }
