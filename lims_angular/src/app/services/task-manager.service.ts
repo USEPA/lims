@@ -152,8 +152,6 @@ export class TaskManagerService implements OnInit {
         // timeout(5000),
         tap(() => {
           console.log("updated workflow");
-          // refresh local workflows[]
-          this.getWorkflows().subscribe();
         }),
         catchError((err) => {
           return of({ error: "failed to update workflow!" });
@@ -171,6 +169,23 @@ export class TaskManagerService implements OnInit {
     };
     return this.http
       .delete<any>(environment.apiUrl + "workflows/" + id, options)
+      .pipe(
+        // timeout(5000),
+        catchError((err) => {
+          return of({ error: "failed to disable workflow!" });
+        })
+      );
+  }
+
+  enableWorkflow(id: number): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: "Bearer " + this.auth.getAuthToken(),
+        "Content-Type": "application/json",
+      }),
+    };
+    return this.http
+      .put<any>(environment.apiUrl + "workflows/" + id, options)
       .pipe(
         // timeout(5000),
         catchError((err) => {

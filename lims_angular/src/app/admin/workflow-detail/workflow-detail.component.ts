@@ -8,9 +8,11 @@ import { Workflow } from "../../models/workflow.model";
 @Component({
   selector: "app-workflow-detail",
   templateUrl: "./workflow-detail.component.html",
-  styleUrls: ["./workflow-detail.component.css"]
+  styleUrls: ["./workflow-detail.component.css"],
 })
 export class WorkflowDetailComponent implements OnInit {
+  disableText = "Disable workflow";
+  enableText = "Enable workflow";
   workflow: Workflow;
   constructor(
     private taskMgr: TaskManagerService,
@@ -32,10 +34,20 @@ export class WorkflowDetailComponent implements OnInit {
   }
 
   // api call
-  disableWorkflow(workflowID): void {
-    this.taskMgr.disableWorkflow(workflowID).subscribe(() => {
-      this.back();
-    });
+  toggleEnableWorkflow(workflow): void {
+    if (workflow.active) {
+      this.taskMgr.disableWorkflow(workflow.id).subscribe(() => {
+        this.back();
+      });
+    } else {
+      this.taskMgr.enableWorkflow(workflow.id).subscribe(() => {
+        this.back();
+      });
+    }
+  }
+
+  getText(active: boolean): string {
+    return active ? "Disable workflow" : "Enable workflow";
   }
 
   back(): void {
