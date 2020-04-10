@@ -27,7 +27,7 @@ namespace LimsServer.Services
             _context = context;
         }
 
-        public async System.Threading.Tasks.Task RunTask(string id, PerformContext hfContext)
+        public async System.Threading.Tasks.Task RunTask(string id)
         {
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
             Log.Information("Executing Task. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
@@ -43,11 +43,11 @@ namespace LimsServer.Services
             // Step 2: Change status to "STARTING"
             await this.UpdateStatus(task.id, "STARTING", "");
 
-            var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
+            var workflow = await _context.Workflows.Where(w => w.id == task.workflowID).FirstOrDefaultAsync();
             if(workflow == null)
             {
                 Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Workflow for the Task.");
-                await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + workflow.id);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + task.workflowID);
                 return;
             }
 
@@ -72,10 +72,16 @@ namespace LimsServer.Services
                 var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
                 task.start = DateTime.Now.AddMinutes(workflow.interval);
                 await _context.SaveChangesAsync();
-
-                BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                backgroundClient.ChangeState(task.taskID, newSchedule);
-                Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", task.workflowID, task.id, task.taskID, workflow.inputFolder, "No files found in input directory.");
+                try
+                {
+                    BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                    backgroundClient.ChangeState(task.taskID, newSchedule);
+                    Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", task.workflowID, task.id, task.taskID, workflow.inputFolder, "No files found in input directory.");
+                }
+                catch (Exception)
+                {
+                    Log.Warning("Error attempting to reschedule Hangfire job. Workflow ID: {0}, task ID: {1}", task.workflowID, task.id);
+                }
                 return;
             }
 
@@ -147,12 +153,19 @@ namespace LimsServer.Services
                 if (File.Exists(outputPath))
                 {
                     processed = true;
-                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, output.Key);
+                    string fileName = System.IO.Path.GetFileName(output.Key);
+                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
 
                     DataBackup dbBackup = new DataBackup();
                     dbBackup.DumpData(id, inputPath, outputPath);
-
-                    File.Delete(inputPath);
+                    try
+                    {
+                        File.Delete(inputPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Warning("Error unable to delete input file after successful processing. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
+                    }
                     task.outputFile = outputPath;
                     await _context.SaveChangesAsync();
                 }
@@ -169,13 +182,20 @@ namespace LimsServer.Services
             {
                 newStatus = "COMPLETED";
                 Log.Information("Task Completed. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
-                if (files.Count > 1)
+                try
                 {
-                    await this.CreateNewTask(workflow.id, 0);
+                    if (files.Count > 1)
+                    {
+                        await this.CreateNewTask(workflow.id, 0);
+                    }
+                    else
+                    {
+                        await this.CreateNewTask(workflow.id, workflow.interval);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    await this.CreateNewTask(workflow.id, workflow.interval);
+                    Log.Warning("Error creating new Hangfire job after successful job. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
                 }
             }
             else
@@ -194,7 +214,7 @@ namespace LimsServer.Services
         /// <returns></returns>
         protected async System.Threading.Tasks.Task UpdateStatus(string id, string status)
         {
-            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            var task = await _context.Tasks.Where(t => t.id == id).FirstOrDefaultAsync();
             if(task != null)
             {
                 task.status = status;
@@ -210,7 +230,7 @@ namespace LimsServer.Services
         /// <returns></returns>
         protected async System.Threading.Tasks.Task UpdateStatus(string id, string status, string message)
         {
-            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            var task = await _context.Tasks.Where(t => t.id == id).FirstOrDefaultAsync();
             if (task != null)
             {
                 task.status = status;
@@ -229,7 +249,14 @@ namespace LimsServer.Services
         {
             string newID0 = System.Guid.NewGuid().ToString();
             Task newTask0 = new Task(newID0, workflowID, interval);
-            await this.Create(newTask0);
+            try
+            {
+                await this.Create(newTask0);
+            }
+            catch (Exception)
+            {
+                Log.Warning("Error attempting to create new Hangfire task. Workflow ID: {0}", workflowID);
+            }
         }
 
         /// <summary>
@@ -241,16 +268,23 @@ namespace LimsServer.Services
         {
             var create = await _context.Tasks.AddAsync(task);
             await _context.SaveChangesAsync();
-            var workflow = await _context.Workflows.SingleAsync(w => w.id == task.workflowID);
-            var tsk = await _context.Tasks.SingleAsync(t => t.id == task.id);
+            var workflow = await _context.Workflows.Where(w => w.id == task.workflowID).FirstOrDefaultAsync();
+            var tsk = await _context.Tasks.Where(t => t.id == task.id).FirstOrDefaultAsync();
             tsk.status = "SCHEDULED";
 
             TimeSpan scheduledStart = task.start - DateTime.Now;
-
-            tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id, null), scheduledStart);
-            //await this.RunTask(tsk.id, null);
+            try
+            {
+                //await this.RunTask(tsk.id, null);
+                tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id), scheduledStart);
+                Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
+            }
+            catch (Exception)
+            {
+                tsk.message = "Task not scheduled, unable to connect to Hangfire server.";
+                Log.Warning("Error unable to schedule new Hangfire job, workflow ID: {0}, task ID: {1}", task.workflowID, task.id);
+            }
             await _context.SaveChangesAsync();
-            Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
             return tsk;
         }
 
@@ -261,7 +295,7 @@ namespace LimsServer.Services
         /// <returns>True if task exists and is deleted, False if the task does not exist</returns>
         public async System.Threading.Tasks.Task<bool> Delete(string id)
         {
-            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            var task = await _context.Tasks.Where(t => t.id == id).FirstOrDefaultAsync();
             if(task != null)
             {
                 try

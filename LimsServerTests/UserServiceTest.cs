@@ -117,8 +117,10 @@ namespace LimsServerTests
             uService.Update(uUser, true);
 
             var result = this._context.Users.SingleAsync(u => u.Id == r.Id).Result;
-
             Assert.Equal(updatedUser, result.LastName);
+
+            User nUser = new User();
+            Assert.Throws<AppException>(() => uService.Update(nUser, true));
         }
 
         [Fact]

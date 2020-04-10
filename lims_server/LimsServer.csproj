@@ -36,6 +36,9 @@
     <Folder Include="app_files\temp\" />
     <Folder Include="app_files\template\" />
     <Folder Include="app_files\processors\" />
+    <Folder Include="app_files\TestFiles\Input\" />
+    <Folder Include="app_files\TestFiles\Output\" />
+    <Folder Include="app_files\TestFiles\Store\" />
     <Folder Include="Entities\" />
   </ItemGroup>
   <ItemGroup>

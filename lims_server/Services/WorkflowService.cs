@@ -67,7 +67,7 @@ namespace LimsServer.Services
         /// <param name="id"></param>
         public async System.Threading.Tasks.Task<bool> Delete(string id)
         {
-            var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
+            var workflow = await _context.Workflows.Where(w => w.id == id).FirstOrDefaultAsync();
             if(workflow != null)
             {
                 Log.Information("Cancelling Workflow: {0}, and associated Tasks.", id);
@@ -79,10 +79,17 @@ namespace LimsServer.Services
                         t.status = "CANCELLED";
                         t.message = "Corresponding workflow cancelled.";
                         var newState = new Hangfire.States.DeletedState();
-
-                        BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                        backgroundClient.ChangeState(t.taskID, newState);
                         Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
+
+                        try
+                        {
+                            BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                            backgroundClient.ChangeState(t.taskID, newState);
+                        }
+                        catch (Exception)
+                        {
+                            Log.Warning("Error unable to change Hangfire background job to deleted state. Task ID: {0}", t.taskID);
+                        }
                     }
                 }
                 Log.Information("Setting LIMS Workflow, ID: {0} to inactive", id);
@@ -133,7 +140,7 @@ namespace LimsServer.Services
         public async System.Threading.Tasks.Task<bool> Update(Workflow _workflow, bool bypass = false)
         {
             string id = _workflow.id;
-            var workflow = await _context.Workflows.SingleAsync(w => w.id == id);
+            var workflow = await _context.Workflows.Where(w => w.id == id).FirstOrDefaultAsync();
             if (workflow != null)
             {
                 workflow.Update(_workflow);
@@ -145,27 +152,41 @@ namespace LimsServer.Services
                 {
                     if (t.status == "SCHEDULED" && workflow.active)
                     {
-                        var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
                         t.start = DateTime.Now.AddMinutes(workflow.interval);
                         await _context.SaveChangesAsync();
-
-                        BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                        backgroundClient.ChangeState(t.taskID, newSchedule);
                         Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", t.workflowID, t.id, t.taskID, workflow.inputFolder, "Workflow updated, task rescheduled to new workflow configuration.");
                         taskRunning = true;
+
+                        try
+                        {
+                            var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                            BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                            backgroundClient.ChangeState(t.taskID, newSchedule);
+                        }
+                        catch (Exception)
+                        {
+                            Log.Warning("Error rescheduling Hangfire background job. Job ID: {0}", t.taskID);
+                        }
                     }
                     else
                     {
                         t.status = "CANCELLED";
                         t.message = "Corresponding workflow updated.";
                         var newState = new Hangfire.States.DeletedState();
-
-                        BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                        backgroundClient.ChangeState(t.taskID, newState);
                         Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
+
+                        try
+                        {
+                            BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                            backgroundClient.ChangeState(t.taskID, newState);
+                        }
+                        catch (Exception)
+                        {
+                            Log.Warning("Error cancelling Hanfire background job. Job ID: {0}", t.taskID);
+                        }
                     }
                 }
-                if (!taskRunning && workflow.active)
+                if (!taskRunning && !workflow.active)
                 {
                     string newId = System.Guid.NewGuid().ToString();
                     LimsServer.Entities.Task tsk = new Entities.Task(newId, workflow.id, workflow.interval);

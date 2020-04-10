@@ -70,6 +70,18 @@ namespace LimsServerTests
         public void DeleteTest(bool expected)
         {
             this._context = this.InitContext().Result;
+
+            LimsServer.Entities.Task tsk = new LimsServer.Entities.Task()
+            {
+                id = "1",
+                workflowID = "0",
+                start = DateTime.Now.AddMinutes(15),
+                taskID = null,
+                status = "SCHEDULED"
+            };
+            this._context.Tasks.Add(tsk);
+            this._context.SaveChanges();
+
             WorkflowService wkService = new WorkflowService(this._context);
             var firstWk = this._context.Workflows.FirstAsync().Result;
 
@@ -108,6 +120,27 @@ namespace LimsServerTests
         public void UpdateTest(string expected)
         {
             this._context = this.InitContext().Result;
+
+            LimsServer.Entities.Task tsk = new LimsServer.Entities.Task()
+            {
+                id = "1",
+                workflowID = "5",
+                start = DateTime.Now.AddMinutes(15),
+                taskID = null,
+                status = "SCHEDULED"
+            };
+            this._context.Tasks.Add(tsk);
+            LimsServer.Entities.Task tsk2 = new LimsServer.Entities.Task()
+            {
+                id = "2",
+                workflowID = "5",
+                start = DateTime.Now.AddMinutes(15),
+                taskID = null,
+                status = "PENDING"
+            };
+            this._context.Tasks.Add(tsk2);
+            this._context.SaveChanges();
+
             WorkflowService wkService = new WorkflowService(this._context);
             Workflow newWorkflow = new Workflow()
             {
@@ -125,6 +158,7 @@ namespace LimsServerTests
 
             var dbWorkflow = this._context.Workflows.SingleAsync(wk => wk.id == newWorkflow.id).Result;
             Assert.Equal(dbWorkflow.name, expected);           // Database update check
+
         }
     }
 } 
