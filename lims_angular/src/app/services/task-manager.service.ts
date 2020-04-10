@@ -132,11 +132,13 @@ export class TaskManagerService implements OnInit {
 
   // PUT/api/workflows - updates an existing workflow
   updateWorkflow(workflow: any): Observable<any> {
-    const wf = this.workflows.find((w) => {
-      return w.name === workflow.name;
-    });
+    if (!workflow.id) {
+      const wf = this.workflows.find((w) => {
+        return w.name === workflow.name;
+      });
 
-    workflow = { id: wf.id, ...workflow };
+      workflow = { id: wf.id, ...workflow };
+    }
     console.log(workflow);
 
     const options = {
@@ -152,8 +154,6 @@ export class TaskManagerService implements OnInit {
         // timeout(5000),
         tap(() => {
           console.log("updated workflow");
-          // refresh local workflows[]
-          this.getWorkflows().subscribe();
         }),
         catchError((err) => {
           return of({ error: "failed to update workflow!" });
