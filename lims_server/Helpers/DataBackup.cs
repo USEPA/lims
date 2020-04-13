@@ -204,7 +204,7 @@ namespace LimsServer.Helpers
             return compressedFile;
         }
 
-        public void Cleanup()
+        public bool Cleanup()
         {
             Log.Information("Backup database cleanup started. Current data storage time: {0}", this.daysStored);
             // Current data store life set to 1 week
@@ -245,10 +245,12 @@ namespace LimsServer.Helpers
 
                 }
                 Log.Information("Backup database cleanup completed.");
+                return true;
             }
             catch (SqliteException ex)
             {
                 Log.Warning("Error cleaning up database.", ex);
+                return false;
             }
         }
 
