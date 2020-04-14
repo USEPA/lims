@@ -40,7 +40,7 @@ namespace LimsServerTests
             return context;
         }
 
-        private void FileSetup()
+        public void FileSetup()
         {
             string inputPath = "app_files\\TestFiles\\Input";
             string outputPath = "app_files\\TestFiles\\Output";
@@ -129,6 +129,7 @@ namespace LimsServerTests
                 interval = 10,
                 message = ""
             };
+            this._context.Workflows.Add(newWorkflow);
             Workflow newWorkflow2 = new Workflow()
             {
                 id = "test1234567",
@@ -141,6 +142,18 @@ namespace LimsServerTests
                 message = ""
             };
             this._context.Workflows.Add(newWorkflow2);
+            Workflow newWorkflow3 = new Workflow()
+            {
+                id = "test12345678",
+                inputFolder = "app_files\\TestFiles\\Input",
+                outputFolder = "app_files\\TestFiles\\Output",
+                active = true,
+                name = "workflow_test123456",
+                processor = "picogreen",
+                interval = 10,
+                message = ""
+            };
+            this._context.Workflows.Add(newWorkflow3);
 
             LimsServer.Entities.Task tsk = new LimsServer.Entities.Task()
             {
@@ -174,10 +187,19 @@ namespace LimsServerTests
                 taskID = "12345678903",
                 status = "SCHEDULED"
             };
+            LimsServer.Entities.Task tsk5 = new LimsServer.Entities.Task()
+            {
+                id = "005",
+                workflowID = "test12345678",
+                start = DateTime.Now.AddMinutes(5),
+                taskID = "12345678903",
+                status = "SCHEDULED"
+            };
             this._context.Tasks.Add(tsk);
             this._context.Tasks.Add(tsk2);
             this._context.Tasks.Add(tsk3);
             this._context.Tasks.Add(tsk4);
+            this._context.Tasks.Add(tsk5);
             this._context.SaveChanges();
 
             TaskService ts = new TaskService(this._context);
@@ -193,6 +215,10 @@ namespace LimsServerTests
             var result3 = ts.RunTask(tsk3.id);
             var dbCheck3 = this._context.Tasks.SingleAsync(tk => tk.id == tsk3.id).Result;
             Assert.Equal("CANCELLED", dbCheck3.status);         // No workflow found with the workflow ID provided
+
+            var result54 = ts.RunTask(tsk5.id);
+            var dbCheck5 = this._context.Tasks.SingleAsync(tk => tk.id == tsk5.id).Result;
+            Assert.Equal("CANCELLED", dbCheck5.status);         // Cancelled, wrong processor
 
             var result4 = ts.RunTask(tsk4.id);
             var dbCheck4 = this._context.Tasks.SingleAsync(tk => tk.id == tsk4.id).Result;
