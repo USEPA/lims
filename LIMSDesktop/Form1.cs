@@ -52,8 +52,7 @@ namespace LIMSDesktop
             txtName.Text = proc.Name;
             txtDesc.Text = proc.Description;
             txtFileType.Text = proc.InstrumentFileType;
-            
-            //txtPath.Text = proc.;
+            txtPath.Text = proc.Path;
 
         }
 
@@ -73,8 +72,17 @@ namespace LIMSDesktop
                 ProcessorManager procMgr = new ProcessorManager();
                 //string output = @"E:\lims\LIMSDesktop\bin\Debug\netcoreapp3.0\Processors\Output\file.csv";
                 //string procPaths = @"E:\lims\lims_server\app_files\processors";
-                dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtID.Text, txtInput.Text);
+                dtRespMsg = procMgr.ExecuteProcessor(proc.Path, txtName.Text, txtInput.Text);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
+                if (dtRespMsg == null)
+                {
+                    //dtRespMsg = new DataTableResponseMessage();
+                    UserMessage(string.Format("Error processing file {0} with processor {1}", txtInput.Text, txtName.Text));
+                    //dtRespMsg.ErrorMessage = string.Format("Error processing file {0} with processor {1}", txtInput.Text, txtName.Text);
+
+                }
                 if (dtRespMsg.ErrorMessage != null)
                     UserMessage(dtRespMsg.ErrorMessage);
                 

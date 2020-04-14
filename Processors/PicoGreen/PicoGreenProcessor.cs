@@ -18,7 +18,7 @@ namespace PicoGreen
         public override string input_file { get; set; }
         public override string path { get; set; }
 
-        private readonly string analyteID = "dsDNA";
+        private const string analyteID = "dsDNA";
 
         public override DataTableResponseMessage Execute()
         {
@@ -97,7 +97,7 @@ namespace PicoGreen
 
                     dt.Rows.Add(dr);
                 }
-                rm.TemplateData = dt;
+                rm.TemplateData = dt.Copy();
             }
             catch (Exception ex)
             {

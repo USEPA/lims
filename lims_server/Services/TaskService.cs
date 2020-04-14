@@ -116,6 +116,9 @@ namespace LimsServer.Services
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
             DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             if (result.ErrorMessage == null && result.TemplateData != null)
             {
                 var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
