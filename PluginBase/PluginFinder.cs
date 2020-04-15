@@ -25,9 +25,11 @@ namespace PluginBase
             //var pluginFinderAssemblyContext = new PluginAssemblyLoadingContext("PluginFinderAssemblyContext");
             var pluginFinderAssemblyContext = new CollectibleAssemblyLoadContext(pluginsPath);
             //var pluginFinderAssemblyContext = new AssemblyLoadContext(name: "PluginFinderAssemblyContext"); 
+            var cwd = System.IO.Directory.GetCurrentDirectory();
             foreach (var assemblyPath in assemblyPaths)
             {
-                var assembly = pluginFinderAssemblyContext.LoadFromAssemblyPath(assemblyPath);
+                var fullAssemblyPath = System.IO.Path.Combine(cwd, assemblyPath);
+                var assembly = pluginFinderAssemblyContext.LoadFromAssemblyPath(fullAssemblyPath);
                 if (GetPluginTypes(assembly).Any())
                 {
                     assemblyPluginInfos.Add(assembly.Location);

@@ -115,7 +115,7 @@ namespace LimsServer.Services
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
-            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
+            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
