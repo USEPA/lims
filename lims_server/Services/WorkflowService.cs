@@ -186,7 +186,7 @@ namespace LimsServer.Services
                         }
                     }
                 }
-                if (!taskRunning && !workflow.active)
+                if (!taskRunning && workflow.active)
                 {
                     string newId = System.Guid.NewGuid().ToString();
                     LimsServer.Entities.Task tsk = new Entities.Task(newId, workflow.id, workflow.interval);
