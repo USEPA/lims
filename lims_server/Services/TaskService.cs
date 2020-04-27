@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using Hangfire;
 using Hangfire.Server;
 using LimsServer.Entities;
@@ -85,10 +87,30 @@ namespace LimsServer.Services
                 return;
             }
 
-            // Step 5: If file does exist, update task inputFile
+            // Step 5: If file does exist, update task inputFile then compare against previous Tasks.
             task.inputFile = files.First();
             task.status = "PROCESSING";
             await _context.SaveChangesAsync();
+            bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
+            if (alreadyCompleted)
+            {
+                Log.Information("Hash input file match for WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input File: {3}, Message: {4}", task.workflowID, task.id, task.taskID, task.inputFile, "Rerunning task after removing file.");
+                try
+                {
+                    File.Delete(task.inputFile);
+                    Log.Information("Hash input file match successfully deleted. WorkflowID: {0}, ID: {1}, Input File: {2}", task.workflowID, task.id, task.inputFile);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Log.Warning("Error unable to delete input file after hash file match with previous input file. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
+                }
+                
+                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
+                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
+                await this.RunTask(task.id);
+                return;
+            }
+
 
             ProcessorManager pm = new ProcessorManager();
             string config = "./app_files/processors";
@@ -115,7 +137,7 @@ namespace LimsServer.Services
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
-            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.UniqueId, file);
+            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -210,6 +232,50 @@ namespace LimsServer.Services
         }
 
         /// <summary>
+        /// Get all task IDs for the specified workflow, get the input bytes and run a MD5 hash, compare to the inputFile
+        /// </summary>
+        /// <param name="inputFilePath"></param>
+        /// <param name="workflowID"></param>
+        /// <returns></returns>
+        protected async System.Threading.Tasks.Task<bool> InputFileCheck(string inputFilePath, string workflowID)
+        {
+            var tasks = await _context.Tasks.Where(t => t.workflowID == workflowID && t.status == "COMPLETED").ToListAsync();
+            bool match = false;
+
+            if (tasks.Count >= 1)
+            {
+                byte[] inputFile = File.ReadAllBytes(inputFilePath);
+                byte[] inputData = MD5.Create().ComputeHash(inputFile);
+                StringBuilder ib = new StringBuilder();
+                for(int i = 0; i < inputData.Length; i++)
+                {
+                    ib.Append(inputData[i].ToString("x2"));
+                }
+                string inputHash = ib.ToString();
+
+                Log.Debug("Input file compare. WorkflowID: {0}, InputFile: {1}, InputFile Hash: {2}", workflowID, inputFilePath, inputHash);
+                DataBackup db = new DataBackup();
+                foreach (Task t in tasks)
+                {
+                    Dictionary<string, byte[]> previousTask = db.GetData(t.id);
+                    byte[] previousData = MD5.Create().ComputeHash(previousTask["input"]);
+                    StringBuilder jb = new StringBuilder();
+                    for(int j = 0; j < previousData.Length; j++)
+                    {
+                        jb.Append(previousData[j].ToString("x2"));
+                    }
+                    string previousHash = jb.ToString();
+                    Log.Debug("Input file compare. WorkflowID: {0}, Previous Input Hash: {1}", workflowID, previousHash);
+                    if (StringComparer.OrdinalIgnoreCase.Compare(inputHash, previousHash) == 0)
+                    {
+                        match = true;
+                    }
+                }
+            }
+            return match;
+        }
+
+        /// <summary>
         /// Helper method for updating a task status
         /// </summary>
         /// <param name="workflowID"></param>
@@ -278,7 +344,7 @@ namespace LimsServer.Services
             TimeSpan scheduledStart = task.start - DateTime.Now;
             try
             {
-                //await this.RunTask(tsk.id, null);
+                //await this.RunTask(tsk.id);
                 tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id), scheduledStart);
                 Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
             }

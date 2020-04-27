@@ -145,7 +145,7 @@ namespace LimsServer.Services
             {
                 workflow.Update(_workflow);
                 await _context.SaveChangesAsync();
-                Log.Information("Updating Workflow: {0}, and cancelling existing Tasks.", id);
+                Log.Information("Updating Workflow: {0}, and reschduling existing Tasks.", id);
                 var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
                 bool taskRunning = false;
                 foreach (LimsServer.Entities.Task t in tasks)
@@ -186,7 +186,7 @@ namespace LimsServer.Services
                         }
                     }
                 }
-                if (!taskRunning && !workflow.active)
+                if (!taskRunning && workflow.active)
                 {
                     string newId = System.Guid.NewGuid().ToString();
                     LimsServer.Entities.Task tsk = new Entities.Task(newId, workflow.id, workflow.interval);
