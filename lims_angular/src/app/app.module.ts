@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -40,6 +40,8 @@ import { AuthService } from "./services/auth.service";
 import { AuthEffects } from "./store/effects/auth.effects";
 import { ProcessorsComponent } from "./admin/processors/processors.component";
 
+import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +76,14 @@ import { ProcessorsComponent } from "./admin/processors/processors.component";
     MatFileUploadModule,
     MatProgressSpinnerModule
   ],
-  providers: [CookieService],
+  providers: [
+    CookieService, 
+    { 
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedRedirect,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
