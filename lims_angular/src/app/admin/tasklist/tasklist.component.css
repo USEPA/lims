@@ -1,13 +1,13 @@
 .mat-card {
-  width: 66%;
   min-width: 525px;
+  width: 66%;
   border-radius: 0px;
   margin-top: 4em;
   margin-left: auto;
   margin-right: auto;
 }
 
-mat-table {
+table.mat-table {
   width: 100%;
 }
 
