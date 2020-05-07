@@ -3,6 +3,9 @@ using System.IO;
 using System.Data;
 using PluginBase;
 using OfficeOpenXml;
+using System.Collections.Generic;
+using System.Linq;
+using ExcelDataReader;
 
 namespace Ammonia_DA
 {
@@ -26,7 +29,7 @@ namespace Ammonia_DA
         public override string id { get => "ammonia_da_version1.0"; }
         public override string name { get => "Ammonia_DA"; }
         public override string description { get => "Processor used for Ammonia DA translation to universal template"; }
-        public override string file_type { get => ".xlsx"; }
+        public override string file_type { get => ".XLS"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
@@ -36,6 +39,7 @@ namespace Ammonia_DA
             DataTableResponseMessage rm = null;
             try
             {
+                //Using ExcelDataReader Package
                 rm = VerifyInputFile();
                 if (rm != null)
                     return rm;
@@ -43,35 +47,33 @@ namespace Ammonia_DA
                 rm = new DataTableResponseMessage();
                 FileInfo fi = new FileInfo(input_file);
 
-                //New in version 5 - must deal with License
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                using var package = new ExcelPackage(fi);
-
-                //Data is in the 1st sheet
-                var worksheet = package.Workbook.Worksheets[0]; //Worksheets are zero-based index
-                string name = worksheet.Name;
-                int startRow = worksheet.Dimension.Start.Row;
-                int startCol = worksheet.Dimension.Start.Column;
-                int numRows = worksheet.Dimension.End.Row;
-                int numCols = worksheet.Dimension.End.Column;
+                DataTableCollection tables;
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                using (var stream = File.Open(input_file, FileMode.Open, FileAccess.Read))
+                {
+                    using (var reader = ExcelReaderFactory.CreateReader(stream))
+                    {
+                        var result = reader.AsDataSet();
+                        tables = result.Tables;
+                    }
+                }
 
                 DataTable dt_template = GetDataTable();
                 dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                 TemplateField[] fields = Fields;
 
-                for (int row = 2; row <= numRows; row++)
+                var worksheet = tables[0];
+                int numRows = worksheet.Rows.Count;
+                int numCols = worksheet.Columns.Count;
+                
+                for (int row = 1; row < numRows; row++)
                 {
-
-                    string aliquot_id = GetXLStringValue(worksheet.Cells[row, 1]);
-                    DateTime analysis_datetime = fi.CreationTime.Date.Add(GetXLDateTimeValue(worksheet.Cells[row, 9]).TimeOfDay);//Time is on column 9 but no date?
-                    double measured_val = GetXLDoubleValue(worksheet.Cells[row, 2]);
-                    if(measured_val == null)
-                    {
-                        measured_val = default;
-                    }
+                    string aliquot_id = worksheet.Rows[row][0].ToString();
+                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[row][8].ToString()).TimeOfDay);
+                    double measured_val = Convert.ToDouble(worksheet.Rows[row][1].ToString());
                     string analyte_id = "NH3";
-                    double dilution_factor = GetXLDoubleValue(worksheet.Cells[row, 4]);
-                    string comment = GetXLStringValue(worksheet.Cells[row, 5]);
+                    double dilution_factor = Convert.ToDouble(worksheet.Rows[row][3].ToString());
+                    string comment = worksheet.Rows[row][4].ToString();
 
                     DataRow dr = dt_template.NewRow();
                     dr[0] = aliquot_id;
@@ -85,7 +87,6 @@ namespace Ammonia_DA
                 }
 
                 rm.TemplateData = dt_template;
-
             }
             catch (Exception ex)
             {
