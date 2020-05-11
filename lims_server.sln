@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiSeq_16s", "Processors\MiS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiSeq_18s", "Processors\MiSeq_18s\MiSeq_18s.csproj", "{02AA500E-6F73-4786-8D97-8FB8EF81E4C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimsServerTests", "LimsServerTests\LimsServerTests.csproj", "{B5A48670-3771-442D-9993-E7D8531D307B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LimsServerTests", "LimsServerTests\LimsServerTests.csproj", "{B5A48670-3771-442D-9993-E7D8531D307B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ammonia_DA", "Processors\Ammonia_DA\Ammonia_DA.csproj", "{7539572B-150C-464B-AD4F-101C7161CDC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{B5A48670-3771-442D-9993-E7D8531D307B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5A48670-3771-442D-9993-E7D8531D307B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5A48670-3771-442D-9993-E7D8531D307B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7539572B-150C-464B-AD4F-101C7161CDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7539572B-150C-464B-AD4F-101C7161CDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7539572B-150C-464B-AD4F-101C7161CDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7539572B-150C-464B-AD4F-101C7161CDC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{3530BAEF-A2FB-4918-8849-A1786BF510D1} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{02AA500E-6F73-4786-8D97-8FB8EF81E4C2} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{7539572B-150C-464B-AD4F-101C7161CDC4} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C30C58D6-0637-4A2A-A42E-364C533B80B3}
