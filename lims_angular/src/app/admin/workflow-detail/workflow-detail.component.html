@@ -2,9 +2,7 @@
   <ng-container matCard *ngIf="workflow">
     <mat-card class="workflow-detail">
       <mat-card-header>
-        <mat-card-title
-          >Workflow Name: {{ workflow.name || "invalid" }}</mat-card-title
-        >
+        <mat-card-title>Workflow Name: {{ workflow.name || "invalid" }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>ID: {{ workflow.id || "unknown" }}</p>
@@ -18,11 +16,7 @@
         <button mat-button class="control" (click)="editWorkflow(workflow)">
           Edit Workflow
         </button>
-        <button
-          mat-button
-          class="control"
-          (click)="toggleEnableWorkflow(workflow)"
-        >
+        <button mat-button class="control" (click)="toggleEnableWorkflow(workflow)">
           {{ getText(workflow.active) }}
         </button>
         <button mat-button class="control" (click)="back()">Back</button>

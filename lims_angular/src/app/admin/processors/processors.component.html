@@ -22,11 +22,9 @@
           {{ element.file_type || "unknown" }}
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
       <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
     </table>
-
     <ng-container *ngIf="loadingProcessors"
       ><mat-spinner></mat-spinner
     ></ng-container>
