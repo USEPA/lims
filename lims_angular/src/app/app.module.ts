@@ -9,8 +9,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { CookieService } from "ngx-cookie-service";
 
-import { EffectsModule } from "@ngrx/effects";
-
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { MatInputModule } from "@angular/material/input";
@@ -21,7 +19,6 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
-import { MatFileUploadModule } from "mat-file-upload";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 import { LoginComponent } from "./admin/login/login.component";
@@ -36,8 +33,6 @@ import { UserEditorComponent } from "./admin/user-editor/user-editor.component";
 import { WorkflowDetailComponent } from "./admin/workflow-detail/workflow-detail.component";
 import { RegistrationComponent } from "./admin/registration/registration.component";
 
-import { AuthService } from "./services/auth.service";
-import { AuthEffects } from "./store/effects/auth.effects";
 import { ProcessorsComponent } from "./admin/processors/processors.component";
 
 import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
@@ -73,7 +68,6 @@ import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.inter
     MatCardModule,
     MatButtonModule,
     MatSelectModule,
-    MatFileUploadModule,
     MatProgressSpinnerModule
   ],
   providers: [
