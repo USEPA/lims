@@ -92,9 +92,11 @@ export class TaskManagerService implements OnInit {
   }
 
   getWorkflow(id: string): Workflow {
-    for (const wf of this.workflows) {
-      if (id === wf.id) {
-        return wf;
+    if (this.workflows) {
+      for (const wf of this.workflows) {
+        if (id === wf.id) {
+          return wf;
+        }
       }
     }
     return {
