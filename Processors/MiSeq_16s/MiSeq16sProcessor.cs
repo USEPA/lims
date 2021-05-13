@@ -25,6 +25,7 @@ namespace MiSeq_16s
         public override DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTable dt = null;
             try
             {
                 rm = VerifyInputFile();
@@ -32,7 +33,7 @@ namespace MiSeq_16s
                     return rm;
 
                 rm = new DataTableResponseMessage();
-                DataTable dt = GetDataTable();                
+                dt = GetDataTable();                
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
@@ -48,11 +49,10 @@ namespace MiSeq_16s
                 if (worksheet.Dimension == null)
                 {
                     string msg = string.Format("No data in Sheet 1 in InputFile:  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage =msg;
+                    rm.ErrorMessage = msg;
                     return rm;
-                }
-
-                string aliquot = "";
+                }                
 
                 int startRow = worksheet.Dimension.Start.Row;
                 int startCol = worksheet.Dimension.Start.Column;
@@ -61,7 +61,7 @@ namespace MiSeq_16s
 
                 //Build list of aliquots
                 List<string> lstAliquots = new List<string>();
-                for (int row=1; row<=numRows; row++)
+                for (int row=2; row<=numRows; row++)
                 {
                     string sval = GetXLStringValue(worksheet.Cells[row, 1]);
                     if (string.IsNullOrWhiteSpace(sval))
@@ -93,11 +93,65 @@ namespace MiSeq_16s
                     else if (cell_val == "family") row_family = row;
                     else if (cell_val == "genus")  row_genus  = row;
                 }
+
+                // Build list of analyte ids
+                List<string> lstAnalytes = new List<string>();
+
+                for (int col_idx = 2; col_idx <= numCols; col_idx++)
+                {
+                    int row = 1;
+                    string analyte = GetXLStringValue(worksheet.Cells[row, col_idx]);
+                    if (string.IsNullOrWhiteSpace(analyte))
+                        break;
+                    
+                    lstAnalytes.Add(analyte);
+                }
+
+                //Loop over data to get measured values
+                List<string> data = new List<string>();
+                for (int row_idx = 2; row_idx <= lstAliquots.Count; row_idx++)
+                {
+                    for (int col_idx = 2; col_idx <= lstAnalytes.Count; col_idx++)
+                    {
+                        DataRow row = dt.NewRow();
+
+                        row["Aliquot"] = lstAliquots[row_idx - 2];
+
+                        row["Analyte Identifier"] = lstAnalytes[col_idx - 2];
+
+                        string measured_val = GetXLStringValue(worksheet.Cells[row_idx, col_idx]);
+                        //If meausured value is None set to 0        
+                        double dval;
+                        if (!string.IsNullOrWhiteSpace(measured_val))
+                        {
+                            if (!double.TryParse(measured_val, out dval))
+                                measured_val = "0";
+                        }
+                        else
+                            measured_val = "0";
+
+                        row["Measured Value"] = measured_val;
+
+                        string desc = GetXLStringValue(worksheet.Cells[row_kingdom, col_idx]) + ";";
+                        desc += GetXLStringValue(worksheet.Cells[row_phylum, col_idx]) + ";";
+                        desc += GetXLStringValue(worksheet.Cells[row_class, col_idx]) + ";";
+                        desc += GetXLStringValue(worksheet.Cells[row_order, col_idx]) + ";";
+                        desc += GetXLStringValue(worksheet.Cells[row_family, col_idx]) + ";";
+                        desc += GetXLStringValue(worksheet.Cells[row_genus, col_idx]);
+                        row["Description"] = desc;
+
+                        dt.Rows.Add(row);
+
+                    }
+                }
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
+
+            rm.TemplateData = dt;
 
             return rm;
         }

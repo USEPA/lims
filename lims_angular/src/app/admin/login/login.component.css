@@ -1,0 +1,56 @@
+.mat-card {
+  min-width: 200px;
+  max-width: 200px;
+  border-radius: 0px;
+}
+
+.mat-centered {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mat-button {
+  border: 1px solid #303030;
+  margin-top: 10px;
+}
+
+.mat-form-field {
+  margin: 10px;
+}
+
+.centered {
+  display: inline-block;
+  width: 100%;
+}
+
+.login {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4em;
+}
+
+.control {
+  margin: 5px;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+}
+
+.spacer {
+  flex: 1 1 auto;
+  min-width: 1em;
+}
+
+.mat-spinner {
+  margin: 15px auto;
+}
+
+.statusMessage {
+  margin-top: 1em;
+  text-align: center;
+}

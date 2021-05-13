@@ -1,0 +1,26 @@
+<div class="centered">
+  <ng-container matCard *ngIf="workflow">
+    <mat-card class="workflow-detail">
+      <mat-card-header>
+        <mat-card-title>Workflow Name: {{ workflow.name || "invalid" }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>ID: {{ workflow.id || "unknown" }}</p>
+        <p>Processor: {{ workflow.processor || "unknown" }}</p>
+        <p>Input Folder: {{ workflow.inputFolder || "unknown" }}</p>
+        <p>Output Folder: {{ workflow.outputFolder || "unknown" }}</p>
+        <p>Interval: {{ workflow.interval || "unknown" }}</p>
+        <p>Active: {{ workflow.active }}</p>
+      </mat-card-content>
+      <div class="controls">
+        <button mat-button class="control" (click)="editWorkflow(workflow)">
+          Edit Workflow
+        </button>
+        <button mat-button class="control" (click)="toggleEnableWorkflow(workflow)">
+          {{ getText(workflow.active) }}
+        </button>
+        <button mat-button class="control" (click)="back()">Back</button>
+      </div>
+    </mat-card>
+  </ng-container>
+</div>

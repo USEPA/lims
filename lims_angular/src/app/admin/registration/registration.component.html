@@ -1,0 +1,29 @@
+<div class="centered">
+  <mat-card class="task-detail" (keyup.enter)="registerUser(username, password)">
+    <mat-card-header>
+      <mat-card-title>Register New User</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>User Name: </mat-label>
+        <input matInput name="username" #username />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password: </mat-label>
+        <input matInput type="password" #password />
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions class="controls">
+      <ng-container *ngIf="!waitingForResponse">
+        <button mat-button class="control" (click)="registerUser(username, password)" >
+          Register User
+        </button>
+        <button mat-button class="control" (click)="cancel()">Cancel</button>
+      </ng-container>
+      <ng-container *ngIf="waitingForResponse">
+        registering user...
+        <mat-spinner [diameter]="32"></mat-spinner>
+      </ng-container>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -23,6 +23,7 @@ namespace LimsServer.Entities
 
         public void Update(Workflow wf)
         {
+            this.id = wf.id;
             this.name = wf.name;
             this.processor = wf.processor;
             this.inputFolder = wf.inputFolder;

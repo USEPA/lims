@@ -39,68 +39,69 @@ namespace Qubit2_0
 
                 //New in version 5 - must deal with License
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                using (var package = new ExcelPackage(fi))
+                using var package = new ExcelPackage(fi);
+                
+                //Data is in the 2nd sheet
+                var worksheet = package.Workbook.Worksheets[1]; //Worksheets are zero-based index
+                string name = worksheet.Name;
+                int startRow = worksheet.Dimension.Start.Row;
+                int startCol = worksheet.Dimension.Start.Column;
+                int numRows = worksheet.Dimension.End.Row;
+                int numCols = worksheet.Dimension.End.Column;
+
+                DataTable dt_template = GetDataTable();                    
+                dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
+                TemplateField[] fields = Fields;
+
+
+                //The columns in the data file are as follows through column J
+                //  A        B          C             D            E       F             G        H          I                   J
+                //SED_ID	Name	  Date/Time	  Assay Conc.	Units	Stock Conc.	  Units	  Assay Type   Sample Vol (µL)	 Dilution Factor
+                //^^^^^^^   ^^^^^     ^^^^^^^^    ^^^^^^^^^                                                                  ^^^^^^^^^^^^^^^
+
+                //Aliquot  AssayType  Analysis    Measured                                                                   Dilution Factor   
+                //ID                  Date/Time   Value
+
+                for (int row = 2; row <= numRows; row++)
                 {
-                    //Data is in the 2nd sheet
-                    var worksheet = package.Workbook.Worksheets[1]; //Worksheets are zero-based index
-                    string name = worksheet.Name;
-                    int startRow = worksheet.Dimension.Start.Row;
-                    int startCol = worksheet.Dimension.Start.Column;
-                    int numRows = worksheet.Dimension.End.Row;
-                    int numCols = worksheet.Dimension.End.Column;
 
-                    DataTable dt_template = GetDataTable();                    
-                    dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
-                    TemplateField[] fields = Fields;
+                    string aliquot_id = GetXLStringValue(worksheet.Cells[row, 1]);
 
+                    DateTime analysis_datetime = GetXLDateTimeValue(worksheet.Cells[row, 3]);
 
-                    //The columns in the data file are as follows through column J
-                    //  A        B          C             D            E       F             G        H          I                   J
-                    //SED_ID	Name	  Date/Time	  Assay Conc.	Units	Stock Conc.	  Units	  Assay Type   Sample Vol (µL)	 Dilution Factor
-                    //^^^^^^^   ^^^^^     ^^^^^^^^    ^^^^^^^^^                                                                  ^^^^^^^^^^^^^^^
-
-                    //Aliquot  AssayType  Analysis    Measured                                                                   Dilution Factor   
-                    //ID                  Date/Time   Value
-
-                    for (int row = 2; row <= numRows; row++)
+                    double measured_val = default;
+                    ExcelRange rng_meas_val = worksheet.Cells[row, 4];
+                    if (rng_meas_val != null && rng_meas_val.Value != null)
                     {
-
-                        string aliquot_id = GetXLStringValue(worksheet.Cells[row, 1]);
-
-                        DateTime analysis_datetime = GetXLDateTimeValue(worksheet.Cells[row, 3]);
-
-                        double measured_val = default;
-                        ExcelRange rng_meas_val = worksheet.Cells[row, 4];
-                        if (rng_meas_val != null && rng_meas_val.Value != null)
-                        {
-                            string msr_val = rng_meas_val.Value.ToString().Trim();
-                            if (string.Compare(msr_val, "<0.50") == 0)
-                                measured_val = default;
-                            else
-                                measured_val = GetXLDoubleValue(worksheet.Cells[row, 4]);
-                        }
+                        string msr_val = rng_meas_val.Value.ToString().Trim();
+                        if (string.Compare(msr_val, "<0.50") == 0)
+                            measured_val = default;
+                        else
+                            measured_val = GetXLDoubleValue(worksheet.Cells[row, 4]);
+                    }
 
 
-                        string analyte_id = GetXLStringValue(worksheet.Cells[row, 8]);
+                    string analyte_id = GetXLStringValue(worksheet.Cells[row, 8]);
 
-                        double dilution_factor = GetXLDoubleValue(worksheet.Cells[row, 10]);
+                    double dilution_factor = GetXLDoubleValue(worksheet.Cells[row, 10]);
 
-                        DataRow dr = dt_template.NewRow();
-                        dr[0] = aliquot_id;
-                        dr[5] = analysis_datetime;
-                        dr[2] = measured_val;
-                        dr[1] = analyte_id;
-                        dr[4] = dilution_factor;
+                    DataRow dr = dt_template.NewRow();
+                    dr[0] = aliquot_id;
+                    dr[5] = analysis_datetime;
+                    dr[2] = measured_val;
+                    dr[1] = analyte_id;
+                    dr[4] = dilution_factor;
 
-                        dt_template.Rows.Add(dr);
+                    dt_template.Rows.Add(dr);
                     }
 
                     rm.TemplateData = dt_template;
-                }
+                
             }
             catch(Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
 
             return rm;           

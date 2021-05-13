@@ -64,7 +64,8 @@ namespace Tracefinder
                 if (worksheet2.Dimension == null)
                 {
                     string msg = string.Format("No data in Sheet2 in InputFile:  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
                     return rm;
                 }
 
@@ -78,7 +79,8 @@ namespace Tracefinder
                 if (string.Compare(sval, "Data File", true) != 0)
                 {
                     string msg = string.Format("Input file is not in correct format. String 'Data File' missing from cell A8.  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
                     return rm;
                 }
 
@@ -98,7 +100,8 @@ namespace Tracefinder
                 if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
                 {
                     string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
-                    rm.AddErrorAndLogMessage(String.Format(msg, 8, numCols, input_file));
+                    rm.LogMessage = string.Format(msg, 8, numCols, input_file);
+                    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);                    
                     return rm;   
                 }
 
@@ -136,7 +139,8 @@ namespace Tracefinder
                 if (worksheet4.Dimension == null)
                 {
                     string msg = string.Format("No data in Sheet4 in InputFile:  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
                     return rm;
                 }
                 startRow = worksheet4.Dimension.Start.Row;
@@ -211,7 +215,8 @@ namespace Tracefinder
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Error processing input file: {0}", input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
             return rm;
         }

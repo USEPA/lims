@@ -1,0 +1,81 @@
+.mat-card {
+  min-width: 350px;
+  width: 80%;
+  border-radius: 0px;
+  margin-top: 4em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.mat-table {
+  width: 100%;
+}
+
+.mat-cell {
+  text-align: center;
+  padding: 24px;
+}
+
+.mat-header-cell {
+  text-align: center;
+  padding: 24px 18px 24px 30px;
+}
+
+.mat-column-name {
+  flex: 0 0 15%;
+  width: 15%;
+}
+
+.mat-column-processor {
+  flex: 0 0 25%;
+  width: 25%;
+}
+
+.mat-column-input-path {
+  flex: 0 0 25%;
+  width: 25%;
+}
+
+.mat-column-output-path {
+  flex: 0 0 25%;
+  width: 25%;
+}
+
+.mat-column-frequency {
+  flex: 0 0 10%;
+  width: 10%;
+  text-align: center;
+}
+
+.centered {
+  width: 100%;
+}
+
+.control {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 1.25em;
+  margin-bottom: 2em;
+}
+
+.mat-button {
+  border: 1px solid #303030;
+  margin-top: 10px;
+}
+
+.mat-form-field {
+  margin: 10px;
+}
+
+.mat-spinner {
+  margin: 15px auto;
+}
+
+.statusMessage {
+  margin-top: 1em;
+  text-align: center;
+}

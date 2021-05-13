@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite;
 using LimsServer.Helpers;
 using LimsServer.Services;
 using AutoMapper;
@@ -13,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Hangfire;
 using Hangfire.Storage.SQLite;
 using Hangfire.JobsLogger;
@@ -21,6 +19,10 @@ using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
 using Serilog;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace LimsServer
 {
@@ -41,10 +43,8 @@ namespace LimsServer
             string projectRootPath = _env.ContentRootPath;
 
             services.AddCors();
-            //services.AddMvc(); // MvcOptions.EnableEndpointRouting = false
             string connString = "Data Source=lims.db";
             services.AddDbContext<DataContext>(x => x.UseSqlite(connString));
-            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
@@ -92,7 +92,8 @@ namespace LimsServer
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
@@ -102,6 +103,8 @@ namespace LimsServer
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<ITaskService, TaskService>();
 
+            services.AddHostedService<LoadProcessors>();
+
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
@@ -109,13 +112,34 @@ namespace LimsServer
                 .UseSQLiteStorage("lims_server.db", new SQLiteStorageOptions())
                 .UseHeartbeatPage(checkInterval: TimeSpan.FromSeconds(30))
                 .UseJobsLogger());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Laboratory Information Management System", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            //UpdateDatabase(app);
+            app.Use(async (HttpContext context, Func<Task> next) =>
+            {
+                await next.Invoke();
+
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = new PathString("/index.html");
+                    await next.Invoke();
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -126,8 +150,14 @@ namespace LimsServer
                 app.UseHsts();
             }
 
-            app.UseStatusCodePages();
+            //app.UseStatusCodePages();
             app.UseSerilogRequestLogging();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LIMS API v1");
+            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
@@ -140,6 +170,7 @@ namespace LimsServer
                         context.Context.Response.Headers.Add("Expires", "-1");
                     }
                 }
+                
             });
 
             // global cors policy
@@ -149,7 +180,6 @@ namespace LimsServer
                 .AllowAnyHeader());
 
             app.UseAuthentication();
-            
 
             //app.UseMvc();
             app.UseRouting();
@@ -160,20 +190,13 @@ namespace LimsServer
             });
 
             app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
-            app.UseHangfireDashboard("/dashboard");
-        }
-
-        private static void UpdateDatabase(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>()
-                .CreateScope())
+            app.UseHangfireDashboard("/dashboard", new DashboardOptions
             {
-                using (var context = serviceScope.ServiceProvider.GetService<DbContext>())
-                {
-                    //context.Database.Migrate();
-                }
-            }
+                Authorization = new [] { new HangfireAuthorizationFilter() },               
+            });
+
+            DataBackup db = new DataBackup();
+            db.ScheduleCleanup();
         }
     }
 }

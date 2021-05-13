@@ -18,12 +18,13 @@ namespace PicoGreen
         public override string input_file { get; set; }
         public override string path { get; set; }
 
-
         //KW
         //May 13, 2021
         //Changed on request by Curtis Callahan via email on April 06, 2021
         //private readonly string analyteID = "dsDNA";
         private readonly string analyteID = "dsDNA HS";
+        //private const string analyteID = "dsDNA";
+
 
         public override DataTableResponseMessage Execute()
         {
@@ -57,7 +58,8 @@ namespace PicoGreen
                 {
 
                     string msg = string.Format("Input file is not in correct format. Row 18, Column 1 should contain value 'Well ID'.  {0}", input_file);
-                    rm.AddErrorAndLogMessage(msg);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
                     return rm;
                 }
 
@@ -71,6 +73,10 @@ namespace PicoGreen
                 for (int row = 18; row<=numRows; row++)
                 {
                     wellID = GetXLStringValue(worksheet.Cells[row, 1]);
+                    //if the cell is empty then start new data block 
+                    if (string.IsNullOrWhiteSpace(wellID))
+                        continue;
+
                     //if the cell contains 'Well ID' then start new data block 
                     if (wellID.Equals("Well ID", StringComparison.OrdinalIgnoreCase))
                         continue;
@@ -79,7 +85,14 @@ namespace PicoGreen
                     string aliquot = aliquot_dilFactor[0];
                     string dilFactor = aliquot_dilFactor[1];
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
-                    double measuredVal = GetXLDoubleValue(worksheet.Cells[row, 5]);
+                    string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
+
+                    //If measured value is “<0.0” report value as 0
+                    //If measured value is “>1050.0” report value as 1050
+                    if (measuredVal.Contains("<"))
+                        measuredVal = "0";
+                    else if (measuredVal.Contains(">"))
+                        measuredVal = "1050";
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
@@ -90,11 +103,12 @@ namespace PicoGreen
 
                     dt.Rows.Add(dr);
                 }
-                rm.TemplateData = dt;
+                rm.TemplateData = dt.Copy();
             }
             catch (Exception ex)
             {
-                rm.AddErrorAndLogMessage(string.Format("Problem transferring data file {0}  to template file", input_file));
+                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
 
             return rm;

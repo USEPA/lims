@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Hangfire;
-using Hangfire.Storage.SQLite;
-using Hangfire.Storage.Monitoring;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using LimsServer.Services;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace LimsServer.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/tasks")]
     [ApiController]
     public class TasksController : ControllerBase
     {
 
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ILogger<TasksController> _logger;
+
+        public TasksController(IWebHostEnvironment hostingEnvironment, ILogger<TasksController> logger)
+        {
+            _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
+        }
+
         /// <summary>
-        /// GET: api/Tasks
+        /// Gets details for all tasks.
         /// </summary>
-        /// <returns>all Tasks</returns>
+        /// <returns>Collection of tasks</returns>
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromServices]ITaskService _service)
         {
@@ -33,10 +35,10 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// GET: api/Tasks/ID
+        /// Gets details for a single task, specified by ID.
         /// </summary>
-        /// <param name="id">Task ID</param>
-        /// <returns>Task of the specified ID</returns>
+        /// <param name="id">task ID</param>
+        /// <returns>Single task</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, [FromServices]ITaskService _service)
         {
@@ -45,32 +47,22 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// POST: api/Tasks
-        /// </summary>
-        /// <param name="value">Serialized string of a new task</param>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        /// <summary>
-        /// PUT: api/Tasks/ID
+        /// Deletes a single task, specified by ID. (sets status to CANCELLED)
         /// </summary>
         /// <param name="id">task ID</param>
-        /// <param name="value">Serialized string with the updated task configuration</param>
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id, [FromServices]ITaskService _service)
+        {
+            try
+            {
+                await _service.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-        // DELETE: api/ApiWithActions/5
-        /// <summary>
-        /// DELETE: api/Tasks/ID
-        /// </summary>
-        /// <param name="id">ID of the task to be deleted.</param>
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        }
     }
 }
