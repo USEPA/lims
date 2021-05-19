@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LimsServerTests", "LimsServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ammonia_DA", "Processors\Ammonia_DA\Ammonia_DA.csproj", "{7539572B-150C-464B-AD4F-101C7161CDC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermo_Fisher_Orbitrap", "Processors\Thermo_Fisher_Orbitrap\Thermo_Fisher_Orbitrap.csproj", "{6E097EA6-5DCE-444C-AB7B-87D4DD639538}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{7539572B-150C-464B-AD4F-101C7161CDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7539572B-150C-464B-AD4F-101C7161CDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7539572B-150C-464B-AD4F-101C7161CDC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E097EA6-5DCE-444C-AB7B-87D4DD639538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E097EA6-5DCE-444C-AB7B-87D4DD639538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E097EA6-5DCE-444C-AB7B-87D4DD639538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E097EA6-5DCE-444C-AB7B-87D4DD639538}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{3530BAEF-A2FB-4918-8849-A1786BF510D1} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{02AA500E-6F73-4786-8D97-8FB8EF81E4C2} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{7539572B-150C-464B-AD4F-101C7161CDC4} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{6E097EA6-5DCE-444C-AB7B-87D4DD639538} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C30C58D6-0637-4A2A-A42E-364C533B80B3}
