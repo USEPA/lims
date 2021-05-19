@@ -10,26 +10,12 @@ using ExcelDataReader;
 namespace ThermoFisherOrbitrap
 
 {
-    /*class AliquotAnalyte
-    {
-        public string Aliquot { get; set; }
-        public string AnalyteID { get; set; }
-        public string MeasuredValue { get; set; }
-        public string Comment { get; set; }
 
-        public AliquotAnalyte(string aliquot, string analyteID, string measuredVal = "", string comment = "")
-        {
-            Aliquot = aliquot;
-            AnalyteID = analyteID;
-            MeasuredValue = measuredVal;
-            Comment = Comment;
-        }
-    }*/
     public class ThermoFisherOrbitrapProcessor : DataProcessor
     {
-        public override string id { get => "ammonia_da_version1.0"; }
-        public override string name { get => "Ammonia_DA"; }
-        public override string description { get => "Processor used for Ammonia DA translation to universal template"; }
+        public override string id { get => "thermo_fisher_orbitrap1.0"; }
+        public override string name { get => "ThermoFisherOrbitrap"; }
+        public override string description { get => "Processor used for Thermo Fisher Orbitrap translation to universal template"; }
         public override string file_type { get => ".XLS"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
