@@ -61,9 +61,11 @@ namespace ThermoFisherOrbitrap
                     //Data row starts on Excel row 6, 5 for zero based
                     for (int row = 5; row < numRows; row++)
                     {
-                        string aliquot_id = worksheet.Rows[row][0].ToString();
-                        if (String.IsNullOrWhiteSpace(aliquot_id))
+                        string fileName = worksheet.Rows[row][0].ToString().Trim();
+                        if (String.IsNullOrWhiteSpace(fileName))
                             break;
+
+                        string aliquot_id = worksheet.Rows[row][2].ToString();                        
 
                         string measured_val = worksheet.Rows[row][5].ToString();
 
