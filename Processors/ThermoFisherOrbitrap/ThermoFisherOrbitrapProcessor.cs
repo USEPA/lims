@@ -84,7 +84,7 @@ namespace ThermoFisherOrbitrap
                         dr[4] = dilution_factor;
                         dr[5] = analysis_datetime;
                         dr[8] = userDefined1;
-                        dr[9] = userDefined1;
+                        dr[9] = userDefined2;
 
                         dt_template.Rows.Add(dr);
                     }
