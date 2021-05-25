@@ -49,30 +49,47 @@ namespace ThermoFisherOrbitrap
                 dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                 TemplateField[] fields = Fields;
 
-                var worksheet = tables[0];
-                int numRows = worksheet.Rows.Count;
-                int numCols = worksheet.Columns.Count;
-                
-                for (int row = 1; row < numRows; row++)
+                int numTables = tables.Count;
+                for (int i =0; i<numTables; i++)
                 {
-                    string aliquot_id = worksheet.Rows[row][0].ToString();
-                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[row][8].ToString()).TimeOfDay);
-                    double measured_val = Convert.ToDouble(worksheet.Rows[row][1].ToString());
-                    string analyte_id = "NH3";
-                    double dilution_factor = Convert.ToDouble(worksheet.Rows[row][3].ToString());
-                    string comment = worksheet.Rows[row][4].ToString();
+                    var worksheet = tables[i];
+                    string analyte_id = worksheet.Rows[2][0].ToString();
 
-                    DataRow dr = dt_template.NewRow();
-                    dr[0] = aliquot_id;
-                    dr[1] = analyte_id;
-                    dr[2] = measured_val;
-                    dr[4] = dilution_factor;
-                    dr[5] = analysis_datetime;
-                    dr[6] = comment;
+                    int numRows = worksheet.Rows.Count;
+                    int numCols = worksheet.Columns.Count;
 
-                    dt_template.Rows.Add(dr);
+                    //Data row starts on Excel row 6, 5 for zero based
+                    for (int row = 5; row < numRows; row++)
+                    {
+                        string aliquot_id = worksheet.Rows[row][0].ToString();
+                        if (String.IsNullOrWhiteSpace(aliquot_id))
+                            break;
+
+                        string measured_val = worksheet.Rows[row][5].ToString();
+
+                        double dilution_factor = Convert.ToDouble(worksheet.Rows[row][40].ToString());
+
+                        DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[row][30].ToString()).TimeOfDay);
+
+                        //Area
+                        string userDefined1 = worksheet.Rows[row][14].ToString();
+
+                        //ISTD Area
+                        string userDefined2 = worksheet.Rows[row][16].ToString();
+
+                        DataRow dr = dt_template.NewRow();
+                        dr[0] = aliquot_id;
+                        dr[1] = analyte_id;
+                        dr[2] = measured_val;
+                        dr[4] = dilution_factor;
+                        dr[5] = analysis_datetime;
+                        dr[8] = userDefined1;
+                        dr[9] = userDefined1;
+
+                        dt_template.Rows.Add(dr);
+                    }
                 }
-
+                                                               
                 rm.TemplateData = dt_template;
             }
             catch (Exception ex)
