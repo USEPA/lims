@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using ExcelDataReader;
 
-namespace ThermoFisherOrbitrap
+namespace Xcaliber
 
 {
 
-    public class ThermoFisherOrbitrapProcessor : DataProcessor
+    public class XcaliberProcessor : DataProcessor
     {
-        public override string id { get => "thermo_fisher_orbitrap1.0"; }
-        public override string name { get => "ThermoFisherOrbitrap"; }
-        public override string description { get => "Processor used for Thermo Fisher Orbitrap translation to universal template"; }
+        public override string id { get => "Xcaliber1.0"; }
+        public override string name { get => "Xcaliber"; }
+        public override string description { get => "Processor used for Xcaliber translation to universal template"; }
         public override string file_type { get => ".XLS"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
@@ -67,7 +67,12 @@ namespace ThermoFisherOrbitrap
 
                         string aliquot_id = worksheet.Rows[row][2].ToString();                        
 
-                        string measured_val = worksheet.Rows[row][5].ToString();
+                        //Measured val can contain string of 'NA' or 'NF'
+                        string measured_val = worksheet.Rows[row][5].ToString().Trim();
+                        double d_measured_val;
+                        if (!Double.TryParse(measured_val, out d_measured_val))
+                            d_measured_val = 0.0;                        
+
 
                         double dilution_factor = Convert.ToDouble(worksheet.Rows[row][40].ToString());
 
@@ -82,7 +87,7 @@ namespace ThermoFisherOrbitrap
                         DataRow dr = dt_template.NewRow();
                         dr[0] = aliquot_id;
                         dr[1] = analyte_id;
-                        dr[2] = measured_val;
+                        dr[2] = d_measured_val;
                         dr[4] = dilution_factor;
                         dr[5] = analysis_datetime;
                         dr[8] = userDefined1;

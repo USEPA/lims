@@ -83,10 +83,15 @@ namespace PicoGreen
                     
                     string[] aliquot_dilFactor = GetAliquotDilutionFactor(GetXLStringValue(worksheet.Cells[row, 2]));
                     string aliquot = aliquot_dilFactor[0];
-                    string dilFactor = aliquot_dilFactor[1];
+                    
+                    
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
                     string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
 
+                    //string dilFactor = aliquot_dilFactor[1];
+                    //KW June 9, 2021
+                    //This change implemented at the request of Curtis Callahan
+                    string dilFactor = GetXLStringValue(worksheet.Cells[row, 6]);
                     //If measured value is “<0.0” report value as 0
                     //If measured value is “>1050.0” report value as 1050
                     if (measuredVal.Contains("<"))
