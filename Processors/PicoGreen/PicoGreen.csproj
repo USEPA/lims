@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -10,6 +10,10 @@
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +27,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\netcoreapp3.1\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+    <Exec Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\$(TargetFramework)-windows\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
   </Target>
 
 </Project>
