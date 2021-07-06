@@ -157,10 +157,11 @@ namespace LIMSDesktop
                 string loc = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 FileInfo fi = new FileInfo(loc);
                 DirectoryInfo di = fi.Directory;
-                if (!Directory.Exists(fi.Directory.FullName))
-                    Directory.CreateDirectory(fi.Directory.FullName);
+                logPath = Path.Combine(fi.Directory.FullName, "logs");
+                if (!Directory.Exists(logPath))
+                    Directory.CreateDirectory(logPath);
 
-                logPath = Path.Combine(di.FullName, "logs", "lims_desktop.log");
+                logPath = Path.Combine(logPath, "lims_desktop.log");
 
                 File.AppendAllText(logPath, message);
             }
