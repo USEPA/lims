@@ -22,8 +22,11 @@ namespace PicoGreen
         //May 13, 2021
         //Changed on request by Curtis Callahan via email on April 06, 2021
         //private readonly string analyteID = "dsDNA";
-        private readonly string analyteID = "dsDNA HS";
-        //private const string analyteID = "dsDNA";
+
+        //KW: July 20, 2021
+        //Changed on request by Curtis Callahan via email on July 20, 2021
+        //Analyte ID is now in cell I1.
+        //private readonly string analyteID = "dsDNA HS";        
 
 
         public override DataTableResponseMessage Execute()
@@ -53,7 +56,17 @@ namespace PicoGreen
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
+
+                string analyteID = GetXLStringValue(worksheet.Cells[1, 9]);
+                if (string.IsNullOrWhiteSpace(analyteID))
+                {
+                    string msg = string.Format("Input file is not in correct format. Row 1, Column 9 should contain an analyte ID", input_file);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
+                    return rm;
+                }
+
+                        string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
                 if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
                 {
 
@@ -101,7 +114,12 @@ namespace PicoGreen
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
-                    dr["Dilution Factor"] = dilFactor;
+
+                    if (!string.IsNullOrWhiteSpace(dilFactor))
+                        dr["Dilution Factor"] = dilFactor;
+                    else
+                        dr["Dilution Factor"] = 1;
+
                     dr["Description"] = description;
                     dr["Measured Value"] = measuredVal;
                     dr["Analyte Identifier"] = analyteID;
