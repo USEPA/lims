@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ammonia_DA", "Processors\Am
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xcaliber", "Processors\Xcaliber\Xcaliber.csproj", "{E5A974DD-8CBF-420F-9791-1A4DD5A8A8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinLab_ICP", "Processors\WinLab_ICP\WinLab_ICP.csproj", "{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinLab_ICP", "Processors\WinLab_ICP\WinLab_ICP.csproj", "{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chlorophyll", "Processors\Chlorophyll\Chlorophyll.csproj", "{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +115,7 @@ Global
 		{7539572B-150C-464B-AD4F-101C7161CDC4} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{E5A974DD-8CBF-420F-9791-1A4DD5A8A8EF} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{DFE72F01-72BD-4E40-B063-5FD13E5DBFCA} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{D821FCBA-9AD3-42DC-9F91-5B0C56529A8A} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C30C58D6-0637-4A2A-A42E-364C533B80B3}
