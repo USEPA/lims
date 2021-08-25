@@ -9,6 +9,18 @@ lims_server.sln
 
 Add new C# class library project in Processors folder.
 
+You can use the MyInstrument_template file as the basis for the new processor.
+
+Use the OfficeOpenXml package for working with .xlsx files.
+Use the ExcelDataReader package for working with older .xls files.
+
+Include project reference for PluginBase. This gives access to DataProcessor base class.
+
+
+
+
+
+
 
 
 
