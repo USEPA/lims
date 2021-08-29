@@ -10,15 +10,24 @@ namespace PicoGreen
 {
     public class PicoGreenProcessor : DataProcessor
     {
-        public override string id { get => "pico_green_version1.0"; }
+        public override string id { get => "pico_green_version1.0.1"; }
         public override string name { get => "PicoGreen"; }
         public override string description { get => "Processor used for PicoGreen translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
-        public override string version { get => "1.0"; }
+        public override string version { get => "1.0.1"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
 
-        private const string analyteID = "dsDNA";
+        //KW
+        //May 13, 2021
+        //Changed on request by Curtis Callahan via email on April 06, 2021
+        //private readonly string analyteID = "dsDNA";
+
+        //KW: July 20, 2021
+        //Changed on request by Curtis Callahan via email on July 20, 2021
+        //Analyte ID is now in cell I1.
+        //private readonly string analyteID = "dsDNA HS";        
+
 
         public override DataTableResponseMessage Execute()
         {
@@ -47,7 +56,17 @@ namespace PicoGreen
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
+
+                string analyteID = GetXLStringValue(worksheet.Cells[1, 9]);
+                if (string.IsNullOrWhiteSpace(analyteID))
+                {
+                    string msg = string.Format("Input file is not in correct format. Row 1, Column 9 should contain an analyte ID", input_file);
+                    rm.LogMessage = msg;
+                    rm.ErrorMessage = msg;
+                    return rm;
+                }
+
+                        string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
                 if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
                 {
 
@@ -77,10 +96,15 @@ namespace PicoGreen
                     
                     string[] aliquot_dilFactor = GetAliquotDilutionFactor(GetXLStringValue(worksheet.Cells[row, 2]));
                     string aliquot = aliquot_dilFactor[0];
-                    string dilFactor = aliquot_dilFactor[1];
+                    
+                    
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
                     string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
 
+                    //string dilFactor = aliquot_dilFactor[1];
+                    //KW June 9, 2021
+                    //This change implemented at the request of Curtis Callahan
+                    string dilFactor = GetXLStringValue(worksheet.Cells[row, 6]);
                     //If measured value is “<0.0” report value as 0
                     //If measured value is “>1050.0” report value as 1050
                     if (measuredVal.Contains("<"))
@@ -90,7 +114,12 @@ namespace PicoGreen
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
-                    dr["Dilution Factor"] = dilFactor;
+
+                    if (!string.IsNullOrWhiteSpace(dilFactor))
+                        dr["Dilution Factor"] = dilFactor;
+                    else
+                        dr["Dilution Factor"] = 1;
+
                     dr["Description"] = description;
                     dr["Measured Value"] = measuredVal;
                     dr["Analyte Identifier"] = analyteID;

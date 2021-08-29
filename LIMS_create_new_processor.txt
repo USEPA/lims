@@ -1,0 +1,27 @@
+Creating a new LIMS processor
+
+Clone Git repo from: 
+https://github.com/kurtw555/lims
+
+Launch Visual Studio 2019
+Open the LIMS Visual Studio Solution file:
+lims_server.sln
+
+Add new C# class library project in Processors folder.
+
+You can use the MyInstrument_template file as the basis for the new processor.
+
+Use the OfficeOpenXml package for working with .xlsx files.
+Use the ExcelDataReader package for working with older .xls files.
+
+Include project reference for PluginBase. This gives access to DataProcessor base class.
+
+
+
+
+
+
+
+
+
+

@@ -96,14 +96,37 @@ namespace Tracefinder
                     
                 }
 
-                string analyzeDate = GetXLStringValue(worksheet2.Cells[8, numCols]);
-                if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
+                //KW: July 19, 2021
+                //"Sample Acquisition Date" - was assumed to be in last column
+                //We will search for it instead
+                string analyzeDate = "";
+                int analyzeDateColNum = -1;
+                for (int i = numCols; i > 1; i--)
+                {
+                    analyzeDate = GetXLStringValue(worksheet2.Cells[8, i]);
+                    if (analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
+                    {
+                        analyzeDateColNum = i;
+                        break;
+                    }
+                }
+
+                if (analyzeDateColNum < 0)
                 {
                     string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
                     rm.LogMessage = string.Format(msg, 8, numCols, input_file);
-                    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);                    
-                    return rm;   
+                    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);
+                    return rm;
                 }
+
+                //string analyzeDate = GetXLStringValue(worksheet2.Cells[8, numCols]);
+                //if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
+                //    rm.LogMessage = string.Format(msg, 8, numCols, input_file);
+                //    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);                    
+                //    return rm;   
+                //}
 
                 int numAnalytes = lstAnalyteIDs.Count;
 
@@ -113,7 +136,7 @@ namespace Tracefinder
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
-                    analyzeDate = GetXLStringValue(worksheet2.Cells[row, numCols]);
+                    analyzeDate = GetXLStringValue(worksheet2.Cells[row, analyzeDateColNum]);
                     for (int col = 2; col < numAnalytes; col++)
                     {
                         DataRow dr = dt.NewRow();
@@ -203,7 +226,10 @@ namespace Tracefinder
                     dr["Aliquot"] = lstAliquotAnalytes[i].Aliquot;
                     dr["Analyte Identifier"] = lstAliquotAnalytes[i].AnalyteID;
                     dr["Analysis Date/Time"] = lstAliquotAnalytes[i].AnalysisDateTime;
-                    dr["Measured Value"] = lstAliquotAnalytes[i].MeasuredValue;
+
+                    if (!string.IsNullOrWhiteSpace(lstAliquotAnalytes[i].MeasuredValue))
+                        dr["Measured Value"] = lstAliquotAnalytes[i].MeasuredValue;
+
                     dr["User Defined 1"] = lstAliquotAnalytes[i].UserDefined1;
 
                     dt.Rows.Add(dr);
