@@ -37,7 +37,7 @@ namespace PluginBase
                 new TemplateField("Aliquot", typeof(string)),
                 new TemplateField("Analyte Identifier", typeof(string)),
                 //new TemplateField("Measured Value", typeof(string)),
-                new TemplateField("Measured Value", typeof(double)),
+                new TemplateField("Measured Value", typeof(double)),                
                 new TemplateField("Units", typeof(string)),
                 //new TemplateField("Dilution Factor", typeof(string)),
                 new TemplateField("Dilution Factor", typeof(double)),

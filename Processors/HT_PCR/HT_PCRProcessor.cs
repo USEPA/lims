@@ -96,6 +96,8 @@ namespace HT_PCR
                         {
                             val = worksheet.Cells[row, col].Value.ToString();
                             val = val.Replace(REMOVE, "'");
+                            //Remove all whitespaces in string
+                            val = val.Replace(" ", "");
                         }
                         dr[col - 1] = val;
                     }
@@ -109,6 +111,8 @@ namespace HT_PCR
                     {
                         string val = dtTemp.Rows[row][col].ToString();
                         val = val.Replace(REMOVE2, "''");
+                        //There is an issue with an extra space showing up in this string
+                        val = val.Replace(" ", "");
                         dtTemp.Rows[row][col] = val;
                     }
                 }
@@ -116,9 +120,7 @@ namespace HT_PCR
                 for (int row = 0; row < dtTemp.Rows.Count; row++)
                 {
                     string analyteID = dtTemp.Rows[row][4].ToString();
-                    string measuredVal = dtTemp.Rows[row][6].ToString().Trim();
-                    if (measuredVal == "999")
-                        measuredVal = "NA";
+                    string measuredVal = dtTemp.Rows[row][6].ToString().Trim();                   
 
                     string aliquot = dtTemp.Rows[row][1].ToString();
 
