@@ -145,13 +145,15 @@ namespace LIMSDesktop
 
         private void UserMessage(string message)
         {
-            string msg = string.Format("Message: {0}", message);
-            lblMessage.Text = msg;
+            //string msg = string.Format("Message: {0}", message);
+            //lblMessage.Text = msg;
+            txtMessage.Text = message + Environment.NewLine;
         }
 
         private void LogMessage(string message)
         {
             string logPath = "";
+            UserMessage(message);
             try
             {
                 string loc = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -168,7 +170,7 @@ namespace LIMSDesktop
             catch(Exception ex)
             {
                 MessageBox.Show("Error writing to log file. " + ex.Message);
-                UserMessage("Error writing to log file - " + ex.Message);
+                //UserMessage("Error writing to log file - " + ex.Message);
             }
 
             return;
