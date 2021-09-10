@@ -62,6 +62,7 @@ namespace LIMSDesktop
             try
             {
                 templateDataGridView.DataSource = null;
+                ClearMessage();
                 UserMessage("Running");
                 ProcessorDTO proc = comboBox1.Items[comboBox1.SelectedIndex] as ProcessorDTO;
                 txtID.Text = proc.UniqueId;
@@ -84,7 +85,7 @@ namespace LIMSDesktop
 
                 }
                 if (dtRespMsg.ErrorMessage != null)
-                    UserMessage(dtRespMsg.ErrorMessage);
+                    LogMessage(dtRespMsg.ErrorMessage);
                 
                 if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
                     LogMessage(dtRespMsg.LogMessage);
@@ -98,6 +99,7 @@ namespace LIMSDesktop
             catch(Exception ex)
             {
                 LogMessage(string.Format("Error executing processor {0} with input {1}", txtID.Text, txtInput.Text));
+                LogMessage($"Error: {ex.Message}");
                 if (dtRespMsg != null && dtRespMsg.LogMessage != null)
                     LogMessage(dtRespMsg.LogMessage);
             }
@@ -105,7 +107,7 @@ namespace LIMSDesktop
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            UserMessage("");
+            //ClearMessage();
             string dtName = "";
             try
             {
@@ -147,7 +149,16 @@ namespace LIMSDesktop
         {
             //string msg = string.Format("Message: {0}", message);
             //lblMessage.Text = msg;
-            txtMessage.Text = message + Environment.NewLine;
+            if (string.IsNullOrWhiteSpace(txtMessage.Text))
+                txtMessage.Text = message;
+            else
+                txtMessage.Text = Environment.NewLine + txtMessage.Text + message;
+
+        }
+
+        private void ClearMessage()
+        {
+            txtMessage.Text = "";
         }
 
         private void LogMessage(string message)
@@ -174,6 +185,11 @@ namespace LIMSDesktop
             }
 
             return;
+        }
+
+        private void btnClearMsg_Click(object sender, EventArgs e)
+        {
+            ClearMessage();
         }
     }
 }
