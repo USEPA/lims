@@ -48,6 +48,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.lblMessage = new System.Windows.Forms.Label();
             this.txtMessage = new System.Windows.Forms.TextBox();
+            this.btnClearMsg = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.templateDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,7 +146,7 @@
             this.templateDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.templateDataGridView.Name = "templateDataGridView";
             this.templateDataGridView.RowHeadersWidth = 51;
-            this.templateDataGridView.Size = new System.Drawing.Size(875, 297);
+            this.templateDataGridView.Size = new System.Drawing.Size(875, 275);
             this.templateDataGridView.TabIndex = 8;
             this.templateDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.templateDataGridView_DataBindingComplete);
             // 
@@ -231,29 +232,43 @@
             // 
             this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(17, 439);
+            this.lblMessage.Location = new System.Drawing.Point(17, 430);
             this.lblMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(53, 15);
+            this.lblMessage.Size = new System.Drawing.Size(58, 15);
             this.lblMessage.TabIndex = 17;
-            this.lblMessage.Text = "Message";
+            this.lblMessage.Text = "Messages";
             // 
             // txtMessage
             // 
             this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMessage.Location = new System.Drawing.Point(18, 455);
+            this.txtMessage.Location = new System.Drawing.Point(18, 448);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(876, 89);
+            this.txtMessage.ReadOnly = true;
+            this.txtMessage.Size = new System.Drawing.Size(876, 75);
             this.txtMessage.TabIndex = 18;
+            this.txtMessage.WordWrap = false;
+            // 
+            // btnClearMsg
+            // 
+            this.btnClearMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClearMsg.Location = new System.Drawing.Point(389, 529);
+            this.btnClearMsg.Name = "btnClearMsg";
+            this.btnClearMsg.Size = new System.Drawing.Size(110, 23);
+            this.btnClearMsg.TabIndex = 19;
+            this.btnClearMsg.Text = "Clear Messages";
+            this.btnClearMsg.UseVisualStyleBackColor = true;
+            this.btnClearMsg.Click += new System.EventHandler(this.btnClearMsg_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(906, 556);
+            this.ClientSize = new System.Drawing.Size(906, 552);
+            this.Controls.Add(this.btnClearMsg);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.btnSave);
@@ -306,5 +321,6 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.TextBox txtMessage;
+        private System.Windows.Forms.Button btnClearMsg;
     }
 }
