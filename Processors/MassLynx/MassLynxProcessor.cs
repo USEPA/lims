@@ -60,8 +60,8 @@ namespace MassLynx
                         //The sheet can contain mulitple data sets
                         //The first row of each data set block contains the LIMS ID and analysis date
                         //e.g. SW846_01DEC_18-2,AW325-S-38-01,,,,,,01-Dec-18,13:34:02
-                        //     ^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^
-                        //     aliquot          LIMS ID           analysis date time
+                        //                      ^^^^^^^^^^^^^      ^^^^^^^^^^^^^^^^^^
+                        //                      aliquot            analysis date time
 
                         //The data looks like:
                         //e.g. 1,PFOA,30,7.0112,0,214.703,4589,16.0753,dd,2.6196,0,412.9 > 369,,20,26712.1,607300,7.0112,,,,,0,7.0112,0,0,0,6.9624,7.0491,214.703,0,412.9 > 169,1,4.5385,1,47.307,1035,3.169,556.637,108.689,1e-012,1e-012,0,,
@@ -74,9 +74,10 @@ namespace MassLynx
                         int id;
                         if (!Int32.TryParse(col1, out id))
                         {
-                            string[] aliquot_dilFactor = GetAliquotDilutionFactor(tokens[1]);
-                            aliquot = aliquot_dilFactor[0];
-                            dilutionFactor = aliquot_dilFactor[1];
+                            //string[] aliquot_dilFactor = GetAliquotDilutionFactor(tokens[1]);
+
+                            aliquot = tokens[1];
+                            //dilutionFactor = aliquot_dilFactor[1];
 
                             string date = tokens[tokens.Length - 2] + " " + tokens[tokens.Length - 1];
                             analysisDateTime = Convert.ToDateTime(date);
@@ -97,13 +98,13 @@ namespace MassLynx
                             dr[2] = tokens[9];
 
                         //Dilution factor
-                        dr[4] = dilutionFactor;
+                        //dr[4] = dilutionFactor;
 
                         //Date/time
                         dr[5] = analysisDateTime;
 
                         //User defined 1
-                        if (string.IsNullOrWhiteSpace(tokens[9]))
+                        if (string.IsNullOrWhiteSpace(tokens[5]))
                             dr[8] = 0.0;
                         else
                             dr[8] = tokens[5];
