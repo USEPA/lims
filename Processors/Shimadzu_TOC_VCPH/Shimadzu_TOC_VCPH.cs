@@ -9,9 +9,9 @@ namespace Shimadzu_TOC_VCPH
     public class Shimadzu_TOC_VCPH : DataProcessor
     {
 
-        public override string id { get => "myinstrument1.0"; }
-        public override string name { get => "MyInstrument"; }
-        public override string description { get => "Processor used for MyInstrument translation to universal template"; }
+        public override string id { get => "shimadzu_toc_vcph_version1.0"; }
+        public override string name { get => "Shimadzu_TOC_VCPH"; }
+        public override string description { get => "Processor used for Shimadzu TOC VCPH translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }

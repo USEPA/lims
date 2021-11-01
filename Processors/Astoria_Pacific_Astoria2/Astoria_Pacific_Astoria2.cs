@@ -10,9 +10,9 @@ namespace Astoria_Pacific_Astoria2
     public class Astoria_Pacific_Astoria2 : DataProcessor
     {
 
-        public override string id { get => "myinstrument1.0"; }
-        public override string name { get => "MyInstrument"; }
-        public override string description { get => "Processor used for MyInstrument translation to universal template"; }
+        public override string id { get => "astoria_pacific_astoria2_version1.0"; }
+        public override string name { get => "Astoria_Pacific_Astoria2"; }
+        public override string description { get => "Processor used for Astoria Pacific Astoria2 translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
