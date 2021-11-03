@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using PluginBase;
 using OfficeOpenXml;
+
 
 namespace Shimadzu_TOC_VCPH
 {
@@ -53,6 +56,33 @@ namespace Shimadzu_TOC_VCPH
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
+
+                //Data starts in row 15
+                //Column O (column 14) contains Measured Value and units -needs to be parsed. Has a label of 'Result' in row 14
+                //Examples include: IC:50.07mg/L    or      NPOC:19.51mg/L
+                for (int rowIdx=15;rowIdx<=numRows;rowIdx++)
+                {
+                    string result = GetXLStringValue(worksheet.Cells[rowIdx, 15]);
+                    
+                    //Stop reading when we get to an empty cell
+                    if (string.IsNullOrWhiteSpace(result))
+                        break;
+
+                    string[] tokens = result.Split(':');
+                    if (tokens.Length < 2)
+                    {
+                        //Result field is not formatted correctly
+                        rm.ErrorMessage = String.Format("File: {0} - Error in format of value of Column O: {1}", input_file, result);
+                        rm.LogMessage = String.Format("File: {0} - Error in format of value of Column O: {1}", input_file, result);
+                        return rm;
+                    }
+
+                    //Everything left of the : should be gone - e.g 50.07mg/L
+                    //Pull out the number from the string
+                    var measuredVal = Regex.Split(tokens[1], @"[^0-9\.\-]+").Where(w => !String.IsNullOrEmpty(w)).ToList();
+                    var units = Regex.Split(tokens[1], @"\d+").Where(c => c != "." && c != "-" && c.Trim() != "").ToList();
+
+                }
 
             }
             catch (Exception ex)
