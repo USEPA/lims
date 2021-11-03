@@ -8,14 +8,14 @@ import { MatTableDataSource } from "@angular/material/table";
 @Component({
   selector: "app-processors",
   templateUrl: "./processors.component.html",
-  styleUrls: ["./processors.component.css"]
+  styleUrls: ["./processors.component.css"],
 })
 export class ProcessorsComponent implements OnInit {
   loadingProcessors: boolean;
   statusMessage: string;
   addingProcessor: boolean;
 
-  columnNames = ["name", "description", "file_type"];
+  columnNames = ["name", "description", "file_type", "processor_status"];
   processors: Processor[];
   sortableData = new MatTableDataSource();
 
@@ -28,7 +28,7 @@ export class ProcessorsComponent implements OnInit {
     this.processors = [];
 
     this.fileMgr.getProcessors().subscribe(
-      processors => {
+      (processors) => {
         if (processors.error) {
           this.statusMessage = processors.error;
         } else {
@@ -42,12 +42,16 @@ export class ProcessorsComponent implements OnInit {
           }
         }
       },
-      err => {
+      (err) => {
         this.statusMessage = "Error retrieving data";
       },
       () => {
         this.loadingProcessors = false;
       }
     );
+  }
+
+  toggleEnable(): void {
+    console.log("toggle enable");
   }
 }
