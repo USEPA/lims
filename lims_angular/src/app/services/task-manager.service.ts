@@ -105,6 +105,7 @@ export class TaskManagerService implements OnInit {
       processor: null,
       inputFolder: null,
       outputFolder: null,
+      backupFolder: null,
       interval: null,
       active: null,
     };

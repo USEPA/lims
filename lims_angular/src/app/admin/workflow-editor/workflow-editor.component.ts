@@ -37,6 +37,7 @@ export class WorkflowEditorComponent implements OnInit {
       processor: [null, Validators.required],
       inputFolder: [null, Validators.required],
       outputFolder: [null, Validators.required],
+      backupFolder: [null, Validators.required],
       interval: [null, Validators.required],
     });
 
@@ -66,6 +67,7 @@ export class WorkflowEditorComponent implements OnInit {
     this.workflowForm.get("processor").setValue(workflow.processor);
     this.workflowForm.get("inputFolder").setValue(workflow.inputFolder);
     this.workflowForm.get("outputFolder").setValue(workflow.outputFolder);
+    this.workflowForm.get("backupFolder").setValue(workflow.backupFolder);
     this.workflowForm.get("interval").setValue(workflow.interval);
   }
 
@@ -75,6 +77,7 @@ export class WorkflowEditorComponent implements OnInit {
     const processor = this.workflowForm.get("processor").value;
     const inputFolder = this.workflowForm.get("inputFolder").value;
     const outputFolder = this.workflowForm.get("outputFolder").value;
+    const backupFolder = this.workflowForm.get("backupFolder").value;
     const interval = this.workflowForm.get("interval").value;
     if (name.length < 1) {
       this.statusMessage = "Workflows must include a workflow name";
@@ -92,6 +95,10 @@ export class WorkflowEditorComponent implements OnInit {
       this.statusMessage = "You must provide a path to the output folder";
       return;
     }
+    if (backupFolder.length < 1) {
+      this.statusMessage = "You must provide a path to the backup folder";
+      return;
+    }
     if (+interval < 1) {
       this.statusMessage = "Intervals must be at least one minute induration";
       return;
@@ -101,6 +108,7 @@ export class WorkflowEditorComponent implements OnInit {
       processor,
       inputFolder,
       outputFolder,
+      backupFolder,
       interval,
     };
     if (this.redirect) {
