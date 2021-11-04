@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qubit2_0", "Processors\Qubi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassLynx", "Processors\MassLynx\MassLynx.csproj", "{FB28C7C6-30D5-4527-909E-460CF281F421}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PicoGreen", "Processors\PicoGreen\PicoGreen.csproj", "{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracefinder", "Processors\Tracefinder\Tracefinder.csproj", "{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}"
@@ -63,10 +61,6 @@ Global
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Release|Any CPU.ActiveCfg = Release|Any CPU

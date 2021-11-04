@@ -34,12 +34,12 @@ namespace LimsServer.Services
         /// <returns>The added processor, as seen from the db context, or an empty processor with an error message.</returns>
         public async Task<Processor> Create(Processor processor)
         {
-            
+
             //processor.id = workflowID;
             try
             {
                 var result = await _context.Processors.AddAsync(processor);
-                await _context.SaveChangesAsync();                
+                await _context.SaveChangesAsync();
 
                 return result.Entity;
             }
@@ -75,7 +75,7 @@ namespace LimsServer.Services
             }
             catch (InvalidOperationException)
             {
-                Log.Information("No processor found with ID: {0}", id);
+                Serilog.Log.Information("No processor found with ID: {0}", id);
                 return null;
             }
         }
@@ -97,7 +97,7 @@ namespace LimsServer.Services
             }
             catch (InvalidOperationException)
             {
-                Log.Information("Processor not updated, no processor found with ID: {0}", id);
+                Serilog.Log.Information("Processor not updated, no processor found with ID: {0}", id);
             }
         }
 
@@ -107,7 +107,7 @@ namespace LimsServer.Services
         /// <param name="processor"></param>
         public async System.Threading.Tasks.Task Update(Processor[] processors)
         {
-            _context.Processors.UpdateRange(processors);                                                                            
+            _context.Processors.UpdateRange(processors);
             await _context.SaveChangesAsync();
         }
 
