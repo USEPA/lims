@@ -12,7 +12,7 @@ namespace LimsServerTests
     public class HelpersDataBackupTest
     {
         public DataContext _context;
-
+        public ILogService _logService;
         private async Task<DataContext> InitContext()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -62,8 +62,7 @@ namespace LimsServerTests
             this._context.Tasks.Add(tsk);
             this._context.Tasks.Add(tsk2);
             this._context.SaveChanges();
-
-            TaskService ts = new TaskService(this._context);
+            TaskService ts = new TaskService(this._context, this._logService);
 
             var tsResult = ts.RunTask(tsk.id);
 
@@ -109,7 +108,7 @@ namespace LimsServerTests
             this._context.Tasks.Add(tsk);
             this._context.SaveChanges();
 
-            TaskService ts = new TaskService(this._context);
+            TaskService ts = new TaskService(this._context, this._logService);
 
             var tsResult = ts.RunTask(tsk.id);
 
@@ -122,7 +121,7 @@ namespace LimsServerTests
         public void CleanupTest()
         {
             this._context = this.InitContext().Result;
-            
+
             DataBackup db = new DataBackup();
             var result = db.Cleanup();
             Assert.True(result);
