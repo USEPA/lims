@@ -13,9 +13,10 @@ namespace LimsServer.Services
         Task<Log> GetById(string id);
         Task<Log> Create(Log log);
         void Debug(string message, LimsServer.Entities.Task task);
+        void Debug(string message, string workflowID);
         void Debug(string message);
-        void Information(string message, LimsServer.Entities.Task task);
         void Information(string message, LimsServer.Entities.Workflow workflow);
+        void Information(string message, LimsServer.Entities.Task task);
         void Warning(string message, LimsServer.Entities.Task task);
         void Warning(string message, string workflowID);
 
@@ -43,14 +44,18 @@ namespace LimsServer.Services
 
         public async void Information(string message, LimsServer.Entities.Task task)
         {
+            // Log to console
             Serilog.Log.Information(message);
+            // Get the workflow
+            var workflow = await _context.Workflows.FindAsync(task.workflowID);
+            // Create the log entry
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
                 workflowId = task.workflowID,
                 taskId = task.id,
                 taskHangfireID = task.taskID,
-                processorId = null,
+                processorId = workflow.processor,
                 message = message,
                 type = LogType.Information.ToString(),
                 time = DateTime.Now
@@ -59,7 +64,9 @@ namespace LimsServer.Services
 
         public async void Information(string message, LimsServer.Entities.Workflow workflow)
         {
+            // Log to console
             Serilog.Log.Information(message);
+            // Create the log entry
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
@@ -75,7 +82,9 @@ namespace LimsServer.Services
 
         public async void Warning(string message, string workflowID)
         {
+            // Log to console
             Serilog.Log.Warning(message);
+            // Create the log entry
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
@@ -88,14 +97,18 @@ namespace LimsServer.Services
 
         public async void Warning(string message, LimsServer.Entities.Task task)
         {
+            // Log to console
             Serilog.Log.Warning(message);
+            // Get the workflow
+            var workflow = await _context.Workflows.FindAsync(task.workflowID);
+            // Create the log entry
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
                 workflowId = task.workflowID,
                 taskId = task.id,
                 taskHangfireID = task.taskID,
-                processorId = null,
+                processorId = workflow.processor,
                 message = message,
                 type = LogType.Warning.ToString(),
                 time = DateTime.Now
@@ -109,23 +122,42 @@ namespace LimsServer.Services
             {
                 id = Guid.NewGuid().ToString(),
                 message = message,
-                type = LogType.Warning.ToString(),
+                type = LogType.Debug.ToString(),
+                time = DateTime.Now
+            });
+        }
+
+        public async void Debug(string message, string workflowID)
+        {
+            // Log to console
+            Serilog.Log.Debug(message);
+            // Create the log entry
+            await Create(new Log()
+            {
+                id = Guid.NewGuid().ToString(),
+                workflowId = workflowID,
+                message = message,
+                type = LogType.Debug.ToString(),
                 time = DateTime.Now
             });
         }
 
         public async void Debug(string message, LimsServer.Entities.Task task)
         {
+            // Log to console
             Serilog.Log.Debug(message);
+            // Get the workflow
+            var workflow = await _context.Workflows.FindAsync(task.workflowID);
+            // Create the log entry
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
                 workflowId = task.workflowID,
                 taskId = task.id,
                 taskHangfireID = task.taskID,
-                processorId = null,
+                processorId = workflow.processor,
                 message = message,
-                type = LogType.Warning.ToString(),
+                type = LogType.Debug.ToString(),
                 time = DateTime.Now
             });
         }

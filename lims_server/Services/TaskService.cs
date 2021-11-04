@@ -45,7 +45,7 @@ namespace LimsServer.Services
                 return;
             }
             // Step 2: Change status to "STARTING"
-            await this.UpdateStatus(task.id, "STARTING", "");
+            await this.UpdateStatus(task.id, "STARTING");
 
             var workflow = await _context.Workflows.Where(w => w.id == task.workflowID).FirstOrDefaultAsync();
             if (workflow == null)
@@ -254,8 +254,7 @@ namespace LimsServer.Services
                 }
                 string inputHash = ib.ToString();
 
-                Serilog.Log.Debug("Input file compare. WorkflowID: {0}, InputFile: {1}, InputFile Hash: {2}", workflowID, inputFilePath, inputHash);
-                _logService.Debug($"Input file compare. WorkflowID: {workflowID}, InputFile: {inputFilePath}, InputFile Hash: {inputHash}");
+                _logService.Debug($"Input file compare. WorkflowID: {workflowID}, InputFile: {inputFilePath}, InputFile Hash: {inputHash}", workflowID: workflowID);
                 DataBackup db = new DataBackup();
                 foreach (Task t in tasks)
                 {
@@ -267,7 +266,7 @@ namespace LimsServer.Services
                         jb.Append(previousData[j].ToString("x2"));
                     }
                     string previousHash = jb.ToString();
-                    _logService.Debug($"Input file compare. WorkflowID: {workflowID}, Previous Input Hash: {previousHash}");
+                    _logService.Debug($"Input file compare. WorkflowID: {workflowID}, Previous Input Hash: {previousHash}", task: t);
                     if (StringComparer.OrdinalIgnoreCase.Compare(inputHash, previousHash) == 0)
                     {
                         match = true;
