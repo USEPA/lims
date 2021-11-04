@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using LimsServer.Entities;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ namespace LimsServer.Services
 {
     public interface ILogService
     {
-        Task<Log> GetById(string id);
+        Task<IEnumerable<Log>> GetAll();
         Task<Log> Create(Log log);
         void Debug(string message, LimsServer.Entities.Task task);
         void Debug(string message, string workflowID);
@@ -19,8 +20,8 @@ namespace LimsServer.Services
         void Information(string message, LimsServer.Entities.Task task);
         void Warning(string message, LimsServer.Entities.Task task);
         void Warning(string message, string workflowID);
-
     }
+
     public class LogService : ILogService
     {
         private enum LogType { Debug, Error, Warning, Information }
@@ -30,9 +31,9 @@ namespace LimsServer.Services
             _context = context;
         }
 
-        public async Task<Log> GetById(string id)
+        public async Task<IEnumerable<Log>> GetAll()
         {
-            return await _context.Logs.FindAsync(id);
+            return await _context.Logs.ToListAsync();
         }
 
         public async Task<Log> Create(Log log)
@@ -89,6 +90,9 @@ namespace LimsServer.Services
             {
                 id = Guid.NewGuid().ToString(),
                 workflowId = workflowID,
+                taskId = null,
+                taskHangfireID = null,
+                processorId = null,
                 message = message,
                 type = LogType.Warning.ToString(),
                 time = DateTime.Now
@@ -121,6 +125,10 @@ namespace LimsServer.Services
             await Create(new Log()
             {
                 id = Guid.NewGuid().ToString(),
+                workflowId = null,
+                taskId = null,
+                taskHangfireID = null,
+                processorId = null,
                 message = message,
                 type = LogType.Debug.ToString(),
                 time = DateTime.Now
@@ -136,6 +144,9 @@ namespace LimsServer.Services
             {
                 id = Guid.NewGuid().ToString(),
                 workflowId = workflowID,
+                taskId = null,
+                taskHangfireID = null,
+                processorId = null,
                 message = message,
                 type = LogType.Debug.ToString(),
                 time = DateTime.Now
