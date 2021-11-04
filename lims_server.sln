@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimadzu_TOC_VCPH", "Proces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astoria_Pacific_Astoria2", "Processors\Astoria_Pacific_Astoria2\Astoria_Pacific_Astoria2.csproj", "{88768859-50DB-4648-8604-08B9B222E713}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{127880E0-5903-4566-9469-E144B612C0CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{88768859-50DB-4648-8604-08B9B222E713}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88768859-50DB-4648-8604-08B9B222E713}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88768859-50DB-4648-8604-08B9B222E713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
