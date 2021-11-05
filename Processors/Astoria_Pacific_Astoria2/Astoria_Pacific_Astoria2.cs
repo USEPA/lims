@@ -55,6 +55,41 @@ namespace Astoria_Pacific_Astoria2
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                string run_date = GetXLStringValue(worksheet.Cells[3, 1]);
+                //Looking for string like this- 'Run date: 6/17/2021'
+                string[] run_date_tokens = run_date.Split(':');
+                if (run_date_tokens.Length < 2)
+                {
+                    rm.LogMessage = string.Format("Invalid date time string in column 1, row 3. File: {0}", input_file);
+                    rm.ErrorMessage = string.Format("Invalid date time string in column 1, row 3. File: {0}", input_file);
+                    return rm;
+                }
+                string run_date_tmp = run_date_tokens[1].Trim();
+                DateTime dateTime = Convert.ToDateTime(run_date_tmp);
+
+                //These are the analytes that map to the following values in the spreadsheet in row 5:
+                //Orthophosphate, Ammonia, Nitrate+Nitrite, Nitrite
+                string[] analyteIDs = new string[] { "OP", "NH3", "NO3/NO2", "NO2" };
+
+                //There are 4 analytes in this file
+                //Measured values are in columns G, J, M, P                
+                for (int idxAnalyte=0;idxAnalyte<4;idxAnalyte++)
+                {
+                    int colIdx = (idxAnalyte * 3) + 7;
+                    string units = GetXLStringValue(worksheet.Cells[6, colIdx]);
+                    string analyteID = analyteIDs[idxAnalyte];
+
+                    for (int idxRow=7;idxRow<=numRows;idxRow++)
+                    {
+
+                    }
+                }
+
+
+
+
+
+
                
 
 
