@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qubit2_0", "Processors\Qubi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassLynx", "Processors\MassLynx\MassLynx.csproj", "{FB28C7C6-30D5-4527-909E-460CF281F421}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PicoGreen", "Processors\PicoGreen\PicoGreen.csproj", "{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracefinder", "Processors\Tracefinder\Tracefinder.csproj", "{8F770EE6-6CFA-4DC7-A67A-A2C1D1D2313E}"
@@ -41,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shimadzu_TOC_VCPH", "Proces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astoria_Pacific_Astoria2", "Processors\Astoria_Pacific_Astoria2\Astoria_Pacific_Astoria2.csproj", "{88768859-50DB-4648-8604-08B9B222E713}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIMSDesktop", "LIMSDesktop\LIMSDesktop.csproj", "{127880E0-5903-4566-9469-E144B612C0CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,10 +63,6 @@ Global
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB28C7C6-30D5-4527-909E-460CF281F421}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEE5EBA4-341A-479F-B874-9CBB90DB1D51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{002DE1DB-A9C6-4662-A1B1-C3DD8F782308}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -119,6 +115,10 @@ Global
 		{88768859-50DB-4648-8604-08B9B222E713}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88768859-50DB-4648-8604-08B9B222E713}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88768859-50DB-4648-8604-08B9B222E713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{127880E0-5903-4566-9469-E144B612C0CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

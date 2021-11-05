@@ -12,7 +12,7 @@ namespace LimsServerTests
     public class TaskServiceTest
     {
         public DataContext _context;
-
+        public ILogService _logService;
         private async Task<DataContext> InitContext()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -108,7 +108,7 @@ namespace LimsServerTests
                 workflowID = "test123456",
                 start = DateTime.Now.AddMinutes(5)
             };
-            TaskService ts = new TaskService(this._context);
+            TaskService ts = new TaskService(this._context, this._logService);
             var result = ts.Create(tsk).Result;
             Assert.NotNull(result.message);
         }
@@ -202,7 +202,7 @@ namespace LimsServerTests
             this._context.Tasks.Add(tsk5);
             this._context.SaveChanges();
 
-            TaskService ts = new TaskService(this._context);
+            TaskService ts = new TaskService(this._context, this._logService);
 
             var result1 = ts.RunTask(tsk.id);
             var dbCheck1 = this._context.Tasks.SingleAsync(tk => tk.id == tsk.id).Result;
@@ -231,12 +231,12 @@ namespace LimsServerTests
         public void DeleteTest(string expected)
         {
             this._context = this.InitContext().Result;
-            TaskService tkService = new TaskService(this._context);
+            TaskService tkService = new TaskService(this._context, this._logService);
             var firstTk = this._context.Tasks.FirstAsync().Result;
 
             var result = tkService.Delete(firstTk.id).Result;
             Assert.True(result);                                // Returned results check
-            
+
             var dbTask = this._context.Tasks.SingleAsync(tk => tk.id == firstTk.id).Result;
             Assert.Equal(dbTask.status, expected);              // Database update check
         }
@@ -246,7 +246,7 @@ namespace LimsServerTests
         public void GetAllTest(int expected)
         {
             this._context = this.InitContext().Result;
-            TaskService tkService = new TaskService(this._context);
+            TaskService tkService = new TaskService(this._context, this._logService);
 
             var result = tkService.GetAll().Result.ToList();
             Assert.Equal(result.Count, expected);                                // Returned results check
@@ -258,10 +258,10 @@ namespace LimsServerTests
         public void GetByIDTest(string id)
         {
             this._context = this.InitContext().Result;
-            TaskService tkService = new TaskService(this._context);
+            TaskService tkService = new TaskService(this._context, this._logService);
 
             var result = tkService.GetById(id).Result;
             Assert.NotNull(result);                                // Returned results check
         }
     }
-} 
+}

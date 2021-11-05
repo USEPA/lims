@@ -10,6 +10,6 @@ namespace LimsServer.Helpers
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Processor> Processors { get; set; }
         public DbSet<Workflow> Workflows { get; set; }
-
+        public DbSet<Log> Logs { get; set; }
     }
 }

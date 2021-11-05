@@ -102,6 +102,7 @@ namespace LimsServer
             services.AddScoped<IProcessorService, ProcessorService>();
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ILogService, LogService>();
 
             services.AddHostedService<LoadProcessors>();
 
@@ -170,7 +171,7 @@ namespace LimsServer
                         context.Context.Response.Headers.Add("Expires", "-1");
                     }
                 }
-                
+
             });
 
             // global cors policy
@@ -192,7 +193,7 @@ namespace LimsServer
             app.UseHangfireServer(additionalProcesses: new[] { new ProcessMonitor(checkInterval: TimeSpan.FromSeconds(30)) });
             app.UseHangfireDashboard("/dashboard", new DashboardOptions
             {
-                Authorization = new [] { new HangfireAuthorizationFilter() },               
+                Authorization = new[] { new HangfireAuthorizationFilter() },
             });
 
             DataBackup db = new DataBackup();
