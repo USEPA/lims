@@ -65,7 +65,7 @@ namespace Astoria_Pacific_Astoria2
                     return rm;
                 }
                 string run_date_tmp = run_date_tokens[1].Trim();
-                DateTime dateTime = Convert.ToDateTime(run_date_tmp);
+                DateTime analysis_datetime = Convert.ToDateTime(run_date_tmp);
 
                 //These are the analytes that map to the following values in the spreadsheet in row 5:
                 //Orthophosphate, Ammonia, Nitrate+Nitrite, Nitrite
@@ -75,23 +75,36 @@ namespace Astoria_Pacific_Astoria2
                 //Measured values are in columns G, J, M, P                
                 for (int idxAnalyte=0;idxAnalyte<4;idxAnalyte++)
                 {
+                    //This will start us in G and move to J, M and P
                     int colIdx = (idxAnalyte * 3) + 7;
+
+                    //Units are at the top of the measured values
                     string units = GetXLStringValue(worksheet.Cells[6, colIdx]);
-                    string analyteID = analyteIDs[idxAnalyte];
+                    string analyte_id = analyteIDs[idxAnalyte];
 
                     for (int idxRow=7;idxRow<=numRows;idxRow++)
                     {
+                        //We skip row 10, it has 'NO3 Efficiency' and no measured values
+                        if (idxRow == 10)
+                            continue;
 
+                        string aliquot_id = GetXLStringValue(worksheet.Cells[idxRow, 3]);
+                        
+                        string measure_val_tmp = GetXLStringValue(worksheet.Cells[idxRow, colIdx]);
+                        if (string.IsNullOrWhiteSpace(measure_val_tmp) || string.Compare(measure_val_tmp, "???") == 0)
+                            break;
+
+                        double measured_val = Convert.ToDouble(measure_val_tmp);
+
+                        DataRow dr = dt.NewRow();
+                        dr[0] = aliquot_id;
+                        dr[1] = analyte_id;
+                        dr[2] = measured_val;
+                        dr[3] = units;
+                        dr[5] = analysis_datetime;
+                        dt.Rows.Add(dr);
                     }
                 }
-
-
-
-
-
-
-               
-
 
             }
             catch (Exception ex)
