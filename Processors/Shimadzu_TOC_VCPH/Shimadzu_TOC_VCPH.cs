@@ -72,15 +72,45 @@ namespace Shimadzu_TOC_VCPH
                     if (tokens.Length < 2)
                     {
                         //Result field is not formatted correctly
-                        rm.ErrorMessage = String.Format("File: {0} - Error in format of value of Column O: {1}", input_file, result);
-                        rm.LogMessage = String.Format("File: {0} - Error in format of value of Column O: {1}", input_file, result);
+                        rm.ErrorMessage = String.Format("File: {0} - Error in format of value of column O, row {1}: {2}", input_file, rowIdx, result);
+                        rm.LogMessage = String.Format("File: {0} - Error in format of value of column O, row {1}: {2}", input_file, rowIdx, result);
                         return rm;
                     }
 
                     //Everything left of the : should be gone - e.g 50.07mg/L
                     //Pull out the number from the string
-                    var measuredVal = Regex.Split(tokens[1], @"[^0-9\.\-]+").Where(w => !String.IsNullOrEmpty(w)).ToList();
-                    var units = Regex.Split(tokens[1], @"\d+").Where(c => c != "." && c != "-" && c.Trim() != "").ToList();
+                    var lstMeasuredVal = Regex.Split(tokens[1], @"[^0-9\.\-]+").Where(w => !String.IsNullOrEmpty(w)).ToList();
+                    var lstUnits = Regex.Split(tokens[1], @"\d+").Where(c => c != "." && c != "-" && c.Trim() != "").ToList();
+                    double measured_val = Convert.ToDouble(lstMeasuredVal[0]);
+                    string units = lstUnits[0];
+
+                    //Aliquot in column C - some rows are string some are numbers
+                    string aliquot_id = GetXLStringValue(worksheet.Cells[rowIdx, 3]);
+
+                    //Date time in column I - e.g. 5/27/2021 14:25
+                    DateTime analysis_datetime = Convert.ToDateTime(GetXLStringValue(worksheet.Cells[rowIdx, 9]));
+
+                    string analyteTmp = GetXLStringValue(worksheet.Cells[rowIdx, 2]);
+                    string analyte_id = "";
+                    if (string.Compare(analyteTmp, "IC", true) == 0)
+                        analyte_id = "DIC";
+                    else if (string.Compare(analyteTmp, "NPOC", true) == 0)
+                        analyte_id = "DOC";
+                    else
+                    {
+                        //Analyte ID in file is not IC or NPOC
+                        rm.ErrorMessage = String.Format("File: {0} - Analyte ID is not IC or NPOC. column B, row {1}: {2}", input_file, rowIdx, analyteTmp);
+                        rm.LogMessage = String.Format("File: {0} - Analyte ID is not IC or NPOC. column B, row {1}: {2}", input_file, rowIdx, analyteTmp);
+                        return rm;
+                    }
+
+                    DataRow dr = dt.NewRow();
+                    dr[0] = aliquot_id;
+                    dr[1] = analyte_id;
+                    dr[2] = measured_val;
+                    dr[3] = units;
+                    dr[5] = analysis_datetime;                    
+                    dt.Rows.Add(dr);
 
                 }
 
