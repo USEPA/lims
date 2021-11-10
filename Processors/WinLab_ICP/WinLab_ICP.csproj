@@ -19,12 +19,8 @@
   </PropertyGroup>
 
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\$(TargetFramework)-windows\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition="'$(OS)' == 'Windows_NT'" Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\$(TargetFramework)-windows\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+    <Exec Condition="'$(OS)' != 'Windows_NT'" Command="rsync -vhr &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server/app_files/processors/$(ProjectName)/$(ProjectName).dll&quot;&#xD;&#xA;" />
   </Target>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' != 'Windows_NT'">
-    <Exec Command="rsync -vhr &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server/app_files/processors/$(ProjectName)/$(ProjectName).dll&quot;&#xD;&#xA;" />
-  </Target>
-
 </Project>
