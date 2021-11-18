@@ -123,6 +123,15 @@ namespace LimsServer.Services
                 return;
             }
 
+            // If processor is disabled don't run task
+            var proc = await _context.Processors.Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (!proc.enabled)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Processor is not enabled.", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, processor is not enabled. Name: " + workflow.processor);
+                return;
+            }
+
             try
             {
                 // Step 6: Run processor on source file
@@ -319,15 +328,22 @@ namespace LimsServer.Services
         /// <returns></returns>
         protected async System.Threading.Tasks.Task CreateNewTask(string workflowID, int interval)
         {
-            string newID0 = System.Guid.NewGuid().ToString();
-            Task newTask0 = new Task(newID0, workflowID, interval);
-            try
+            // Check that processor is enabled before creating new task
+            var workflow = await _context.Workflows.Where(w => w.id == workflowID).FirstOrDefaultAsync();
+            var processor = await _context.Processors
+                .Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (processor.enabled)
             {
-                await this.Create(newTask0);
-            }
-            catch (Exception)
-            {
-                _logService.Warning($"Error attempting to create new Hangfire task. Workflow ID: {workflowID}", workflowID: workflowID);
+                string newID0 = System.Guid.NewGuid().ToString();
+                Task newTask0 = new Task(newID0, workflowID, interval);
+                try
+                {
+                    await this.Create(newTask0);
+                }
+                catch (Exception)
+                {
+                    _logService.Warning($"Error attempting to create new Hangfire task. Workflow ID: {workflowID}", workflowID: workflowID);
+                }
             }
         }
 
@@ -347,7 +363,6 @@ namespace LimsServer.Services
             TimeSpan scheduledStart = task.start - DateTime.Now;
             try
             {
-                //await this.RunTask(tsk.id);
                 tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id), scheduledStart);
                 _logService.Information($"New Task Created. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
             }
