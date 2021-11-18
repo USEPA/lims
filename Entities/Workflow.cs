@@ -10,6 +10,7 @@ namespace LimsServer.Entities
         //private string BaseNetworkPath = @"\\AA\ORD\ORD\PRIV";
         public string id { get; set; }
         public string name { get; set; }
+        // Processor Name
         public string processor { get; set; }
         public string inputFolder { get; set; }
         public string outputFolder { get; set; }
@@ -30,7 +31,7 @@ namespace LimsServer.Entities
             this.outputFolder = wf.outputFolder;
             this.interval = wf.interval;
             this.message = "";
-            this.active = true;
+            this.active = wf.active;
         }
 
     }
