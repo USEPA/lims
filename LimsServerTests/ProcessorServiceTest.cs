@@ -102,10 +102,10 @@ namespace LimsServerTests
             this._context.Processors.AddAsync(p1);
             this._context.SaveChangesAsync();
 
-            var result = ps.GetById(p1.name).Result;
+            var result = ps.GetByName(p1.name).Result;
             Assert.NotNull(result);
 
-            var badResult = ps.GetById("fakeID").Result;
+            var badResult = ps.GetByName("fakeID").Result;
             Assert.Null(badResult);
         }
 
