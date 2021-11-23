@@ -35,16 +35,21 @@ namespace LimsServer.Services
         /// <returns>The added workflow, as seen from the db context, or an empty workflow with an error message.</returns>
         public async Task<Workflow> Create(Workflow workflow, bool bypass = false)
         {
+            // Get processor 
+            var processor = await _context.Processors
+                .FirstOrDefaultAsync(p => p.name.ToLower() == workflow.processor.ToLower());
+            // Create workflow in db
             string workflowID = System.Guid.NewGuid().ToString();
             workflow.id = workflowID;
-            workflow.active = true;
+            workflow.active = processor.enabled;
             try
             {
                 var result = await _context.Workflows.AddAsync(workflow);
                 await _context.SaveChangesAsync();
                 string id = System.Guid.NewGuid().ToString();
                 Serilog.Log.Information("New LIMS Workflow, ID: {0}, Initial Task ID: {1}", workflowID, id);
-                if (!bypass)
+                // If processor is enabled, create initial task
+                if (!bypass && processor.enabled)
                 {
                     LimsServer.Entities.Task tsk = new Entities.Task(id, workflow.id, workflow.interval);
 
@@ -147,7 +152,7 @@ namespace LimsServer.Services
             {
                 workflow.Update(_workflow);
                 await _context.SaveChangesAsync();
-                Serilog.Log.Information("Updating Workflow: {0}, and reschduling existing Tasks.", id);
+                Serilog.Log.Information("Updating Workflow: {0}, and rescheduling existing Tasks.", id);
                 var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
                 bool taskRunning = false;
                 foreach (LimsServer.Entities.Task t in tasks)
@@ -170,12 +175,13 @@ namespace LimsServer.Services
                             Serilog.Log.Warning("Error rescheduling Hangfire background job. Job ID: {0}", t.taskID);
                         }
                     }
-                    else
+                    else if (t.status != "COMPLETED")
                     {
                         t.status = "CANCELLED";
                         t.message = "Corresponding workflow updated.";
                         var newState = new Hangfire.States.DeletedState();
-                        Serilog.Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
+                        // Log task cancellation to database
+                        _logService.Information($"Task Cancelled. WorkflowID: {t.workflowID}, ID: {t.id}, Hangfire ID: {t.taskID}", task: t);
 
                         try
                         {
@@ -196,7 +202,6 @@ namespace LimsServer.Services
                     var task = await ts.Create(tsk);
                     await _context.SaveChangesAsync();
                     Serilog.Log.Information("Created new Task for updated Workflow ID: {0}, Updated Task ID: {1}, Hangfire ID: {2}", newId, tsk.id, tsk.taskID);
-
                 }
                 return true;
             }
