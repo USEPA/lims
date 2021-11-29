@@ -37,13 +37,13 @@ namespace LimsServer.Services
             _logService.Information($"Executing Task. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
 
             // Step 1: If status!="SCHEDULED" cancel task
-
             if (!task.status.Equals("SCHEDULED"))
             {
                 _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Current Status: {task.status}, Message: Task status is not marked as scheduled.", task: task);
                 await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
                 return;
             }
+
             // Step 2: Change status to "STARTING"
             await this.UpdateStatus(task.id, "STARTING");
 
@@ -67,6 +67,7 @@ namespace LimsServer.Services
                 dirFileMessage = String.Format("Input directory {0} not found", workflow.inputFolder);
                 _logService.Information(dirFileMessage, task: task);
             }
+
             // Step 4: If directory or files do not exist reschedule task
             if (files.Count == 0)
             {
@@ -111,7 +112,6 @@ namespace LimsServer.Services
                 await this.RunTask(task.id);
                 return;
             }
-
 
             ProcessorManager pm = new ProcessorManager();
             string config = "./app_files/processors";
@@ -184,24 +184,22 @@ namespace LimsServer.Services
             {
                 var output = outputs.ElementAt(i);
                 string outputPath = output.Value.OutputFile;
-                // Step 8: If output file does exist, update task outputFile and delete input file
+                // Step 8: If output file does exist, update task outputFile
                 if (File.Exists(outputPath))
                 {
                     processed = true;
+                    task.outputFile = outputPath;
+
+                    // Get input file path
                     string fileName = System.IO.Path.GetFileName(output.Key);
                     string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
 
+                    // Backup input file
                     DataBackup dbBackup = new DataBackup();
                     dbBackup.DumpData(id, inputPath, outputPath);
-                    try
-                    {
-                        File.Delete(inputPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logService.Warning($"Error unable to delete input file after successful processing. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
-                    }
-                    task.outputFile = outputPath;
+
+                    // If archive folder exists archive input file, otherwise delete
+                    await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -283,6 +281,54 @@ namespace LimsServer.Services
                 }
             }
             return match;
+        }
+
+        /// <summary>
+        /// Archive or delete input file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="inputPath"></param>
+        /// <param name="workflow"></param>
+        private async System.Threading.Tasks.Task ArchiveOrDeleteInputFile(string fileName, string inputPath, Workflow workflow, Task task)
+        {
+            // If archive folder exists archive input file, otherwise delete
+            if (string.IsNullOrEmpty(workflow.archiveFolder))
+            {
+                try
+                {
+                    File.Delete(inputPath);
+                }
+                catch (Exception ex)
+                {
+                    _logService.Warning($"Error unable to delete input file after successful processing. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                }
+            }
+            else
+            {
+                try
+                {
+                    // Check that archive folder exists, and create if not
+                    if (!Directory.Exists(workflow.archiveFolder))
+                        Directory.CreateDirectory(workflow.archiveFolder);
+                    // Move input file to archive folder
+                    string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
+                    File.Move(inputPath, archivePath);
+                    // Set task archiveFile location
+                    task.archiveFile = archivePath;
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is UnauthorizedAccessException)
+                    {
+                        _logService.Warning($"Error unable to archive input file after successful processing. Unauthorized access to archive folder. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                    }
+                    else
+                    {
+                        _logService.Warning($"Error unable to archive input file after successful processing. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                    }
+                }
+            }
         }
 
         /// <summary>

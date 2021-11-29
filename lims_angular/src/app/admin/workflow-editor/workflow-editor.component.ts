@@ -27,7 +27,7 @@ export class WorkflowEditorComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get("id");
@@ -37,6 +37,7 @@ export class WorkflowEditorComponent implements OnInit {
       processor: [null, Validators.required],
       inputFolder: [null, Validators.required],
       outputFolder: [null, Validators.required],
+      archiveFolder: [null],
       interval: [null, Validators.required],
     });
 
@@ -66,6 +67,7 @@ export class WorkflowEditorComponent implements OnInit {
     this.workflowForm.get("processor").setValue(workflow.processor);
     this.workflowForm.get("inputFolder").setValue(workflow.inputFolder);
     this.workflowForm.get("outputFolder").setValue(workflow.outputFolder);
+    this.workflowForm.get("archiveFolder").setValue(workflow.outputFolder);
     this.workflowForm.get("interval").setValue(workflow.interval);
   }
 
@@ -75,6 +77,7 @@ export class WorkflowEditorComponent implements OnInit {
     const processor = this.workflowForm.get("processor").value;
     const inputFolder = this.workflowForm.get("inputFolder").value;
     const outputFolder = this.workflowForm.get("outputFolder").value;
+    const archiveFolder = this.workflowForm.get("archiveFolder").value;
     const interval = this.workflowForm.get("interval").value;
     if (name.length < 1) {
       this.statusMessage = "Workflows must include a workflow name";
@@ -101,6 +104,7 @@ export class WorkflowEditorComponent implements OnInit {
       processor,
       inputFolder,
       outputFolder,
+      archiveFolder,
       interval,
     };
     if (this.redirect) {
