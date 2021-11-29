@@ -189,23 +189,23 @@ namespace LimsServer.Services
                 {
                     processed = true;
                     task.outputFile = outputPath;
+
+                    // Get input file path
+                    string fileName = System.IO.Path.GetFileName(output.Key);
+                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
+
+                    // Backup input file
+                    DataBackup dbBackup = new DataBackup();
+                    dbBackup.DumpData(id, inputPath, outputPath);
+
+                    // If archive folder exists archive input file, otherwise delete
+                    await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
                     await _context.SaveChangesAsync();
                 }
                 else
                 {
                     await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessage);
                 }
-
-                // Get input file path
-                string fileName = System.IO.Path.GetFileName(output.Key);
-                string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
-
-                // Backup input file
-                DataBackup dbBackup = new DataBackup();
-                dbBackup.DumpData(id, inputPath, outputPath);
-
-                // If archive folder exists archive input file, otherwise delete
-                await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
             }
 
             // Step 9: Change task status to COMPLETED
