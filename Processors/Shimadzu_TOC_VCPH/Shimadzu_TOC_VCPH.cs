@@ -85,7 +85,8 @@ namespace Shimadzu_TOC_VCPH
                     string units = lstUnits[0];
 
                     //Aliquot in column C - some rows are string some are numbers
-                    string aliquot_id = GetXLStringValue(worksheet.Cells[rowIdx, 3]);
+                    //KW - 2021-11-29 - Change this to column D. Reference email from Jakob Fox on 2021-11-29
+                    string aliquot_id = GetXLStringValue(worksheet.Cells[rowIdx, 4]);
 
                     //Date time in column I - e.g. 5/27/2021 14:25
                     DateTime analysis_datetime = Convert.ToDateTime(GetXLStringValue(worksheet.Cells[rowIdx, 9]));
