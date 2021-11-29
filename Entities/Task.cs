@@ -13,6 +13,7 @@ namespace LimsServer.Entities
         public string workflowID { get; set; }
         public string inputFile { get; set; }
         public string outputFile { get; set; }
+        public string archiveFile { get; set; }
         public string status { get; set; }
         public string message { get; set; }
         public DateTime start { get; set; }
@@ -26,6 +27,7 @@ namespace LimsServer.Entities
             this.workflowID = workflow;
             this.inputFile = "";
             this.outputFile = "";
+            this.archiveFile = "";
             this.status = "PENDING";
             this.message = null;
             this.start = DateTime.Now.AddMinutes(interval);
