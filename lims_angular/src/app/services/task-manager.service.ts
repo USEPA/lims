@@ -23,7 +23,7 @@ export class TaskManagerService implements OnInit {
     this.getWorkflows().subscribe();
   }
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   // GET/api/tasks - returns all tasks
   getTasks(): Observable<any> {
@@ -105,6 +105,7 @@ export class TaskManagerService implements OnInit {
       processor: null,
       inputFolder: null,
       outputFolder: null,
+      archiveFolder: null,
       interval: null,
       active: null,
     };
