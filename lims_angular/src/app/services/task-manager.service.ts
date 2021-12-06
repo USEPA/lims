@@ -219,19 +219,4 @@ export class TaskManagerService implements OnInit {
       })
     );
   }
-
-  getLogs(): Observable<any> {
-    const options = {
-      headers: new HttpHeaders({
-        Authorization: "Bearer " + this.auth.getAuthToken(),
-        "Content-Type": "application/json",
-      }),
-    };
-    return this.http.get(environment.apiUrl + "logs/", options).pipe(
-      // timeout(5000),
-      catchError((err) => {
-        return of({ error: "failed to retrieve logs!" });
-      })
-    );
-  }
 }

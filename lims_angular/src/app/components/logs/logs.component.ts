@@ -6,6 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 
 import { AuthService } from "src/app/services/auth.service";
 import { TaskManagerService } from "src/app/services/task-manager.service";
+import { LogsService } from "src/app/services/logs.service";
 
 @Component({
   selector: "app-logs",
@@ -24,7 +25,7 @@ export class LogsComponent implements OnInit {
   sortableData = new MatTableDataSource();
 
   constructor(
-    private taskMgr: TaskManagerService,
+    private logService: LogsService,
     private auth: AuthService,
     private router: Router
   ) {}
@@ -39,11 +40,12 @@ export class LogsComponent implements OnInit {
 
   updateLogTable(): void {
     if (this.auth.isAuthenticated()) {
-      this.taskMgr.getLogs().subscribe(
+      this.logService.getLogs().subscribe(
         (logs) => {
           if (logs.error) {
             console.log(logs.error);
           } else {
+            console.log("logs: ", logs);
             this.logs = [...logs];
             this.sortableData.data = [...this.logs];
             this.sortableData.sort = this.sort;
