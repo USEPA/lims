@@ -35,3 +35,11 @@
 md-toolbar {
   z-index: 10;
 }
+
+.okay {
+    background-color: green;
+}
+
+.error {
+    background-color: red;
+}

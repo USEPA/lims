@@ -3,7 +3,7 @@ import { environment } from "../../environments/environment";
 import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { Observable, throwError, of } from "rxjs";
+import { Observable, throwError, of, BehaviorSubject } from "rxjs";
 import { catchError, tap, timeout } from "rxjs/operators";
 
 import { AuthService } from "./auth.service";
@@ -19,11 +19,28 @@ export class TaskManagerService implements OnInit {
   private workflows: Workflow[];
   private processors: any[];
 
-  ngOnInit(): void {
+  private statusSubject: BehaviorSubject<any>;
+  errorTest = [];
+
+  constructor(private http: HttpClient, private auth: AuthService) {
+    this.statusSubject = new BehaviorSubject(this.errorTest);
     this.getWorkflows().subscribe();
+
+    setInterval(() => {
+      if (this.errorTest.length >= 3) {
+        this.errorTest = [];
+      } else {
+        this.errorTest.push(`error${this.errorTest.length + 1}`);
+      }
+      this.statusSubject.next(this.errorTest);
+    }, 5000);
   }
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  ngOnInit(): void {}
+
+  status(): BehaviorSubject<any> {
+    return this.statusSubject;
+  }
 
   // GET/api/tasks - returns all tasks
   getTasks(): Observable<any> {
@@ -199,6 +216,21 @@ export class TaskManagerService implements OnInit {
       }),
       catchError((err) => {
         return of({ error: "failed to retrieve processors!" });
+      })
+    );
+  }
+
+  getLogs(): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: "Bearer " + this.auth.getAuthToken(),
+        "Content-Type": "application/json",
+      }),
+    };
+    return this.http.get(environment.apiUrl + "logs/", options).pipe(
+      // timeout(5000),
+      catchError((err) => {
+        return of({ error: "failed to retrieve logs!" });
       })
     );
   }

@@ -27,7 +27,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Processor Status</th>
         <td mat-cell *matCellDef="let element">
           {{ element.processor_status || "unknown" }}
-          <button matButton (click)="toggleEnable()">Disable</button>
+          <button mat-button (click)="toggleEnable()">Disable</button>
         </td>
       </ng-container>
 

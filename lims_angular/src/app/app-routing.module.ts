@@ -7,9 +7,11 @@ import { TaskDetailComponent } from "./admin/task-detail/task-detail.component";
 import { WorkflowDetailComponent } from "./admin/workflow-detail/workflow-detail.component";
 import { ProcessorsComponent } from "./admin/processors/processors.component";
 import { WorkflowEditorComponent } from "./admin/workflow-editor/workflow-editor.component";
+import { LogsComponent } from "./components/logs/logs.component";
 
 const routes: Routes = [
   { path: "", component: TasklistComponent },
+  { path: "logs", component: LogsComponent },
   { path: "tasks", component: TasklistComponent },
   { path: "tasks/detail/:id", component: TaskDetailComponent },
   { path: "users", component: UsersComponent },
@@ -17,11 +19,11 @@ const routes: Routes = [
   { path: "workflows/detail/:id", component: WorkflowDetailComponent },
   { path: "workflows/edit/:id", component: WorkflowEditorComponent },
   { path: "processors", component: ProcessorsComponent },
-  { path: "**", redirectTo: "/" }
+  { path: "**", redirectTo: "/" },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

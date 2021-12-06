@@ -1,21 +1,37 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../services/auth.service";
-
 import { Router } from "@angular/router";
+
+import { AuthService } from "../services/auth.service";
+import { TaskManagerService } from "../services/task-manager.service";
 
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"]
+  styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private auth: AuthService, private router: Router) {}
+  // list of workflows with errors
+  errors = [];
 
-  ngOnInit() {}
+  constructor(
+    private auth: AuthService,
+    private taskMgr: TaskManagerService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.taskMgr.status().subscribe((status) => {
+      this.errors = [...status];
+    });
+  }
 
   logout(): void {
     // logs user out
     this.auth.logout();
+  }
+
+  gotoLogs(): void {
+    this.router.navigateByUrl("/logs");
   }
 
   gotoTasks(): void {

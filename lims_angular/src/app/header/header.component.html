@@ -2,6 +2,9 @@
   <h1>LIMS task manager</h1>
   <span class="spacer"></span>
   <span *ngIf="isAuthenticated()">
+    <button mat-button [ngClass]="{ 'okay' : !errors.length, 'error' : errors.length }" class="control" (click)="gotoLogs()">
+        Current Status
+    </button>
     <button mat-button class="control" (click)="gotoTasks()">
       Tasks
     </button>

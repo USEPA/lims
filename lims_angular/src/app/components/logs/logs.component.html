@@ -1,0 +1,45 @@
+<div class="centered">
+    <mat-card>
+      <mat-card-header>
+        <h2>Processor Logs</h2>
+      </mat-card-header>
+      <div *ngIf="logs.length">
+        <table
+          mat-table
+          [dataSource]="sortableData"
+          matSort
+          matSortActive="taskID"
+          matSortDirection="desc"
+          matSortDisableClear
+        >
+          <ng-container matColumnDef="taskID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Task ID
+            </th>
+          </ng-container>
+          <ng-container matColumnDef="workflowID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Workflow
+            </th>
+          </ng-container>
+          <ng-container matColumnDef="processor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Processor
+            </th>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
+        </table>
+      </div>
+      <ng-container *ngIf="loadingLogs">
+        <mat-spinner></mat-spinner>
+      </ng-container>
+      <ng-container *ngIf="statusMessage">
+        <div class="statusMessage">{{ statusMessage }}</div>
+      </ng-container>
+    </mat-card>
+</div>
+  
