@@ -12,7 +12,7 @@ namespace LimsServerTests
     public class WorkflowServiceTest
     {
         public DataContext _context;
-
+        public ILogService _logService;
         private async Task<DataContext> InitContext()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -46,7 +46,7 @@ namespace LimsServerTests
         public void CreateTest(int expected)
         {
             this._context = this.InitContext().Result;
-            WorkflowService wkService = new WorkflowService(this._context);
+            WorkflowService wkService = new WorkflowService(this._context, this._logService);
             Workflow newWorkflow = new Workflow()
             {
                 id = "test123456",
@@ -82,7 +82,7 @@ namespace LimsServerTests
             this._context.Tasks.Add(tsk);
             this._context.SaveChanges();
 
-            WorkflowService wkService = new WorkflowService(this._context);
+            WorkflowService wkService = new WorkflowService(this._context, this._logService);
             var firstWk = this._context.Workflows.FirstAsync().Result;
 
             var result = wkService.Delete(firstWk.id).Result;
@@ -97,7 +97,7 @@ namespace LimsServerTests
         public void GetAllTest(int expected)
         {
             this._context = this.InitContext().Result;
-            WorkflowService wkService = new WorkflowService(this._context);
+            WorkflowService wkService = new WorkflowService(this._context, this._logService);
 
             var result = wkService.GetAll().Result.ToList();
             Assert.Equal(result.Count, expected);                                // Returned results check
@@ -109,7 +109,7 @@ namespace LimsServerTests
         public void GetByIDTest(string id)
         {
             this._context = this.InitContext().Result;
-            WorkflowService wkService = new WorkflowService(this._context);
+            WorkflowService wkService = new WorkflowService(this._context, this._logService);
 
             var result = wkService.GetById(id).Result;
             Assert.NotNull(result);                                // Returned results check
@@ -141,7 +141,7 @@ namespace LimsServerTests
             this._context.Tasks.Add(tsk2);
             this._context.SaveChanges();
 
-            WorkflowService wkService = new WorkflowService(this._context);
+            WorkflowService wkService = new WorkflowService(this._context, this._logService);
             Workflow newWorkflow = new Workflow()
             {
                 id = "5",
@@ -161,4 +161,4 @@ namespace LimsServerTests
 
         }
     }
-} 
+}

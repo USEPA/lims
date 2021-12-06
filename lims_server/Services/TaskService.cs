@@ -24,31 +24,33 @@ namespace LimsServer.Services
     public class TaskService : ITaskService
     {
         private DataContext _context;
-        public TaskService(DataContext context)
+        private readonly ILogService _logService;
+        public TaskService(DataContext context, ILogService logService)
         {
             _context = context;
+            _logService = logService;
         }
 
         public async System.Threading.Tasks.Task RunTask(string id)
         {
             var task = await _context.Tasks.SingleAsync(t => t.id == id);
-            Log.Information("Executing Task. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
+            _logService.Information($"Executing Task. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
 
             // Step 1: If status!="SCHEDULED" cancel task
-
             if (!task.status.Equals("SCHEDULED"))
             {
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Current Status: {3}, Message: {4}", task.workflowID, task.id, task.taskID, task.status, "Task status is not marked as schedulled.");
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Current Status: {task.status}, Message: Task status is not marked as scheduled.", task: task);
                 await this.UpdateStatus(task.id, "CANCELLED", "Task status was set to: " + task.status);
                 return;
             }
+
             // Step 2: Change status to "STARTING"
-            await this.UpdateStatus(task.id, "STARTING", "");
+            await this.UpdateStatus(task.id, "STARTING");
 
             var workflow = await _context.Workflows.Where(w => w.id == task.workflowID).FirstOrDefaultAsync();
-            if(workflow == null)
+            if (workflow == null)
             {
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Unable to find Workflow for the Task.");
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Unable to find Workflow for the Task.", task: task);
                 await this.UpdateStatus(task.id, "CANCELLED", "Error attempting to get workflow of this task. Workflow ID: " + task.workflowID);
                 return;
             }
@@ -63,9 +65,9 @@ namespace LimsServer.Services
             else
             {
                 dirFileMessage = String.Format("Input directory {0} not found", workflow.inputFolder);
-                Log.Information(dirFileMessage);
-       
+                _logService.Information(dirFileMessage, task: task);
             }
+
             // Step 4: If directory or files do not exist reschedule task
             if (files.Count == 0)
             {
@@ -78,11 +80,11 @@ namespace LimsServer.Services
                 {
                     BackgroundJobClient backgroundClient = new BackgroundJobClient();
                     backgroundClient.ChangeState(task.taskID, newSchedule);
-                    Log.Information("Task Rescheduled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input Directory: {3}, Message: {4}", task.workflowID, task.id, task.taskID, workflow.inputFolder, "No files found in input directory.");
+                    _logService.Information($"Task Rescheduled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input Directory: {workflow.inputFolder}, Message: No files found in input directory.", task: task);
                 }
                 catch (Exception)
                 {
-                    Log.Warning("Error attempting to reschedule Hangfire job. Workflow ID: {0}, task ID: {1}", task.workflowID, task.id);
+                    _logService.Warning($"Error attempting to reschedule Hangfire job. Workflow ID: {task.workflowID}, task ID: {task.id}", task: task);
                 }
                 return;
             }
@@ -94,31 +96,39 @@ namespace LimsServer.Services
             bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
             if (alreadyCompleted)
             {
-                Log.Information("Hash input file match for WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Input File: {3}, Message: {4}", task.workflowID, task.id, task.taskID, task.inputFile, "Rerunning task after removing file.");
+                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
                 try
                 {
                     File.Delete(task.inputFile);
-                    Log.Information("Hash input file match successfully deleted. WorkflowID: {0}, ID: {1}, Input File: {2}", task.workflowID, task.id, task.inputFile);
+                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
                 }
                 catch (FileNotFoundException ex)
                 {
-                    Log.Warning("Error unable to delete input file after hash file match with previous input file. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
+                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
                 }
-                
+
                 string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
                 await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
                 await this.RunTask(task.id);
                 return;
             }
 
-
             ProcessorManager pm = new ProcessorManager();
             string config = "./app_files/processors";
             ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
-            if(processor == null)
+            if (processor == null)
             {
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}, Processor: {4}", task.workflowID, task.id, task.taskID, "Unable to find Processor for the Task.", workflow.processor);
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Unable to find Processor for the Task., Processor: {workflow.processor}", task: task);
                 await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
+                return;
+            }
+
+            // If processor is disabled don't run task
+            var proc = await _context.Processors.Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (!proc.enabled)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Processor is not enabled.", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, processor is not enabled. Name: " + workflow.processor);
                 return;
             }
 
@@ -130,9 +140,9 @@ namespace LimsServer.Services
                     Directory.CreateDirectory(@workflow.outputFolder);
                 }
             }
-            catch(UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException ex)
             {
-                Log.Warning("Task unable to create output directory, unauthorized access exception. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Output Directory: {3}", task.workflowID, task.id, task.taskID, workflow.outputFolder);
+                _logService.Warning($"Task unable to create output directory, unauthorized access exception. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Output Directory: {workflow.outputFolder}", task: task);
             }
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
@@ -164,34 +174,32 @@ namespace LimsServer.Services
                     logMessage = result.LogMessage;
                 }
                 await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, logMessage);
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: {logMessage}", task: task);
                 return;
             }
 
             // Step 7: Check if output file exists
             bool processed = false;
-            for(int i = 0; i < outputs.Count; i++)
+            for (int i = 0; i < outputs.Count; i++)
             {
                 var output = outputs.ElementAt(i);
                 string outputPath = output.Value.OutputFile;
-                // Step 8: If output file does exist, update task outputFile and delete input file
+                // Step 8: If output file does exist, update task outputFile
                 if (File.Exists(outputPath))
                 {
                     processed = true;
+                    task.outputFile = outputPath;
+
+                    // Get input file path
                     string fileName = System.IO.Path.GetFileName(output.Key);
                     string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
 
+                    // Backup input file
                     DataBackup dbBackup = new DataBackup();
                     dbBackup.DumpData(id, inputPath, outputPath);
-                    try
-                    {
-                        File.Delete(inputPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Warning("Error unable to delete input file after successful processing. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
-                    }
-                    task.outputFile = outputPath;
+
+                    // If archive folder exists archive input file, otherwise delete
+                    await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -203,10 +211,10 @@ namespace LimsServer.Services
             // Step 9: Change task status to COMPLETED
             // Step 10: Create new Task and schedule
             string newStatus = "";
-            if (processed) 
+            if (processed)
             {
                 newStatus = "COMPLETED";
-                Log.Information("Task Completed. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
+                _logService.Information($"Task Completed. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
                 try
                 {
                     if (files.Count > 1)
@@ -220,15 +228,15 @@ namespace LimsServer.Services
                 }
                 catch (Exception)
                 {
-                    Log.Warning("Error creating new Hangfire job after successful job. Workflow ID: {0}, ID: {1}", task.workflowID, task.id);
+                    _logService.Warning($"Error creating new Hangfire job after successful job. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
                 }
             }
             else
             {
                 newStatus = "CANCELLED";
-                Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}, Message: {3}", task.workflowID, task.id, task.taskID, "Failed to process input file.");
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Failed to process input file.", task: task);
             }
-            await this.UpdateStatus(task.id, newStatus);          
+            await this.UpdateStatus(task.id, newStatus);
         }
 
         /// <summary>
@@ -247,25 +255,25 @@ namespace LimsServer.Services
                 byte[] inputFile = File.ReadAllBytes(inputFilePath);
                 byte[] inputData = MD5.Create().ComputeHash(inputFile);
                 StringBuilder ib = new StringBuilder();
-                for(int i = 0; i < inputData.Length; i++)
+                for (int i = 0; i < inputData.Length; i++)
                 {
                     ib.Append(inputData[i].ToString("x2"));
                 }
                 string inputHash = ib.ToString();
 
-                Log.Debug("Input file compare. WorkflowID: {0}, InputFile: {1}, InputFile Hash: {2}", workflowID, inputFilePath, inputHash);
+                _logService.Debug($"Input file compare. WorkflowID: {workflowID}, InputFile: {inputFilePath}, InputFile Hash: {inputHash}", workflowID: workflowID);
                 DataBackup db = new DataBackup();
                 foreach (Task t in tasks)
                 {
                     Dictionary<string, byte[]> previousTask = db.GetData(t.id);
                     byte[] previousData = MD5.Create().ComputeHash(previousTask["input"]);
                     StringBuilder jb = new StringBuilder();
-                    for(int j = 0; j < previousData.Length; j++)
+                    for (int j = 0; j < previousData.Length; j++)
                     {
                         jb.Append(previousData[j].ToString("x2"));
                     }
                     string previousHash = jb.ToString();
-                    Log.Debug("Input file compare. WorkflowID: {0}, Previous Input Hash: {1}", workflowID, previousHash);
+                    _logService.Debug($"Input file compare. WorkflowID: {workflowID}, Previous Input Hash: {previousHash}", task: t);
                     if (StringComparer.OrdinalIgnoreCase.Compare(inputHash, previousHash) == 0)
                     {
                         match = true;
@@ -273,6 +281,54 @@ namespace LimsServer.Services
                 }
             }
             return match;
+        }
+
+        /// <summary>
+        /// Archive or delete input file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="inputPath"></param>
+        /// <param name="workflow"></param>
+        private async System.Threading.Tasks.Task ArchiveOrDeleteInputFile(string fileName, string inputPath, Workflow workflow, Task task)
+        {
+            // If archive folder exists archive input file, otherwise delete
+            if (string.IsNullOrEmpty(workflow.archiveFolder))
+            {
+                try
+                {
+                    File.Delete(inputPath);
+                }
+                catch (Exception ex)
+                {
+                    _logService.Warning($"Error unable to delete input file after successful processing. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                }
+            }
+            else
+            {
+                try
+                {
+                    // Check that archive folder exists, and create if not
+                    if (!Directory.Exists(workflow.archiveFolder))
+                        Directory.CreateDirectory(workflow.archiveFolder);
+                    // Move input file to archive folder
+                    string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
+                    File.Move(inputPath, archivePath);
+                    // Set task archiveFile location
+                    task.archiveFile = archivePath;
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is UnauthorizedAccessException)
+                    {
+                        _logService.Warning($"Error unable to archive input file after successful processing. Unauthorized access to archive folder. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                    }
+                    else
+                    {
+                        _logService.Warning($"Error unable to archive input file after successful processing. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -284,10 +340,11 @@ namespace LimsServer.Services
         protected async System.Threading.Tasks.Task UpdateStatus(string id, string status)
         {
             var task = await _context.Tasks.Where(t => t.id == id).FirstOrDefaultAsync();
-            if(task != null)
+            if (task != null)
             {
                 task.status = status;
                 await _context.SaveChangesAsync();
+                _logService.Information($"Task Status Updated. WorkflowID: {task.workflowID}, ID: {task.id}, Status: {status}", task: task);
             }
         }
 
@@ -305,6 +362,7 @@ namespace LimsServer.Services
                 task.status = status;
                 task.message = message;
                 await _context.SaveChangesAsync();
+                _logService.Information($"Task Status Updated. WorkflowID: {task.workflowID}, ID: {task.id}, Status: {status}, Message: {message}", task: task);
             }
         }
 
@@ -316,15 +374,22 @@ namespace LimsServer.Services
         /// <returns></returns>
         protected async System.Threading.Tasks.Task CreateNewTask(string workflowID, int interval)
         {
-            string newID0 = System.Guid.NewGuid().ToString();
-            Task newTask0 = new Task(newID0, workflowID, interval);
-            try
+            // Check that processor is enabled before creating new task
+            var workflow = await _context.Workflows.Where(w => w.id == workflowID).FirstOrDefaultAsync();
+            var processor = await _context.Processors
+                .Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (processor.enabled)
             {
-                await this.Create(newTask0);
-            }
-            catch (Exception)
-            {
-                Log.Warning("Error attempting to create new Hangfire task. Workflow ID: {0}", workflowID);
+                string newID0 = System.Guid.NewGuid().ToString();
+                Task newTask0 = new Task(newID0, workflowID, interval);
+                try
+                {
+                    await this.Create(newTask0);
+                }
+                catch (Exception)
+                {
+                    _logService.Warning($"Error attempting to create new Hangfire task. Workflow ID: {workflowID}", workflowID: workflowID);
+                }
             }
         }
 
@@ -344,14 +409,13 @@ namespace LimsServer.Services
             TimeSpan scheduledStart = task.start - DateTime.Now;
             try
             {
-                //await this.RunTask(tsk.id);
                 tsk.taskID = BackgroundJob.Schedule(() => this.RunTask(tsk.id), scheduledStart);
-                Log.Information("New Task Created. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
+                _logService.Information($"New Task Created. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
             }
             catch (Exception)
             {
                 tsk.message = "Task not scheduled, unable to connect to Hangfire server.";
-                Log.Warning("Error unable to schedule new Hangfire job, workflow ID: {0}, task ID: {1}", task.workflowID, task.id);
+                _logService.Warning($"Error unable to schedule new Hangfire job, workflow ID: {task.workflowID}, task ID: {task.id}", task: task);
             }
             await _context.SaveChangesAsync();
             return tsk;
@@ -365,7 +429,7 @@ namespace LimsServer.Services
         public async System.Threading.Tasks.Task<bool> Delete(string id)
         {
             var task = await _context.Tasks.Where(t => t.id == id).FirstOrDefaultAsync();
-            if(task != null)
+            if (task != null)
             {
                 try
                 {
@@ -376,11 +440,11 @@ namespace LimsServer.Services
                 }
                 catch (InvalidOperationException)
                 {
-                    Log.Information("No Hangfire task found for ID: {0}", task.taskID);
+                    _logService.Information($"No Hangfire task found for ID: {task.taskID}", task: task);
                 }
                 task.status = "CANCELLED";
                 await _context.SaveChangesAsync();
-                Log.Information("Deleted Task. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", task.workflowID, task.id, task.taskID);
+                _logService.Information($"Deleted Task. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
                 return true;
             }
             return false;

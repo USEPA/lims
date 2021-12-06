@@ -4,7 +4,7 @@ export interface Workflow {
   processor: string;
   inputFolder: string;
   outputFolder: string;
-  backupFolder: string;
+  archiveFolder: string;
   interval: number;
   active: boolean;
 }

@@ -3,14 +3,16 @@ using System;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LimsServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211104191513_AddLog")]
+    partial class AddLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +82,6 @@ namespace LimsServer.Migrations
                     b.Property<string>("id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("archiveFile")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("inputFile")
                         .HasColumnType("TEXT");
 
@@ -148,9 +147,6 @@ namespace LimsServer.Migrations
 
                     b.Property<bool>("active")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("archiveFolder")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("inputFolder")
                         .HasColumnType("TEXT");

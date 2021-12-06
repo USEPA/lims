@@ -54,7 +54,7 @@ namespace LimsServer
                     lstProcs.Add(proc);
                     procsInDb.Add(proc.name.ToLower());
                 }
-                
+
                 //Set all the processors in the db to enabled = false
                 await procService.Update(lstProcs.ToArray());
 
@@ -62,7 +62,7 @@ namespace LimsServer
                 lstProcs = new List<Processor>();
                 foreach (string proc in procsIntersect)
                 {
-                    var processor = await procService.GetById(proc);
+                    var processor = await procService.GetByName(proc);
                     //Processor processor = result.Result;
                     processor.enabled = true;
                     lstProcs.Add(processor);
@@ -73,7 +73,7 @@ namespace LimsServer
 
                 var newProcs = procsDiskNames.Except(procsInDb);
                 List<ProcessorDTO> lstProcDTO = new List<ProcessorDTO>();
-                foreach(string proc in newProcs)                
+                foreach (string proc in newProcs)
                     lstProcDTO.Add(procsFromDisk.Find(x => x.Name.ToLower() == proc.ToLower()));
 
                 foreach (ProcessorDTO proc in lstProcDTO)
@@ -91,7 +91,7 @@ namespace LimsServer
 
             //return System.Threading.Tasks.Task.CompletedTask;
             return;
-            
+
         }
     }
 }

@@ -13,10 +13,10 @@ namespace LimsServer.Services
     {
         System.Threading.Tasks.Task<IEnumerable<Processor>> GetAll();
         Task<Processor> GetById(string id);
+        Task<Processor> GetByName(string name);
         Task<Processor> Create(Processor processor);
         System.Threading.Tasks.Task Update(string id, Processor processor);
         System.Threading.Tasks.Task Update(Processor[] processor);
-
     }
 
     public class ProcessorService : IProcessorService
@@ -34,12 +34,12 @@ namespace LimsServer.Services
         /// <returns>The added processor, as seen from the db context, or an empty processor with an error message.</returns>
         public async Task<Processor> Create(Processor processor)
         {
-            
+
             //processor.id = workflowID;
             try
             {
                 var result = await _context.Processors.AddAsync(processor);
-                await _context.SaveChangesAsync();                
+                await _context.SaveChangesAsync();
 
                 return result.Entity;
             }
@@ -64,18 +64,37 @@ namespace LimsServer.Services
         /// <summary>
         /// Query processors for specified id.
         /// </summary>
+        /// <param name="name">processor name</param>
+        /// <returns>the processor with the specified name</returns>
+        public async Task<Processor> GetByName(string name)
+        {
+            try
+            {
+                var processor = await _context.Processors.SingleAsync(p => p.name == name);
+                return processor as Processor;
+            }
+            catch (InvalidOperationException)
+            {
+                Serilog.Log.Information("No processor found with name: {0}", name);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Query processors for specified id.
+        /// </summary>
         /// <param name="id">processor ID</param>
         /// <returns>the processor with the specified ID</returns>
         public async Task<Processor> GetById(string id)
         {
             try
             {
-                var processor = await _context.Processors.SingleAsync(w => w.name == id);
+                var processor = await _context.Processors.SingleAsync(p => p.id == id);
                 return processor as Processor;
             }
             catch (InvalidOperationException)
             {
-                Log.Information("No processor found with ID: {0}", id);
+                Serilog.Log.Information("No processor found with ID: {0}", id);
                 return null;
             }
         }
@@ -93,11 +112,13 @@ namespace LimsServer.Services
                 p.version = processor.version;
                 p.file_type = processor.file_type;
                 p.description = processor.description;
+                p.enabled = processor.enabled;
+                p.process_found = processor.process_found;
                 await _context.SaveChangesAsync();
             }
             catch (InvalidOperationException)
             {
-                Log.Information("Processor not updated, no processor found with ID: {0}", id);
+                Serilog.Log.Information("Processor not updated, no processor found with ID: {0}", id);
             }
         }
 
@@ -107,9 +128,8 @@ namespace LimsServer.Services
         /// <param name="processor"></param>
         public async System.Threading.Tasks.Task Update(Processor[] processors)
         {
-            _context.Processors.UpdateRange(processors);                                                                            
+            _context.Processors.UpdateRange(processors);
             await _context.SaveChangesAsync();
         }
-
     }
 }
