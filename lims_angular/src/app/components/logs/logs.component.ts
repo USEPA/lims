@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { MatPaginator } from "@angular/material/paginator";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -23,11 +23,16 @@ export class LogsComponent implements OnInit {
   constructor(private logService: LogsService, private auth: AuthService) {}
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
     this.loadingLogs = true;
     this.statusMessage = "";
 
     this.updateLogList();
+  }
+
+  ngAfterViewInit() {
+    this.sortableData.paginator = this.paginator;
   }
 
   updateLogList(): void {
