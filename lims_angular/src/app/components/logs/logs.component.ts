@@ -5,7 +5,6 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 
 import { AuthService } from "src/app/services/auth.service";
-import { TaskManagerService } from "src/app/services/task-manager.service";
 import { LogsService } from "src/app/services/logs.service";
 
 @Component({
@@ -14,48 +13,43 @@ import { LogsService } from "src/app/services/logs.service";
   styleUrls: ["./logs.component.css"],
 })
 export class LogsComponent implements OnInit {
-  // tasklist refresh interval in ms
-  logs = [];
   loadingLogs: boolean;
   statusMessage: string;
 
-  errors = [];
-
-  columnNames = ["taskID", "workflowID", "processor", "status"];
+  columnNames = ["type", "processor", "message"];
   sortableData = new MatTableDataSource();
+  logList = [];
 
-  constructor(
-    private logService: LogsService,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+  constructor(private logService: LogsService, private auth: AuthService) {}
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   ngOnInit() {
     this.loadingLogs = true;
     this.statusMessage = "";
 
-    this.updateLogTable();
+    this.updateLogList();
   }
 
-  updateLogTable(): void {
+  updateLogList(): void {
     if (this.auth.isAuthenticated()) {
       this.logService.getLogs().subscribe(
         (logs) => {
           if (logs.error) {
-            console.log(logs.error);
+            this.statusMessage = logs.error;
           } else {
-            console.log("logs: ", logs);
-            this.logs = [...logs];
-            this.sortableData.data = [...this.logs];
-            this.sortableData.sort = this.sort;
-            this.statusMessage = "";
+            if (logs && logs.length) {
+              this.logList = [...logs];
+              this.sortableData.data = [...this.logList];
+              this.sortableData.sort = this.sort;
+              this.statusMessage = "";
+            } else {
+              this.statusMessage = "There are currently no Logs available";
+            }
           }
         },
         (err) => {
           console.log(err);
-          this.sortableData.data = [];
-          this.sortableData.sort = this.sort;
+          this.statusMessage = "Error retrieving logs";
         },
         () => {
           this.loadingLogs = false;
@@ -63,4 +57,8 @@ export class LogsComponent implements OnInit {
       );
     }
   }
+
+  public doFilter = (value: string) => {
+    this.sortableData.filter = value.trim().toLocaleLowerCase();
+  };
 }

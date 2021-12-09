@@ -36,6 +36,7 @@ import { RegistrationComponent } from "./admin/registration/registration.compone
 import { ProcessorsComponent } from "./admin/processors/processors.component";
 
 import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
+import { LogsComponent } from "./components/logs/logs.component";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.inter
     UserEditorComponent,
     WorkflowDetailComponent,
     RegistrationComponent,
-    ProcessorsComponent
+    ProcessorsComponent,
+    LogsComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,16 +70,16 @@ import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.inter
     MatCardModule,
     MatButtonModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [
-    CookieService, 
-    { 
+    CookieService,
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedRedirect,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

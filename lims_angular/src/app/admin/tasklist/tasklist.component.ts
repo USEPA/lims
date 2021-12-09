@@ -13,7 +13,7 @@ import { AuthService } from "src/app/services/auth.service";
 @Component({
   selector: "app-tasklist",
   templateUrl: "./tasklist.component.html",
-  styleUrls: ["./tasklist.component.css"]
+  styleUrls: ["./tasklist.component.css"],
 })
 export class TasklistComponent implements OnInit {
   // tasklist refresh interval in ms
@@ -49,7 +49,7 @@ export class TasklistComponent implements OnInit {
   updateTasklist(): void {
     if (this.auth.isAuthenticated()) {
       this.taskMgr.getTasks().subscribe(
-        tasks => {
+        (tasks) => {
           if (tasks.error) {
             this.statusMessage = tasks.error;
           } else {
@@ -58,12 +58,13 @@ export class TasklistComponent implements OnInit {
               this.sortableData.data = [...this.taskList];
               this.sortableData.sort = this.sort;
               this.statusMessage = "";
+              //console.log("sortData: ", this.sortableData);
             } else {
               this.statusMessage = "There are currently no Tasks scheduled";
             }
           }
         },
-        err => {
+        (err) => {
           this.statusMessage = "Error retrieving data";
         },
         () => {
@@ -71,14 +72,14 @@ export class TasklistComponent implements OnInit {
         }
       );
       this.taskMgr.getWorkflows().subscribe(
-        workflows => {
+        (workflows) => {
           if (workflows.error) {
             console.log(workflows.error);
           } else {
             this.workflows = [...workflows];
           }
         },
-        err => {
+        (err) => {
           console.log(err);
         },
         () => {
