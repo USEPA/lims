@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 import { AuthService } from "src/app/services/auth.service";
 import { LogsService } from "src/app/services/logs.service";
@@ -20,6 +23,10 @@ export class LogsComponent implements OnInit {
   sortableData = new MatTableDataSource();
   logList = [];
 
+  myControl = new FormControl();
+  options: string[] = ["INFORMATION", "ERROR"];
+  filteredOptions: Observable<string[]>;
+
   constructor(private logService: LogsService, private auth: AuthService) {}
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -28,7 +35,20 @@ export class LogsComponent implements OnInit {
     this.loadingLogs = true;
     this.statusMessage = "";
 
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(""),
+      map((value) => this._filter(value))
+    );
+
     this.updateLogList();
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   ngAfterViewInit() {

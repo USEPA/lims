@@ -20,6 +20,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 import { LoginComponent } from "./admin/login/login.component";
 import { MainComponent } from "./main/main.component";
@@ -71,6 +72,7 @@ import { LogsComponent } from "./components/logs/logs.component";
     MatButtonModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
   ],
   providers: [
     CookieService,
