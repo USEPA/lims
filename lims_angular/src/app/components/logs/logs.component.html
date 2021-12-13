@@ -4,7 +4,7 @@
             <h2>Workflow Logs</h2>
             <mat-form-field id="filter-input">
                 <input matInput type="text" 
-                    (keyup)="doFilter($event.target.value)" 
+                    (keyup)="doFilter($event.target.value)"
                     placeholder="Filter" 
                     [formControl]="myControl"
                     [matAutocomplete]="auto" />
@@ -20,7 +20,7 @@
                 mat-table
                 [dataSource]="sortableData"
                 matSort
-                matSortActive="type"
+                matSortActive="time"
                 matSortDirection="desc"
                 matSortDisableClear
             >
@@ -49,10 +49,17 @@
                     </td>
                 </ng-container>
 
+                <ng-container matColumnDef="time">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.time || "unknown" }}
+                    </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
             </table>
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
         </ng-container>
         
         <ng-container *ngIf="loadingLogs">

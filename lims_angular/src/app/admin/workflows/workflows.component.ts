@@ -10,7 +10,7 @@ import { Workflow } from "../../models/workflow.model";
 @Component({
   selector: "app-workflows",
   templateUrl: "./workflows.component.html",
-  styleUrls: ["./workflows.component.css"]
+  styleUrls: ["./workflows.component.css"],
 })
 export class WorkflowsComponent implements OnInit {
   loadingWorkflows: boolean;
@@ -22,7 +22,7 @@ export class WorkflowsComponent implements OnInit {
     "inputFolder",
     "outputFolder",
     "interval",
-    "active"
+    "active",
   ];
   workflows: Workflow[];
   sortableData = new MatTableDataSource();
@@ -41,7 +41,7 @@ export class WorkflowsComponent implements OnInit {
 
   getWorkflows() {
     this.taskMgr.getWorkflows().subscribe(
-      workflows => {
+      (workflows) => {
         if (workflows.error) {
           this.statusMessage = workflows.error;
         } else {
@@ -50,12 +50,13 @@ export class WorkflowsComponent implements OnInit {
             this.sortableData.data = [...this.workflows];
             this.sortableData.sort = this.sort;
             this.statusMessage = "";
+            console.log("workflows: ", this.workflows);
           } else {
             this.statusMessage = "There are currently no Workflows available";
           }
         }
       },
-      err => {
+      (err) => {
         this.statusMessage = "Error retrieving data";
       },
       () => {
@@ -78,4 +79,6 @@ export class WorkflowsComponent implements OnInit {
       this.getWorkflows();
     }
   }
+
+  toggleEnable(): void {}
 }

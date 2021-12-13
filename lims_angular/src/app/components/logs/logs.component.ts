@@ -19,7 +19,7 @@ export class LogsComponent implements OnInit {
   loadingLogs: boolean;
   statusMessage: string;
 
-  columnNames = ["type", "processor", "message"];
+  columnNames = ["type", "processor", "message", "time"];
   sortableData = new MatTableDataSource();
   logList = [];
 
@@ -67,6 +67,7 @@ export class LogsComponent implements OnInit {
               this.sortableData.data = [...this.logList];
               this.sortableData.sort = this.sort;
               this.statusMessage = "";
+              console.log("logs: ", this.logList);
             } else {
               this.statusMessage = "There are currently no Logs available";
             }
