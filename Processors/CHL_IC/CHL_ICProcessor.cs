@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Data;
+using System.Collections.Generic;
 using PluginBase;
 using ExcelDataReader;
+
 
 namespace CHL_IC
 {
@@ -40,24 +42,63 @@ namespace CHL_IC
                     }
                 }
 
-                DataTable dt_template = GetDataTable();
-                dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
-                TemplateField[] fields = Fields;
+                //We are looking for a worksheet named: 'Summary - INJ. vs ANION'
+                string tableName = "Summary - INJ. vs ANION";
+                DataTable worksheet = null;
+                foreach (DataTable table in tables)
+                {
+                    int i = 1;
+                    if (string.Compare(table.TableName, tableName, true) == 0)
+                    {
+                        worksheet = table;
+                        break;
+                    }
+                }
 
-                var worksheet = tables[0];
+                //We have a problem if we can't find the right worksheet
+                if (worksheet == null)
+                {
+                    rm.ErrorMessage = $"Processor: {name},  InputFile: {input_file}, Worksheet {tableName} not found.";
+                    rm.LogMessage = $"Processor: {name},  InputFile: {input_file}, Worksheet {tableName} not found.";
+                    return rm;
+                }
+
+                DataTable dt = GetDataTable();
+                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
+                TemplateField[] fields = Fields;
+                
                 int numRows = worksheet.Rows.Count;
                 int numCols = worksheet.Columns.Count;
 
-                for (int row = 1; row < numRows; row++)
+                //Analyte IDs are in row 6 starting in column C (which is column 2 - since datatables are zero based)
+                List<string> lstAnalyteIDs = new List<string>();
+                for (int colIdx = 2; colIdx < numCols; colIdx++)
                 {
-                    string aliquot_id = worksheet.Rows[row][0].ToString();
-                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[row][8].ToString()).TimeOfDay);
-                    double measured_val = Convert.ToDouble(worksheet.Rows[row][1].ToString());
-                    string analyte_id = "NH3";
-                    double dilution_factor = Convert.ToDouble(worksheet.Rows[row][3].ToString());
-                    string comment = worksheet.Rows[row][4].ToString();
+                    string analyteID = worksheet.Rows[5][colIdx].ToString();
+                    if (string.IsNullOrEmpty(analyteID))
+                        break;
+                    if (string.Compare(analyteID, "Phosphate", true) == 0)
+                        analyteID = "Ortho-Phosphate";
 
-                    DataRow dr = dt_template.NewRow();
+                    lstAnalyteIDs.Add(analyteID);
+                }
+
+
+                //Data starts in row 7 (rowIdx 6 since datatables are zero based)
+                for (int rowIdx = 6; rowIdx <= numRows; rowIdx++)
+                {
+                    string numID = worksheet.Rows[rowIdx][0].ToString().Trim();
+                    if (string.IsNullOrEmpty(numID))
+                        continue;
+
+                    string aliquot_id = worksheet.Rows[rowIdx][0].ToString();
+                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[rowIdx][8].ToString()).TimeOfDay);
+                    double measured_val = Convert.ToDouble(worksheet.Rows[rowIdx][1].ToString());
+                    string analyte_id = "NH3";
+                    double dilution_factor = Convert.ToDouble(worksheet.Rows[rowIdx][3].ToString());
+                    string comment = worksheet.Rows[rowIdx][4].ToString();
+
+                    DataRow dr = dt.NewRow();
                     dr[0] = aliquot_id;
                     dr[1] = analyte_id;
                     dr[2] = measured_val;
@@ -65,10 +106,10 @@ namespace CHL_IC
                     dr[5] = analysis_datetime;
                     dr[6] = comment;
 
-                    dt_template.Rows.Add(dr);
+                    dt.Rows.Add(dr);
                 }
 
-                rm.TemplateData = dt_template;
+                rm.TemplateData = dt;
             }
             catch (Exception ex)
             {
