@@ -8,7 +8,7 @@ namespace ACESD_Chlorophyll
 {
     public class ACESD_Chlorophyll : DataProcessor
     {
-        public override string id { get => "ACESD_Chlorophyll1.0"; }
+        public override string id { get => "acesd_chlorophyll1.0"; }
         public override string name { get => "ACESD_Chlorophyll"; }
         public override string description { get => "Processor used for ACESD_Chlorophyll translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
