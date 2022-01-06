@@ -53,12 +53,28 @@ namespace ACESD_Chlorophyll
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                double user_defined1 = GetXLDoubleValue(worksheet.Cells[2, 6]);
+                //This value is used for every sample
+                string user_defined1 = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, 6]));
                 string analyteIDBase = "Raw Flouresence ";
 
                 for (int rowIdx=7; rowIdx<numRows; rowIdx++)
                 {
+                    string aliquot = GetXLStringValue(worksheet.Cells[rowIdx, 1]);
+                    //Number of rows extends beyond data
+                    if (string.IsNullOrWhiteSpace(aliquot))
+                        break;
 
+                    double measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 3]);                    
+                    double analyteIDVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 2]);
+                    string analyteID = analyteIDBase + analyteIDVal.ToString();
+
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;                    
+                    dr["User Defined 1"] = user_defined1;
+
+                    dt.Rows.Add(dr);
                 }
 
             }
