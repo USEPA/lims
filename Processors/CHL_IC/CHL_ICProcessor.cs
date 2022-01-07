@@ -63,8 +63,8 @@ namespace CHL_IC
                     return rm;
                 }
 
-                DataTable dt = GetDataTable();
-                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
+                DataTable dtReturn = GetDataTable();
+                dtReturn.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                 TemplateField[] fields = Fields;
                 
                 int numRows = worksheet.Rows.Count;
@@ -85,31 +85,38 @@ namespace CHL_IC
 
 
                 //Data starts in row 7 (rowIdx 6 since datatables are zero based)
-                for (int rowIdx = 6; rowIdx <= numRows; rowIdx++)
+                for (int rowIdx = 6; rowIdx < numRows; rowIdx++)
                 {
                     string numID = worksheet.Rows[rowIdx][0].ToString().Trim();
                     if (string.IsNullOrEmpty(numID))
                         continue;
 
-                    string aliquot_id = worksheet.Rows[rowIdx][0].ToString();
-                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[rowIdx][8].ToString()).TimeOfDay);
-                    double measured_val = Convert.ToDouble(worksheet.Rows[rowIdx][1].ToString());
-                    string analyte_id = "NH3";
-                    double dilution_factor = Convert.ToDouble(worksheet.Rows[rowIdx][3].ToString());
-                    string comment = worksheet.Rows[rowIdx][4].ToString();
+                    //Aliquot value is in Column B (col 1 in zero based datatable)
+                    string aliquot = worksheet.Rows[rowIdx][1].ToString().Trim();
 
-                    DataRow dr = dt.NewRow();
-                    dr[0] = aliquot_id;
-                    dr[1] = analyte_id;
-                    dr[2] = measured_val;
-                    dr[4] = dilution_factor;
-                    dr[5] = analysis_datetime;
-                    dr[6] = comment;
+                                        
+                    
+                    for (int colIdx=0; colIdx<(lstAnalyteIDs.Count); colIdx++)
+                    {                        
+                        DataRow dr = dtReturn.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analyte Identifier"] = lstAnalyteIDs[colIdx];
 
-                    dt.Rows.Add(dr);
+                        double measuredVal;
+                        //Remeber data starts in column C (col 2 in zero based datatable thus the +2)
+                        string valTmp = worksheet.Rows[rowIdx][colIdx+2].ToString().Trim();
+                        if (string.Compare(valTmp, "n.a.", true) == 0)
+                            measuredVal = 0.0;
+                        else if (!double.TryParse(valTmp, out measuredVal))
+                            measuredVal = 0.0;
+
+                        dr["Measured Value"] = measuredVal;
+
+                        dtReturn.Rows.Add(dr);
+                    }
                 }
 
-                rm.TemplateData = dt;
+                rm.TemplateData = dtReturn;
             }
             catch (Exception ex)
             {
