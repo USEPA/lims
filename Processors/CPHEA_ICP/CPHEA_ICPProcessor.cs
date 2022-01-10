@@ -6,7 +6,7 @@ using System.Data;
 
 namespace CPHEA_ICP
 {
-    public class CPHEA_ICProcessor : DataProcessor
+    public class CPHEA_ICPProcessor : DataProcessor
     {
         public override string id { get => "cphea_ic_version1.0"; }
         public override string name { get => "CPHEA_IC"; }
@@ -16,7 +16,7 @@ namespace CPHEA_ICP
         public override string input_file { get; set; }
         public override string path { get; set; }
 
-        public CPHEA_ICProcessor()
+        public CPHEA_ICPProcessor()
         {
         }
 
