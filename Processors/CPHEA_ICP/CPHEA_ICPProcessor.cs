@@ -31,6 +31,8 @@ namespace CPHEA_ICP
                 if (rm != null)
                     return rm;
 
+                rm = new DataTableResponseMessage();
+
                 DataTable dt = GetDataTable();
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);
                 
@@ -70,41 +72,42 @@ namespace CPHEA_ICP
                         else
                             radialView = "";
 
-
                         string analyteID = element + " " + waveLength + radialView;
+
                         double measuredVal;
-                        if (!double.TryParse(data[9].Trim(), out measuredVal))
-                            throw new Exception("Invalid measured value in line: " + idxRow.ToString());
-                        
+                        string tmpMeasuredVal = data[9].Trim();
+                        if (string.IsNullOrWhiteSpace(tmpMeasuredVal))
+                            measuredVal = 0.0;
+                        else if (!double.TryParse(tmpMeasuredVal, out measuredVal))
+                            measuredVal = 0.0;
+
                         DateTime analysisDateTime;
                         if (!DateTime.TryParse(data[1] + " " + data[2], out analysisDateTime ))
                             throw new Exception("Invalid date-time value in line: " + idxRow.ToString());
-
-
    
-                        double dilutionFactor = 0.0;
-                        string vol = data[4].Trim();
-                        string dilution = data[5].Trim();
-                        if (string.IsNullOrWhiteSpace(vol) || string.IsNullOrWhiteSpace(dilution))
-                            dilutionFactor = 0.0;
-                        else
-                        {
-                            double dvol;
-                            double ddilution;
-                            if (!double.TryParse(vol, out dvol))
-                                break;
-                            if (!double.TryParse(dilution, out ddilution))
-                                break;
+                        //double dilutionFactor = 0.0;
+                        //string vol = data[4].Trim();
+                        //string dilution = data[5].Trim();
+                        //if (string.IsNullOrWhiteSpace(vol) || string.IsNullOrWhiteSpace(dilution))
+                        //    dilutionFactor = 0.0;
+                        //else
+                        //{
+                        //    double dvol;
+                        //    double ddilution;
+                        //    if (!double.TryParse(vol, out dvol))
+                        //        break;
+                        //    if (!double.TryParse(dilution, out ddilution))
+                        //        break;
 
-                            dilutionFactor = dvol / ddilution;
-                        }
+                        //    dilutionFactor = dvol / ddilution;
+                        //}
 
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
                         dr["Analyte Identifier"] = analyteID;
                         dr["Measured Value"] = measuredVal;
                         dr["Analysis Date/Time"] = analysisDateTime;
-                        dr["Dilution Factor"] = dilutionFactor;
+                        //dr["Dilution Factor"] = dilutionFactor;
 
                         dt.Rows.Add(dr);
                     }
