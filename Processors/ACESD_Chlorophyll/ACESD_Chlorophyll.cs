@@ -55,7 +55,10 @@ namespace ACESD_Chlorophyll
 
                 //This value is used for every sample
                 string user_defined1 = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, 6]));
-                string analyteIDBase = "Raw Flouresence ";
+                //string analyteIDBase = "Raw Fluorescence ";
+                //KW - Jan 19, 2022
+                // in response to email from Jakob Fox on Jan 19,2022
+                string analyteID = "Raw Fluorescence";
 
                 for (int rowIdx=7; rowIdx<numRows; rowIdx++)
                 {
@@ -64,9 +67,10 @@ namespace ACESD_Chlorophyll
                     if (string.IsNullOrWhiteSpace(aliquot))
                         break;
 
-                    double measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 3]);                    
-                    double analyteIDVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 2]);
-                    string analyteID = analyteIDBase + analyteIDVal.ToString();
+                    double measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 3]);
+                    //KW - Jan 19, 2022
+                    //double analyteIDVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 2]);
+                    //string analyteID = analyteIDBase + analyteIDVal.ToString();
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
