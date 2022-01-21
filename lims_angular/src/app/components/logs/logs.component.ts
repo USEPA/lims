@@ -67,7 +67,7 @@ export class LogsComponent implements OnInit {
               this.sortableData.data = [...this.logList];
               this.sortableData.sort = this.sort;
               this.statusMessage = "";
-              console.log("logs: ", this.logList);
+              // console.log("logs: ", this.logList);
             } else {
               this.statusMessage = "There are currently no Logs available";
             }
@@ -84,7 +84,8 @@ export class LogsComponent implements OnInit {
     }
   }
 
-  public doFilter = (value: string) => {
+  doFilter(value: string): void {
+    console.log("filter: ", value);
     this.sortableData.filter = value.trim().toLocaleLowerCase();
-  };
+  }
 }

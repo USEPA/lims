@@ -26,14 +26,14 @@ export class TaskManagerService implements OnInit {
     this.statusSubject = new BehaviorSubject(this.errorTest);
     this.getWorkflows().subscribe();
 
-    setInterval(() => {
-      if (this.errorTest.length >= 3) {
-        this.errorTest = [];
-      } else {
-        this.errorTest.push(`error${this.errorTest.length + 1}`);
-      }
-      this.statusSubject.next(this.errorTest);
-    }, 5000);
+    // setInterval(() => {
+    //   if (this.errorTest.length >= 3) {
+    //     this.errorTest = [];
+    //   } else {
+    //     this.errorTest.push(`error${this.errorTest.length + 1}`);
+    //   }
+    //   this.statusSubject.next(this.errorTest);
+    // }, 5000);
   }
 
   ngOnInit(): void {}

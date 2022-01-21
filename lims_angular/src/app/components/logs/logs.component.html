@@ -4,15 +4,16 @@
             <h2>Workflow Logs</h2>
             <mat-form-field id="filter-input">
                 <input matInput type="text" 
-                    (keyup)="doFilter($event.target.value)"
+                    (keyup)="doFilter($event.target.value)" 
                     placeholder="Filter" 
-                    [formControl]="myControl"
-                    [matAutocomplete]="auto" />
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    [formControl]="myControl" />
+                    <!-- [matAutocomplete]="auto" -->
+                <!-- <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onchange)="console.log('testtesttest')">
                         {{option}}
                     </mat-option>
-                </mat-autocomplete>
+                </mat-autocomplete> -->
             </mat-form-field>
         </mat-card-header>
         <ng-container>
