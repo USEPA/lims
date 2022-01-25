@@ -82,10 +82,13 @@ namespace LIMSDesktop
                     //dtRespMsg = new DataTableResponseMessage();
                     UserMessage(string.Format("Error processing file {0} with processor {1}", txtInput.Text, txtName.Text));
                     //dtRespMsg.ErrorMessage = string.Format("Error processing file {0} with processor {1}", txtInput.Text, txtName.Text);
+                    return;
 
                 }
-                if (dtRespMsg.ErrorMessage != null)
+                if (dtRespMsg.ErrorMessage != null)                
                     LogMessage(dtRespMsg.ErrorMessage);
+                    //UserMessage(dtRespMsg.ErrorMessage);
+                   
                 
                 if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
                     LogMessage(dtRespMsg.LogMessage);
@@ -93,6 +96,7 @@ namespace LIMSDesktop
                 if (dtRespMsg.TemplateData != null)
                 {
                     templateDataGridView.DataSource = dtRespMsg.TemplateData;
+                    ClearMessage();
                     UserMessage("Success");
                 }
             }
@@ -151,9 +155,8 @@ namespace LIMSDesktop
             //lblMessage.Text = msg;
             if (string.IsNullOrWhiteSpace(txtMessage.Text))
                 txtMessage.Text = message;
-            else
-                txtMessage.Text = Environment.NewLine + txtMessage.Text + message;
-
+            else            
+                txtMessage.Text = txtMessage.Text + Environment.NewLine + message;            
         }
 
         private void ClearMessage()
