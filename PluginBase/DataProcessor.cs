@@ -32,6 +32,9 @@ namespace PluginBase
         public abstract string path { get; set; }
         public abstract DataTableResponseMessage Execute();
 
+        //Keep track of current row outside of loop for error handling
+        protected int current_row = 0;
+
         public readonly TemplateField[] Fields = new TemplateField[]
         {
                 new TemplateField("Aliquot", typeof(string)),

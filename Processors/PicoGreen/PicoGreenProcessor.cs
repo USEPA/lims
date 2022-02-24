@@ -31,7 +31,9 @@ namespace PicoGreen
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = null;
+            DataTableResponseMessage rm = null;            
+            
+
             try
             {
                 rm = VerifyInputFile();
@@ -54,8 +56,7 @@ namespace PicoGreen
                 int startRow = worksheet.Dimension.Start.Row;
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
-                int numCols = worksheet.Dimension.End.Column;
-
+                int numCols = worksheet.Dimension.End.Column;                
 
                 string analyteID = GetXLStringValue(worksheet.Cells[1, 9]);
                 if (string.IsNullOrWhiteSpace(analyteID))
@@ -66,7 +67,7 @@ namespace PicoGreen
                     return rm;
                 }
 
-                        string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
+                string wellID = GetXLStringValue(worksheet.Cells[18, 1]);
                 if (!"Well ID".Equals(wellID, StringComparison.OrdinalIgnoreCase))
                 {
 
@@ -81,10 +82,11 @@ namespace PicoGreen
                 //Template ||               Aliquot  Description                  Measured Value      
 
                 //Analyte Identifier is dsDNA for every record
-                
 
+                
                 for (int row = 18; row<=numRows; row++)
                 {
+                    current_row = row;
                     wellID = GetXLStringValue(worksheet.Cells[row, 1]);
                     //if the cell is empty then start new data block 
                     if (string.IsNullOrWhiteSpace(wellID))
@@ -100,6 +102,8 @@ namespace PicoGreen
                     
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
                     string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
+                    if (string.IsNullOrWhiteSpace(measuredVal))
+                        continue;
 
                     //string dilFactor = aliquot_dilFactor[1];
                     //KW June 9, 2021
@@ -130,8 +134,14 @@ namespace PicoGreen
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                //rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
+                //rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
 
             return rm;
