@@ -35,6 +35,39 @@ namespace PluginBase
         //Keep track of current row outside of loop for error handling
         protected int current_row = 0;
 
+        //Make these variables available at this level for use by processors
+        //Use these inside loop that iterates over rows (records) in table (spreadsheet, csv, etc...)
+        protected string aliquot = "";
+        protected string analyteID = "";
+        protected double measuredVal = Double.NaN;
+        protected string units = "";
+        protected double dilutionFactor = Double.NaN;
+        protected DateTime analysisDateTime = DateTime.MinValue;
+        protected string comment = "";
+        protected string dataDescription = "";
+        protected string userDefined1 = "";
+        protected string userDefined2 = "";
+        protected string userDefined3 = "";
+        protected string userDefined4 = "";
+        protected string userDefined5 = "";
+        protected string userDefined6 = "";
+        protected string userDefined7 = "";
+        protected string userDefined8 = "";
+        protected string userDefined9 = "";
+        protected string userDefined10 = "";
+        protected string userDefined11 = "";
+        protected string userDefined12 = "";
+        protected string userDefined13 = "";
+        protected string userDefined14 = "";
+        protected string userDefined15 = "";
+        protected string userDefined16 = "";
+        protected string userDefined17 = "";
+        protected string userDefined18 = "";
+        protected string userDefined19 = "";
+        protected string userDefined20 = "";
+
+
+
         public readonly TemplateField[] Fields = new TemplateField[]
         {
                 new TemplateField("Aliquot", typeof(string)),
