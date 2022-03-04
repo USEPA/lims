@@ -102,6 +102,7 @@ namespace PicoGreen
                     
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
                     string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
+                    //Need to account for empty cell
                     if (string.IsNullOrWhiteSpace(measuredVal))
                         continue;
 
