@@ -11,81 +11,82 @@ import { AuthService } from "src/app/services/auth.service";
 import { LogsService } from "src/app/services/logs.service";
 
 @Component({
-  selector: "app-logs",
-  templateUrl: "./logs.component.html",
-  styleUrls: ["./logs.component.css"],
+    selector: "app-logs",
+    templateUrl: "./logs.component.html",
+    styleUrls: ["./logs.component.css"],
 })
 export class LogsComponent implements OnInit {
-  loadingLogs: boolean;
-  statusMessage: string;
+    loadingLogs: boolean;
+    statusMessage: string;
 
-  columnNames = ["type", "processor", "message", "time"];
-  sortableData = new MatTableDataSource();
-  logList = [];
+    columnNames = ["type", "processor", "message", "time"];
+    sortableData = new MatTableDataSource();
+    logList = [];
 
-  myControl = new FormControl();
-  options: string[] = ["INFORMATION", "ERROR"];
-  filteredOptions: Observable<string[]>;
+    filter = "";
 
-  constructor(private logService: LogsService, private auth: AuthService) {}
+    myControl = new FormControl();
+    options: string[] = ["INFORMATION", "ERROR"];
+    filteredOptions: Observable<string[]>;
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  ngOnInit() {
-    this.loadingLogs = true;
-    this.statusMessage = "";
+    constructor(private logService: LogsService, private auth: AuthService) {}
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filter(value))
-    );
+    @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    ngOnInit() {
+        this.loadingLogs = true;
+        this.statusMessage = "";
 
-    this.updateLogList();
-  }
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+            startWith(""),
+            map((value) => this._filter(value))
+        );
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
-
-  ngAfterViewInit() {
-    this.sortableData.paginator = this.paginator;
-  }
-
-  updateLogList(): void {
-    if (this.auth.isAuthenticated()) {
-      this.logService.getLogs().subscribe(
-        (logs) => {
-          if (logs.error) {
-            this.statusMessage = logs.error;
-          } else {
-            if (logs && logs.length) {
-              this.logList = [...logs];
-              this.sortableData.data = [...this.logList];
-              this.sortableData.sort = this.sort;
-              this.statusMessage = "";
-              // console.log("logs: ", this.logList);
-            } else {
-              this.statusMessage = "There are currently no Logs available";
-            }
-          }
-        },
-        (err) => {
-          console.log(err);
-          this.statusMessage = "Error retrieving logs";
-        },
-        () => {
-          this.loadingLogs = false;
-        }
-      );
+        this.updateLogList();
     }
-  }
 
-  doFilter(value: string): void {
-    console.log("filter: ", value);
-    this.sortableData.filter = value.trim().toLocaleLowerCase();
-  }
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
+    }
+
+    ngAfterViewInit() {
+        this.sortableData.paginator = this.paginator;
+    }
+
+    updateLogList(): void {
+        if (this.auth.isAuthenticated()) {
+            this.logService.getLogs().subscribe(
+                (logs) => {
+                    if (logs.error) {
+                        this.statusMessage = logs.error;
+                    } else {
+                        if (logs && logs.length) {
+                            this.logList = [...logs];
+                            this.sortableData.data = [...this.logList];
+                            this.sortableData.sort = this.sort;
+                            this.statusMessage = "";
+                            // console.log("logs: ", this.logList);
+                        } else {
+                            this.statusMessage = "There are currently no Logs available";
+                        }
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                    this.statusMessage = "Error retrieving logs";
+                },
+                () => {
+                    this.loadingLogs = false;
+                }
+            );
+        }
+    }
+
+    doFilter(value: string): void {
+        console.log("filter: ", value);
+        this.filter = value;
+        this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
 }

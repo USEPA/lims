@@ -5,52 +5,44 @@ import { AuthService } from "../services/auth.service";
 import { TaskManagerService } from "../services/task-manager.service";
 
 @Component({
-  selector: "app-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
+    selector: "app-header",
+    templateUrl: "./header.component.html",
+    styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
-  // list of workflows with errors
-  errors = [];
+    // list of workflows with errors
+    errors = [];
 
-  constructor(
-    private auth: AuthService,
-    private taskMgr: TaskManagerService,
-    private router: Router
-  ) {}
+    constructor(private auth: AuthService, private taskMgr: TaskManagerService, private router: Router) {}
 
-  ngOnInit() {
-    this.taskMgr.status().subscribe((status) => {
-      this.errors = [...status];
-    });
-  }
+    ngOnInit() {}
 
-  logout(): void {
-    // logs user out
-    this.auth.logout();
-  }
+    logout(): void {
+        // logs user out
+        this.auth.logout();
+    }
 
-  gotoLogs(): void {
-    this.router.navigateByUrl("/logs");
-  }
+    gotoLogs(): void {
+        this.router.navigateByUrl("/logs");
+    }
 
-  gotoTasks(): void {
-    this.router.navigateByUrl("/tasks");
-  }
+    gotoTasks(): void {
+        this.router.navigateByUrl("/tasks");
+    }
 
-  gotoUsers(): void {
-    this.router.navigateByUrl("/users");
-  }
+    gotoUsers(): void {
+        this.router.navigateByUrl("/users");
+    }
 
-  gotoWorkflows(): void {
-    this.router.navigateByUrl("/workflows");
-  }
+    gotoWorkflows(): void {
+        this.router.navigateByUrl("/workflows");
+    }
 
-  gotoProcessors(): void {
-    this.router.navigateByUrl("/processors");
-  }
+    gotoProcessors(): void {
+        this.router.navigateByUrl("/processors");
+    }
 
-  isAuthenticated(): boolean {
-    return this.auth.isAuthenticated();
-  }
+    isAuthenticated(): boolean {
+        return this.auth.isAuthenticated();
+    }
 }
