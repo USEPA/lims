@@ -38,6 +38,7 @@ import { ProcessorsComponent } from "./admin/processors/processors.component";
 
 import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
 import { LogsComponent } from "./components/logs/logs.component";
+import { HighlightSearchPipe } from './pipes/highlight-search.pipe';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { LogsComponent } from "./components/logs/logs.component";
     RegistrationComponent,
     ProcessorsComponent,
     LogsComponent,
+    HighlightSearchPipe,
   ],
   imports: [
     BrowserModule,

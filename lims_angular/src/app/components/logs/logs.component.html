@@ -3,11 +3,14 @@
         <mat-card-header>
             <h2>Workflow Logs</h2>
             <mat-form-field id="filter-input">
-                <input matInput type="text" 
-                    (keyup)="doFilter($event.target.value)" 
-                    placeholder="Filter" 
-                    [formControl]="myControl" />
-                    <!-- [matAutocomplete]="auto" -->
+                <input
+                    matInput
+                    type="text"
+                    (keyup)="doFilter($event.target.value)"
+                    placeholder="Filter"
+                    [formControl]="myControl"
+                />
+                <!-- [matAutocomplete]="auto" -->
                 <!-- <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
                     (onchange)="console.log('testtesttest')">
@@ -26,18 +29,14 @@
                 matSortDisableClear
             >
                 <ng-container matColumnDef="type">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Type
-                    </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.type || "unknown" }}
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="processor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Processor
-                    </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Processor</th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.processorId || "unknown" }}
                     </td>
@@ -45,9 +44,11 @@
 
                 <ng-container matColumnDef="message">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
-                    <td mat-cell *matCellDef="let element">
-                        {{ element.message || "unknown" }}
-                    </td>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        [innerHTML]="element.message || 'unknown' | highlightSearch: filter"
+                    ></td>
                 </ng-container>
 
                 <ng-container matColumnDef="time">
@@ -62,7 +63,7 @@
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
         </ng-container>
-        
+
         <ng-container *ngIf="loadingLogs">
             <mat-spinner></mat-spinner>
         </ng-container>
@@ -71,4 +72,3 @@
         </ng-container>
     </mat-card>
 </div>
-  
