@@ -4,35 +4,34 @@
 }
 
 .mat-card {
-  min-width: 525px;
-  max-width: 90%;
-  border-radius: 0px;
-  margin-top: 4em;
+    max-width: 90%;
+    border-radius: 0px;
+    margin-top: 4em;
 }
 
 .mat-cell {
-  text-align: center;
-  padding: 0px 24px 0px 24px;
+    text-align: center;
+    padding: 0px 24px 0px 24px;
 }
 
 .mat-header-cell {
-  text-align: center;
-  padding: 0px 24px 0px 36px;
+    text-align: center;
+    padding: 0px 24px 0px 36px;
 }
 
 .mat-button {
-  border: 1px solid #303030;
+    border: 1px solid #303030;
 }
 
 .mat-form-field {
-  margin: 10px;
+    margin: 10px;
 }
 
 .mat-spinner {
-  margin: 15px auto;
+    margin: 15px auto;
 }
 
 .statusMessage {
-  margin-top: 1em;
-  text-align: center;
+    margin-top: 1em;
+    text-align: center;
 }

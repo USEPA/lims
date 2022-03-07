@@ -11,101 +11,93 @@ import { Workflow } from "src/app/models/workflow.model";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
-  selector: "app-tasklist",
-  templateUrl: "./tasklist.component.html",
-  styleUrls: ["./tasklist.component.css"],
+    selector: "app-tasklist",
+    templateUrl: "./tasklist.component.html",
+    styleUrls: ["./tasklist.component.css"],
 })
 export class TasklistComponent implements OnInit {
-  // tasklist refresh interval in ms
-  reloadInterval = 10000;
-  loadingTasklist: boolean;
-  loadingWorkflows: boolean;
-  statusMessage: string;
+    // tasklist refresh interval in ms
+    reloadInterval = 10000;
+    loadingTasklist: boolean;
+    loadingWorkflows: boolean;
+    statusMessage: string;
 
-  columnNames = ["taskID", "workflowID", "status", "start"];
-  taskList: Task[];
-  sortableData = new MatTableDataSource();
-  workflows: Workflow[];
+    columnNames = ["taskID", "workflowID", "status", "start"];
+    taskList: Task[];
+    sortableData = new MatTableDataSource();
+    workflows: Workflow[];
 
-  constructor(
-    private taskMgr: TaskManagerService,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+    constructor(private taskMgr: TaskManagerService, private auth: AuthService, private router: Router) {}
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  ngOnInit() {
-    this.loadingTasklist = true;
-    this.loadingWorkflows = true;
-    this.statusMessage = "";
+    @ViewChild(MatSort, { static: true }) sort: MatSort;
+    ngOnInit() {
+        this.loadingTasklist = true;
+        this.loadingWorkflows = true;
+        this.statusMessage = "";
 
-    this.updateTasklist();
+        this.updateTasklist();
 
-    setInterval(() => {
-      this.updateTasklist();
-    }, this.reloadInterval);
-  }
-
-  updateTasklist(): void {
-    if (this.auth.isAuthenticated()) {
-      this.taskMgr.getTasks().subscribe(
-        (tasks) => {
-          if (tasks.error) {
-            this.statusMessage = tasks.error;
-          } else {
-            if (tasks && tasks.length > 0) {
-              this.taskList = [...tasks];
-              this.sortableData.data = [...this.taskList];
-              this.sortableData.sort = this.sort;
-              this.statusMessage = "";
-              //console.log("sortData: ", this.sortableData);
-            } else {
-              this.statusMessage = "There are currently no Tasks scheduled";
-            }
-          }
-        },
-        (err) => {
-          this.statusMessage = "Error retrieving data";
-        },
-        () => {
-          this.loadingTasklist = false;
-        }
-      );
-      this.taskMgr.getWorkflows().subscribe(
-        (workflows) => {
-          if (workflows.error) {
-            console.log(workflows.error);
-          } else {
-            this.workflows = [...workflows];
-          }
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-          this.loadingWorkflows = false;
-        }
-      );
+        setInterval(() => {
+            this.updateTasklist();
+        }, this.reloadInterval);
     }
-  }
 
-  gotoTaskDetail(id: number) {
-    this.router.navigateByUrl("/tasks/detail/" + id);
-  }
+    updateTasklist(): void {
+        if (this.auth.isAuthenticated()) {
+            this.taskMgr.getTasks().subscribe(
+                (tasks) => {
+                    if (tasks.error) {
+                        this.statusMessage = tasks.error;
+                    } else {
+                        if (tasks && tasks.length > 0) {
+                            this.taskList = [...tasks];
+                            this.sortableData.data = [...this.taskList];
+                            this.sortableData.sort = this.sort;
+                            this.statusMessage = "";
+                            //console.log("sortData: ", this.sortableData);
+                        } else {
+                            this.statusMessage = "There are currently no Tasks scheduled";
+                        }
+                    }
+                },
+                (err) => {
+                    this.statusMessage = "Error retrieving data";
+                },
+                () => {
+                    this.loadingTasklist = false;
+                }
+            );
+            this.taskMgr.getWorkflows().subscribe(
+                (workflows) => {
+                    if (workflows.error) {
+                        console.log(workflows.error);
+                    } else {
+                        this.workflows = [...workflows];
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                },
+                () => {
+                    this.loadingWorkflows = false;
+                }
+            );
+        }
+    }
 
-  gotoWorkflowDetail(id: string) {
-    this.router.navigateByUrl("/workflows/detail/" + id);
-  }
+    gotoTaskDetail(id: number) {
+        this.router.navigateByUrl("/tasks/detail/" + id);
+    }
 
-  getWorkflowName(id: string) {
-    return this.taskMgr.getWorkflow(id).name;
-  }
+    gotoWorkflowDetail(id: string) {
+        this.router.navigateByUrl("/workflows/detail/" + id);
+    }
 
-  getFormattedDate(date) {
-    return new Date(date).toLocaleString();
-  }
+    getWorkflowName(id: string) {
+        return this.taskMgr.getWorkflow(id).name;
+    }
 
-  cancelTask(): void {
-    console.log("task canceled!");
-  }
+    cancelTask(): void {
+        console.log("task canceled!");
+    }
 }
