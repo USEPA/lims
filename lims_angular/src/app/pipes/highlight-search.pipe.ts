@@ -16,6 +16,6 @@ export class HighlightSearchPipe implements PipeTransform {
             return value;
         }
 
-        return value.replace(regex, `<ng-container><span class='filterHighlight'>${match[0]}</span></ng-container>`);
+        return value.replace(regex, `<span class='filterHighlight'>${match[0]}</span>`);
     }
 }
