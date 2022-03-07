@@ -128,15 +128,6 @@ export class TaskManagerService {
 
     // PUT/api/workflows - updates an existing workflow
     updateWorkflow(workflow: any): Observable<any> {
-        if (!workflow.id) {
-            const wf = this.workflows.find((w) => {
-                return w.name === workflow.name;
-            });
-
-            workflow = { id: wf.id, ...workflow };
-        }
-        console.log("updateWorkflow: ", workflow);
-
         const options = {
             headers: new HttpHeaders({
                 Authorization: "Bearer " + this.auth.getAuthToken(),
@@ -155,8 +146,21 @@ export class TaskManagerService {
         );
     }
 
-    // api call
-    disableWorkflow(id: number): Observable<any> {
+    // calls this.updateWorkflow, return an Observable
+    enableWorkflow(workflow): Observable<any> {
+        workflow.active = true;
+        return this.updateWorkflow(workflow);
+    }
+
+    // calls this.updateWorkflow, returns an Observable
+    disableWorkflow(workflow): Observable<any> {
+        workflow.active = false;
+        return this.updateWorkflow(workflow);
+    }
+
+    // delete an existing workflow and associated tasks
+    // DELETE/api/workflows/+id
+    removeWorkflow(id: number): Observable<any> {
         const options = {
             headers: new HttpHeaders({
                 Authorization: "Bearer " + this.auth.getAuthToken(),
@@ -169,19 +173,6 @@ export class TaskManagerService {
                 return of({ error: "failed to disable workflow!" });
             })
         );
-    }
-
-    // api call
-    enableWorkflow(id): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        const workflow = this.getWorkflow(id);
-        workflow.active = true;
-        return this.updateWorkflow(workflow);
     }
 
     // api/processors
@@ -203,5 +194,36 @@ export class TaskManagerService {
                 return of({ error: "failed to retrieve processors!" });
             })
         );
+    }
+
+    // PUT/api/processors
+    updateProcessor(processor): Observable<any> {
+        const options = {
+            headers: new HttpHeaders({
+                Authorization: "Bearer " + this.auth.getAuthToken(),
+                "Content-Type": "application/json",
+            }),
+        };
+        return this.http.put<any>(environment.apiUrl + "processors/", processor, options).pipe(
+            // timeout(5000),
+            tap(() => {
+                console.log("updated processor");
+            }),
+            catchError((err) => {
+                return of({ error: "failed to update processor!" });
+            })
+        );
+    }
+
+    // calls this.updateProcessor, returns an Observable
+    enableProcessor(processor): Observable<any> {
+        processor.enabled = true;
+        return this.updateProcessor(processor);
+    }
+
+    // calls this.updateProcessor, returns an Observable
+    disableProcessor(processor): Observable<any> {
+        processor.enabled = false;
+        return this.updateProcessor(processor);
     }
 }
