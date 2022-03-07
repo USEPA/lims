@@ -73,13 +73,11 @@ export class WorkflowsComponent implements OnInit {
 
     toggleEnable(workflow): void {
         if (workflow.active) {
-            this.taskMgr.disableWorkflow(workflow.id).subscribe((response) => {
-                console.log("toggleEnable disableWorkflow() => ", response);
+            this.taskMgr.disableWorkflow(workflow).subscribe((response) => {
                 this.getWorkflows();
             });
         } else {
-            this.taskMgr.enableWorkflow(workflow.id).subscribe((response) => {
-                console.log("toggleEnable enableWorkflow() => ", response);
+            this.taskMgr.enableWorkflow(workflow).subscribe((response) => {
                 this.getWorkflows();
             });
         }
