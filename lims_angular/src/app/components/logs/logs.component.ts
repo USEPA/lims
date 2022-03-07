@@ -85,7 +85,6 @@ export class LogsComponent implements OnInit {
     }
 
     doFilter(value: string): void {
-        console.log("filter: ", value);
         this.filter = value;
         this.sortableData.filter = value.trim().toLocaleLowerCase();
     }
