@@ -33,7 +33,7 @@
             <ng-container matColumnDef="creationDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Created</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element.creationDate || "unknown" }}
+                    {{ element.creationDate || "unknown" | date: "short" }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="active">
