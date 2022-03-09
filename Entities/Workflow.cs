@@ -22,6 +22,7 @@ namespace LimsServer.Entities
         public int interval { get; set; }
         public string message { get; set; }
         public bool active { get; set; }
+        public DateTime creationDate { get; set; }
 
         public Workflow() { }
 

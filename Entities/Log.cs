@@ -10,6 +10,7 @@ namespace LimsServer.Entities
         public string taskHangfireID { get; set; }
         public string processorId { get; set; }
         public string message { get; set; }
+        public string action { get; set; }
 
         /// <summary>
         /// The log type: Information, Debug, Warning, Error, Fatal

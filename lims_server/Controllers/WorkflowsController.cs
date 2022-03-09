@@ -97,9 +97,9 @@ namespace LimsServer.Controllers
         }
 
         /// <summary>
-        /// Delete the specified user (marks user as inactive)
+        /// Delete the specified workflow
         /// </summary>
-        /// <param name="id">User to delete</param>
+        /// <param name="id">Workflow to delete</param>
         /// <returns>No content on success, 400 on fail.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id, [FromServices]IWorkflowService _service)

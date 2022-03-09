@@ -42,6 +42,7 @@ namespace LimsServer.Services
             string workflowID = System.Guid.NewGuid().ToString();
             workflow.id = workflowID;
             workflow.active = processor.enabled;
+            workflow.creationDate = DateTime.Now;
             try
             {
                 var result = await _context.Workflows.AddAsync(workflow);
@@ -69,7 +70,7 @@ namespace LimsServer.Services
         }
 
         /// <summary>
-        /// Marks the specified workflow as inactive and cancels all currently scheduled tasks for that 
+        /// Deletes a Workflow and cancels all currently scheduled tasks for that workflow
         /// </summary>
         /// <param name="id"></param>
         public async System.Threading.Tasks.Task<bool> Delete(string id)
@@ -77,7 +78,7 @@ namespace LimsServer.Services
             var workflow = await _context.Workflows.Where(w => w.id == id).FirstOrDefaultAsync();
             if (workflow != null)
             {
-                Serilog.Log.Information("Cancelling Workflow: {0}, and associated Tasks.", id);
+                Serilog.Log.Information("Deleted Workflow: {0}, and associated Tasks.", id);
                 var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
                 foreach (LimsServer.Entities.Task t in tasks)
                 {

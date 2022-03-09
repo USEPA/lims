@@ -3,6 +3,7 @@ using System;
 using LimsServer.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LimsServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220309143443_WorkflowCreationDate")]
+    partial class WorkflowCreationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
@@ -20,9 +22,6 @@ namespace LimsServer.Migrations
             modelBuilder.Entity("LimsServer.Entities.Log", b =>
                 {
                     b.Property<string>("id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("action")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("message")
