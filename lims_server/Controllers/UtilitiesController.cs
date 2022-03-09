@@ -19,7 +19,7 @@ namespace LimsServer.Controllers
 
     public class PathCheck
     {
-        public string path { get; set; }
+        public Dictionary<string, string> paths { get; set; }
     }
 
     [Route("api/utility")]
@@ -50,9 +50,14 @@ namespace LimsServer.Controllers
             {
                 return StatusCode(400, "Bad request, missing parameter 'path'");
             }
-
-            var dirTest = new DirectoryInfo(pInput.path).Exists;
-            return new ObjectResult(dirTest);
+            Dictionary<string, bool> results = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> pV in pInput.paths)
+            {
+                bool dirTest = new DirectoryInfo(pV.Value).Exists;
+                results.Add(pV.Key, dirTest);
+            }
+            //var dirTest = new DirectoryInfo(pInput.path).Exists;
+            return new ObjectResult(results);
         }
 
     }
