@@ -9,6 +9,9 @@ import { TaskManagerService } from "src/app/services/task-manager.service";
 import { Task } from "src/app/models/task.model";
 import { Workflow } from "src/app/models/workflow.model";
 import { AuthService } from "src/app/services/auth.service";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 @Component({
     selector: "app-tasklist",
@@ -22,6 +25,12 @@ export class TasklistComponent implements OnInit {
     loadingWorkflows: boolean;
     statusMessage: string;
 
+    filter = "";
+
+    filterInput = new FormControl();
+    options: string[] = ["SCHEDULED", "CANCELLED"];
+    filteredOptions: Observable<string[]>;
+
     columnNames = ["taskID", "workflowID", "status", "start"];
     taskList: Task[];
     sortableData = new MatTableDataSource();
@@ -34,6 +43,11 @@ export class TasklistComponent implements OnInit {
         this.loadingTasklist = true;
         this.loadingWorkflows = true;
         this.statusMessage = "";
+        this.sortableData.data = [];
+        this.filteredOptions = this.filterInput.valueChanges.pipe(
+            startWith(""),
+            map((value) => this.filterOptions(value))
+        );
 
         this.updateTasklist();
 
@@ -99,5 +113,17 @@ export class TasklistComponent implements OnInit {
 
     cancelTask(): void {
         console.log("task canceled!");
+    }
+
+    doFilter(value: string): void {
+        console.log("sortableData: ", this.sortableData);
+        this.filter = value;
+        this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
+
+    private filterOptions(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 }

@@ -25,7 +25,7 @@ export class LogsComponent implements OnInit {
 
     filter = "";
 
-    myControl = new FormControl();
+    filterInput = new FormControl();
     options: string[] = ["INFORMATION", "ERROR"];
     filteredOptions: Observable<string[]>;
 
@@ -37,18 +37,12 @@ export class LogsComponent implements OnInit {
         this.loadingLogs = true;
         this.statusMessage = "";
 
-        this.filteredOptions = this.myControl.valueChanges.pipe(
+        this.filteredOptions = this.filterInput.valueChanges.pipe(
             startWith(""),
-            map((value) => this._filter(value))
+            map((value) => this.filterOptions(value))
         );
 
         this.updateLogList();
-    }
-
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 
     ngAfterViewInit() {
@@ -87,5 +81,11 @@ export class LogsComponent implements OnInit {
     doFilter(value: string): void {
         this.filter = value;
         this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
+
+    private filterOptions(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 }

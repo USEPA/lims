@@ -31,7 +31,16 @@
     margin: 15px auto;
 }
 
+#filter-input {
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
 .statusMessage {
     margin-top: 1em;
     text-align: center;
+}
+
+.timestamp {
+    width: 26ch;
 }

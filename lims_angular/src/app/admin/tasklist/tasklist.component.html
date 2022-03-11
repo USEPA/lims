@@ -2,6 +2,22 @@
     <mat-card>
         <mat-card-header>
             <h2>Tasks</h2>
+            <mat-form-field id="filter-input">
+                <input
+                    matInput
+                    type="text"
+                    (keyup)="doFilter($event.target.value)"
+                    placeholder="Filter"
+                    [formControl]="filterInput"
+                />
+                <!-- [matAutocomplete]="auto" -->
+                <!-- <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onchange)="console.log('testtesttest')">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete> -->
+            </mat-form-field>
         </mat-card-header>
         <ng-container>
             <table
@@ -24,21 +40,25 @@
                 <ng-container matColumnDef="workflowID">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Workflow</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-button (click)="gotoWorkflowDetail(element.workflowID)">
-                            {{ getWorkflowName(element.workflowID) || "unknown" }}
-                        </button>
+                        <button
+                            mat-button
+                            (click)="gotoWorkflowDetail(element.workflowID)"
+                            [innerHTML]="getWorkflowName(element.workflowID) || 'unknown' | highlightSearch: filter"
+                        ></button>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-                    <td mat-cell *matCellDef="let element">
-                        {{ element.status || "unknown" }}
-                    </td>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        [innerHTML]="element.status || 'unknown' | highlightSearch: filter"
+                    ></td>
                 </ng-container>
 
                 <ng-container matColumnDef="start">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="timestamp">Start Time</th>
                     <td mat-cell *matCellDef="let element">
                         {{ element.start | date: "short" || "unknown" }}
                     </td>
