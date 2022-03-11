@@ -37,7 +37,7 @@ export class WorkflowEditorComponent implements OnInit {
             processor: [null, Validators.required],
             inputFolder: [null, Validators.required],
             outputFolder: [null, Validators.required],
-            archiveFolder: [null],
+            archiveFolder: [null, Validators.required],
             interval: [null, Validators.required],
         });
 
