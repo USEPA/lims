@@ -50,7 +50,7 @@ namespace LimsServer.Controllers
             {
                 return StatusCode(400, "Bad request, missing parameter 'path'");
             }
-            Dictionary<string, bool> results = new Dictionary<string, string>();
+            Dictionary<string, bool> results = new Dictionary<string, bool>();
             foreach(KeyValuePair<string, string> pV in pInput.paths)
             {
                 bool dirTest = new DirectoryInfo(pV.Value).Exists;
