@@ -56,7 +56,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="time">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="timestamp">Time</th>
                     <td mat-cell *matCellDef="let element" [innerHTML]="element.time || 'unknown' | date: 'short'"></td>
                 </ng-container>
 
