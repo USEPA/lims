@@ -33,12 +33,12 @@ export class WorkflowEditorComponent implements OnInit {
         const id = this.route.snapshot.paramMap.get("id");
 
         this.workflowForm = this.fb.group({
-            name: [null, Validators.required],
-            processor: [null, Validators.required],
-            inputFolder: [null, Validators.required],
-            outputFolder: [null, Validators.required],
-            archiveFolder: [null, Validators.required],
-            interval: [null, Validators.required],
+            name: ["", Validators.required],
+            processor: ["", Validators.required],
+            interval: ["", Validators.required],
+            inputFolder: ["", Validators.required],
+            outputFolder: ["", Validators.required],
+            archiveFolder: ["", Validators.required],
         });
 
         if (id) {
@@ -63,64 +63,72 @@ export class WorkflowEditorComponent implements OnInit {
     }
 
     populateForm(workflow) {
-        this.workflowForm.get("name").setValue(workflow.name);
-        this.workflowForm.get("processor").setValue(workflow.processor);
-        this.workflowForm.get("inputFolder").setValue(workflow.inputFolder);
-        this.workflowForm.get("outputFolder").setValue(workflow.outputFolder);
-        this.workflowForm.get("archiveFolder").setValue(workflow.outputFolder);
-        this.workflowForm.get("interval").setValue(workflow.interval);
+        // a workflow returned from the backend includes an id field that the form doesn't have
+        const newWorkflow = {
+            name: workflow.name,
+            processor: workflow.processor,
+            interval: workflow.interval,
+            inputFolder: workflow.inputFolder,
+            outputFolder: workflow.outputFolder,
+            archiveFolder: workflow.archiveFolder,
+        };
+        this.workflowForm.setValue(newWorkflow);
     }
 
     saveWorkflow(): void {
         this.workflowForm.updateValueAndValidity();
-        const name = this.workflowForm.get("name").value;
-        const processor = this.workflowForm.get("processor").value;
-        const inputFolder = this.workflowForm.get("inputFolder").value;
-        const outputFolder = this.workflowForm.get("outputFolder").value;
-        const archiveFolder = this.workflowForm.get("archiveFolder").value;
-        const interval = this.workflowForm.get("interval").value;
-        if (name.length < 1) {
-            this.statusMessage = "Workflows must include a workflow name";
-            return;
-        }
-        if (processor === "") {
-            this.statusMessage = "Workflows must include a valid processor";
-            return;
-        }
-        if (inputFolder.length < 1) {
-            this.statusMessage = "You must provide a path to the input folder";
-            return;
-        }
-        if (outputFolder.length < 1) {
-            this.statusMessage = "You must provide a path to the output folder";
-            return;
-        }
-        if (archiveFolder.length < 1) {
-            this.statusMessage = "You must provide a path to the backup folder";
-            return;
-        }
-        if (+interval < 1) {
-            this.statusMessage = "Intervals must be at least one minute induration";
-            return;
-        }
-        const newWorkflow = {
-            name,
-            processor,
-            inputFolder,
-            outputFolder,
-            archiveFolder,
-            interval,
-        };
-        if (this.redirect) {
-            this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
+        this.statusMessage = "";
+        const newWorkflow = this.workflowForm.value;
+        if (this.workflowForm.valid) {
+            const paths = {
+                paths: {
+                    input: newWorkflow.inputFolder,
+                    output: newWorkflow.outputFolder,
+                    archive: newWorkflow.archiveFolder,
+                },
+            };
+            this.taskMgr.validatePaths(paths).subscribe((pathValidity) => {
                 // TODO: error checking/messaging
-                this.router.navigateByUrl("/tasks");
+                let pathsValid = true;
+                for (let path of Object.keys(pathValidity)) {
+                    if (!pathValidity[path]) {
+                        pathsValid = false;
+                        this.statusMessage += `The ${path} path is invalid. `;
+                    }
+                }
+                if (pathsValid) {
+                    if (this.redirect) {
+                        this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
+                            // TODO: error checking/messaging
+                            this.router.navigateByUrl("/tasks");
+                        });
+                    } else {
+                        this.taskMgr.createWorkflow(newWorkflow).subscribe(() => {
+                            // TODO: error checking/messaging
+                            this.router.navigateByUrl("/tasks");
+                        });
+                    }
+                }
             });
         } else {
-            this.taskMgr.createWorkflow(newWorkflow).subscribe(() => {
-                // TODO: error checking/messaging
-                this.router.navigateByUrl("/tasks");
-            });
+            if (newWorkflow.name.length < 1) {
+                this.statusMessage += "Workflows must include a workflow name. ";
+            }
+            if (newWorkflow.processor === "") {
+                this.statusMessage += "Workflows must include a processor. ";
+            }
+            if (+newWorkflow.interval < 1) {
+                this.statusMessage += "Intervals must be at least one minute in duration. ";
+            }
+            if (newWorkflow.inputFolder.length < 1) {
+                this.statusMessage += "You must provide a path to the input folder. ";
+            }
+            if (newWorkflow.outputFolder.length < 1) {
+                this.statusMessage += "You must provide a path to the output folder. ";
+            }
+            if (newWorkflow.archiveFolder.length < 1) {
+                this.statusMessage += "You must provide a path to the backup folder.";
+            }
         }
     }
 

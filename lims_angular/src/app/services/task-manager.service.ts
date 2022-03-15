@@ -3,7 +3,7 @@ import { environment } from "../../environments/environment";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { Observable, throwError, of, BehaviorSubject } from "rxjs";
+import { Observable, of } from "rxjs";
 import { catchError, tap, timeout } from "rxjs/operators";
 
 import { AuthService } from "./auth.service";
@@ -106,6 +106,22 @@ export class TaskManagerService {
         };
     }
 
+    // POST/api/utilitie/dircheck
+    // accepts a dictionary of paths and returns a boolean for the existance of each
+    validatePaths(paths): Observable<any> {
+        const options = {
+            headers: new HttpHeaders({
+                Authorization: "Bearer " + this.auth.getAuthToken(),
+                "Content-Type": "application/json",
+            }),
+        };
+        return this.http.post<any>(environment.apiUrl + "utility/dircheck/", paths, options).pipe(
+            catchError((err) => {
+                return of({ error: err });
+            })
+        );
+    }
+
     // POST/api/workflows - crates a new workflow
     createWorkflow(workflow: any): Observable<any> {
         const options = {
@@ -117,9 +133,6 @@ export class TaskManagerService {
         const newWorkflow = JSON.stringify(workflow);
         return this.http.post<any>(environment.apiUrl + "workflows/", newWorkflow, options).pipe(
             // timeout(5000),
-            tap(() => {
-                console.log("added new workflow");
-            }),
             catchError((err) => {
                 return of({ error: "failed to add workflow!" });
             })
@@ -137,16 +150,13 @@ export class TaskManagerService {
         const newWorkflow = JSON.stringify(workflow);
         return this.http.put<any>(environment.apiUrl + "workflows/", newWorkflow, options).pipe(
             // timeout(5000),
-            tap(() => {
-                console.log("updated workflow");
-            }),
             catchError((err) => {
                 return of({ error: "failed to update workflow!" });
             })
         );
     }
 
-    // calls this.updateWorkflow, return an Observable
+    // calls this.updateWorkflow, returns an Observable
     enableWorkflow(workflow): Observable<any> {
         workflow.active = true;
         return this.updateWorkflow(workflow);
@@ -206,9 +216,6 @@ export class TaskManagerService {
         };
         return this.http.put<any>(environment.apiUrl + "processors/", processor, options).pipe(
             // timeout(5000),
-            tap(() => {
-                console.log("updated processor");
-            }),
             catchError((err) => {
                 return of({ error: "failed to update processor!" });
             })

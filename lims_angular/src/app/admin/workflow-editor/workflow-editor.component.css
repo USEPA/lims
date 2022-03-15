@@ -3,10 +3,11 @@
 }
 
 .centered {
-    width: 100%;
+    display: grid;
+    justify-items: center;
 }
 
-.task-detail {
+.workflow-editor {
     margin-left: auto;
     margin-right: auto;
     margin-top: 4em;
@@ -34,6 +35,7 @@
 .statusMessage {
     margin-top: 1em;
     text-align: center;
+    width: 100ch;
 }
 
 .workflow-form {
