@@ -35,6 +35,7 @@
             <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
             <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
         </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
         <ng-container *ngIf="loadingProcessors"><mat-spinner></mat-spinner></ng-container>
         <ng-container *ngIf="statusMessage.length > 0">
             <div class="statusMessage">{{ statusMessage }}</div>

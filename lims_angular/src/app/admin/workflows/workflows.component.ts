@@ -6,6 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 
 import { TaskManagerService } from "../../services/task-manager.service";
 import { Workflow } from "../../models/workflow.model";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-workflows",
@@ -25,11 +26,16 @@ export class WorkflowsComponent implements OnInit {
     constructor(private taskMgr: TaskManagerService, private router: Router) {}
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     ngOnInit() {
         this.loadingWorkflows = true;
         this.statusMessage = "";
 
         this.getWorkflows();
+    }
+
+    ngAfterViewInit() {
+        this.sortableData.paginator = this.paginator;
     }
 
     getWorkflows() {

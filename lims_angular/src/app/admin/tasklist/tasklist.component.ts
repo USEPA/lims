@@ -12,6 +12,7 @@ import { AuthService } from "src/app/services/auth.service";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-tasklist",
@@ -39,6 +40,7 @@ export class TasklistComponent implements OnInit {
     constructor(private taskMgr: TaskManagerService, private auth: AuthService, private router: Router) {}
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     ngOnInit() {
         this.loadingTasklist = true;
         this.loadingWorkflows = true;
@@ -54,6 +56,10 @@ export class TasklistComponent implements OnInit {
         setInterval(() => {
             this.updateTasklist();
         }, this.reloadInterval);
+    }
+
+    ngAfterViewInit() {
+        this.sortableData.paginator = this.paginator;
     }
 
     updateTasklist(): void {

@@ -4,6 +4,7 @@ import { Processor } from "src/app/models/processor.model";
 import { TaskManagerService } from "src/app/services/task-manager.service";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-processors",
@@ -22,12 +23,17 @@ export class ProcessorsComponent implements OnInit {
     constructor(private taskMgr: TaskManagerService) {}
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
     ngOnInit() {
         this.loadingProcessors = true;
         this.statusMessage = "";
         this.processors = [];
 
         this.getProcessors();
+    }
+
+    ngAfterViewInit() {
+        this.sortableData.paginator = this.paginator;
     }
 
     getProcessors(): void {
