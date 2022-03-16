@@ -68,7 +68,10 @@ export class WorkflowsComponent implements OnInit {
 
     removeWorkflow(workflowId): void {
         console.log("remove ", workflowId);
-        this.getWorkflows();
+        this.taskMgr.removeWorkflow(workflowId).subscribe((response) => {
+            console.log("removeWorkflow: ", response);
+            this.getWorkflows();
+        });
     }
 
     toggleEnable(workflow): void {

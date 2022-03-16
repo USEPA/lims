@@ -78,36 +78,37 @@ namespace LimsServer.Services
             var workflow = await _context.Workflows.Where(w => w.id == id).FirstOrDefaultAsync();
             if (workflow != null)
             {
-                Serilog.Log.Information("Deleted Workflow: {0}, and associated Tasks.", id);
-                var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
-                foreach (LimsServer.Entities.Task t in tasks)
+                try
                 {
-                    if (t.status == "SCHEDULED")
+                    _context.Workflows.Remove(workflow);
+                    var tasks = await _context.Tasks.Where(t => t.workflowID == id).ToListAsync();
+                    foreach (LimsServer.Entities.Task t in tasks)
                     {
-                        t.status = "CANCELLED";
-                        t.message = "Corresponding workflow cancelled.";
-                        var newState = new Hangfire.States.DeletedState();
-                        Serilog.Log.Information("Task Cancelled. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
-
                         try
                         {
+                            _context.Tasks.Remove(t);
                             BackgroundJobClient backgroundClient = new BackgroundJobClient();
-                            backgroundClient.ChangeState(t.taskID, newState);
+                            backgroundClient.ChangeState(t.taskID, new Hangfire.States.DeletedState());
+                            Serilog.Log.Information("Task deleted. WorkflowID: {0}, ID: {1}, Hangfire ID: {2}", t.workflowID, t.id, t.taskID);
                         }
                         catch (Exception)
                         {
                             Serilog.Log.Warning("Error unable to change Hangfire background job to deleted state. Task ID: {0}", t.taskID);
                         }
                     }
+                    Serilog.Log.Information("Deleted Workflow: {0}, and associated Tasks.", id);
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
-                Serilog.Log.Information("Setting LIMS Workflow, ID: {0} to inactive", id);
-                workflow.active = false;
-                await _context.SaveChangesAsync();
-                return true;
+                catch (Exception ex)
+                {
+                    Serilog.Log.Error(ex.Message, "Error attempting to delete workflow");
+                    return false;
+                }
             }
             else
             {
-                Serilog.Log.Information("Unable to cancel Workflow: {0}, ID not found.", id);
+                Serilog.Log.Information("Unable to delete Workflow: {0}, ID not found.", id);
                 return false;
             }
         }
