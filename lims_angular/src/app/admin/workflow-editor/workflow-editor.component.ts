@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { TaskManagerService } from "src/app/services/task-manager.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { TaskManagerService } from "src/app/services/task-manager.service";
 
 import { Workflow } from "src/app/models/workflow.model";
 

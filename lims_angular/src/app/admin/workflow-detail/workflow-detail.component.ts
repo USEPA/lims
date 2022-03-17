@@ -3,6 +3,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { TaskManagerService } from "../../services/task-manager.service";
+
 import { Workflow } from "../../models/workflow.model";
 
 @Component({
@@ -36,7 +37,6 @@ export class WorkflowDetailComponent implements OnInit {
     // api call
     executeWorkflow(workflow): void {
         this.taskMgr.executeWorkflow(workflow).subscribe((response) => {
-            console.log("executeNow: ", response);
             this.router.navigateByUrl("tasks/");
         });
     }

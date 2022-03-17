@@ -1,26 +1,26 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
-  selector: 'app-user-editor',
-  templateUrl: './user-editor.component.html',
-  styleUrls: ['./user-editor.component.css']
+    selector: "app-user-editor",
+    templateUrl: "./user-editor.component.html",
+    styleUrls: ["./user-editor.component.css"],
 })
 export class UserEditorComponent implements OnInit {
-  @Output() editing = new EventEmitter<boolean>();
+    @Output() editing = new EventEmitter<boolean>();
 
-  errorMessage: string;
+    errorMessage: string;
 
-  constructor(private auth: AuthService) {}
+    constructor(private auth: AuthService) {}
 
-  ngOnInit() {}
+    ngOnInit() {}
 
-  saveUser(): void {
-    // update user
-  }
+    saveUser(): void {
+        // update user
+    }
 
-  cancel(): void {
-    this.editing.emit(false);
-  }
+    cancel(): void {
+        this.editing.emit(false);
+    }
 }

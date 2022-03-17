@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
 
-import { Processor } from "src/app/models/processor.model";
-import { TaskManagerService } from "src/app/services/task-manager.service";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
-import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+
+import { TaskManagerService } from "src/app/services/task-manager.service";
+
+import { Processor } from "src/app/models/processor.model";
 
 @Component({
     selector: "app-processors",

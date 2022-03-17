@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator } from "@angular/material/paginator";
+
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { MatPaginator } from "@angular/material/paginator";
 
 import { AuthService } from "src/app/services/auth.service";
 import { LogsService } from "src/app/services/logs.service";
