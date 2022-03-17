@@ -66,7 +66,6 @@ export class WorkflowsComponent implements OnInit {
                         this.sortableData.data = [...this.workflows];
                         this.sortableData.sort = this.sort;
                         this.statusMessage = "";
-                        console.log("workflows: ", this.workflows);
                     } else {
                         this.statusMessage = "There are currently no Workflows available";
                     }
