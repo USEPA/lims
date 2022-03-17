@@ -22,7 +22,7 @@ import { Workflow } from "src/app/models/workflow.model";
 })
 export class TasklistComponent implements OnInit {
     // tasklist refresh interval in ms
-    reloadInterval = 10000;
+    reloadInterval = 3000;
     loadingTasklist: boolean;
     loadingWorkflows: boolean;
     statusMessage: string;
