@@ -4,9 +4,9 @@
 }
 
 .mat-card {
-  max-width: 90%;
-  border-radius: 0px;
-  margin-top: 4em;
+    max-width: 90%;
+    border-radius: 0px;
+    margin-top: 4em;
 }
 
 .mat-cell {
@@ -29,6 +29,11 @@
 
 .mat-spinner {
     margin: 15px auto;
+}
+
+#filter-input {
+    margin-right: 2rem;
+    margin-left: auto;
 }
 
 .statusMessage {

@@ -1,12 +1,23 @@
 <div class="centered">
-    <ng-container *ngIf="editingWorkflow">
-        <app-workflow-editor (editing)="isEditing($event)"></app-workflow-editor>
-    </ng-container>
     <mat-card>
         <mat-card-header>
             <h2>Workflows</h2>
-            <div class="centered"></div>
-            <button mat-button id="add-workflow" (click)="addWorkflow()">Add Workflow</button>
+            <mat-form-field id="filter-input">
+                <input
+                    matInput
+                    type="text"
+                    (keyup)="doFilter($event.target.value)"
+                    placeholder="Filter"
+                    [formControl]="filterInput"
+                />
+                <!-- [matAutocomplete]="auto" -->
+                <!-- <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onchange)="console.log('testtesttest')">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete> -->
+            </mat-form-field>
         </mat-card-header>
         <table
             mat-table
@@ -19,16 +30,20 @@
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-button (click)="gotoWorkflowDetail(element.id)">
-                        {{ element.name || "unknown" }}
-                    </button>
+                    <button
+                        mat-button
+                        (click)="gotoWorkflowDetail(element.id)"
+                        [innerHTML]="element.name || 'unknown' | highlightSearch: filter"
+                    ></button>
                 </td>
             </ng-container>
             <ng-container matColumnDef="processor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Processor</th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.processor || "unknown" }}
-                </td>
+                <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [innerHTML]="element.processor || 'unknown' | highlightSearch: filter"
+                ></td>
             </ng-container>
             <ng-container matColumnDef="creationDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Created</th>
@@ -54,6 +69,10 @@
             <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
+        <button mat-button id="add-workflow" (click)="addWorkflow()" *ngIf="!editingWorkflow">Add Workflow</button>
+        <ng-container *ngIf="editingWorkflow">
+            <app-workflow-editor (editing)="isEditing($event)"></app-workflow-editor>
+        </ng-container>
         <ng-container *ngIf="loadingWorkflows">
             <mat-spinner></mat-spinner>
         </ng-container>

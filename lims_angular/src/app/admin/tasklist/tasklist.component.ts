@@ -1,18 +1,19 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { FormControl } from "@angular/forms";
+
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 import { TaskManagerService } from "src/app/services/task-manager.service";
+import { AuthService } from "src/app/services/auth.service";
 
 import { Task } from "src/app/models/task.model";
 import { Workflow } from "src/app/models/workflow.model";
-import { AuthService } from "src/app/services/auth.service";
-import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
-import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-tasklist",
@@ -45,6 +46,7 @@ export class TasklistComponent implements OnInit {
         this.loadingTasklist = true;
         this.loadingWorkflows = true;
         this.statusMessage = "";
+
         this.sortableData.data = [];
         this.filteredOptions = this.filterInput.valueChanges.pipe(
             startWith(""),
@@ -127,7 +129,7 @@ export class TasklistComponent implements OnInit {
         this.sortableData.filter = value.trim().toLocaleLowerCase();
     }
 
-    private filterOptions(value: string): string[] {
+    filterOptions(value: string): string[] {
         const filterValue = value.toLowerCase();
 
         return this.options.filter((option) => option.toLowerCase().includes(filterValue));

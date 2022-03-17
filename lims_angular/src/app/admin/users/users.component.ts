@@ -1,11 +1,16 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormControl } from "@angular/forms";
+
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 import { AuthService } from "src/app/services/auth.service";
+
 import { User } from "src/app/models/user.model";
-import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-users",
@@ -14,12 +19,19 @@ import { MatPaginator } from "@angular/material/paginator";
 })
 export class UsersComponent implements OnInit {
     loadingUsers: boolean;
-    editingUser = false;
     statusMessage = "";
+
+    filter = "";
+
+    filterInput = new FormControl();
+    options: string[] = ["SCHEDULED", "CANCELLED"];
+    filteredOptions: Observable<string[]>;
 
     columnNames = ["username", "date-disabled"];
     users: User[];
     sortableData = new MatTableDataSource();
+
+    editingUser = false;
 
     constructor(private auth: AuthService) {}
 
@@ -27,6 +39,13 @@ export class UsersComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     ngOnInit() {
         this.loadingUsers = true;
+
+        this.sortableData.data = [];
+        this.filteredOptions = this.filterInput.valueChanges.pipe(
+            startWith(""),
+            map((value) => this.filterOptions(value))
+        );
+
         this.auth.getUsers().subscribe(
             (users) => {
                 if (users.error) {
@@ -65,5 +84,17 @@ export class UsersComponent implements OnInit {
 
     disableUser(username: string): void {
         this.auth.disableUser(username);
+    }
+
+    doFilter(value: string): void {
+        console.log("sortableData: ", this.sortableData);
+        this.filter = value;
+        this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
+
+    filterOptions(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 }

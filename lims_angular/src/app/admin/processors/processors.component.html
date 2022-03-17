@@ -2,13 +2,31 @@
     <mat-card>
         <mat-card-header>
             <h2>Processors</h2>
+            <mat-form-field id="filter-input">
+                <input
+                    matInput
+                    type="text"
+                    (keyup)="doFilter($event.target.value)"
+                    placeholder="Filter"
+                    [formControl]="filterInput"
+                />
+                <!-- [matAutocomplete]="auto" -->
+                <!-- <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    (onchange)="console.log('testtesttest')">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete> -->
+            </mat-form-field>
         </mat-card-header>
         <table mat-table [dataSource]="sortableData" matSort>
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.name || "unknown" }}
-                </td>
+                <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [innerHTML]="element.name || 'unknown' | highlightSearch: filter"
+                ></td>
             </ng-container>
             <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>

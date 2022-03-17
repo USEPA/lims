@@ -1,12 +1,17 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { FormControl } from "@angular/forms";
+
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
 
 import { TaskManagerService } from "../../services/task-manager.service";
+
 import { Workflow } from "../../models/workflow.model";
-import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: "app-workflows",
@@ -17,9 +22,15 @@ export class WorkflowsComponent implements OnInit {
     loadingWorkflows: boolean;
     statusMessage: string;
 
+    filter = "";
+
+    filterInput = new FormControl();
+    options: string[] = ["SCHEDULED", "CANCELLED"];
+    filteredOptions: Observable<string[]>;
+
     columnNames = ["name", "processor", "creationDate", "active", "remove"];
-    workflows: Workflow[];
     sortableData = new MatTableDataSource();
+    workflows: Workflow[];
 
     editingWorkflow = false;
 
@@ -30,6 +41,12 @@ export class WorkflowsComponent implements OnInit {
     ngOnInit() {
         this.loadingWorkflows = true;
         this.statusMessage = "";
+
+        this.sortableData.data = [];
+        this.filteredOptions = this.filterInput.valueChanges.pipe(
+            startWith(""),
+            map((value) => this.filterOptions(value))
+        );
 
         this.getWorkflows();
     }
@@ -97,5 +114,17 @@ export class WorkflowsComponent implements OnInit {
         if (!this.editingWorkflow) {
             this.getWorkflows();
         }
+    }
+
+    doFilter(value: string): void {
+        console.log("sortableData: ", this.sortableData);
+        this.filter = value;
+        this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
+
+    filterOptions(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 }

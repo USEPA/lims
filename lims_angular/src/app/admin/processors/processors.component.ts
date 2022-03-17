@@ -5,6 +5,9 @@ import { TaskManagerService } from "src/app/services/task-manager.service";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 @Component({
     selector: "app-processors",
@@ -14,11 +17,18 @@ import { MatPaginator } from "@angular/material/paginator";
 export class ProcessorsComponent implements OnInit {
     loadingProcessors: boolean;
     statusMessage: string;
-    addingProcessor: boolean;
+
+    filter = "";
+
+    filterInput = new FormControl();
+    options: string[] = ["SCHEDULED", "CANCELLED"];
+    filteredOptions: Observable<string[]>;
 
     columnNames = ["name", "description", "file_type", "processor_status"];
     processors: Processor[];
     sortableData = new MatTableDataSource();
+
+    addingProcessor: boolean;
 
     constructor(private taskMgr: TaskManagerService) {}
 
@@ -27,6 +37,12 @@ export class ProcessorsComponent implements OnInit {
     ngOnInit() {
         this.loadingProcessors = true;
         this.statusMessage = "";
+
+        this.sortableData.data = [];
+        this.filteredOptions = this.filterInput.valueChanges.pipe(
+            startWith(""),
+            map((value) => this.filterOptions(value))
+        );
         this.processors = [];
 
         this.getProcessors();
@@ -72,5 +88,17 @@ export class ProcessorsComponent implements OnInit {
                 this.getProcessors();
             });
         }
+    }
+
+    doFilter(value: string): void {
+        console.log("sortableData: ", this.sortableData);
+        this.filter = value;
+        this.sortableData.filter = value.trim().toLocaleLowerCase();
+    }
+
+    filterOptions(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().includes(filterValue));
     }
 }
