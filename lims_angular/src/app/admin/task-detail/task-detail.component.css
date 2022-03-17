@@ -1,34 +1,35 @@
 .mat-card {
-  border-radius: 0px;
+    border-radius: 0px;
 }
 
 .centered {
-  width: 100%;
+    display: grid;
+    justify-items: center;
 }
 
 .task-detail {
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4em;
 }
 
+mat-card-content,
 .control {
-  margin-left: 1em;
-  margin-right: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 .controls {
-  text-align: center;
-  margin-top: 1.25em;
-  margin-bottom: 2em;
+    text-align: center;
+    margin-top: 1.25em;
+    margin-bottom: 2em;
 }
 
 .mat-button {
-  border: 1px solid #303030;
-  margin-top: 10px;
+    border: 1px solid #303030;
+    margin-top: 10px;
 }
 
 .mat-form-field {
-  margin: 10px;
+    margin: 10px;
 }
