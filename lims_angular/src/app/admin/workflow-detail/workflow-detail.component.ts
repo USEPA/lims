@@ -34,6 +34,14 @@ export class WorkflowDetailComponent implements OnInit {
     }
 
     // api call
+    executeWorkflow(workflow): void {
+        this.taskMgr.executeWorkflow(workflow).subscribe((response) => {
+            console.log("executeNow: ", response);
+            this.router.navigateByUrl("tasks/");
+        });
+    }
+
+    // api call
     toggleEnableWorkflow(workflow): void {
         if (workflow.active) {
             this.taskMgr.disableWorkflow(workflow).subscribe(() => {

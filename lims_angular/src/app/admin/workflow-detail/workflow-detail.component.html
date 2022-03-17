@@ -14,11 +14,12 @@
             <div>Active: {{ workflow.active }}</div>
         </mat-card-content>
         <div class="controls">
+            <button mat-button class="control" (click)="back()">Back</button>
             <button mat-button class="control" (click)="editWorkflow(workflow)">Edit Workflow</button>
+            <button mat-button class="control" (click)="executeWorkflow(workflow)">Execute Workflow Now</button>
             <button mat-button class="control" (click)="toggleEnableWorkflow(workflow)">
                 {{ getText(workflow.active) }}
             </button>
-            <button mat-button class="control" (click)="back()">Back</button>
         </div>
     </mat-card>
 </div>

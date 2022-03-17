@@ -139,6 +139,22 @@ export class TaskManagerService {
         );
     }
 
+    // GET/api/workflows/execute/+id - immediately executes a task for a given workflow
+    executeWorkflow(workflow: any): Observable<any> {
+        const options = {
+            headers: new HttpHeaders({
+                Authorization: "Bearer " + this.auth.getAuthToken(),
+                "Content-Type": "application/json",
+            }),
+        };
+        return this.http.get(environment.apiUrl + `workflows/execute/${workflow.id}`, options).pipe(
+            // timeout(5000),
+            catchError((err) => {
+                return of({ error: "failed to execute workflow!" });
+            })
+        );
+    }
+
     // PUT/api/workflows - updates an existing workflow
     updateWorkflow(workflow: any): Observable<any> {
         const options = {
