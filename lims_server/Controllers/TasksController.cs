@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -55,8 +56,10 @@ namespace LimsServer.Controllers
         {
             try
             {
-                await _service.Delete(id);
-                return NoContent();
+                var deleteResult = await _service.Delete(id);
+                Dictionary<string, string> result = new Dictionary<string, string>();
+                result.Add("result", $"task deleted: {deleteResult}");
+                return new ObjectResult(result);
             }
             catch (Exception ex)
             {

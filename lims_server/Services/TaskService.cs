@@ -433,6 +433,7 @@ namespace LimsServer.Services
             {
                 try
                 {
+                    _context.Tasks.Remove(task);
                     if (task.taskID != null)
                     {
                         BackgroundJob.Delete(task.taskID);
@@ -442,7 +443,6 @@ namespace LimsServer.Services
                 {
                     _logService.Information($"No Hangfire task found for ID: {task.taskID}", task: task);
                 }
-                task.status = "CANCELLED";
                 await _context.SaveChangesAsync();
                 _logService.Information($"Deleted Task. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
                 return true;

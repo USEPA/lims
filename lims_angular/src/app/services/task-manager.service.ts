@@ -64,6 +64,17 @@ export class TaskManagerService {
         };
     }
 
+    // GET/api/tasks/+id deletes a task by id
+    deleteTask(id: string): Observable<any> {
+        const options = {
+            headers: new HttpHeaders({
+                Authorization: "Bearer " + this.auth.getAuthToken(),
+                "Content-Type": "application/json",
+            }),
+        };
+        return this.http.delete(environment.apiUrl + `tasks/${id}`, options);
+    }
+
     // GET/api/workflows - returns all workflows
     getWorkflows(): Observable<any> {
         const options = {

@@ -33,7 +33,7 @@ export class TasklistComponent implements OnInit {
     options: string[] = ["SCHEDULED", "CANCELLED"];
     filteredOptions: Observable<string[]>;
 
-    columnNames = ["taskID", "workflowName", "status", "start"];
+    columnNames = ["taskID", "workflowName", "status", "start", "remove"];
     taskList: Task[];
     sortableData = new MatTableDataSource();
     workflows: Workflow[];
@@ -121,8 +121,10 @@ export class TasklistComponent implements OnInit {
         return this.taskMgr.getWorkflow(id).name;
     }
 
-    cancelTask(): void {
-        console.log("task canceled!");
+    deleteTask(id: string): void {
+        this.taskMgr.deleteTask(id).subscribe((response) => {
+            this.updateTasklist();
+        });
     }
 
     doFilter(value: string): void {
