@@ -61,6 +61,7 @@ export class TaskManagerService {
             workflowID: null,
             status: null,
             error: null,
+            message: null,
         };
     }
 
@@ -114,6 +115,7 @@ export class TaskManagerService {
             archiveFolder: null,
             interval: null,
             active: null,
+            creationDate: null,
         };
     }
 
