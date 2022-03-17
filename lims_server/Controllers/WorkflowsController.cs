@@ -116,4 +116,34 @@ namespace LimsServer.Controllers
 
         }
     }
+
+    [Authorize]
+    [Route("api/workflows/execute")]
+    [ApiController]
+    public class WorkflowExecuteController : ControllerBase
+    {
+
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ILogger<WorkflowExecuteController> _logger;
+
+        public WorkflowExecuteController(IWebHostEnvironment hostingEnvironment, ILogger<WorkflowExecuteController> logger)
+        {
+            _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
+        }
+
+
+        /// <summary>
+        /// Immediately executes a Task for a given Workflow
+        /// </summary>
+        /// <param name="id">workflow ID</param>
+        /// <param name="_service">workflow service</param>
+        /// <returns>Success or Fail</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id, [FromServices] IWorkflowService _service)
+        {
+            var workflow = await _service.ExecuteTask(id);
+            return new ObjectResult(workflow);
+        }
+    }
 }

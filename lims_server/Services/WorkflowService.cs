@@ -16,6 +16,7 @@ namespace LimsServer.Services
         Task<Workflow> GetById(string id);
         Task<Workflow> Create(Workflow workflow, bool bypass = false);
         Task<bool> Update(Workflow workflow, bool bypass = false);
+        Task<bool> ExecuteTask(string workflowId, bool bypass = false);
         Task<bool> Delete(string id);
     }
     public class WorkflowService : IWorkflowService
@@ -210,6 +211,31 @@ namespace LimsServer.Services
             else
             {
                 Serilog.Log.Information("Unable to cancel Workflow: {0}, ID not found.", id);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Immediately executes a Task for the given Workflow
+        /// </summary>
+        /// <param name="_workflowId">Workflow id</param>
+        /// <param name="bypass"></param>
+        /// <returns>true of false</returns>
+        public async System.Threading.Tasks.Task<bool> ExecuteTask(string _workflowId, bool bypass = false)
+        {
+            try
+            {
+                string taskId = System.Guid.NewGuid().ToString();
+                Serilog.Log.Information("Force execution of Workflow, ID: {0}, Initial Task ID: {1}", _workflowId, taskId);
+                LimsServer.Entities.Task tsk = new Entities.Task(taskId, _workflowId, 0); // tasks start at now + interval
+
+                TaskService ts = new TaskService(this._context, this._logService);
+                var task = await ts.Create(tsk);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
                 return false;
             }
         }
