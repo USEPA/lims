@@ -33,7 +33,7 @@ export class TasklistComponent implements OnInit {
     options: string[] = ["SCHEDULED", "CANCELLED"];
     filteredOptions: Observable<string[]>;
 
-    columnNames = ["taskID", "workflowID", "status", "start"];
+    columnNames = ["taskID", "workflowName", "status", "start"];
     taskList: Task[];
     sortableData = new MatTableDataSource();
     workflows: Workflow[];
@@ -72,11 +72,13 @@ export class TasklistComponent implements OnInit {
                         this.statusMessage = tasks.error;
                     } else {
                         if (tasks && tasks.length > 0) {
+                            for (let task of tasks) {
+                                task["workflowName"] = this.getWorkflowName(task.workflowID);
+                            }
                             this.taskList = [...tasks];
                             this.sortableData.data = [...this.taskList];
                             this.sortableData.sort = this.sort;
                             this.statusMessage = "";
-                            //console.log("sortData: ", this.sortableData);
                         } else {
                             this.statusMessage = "There are currently no Tasks scheduled";
                         }
@@ -124,7 +126,6 @@ export class TasklistComponent implements OnInit {
     }
 
     doFilter(value: string): void {
-        console.log("sortableData: ", this.sortableData);
         this.filter = value;
         this.sortableData.filter = value.trim().toLocaleLowerCase();
     }

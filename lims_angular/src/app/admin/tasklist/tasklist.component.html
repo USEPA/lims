@@ -37,13 +37,13 @@
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="workflowID">
+                <ng-container matColumnDef="workflowName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Workflow</th>
                     <td mat-cell *matCellDef="let element">
                         <button
                             mat-button
                             (click)="gotoWorkflowDetail(element.workflowID)"
-                            [innerHTML]="getWorkflowName(element.workflowID) || 'unknown' | highlightSearch: filter"
+                            [innerHTML]="element.workflowName || 'unknown' | highlightSearch: filter"
                         ></button>
                     </td>
                 </ng-container>
