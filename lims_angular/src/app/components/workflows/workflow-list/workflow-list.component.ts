@@ -17,11 +17,11 @@ import { TaskManagerService } from "../../../services/task-manager.service";
 import { Workflow } from "../../../models/workflow.model";
 
 @Component({
-    selector: "app-workflows",
-    templateUrl: "./workflows.component.html",
-    styleUrls: ["./workflows.component.css"],
+    selector: "app-workflow-list",
+    templateUrl: "./workflow-list.component.html",
+    styleUrls: ["./workflow-list.component.css"],
 })
-export class WorkflowsComponent implements OnInit, AfterViewChecked {
+export class WorkflowListComponent implements OnInit, AfterViewChecked {
     loadingWorkflows: boolean;
     statusMessage: string;
 

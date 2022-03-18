@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TaskListComponent } from "./task-list.component";
+import { WorkflowListComponent } from "./workflow-list.component";
 
-describe("TaskListComponent", () => {
-    let component: TaskListComponent;
-    let fixture: ComponentFixture<TaskListComponent>;
+describe("WorkflowListComponent", () => {
+    let component: WorkflowListComponent;
+    let fixture: ComponentFixture<WorkflowListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TaskListComponent],
+            declarations: [WorkflowListComponent],
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TaskListComponent);
+        fixture = TestBed.createComponent(WorkflowListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

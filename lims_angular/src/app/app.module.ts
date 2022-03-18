@@ -26,16 +26,16 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { LoginComponent } from "./admin/login/login.component";
 import { MainComponent } from "./components/main/main.component";
 import { TaskListComponent } from "./components/tasks/task-list/task-list.component";
-import { UsersComponent } from "./components/users/user-list/users.component";
+import { UserListComponent } from "./components/users/user-list/user-list.component";
 import { HeaderComponent } from "./components/header/header.component";
-import { WorkflowsComponent } from "./components/workflows/workflow-list/workflows.component";
+import { WorkflowListComponent } from "./components/workflows/workflow-list/workflow-list.component";
 import { TaskDetailComponent } from "./components/tasks/task-detail/task-detail.component";
 import { WorkflowEditorComponent } from "./components/workflows/workflow-editor/workflow-editor.component";
 import { UserEditorComponent } from "./admin/user-editor/user-editor.component";
 import { WorkflowDetailComponent } from "./components/workflows/workflow-detail/workflow-detail.component";
 import { RegistrationComponent } from "./admin/registration/registration.component";
-import { ProcessorsComponent } from "./components/processors/processor-list/processors.component";
-import { LogsComponent } from "./components/logs/log-list/logs.component";
+import { ProcessorListComponent } from "./components/processors/processor-list/processor-list.component";
+import { LogListComponent } from "./components/logs/log-list/log-list.component";
 
 import { DeleteConfirmationDialogComponent } from "./components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
@@ -49,16 +49,16 @@ import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
         LoginComponent,
         MainComponent,
         TaskListComponent,
-        UsersComponent,
+        UserListComponent,
         HeaderComponent,
-        WorkflowsComponent,
+        WorkflowListComponent,
         TaskDetailComponent,
         WorkflowEditorComponent,
         UserEditorComponent,
         WorkflowDetailComponent,
         RegistrationComponent,
-        ProcessorsComponent,
-        LogsComponent,
+        ProcessorListComponent,
+        LogListComponent,
         HighlightSearchPipe,
         DeleteConfirmationDialogComponent,
     ],

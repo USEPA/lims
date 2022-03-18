@@ -13,11 +13,11 @@ import { TaskManagerService } from "src/app/services/task-manager.service";
 import { Processor } from "src/app/models/processor.model";
 
 @Component({
-    selector: "app-processors",
-    templateUrl: "./processors.component.html",
-    styleUrls: ["./processors.component.css"],
+    selector: "app-processor-list",
+    templateUrl: "./processor-list.component.html",
+    styleUrls: ["./processor-list.component.css"],
 })
-export class ProcessorsComponent implements OnInit {
+export class ProcessorListComponent implements OnInit {
     loadingProcessors: boolean;
     statusMessage: string;
 

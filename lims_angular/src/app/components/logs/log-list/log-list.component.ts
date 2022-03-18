@@ -12,11 +12,11 @@ import { AuthService } from "src/app/services/auth.service";
 import { LogsService } from "src/app/services/logs.service";
 
 @Component({
-    selector: "app-logs",
-    templateUrl: "./logs.component.html",
-    styleUrls: ["./logs.component.css"],
+    selector: "app-log-list",
+    templateUrl: "./log-list.component.html",
+    styleUrls: ["./log-list.component.css"],
 })
-export class LogsComponent implements OnInit {
+export class LogListComponent implements OnInit {
     loadingLogs: boolean;
     statusMessage: string;
 
