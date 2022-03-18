@@ -2,7 +2,7 @@ import { environment } from "../../environments/environment";
 
 import { Injectable } from "@angular/core";
 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { timeout, catchError, tap } from "rxjs/operators";
 
@@ -15,28 +15,13 @@ import { Router } from "@angular/router";
     providedIn: "root",
 })
 export class AuthService {
-    httpOptions = {
-        headers: new HttpHeaders({
-            "Content-Type": "application/json",
-        }),
-    };
-
     private users: User[] = [];
-
-    private authenticated = false;
-    private authToken = { access: null, refresh: null };
 
     constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
 
     // /Users - returns json: all registered users
     getUsers(): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.get<User[]>(environment.authUrl, options).pipe(
+        return this.http.get<User[]>(environment.authUrl).pipe(
             timeout(5000),
             tap((users) => {
                 if (users) {
@@ -74,7 +59,7 @@ export class AuthService {
             lastname,
             email,
         };
-        return this.http.post<any>(environment.authUrl + "register/", newUser, this.httpOptions).pipe(
+        return this.http.post<any>(environment.authUrl + "register/", newUser).pipe(
             // timeout(10000),
             catchError((err) => {
                 return of({ error: "failed to register user!" });
@@ -90,12 +75,10 @@ export class AuthService {
             username,
             password,
         };
-        return this.http.post<any>(environment.authUrl + "authenticate/", login, this.httpOptions).pipe(
+        return this.http.post<any>(environment.authUrl + "authenticate/", login).pipe(
             // timeout(10000),
-            tap((response: any) => {
-                // this.authToken.access = response.token;
-                // this.authToken.refresh = response.refresh;
-                this.setToken(response.token, response.refresh);
+            tap((token: any) => {
+                this.setToken(token);
             }),
             catchError((err) => {
                 console.log(err);
@@ -104,12 +87,20 @@ export class AuthService {
         );
     }
 
+    setToken(token) {
+        this.cookieService.set("JWT_TOKEN", token.token);
+    }
+
+    isAuthenticated(): boolean {
+        return this.cookieService.get("JWT_TOKEN") ? true : false;
+    }
+
+    getAuthToken(): string {
+        return this.cookieService.get("JWT_TOKEN");
+    }
+
     logout(): void {
-        // need to send refresh token to server to invalidate stored token?
-        this.authenticated = false;
-        this.authToken = { access: null, refresh: null };
-        this.cookieService.set("JWT_TOKEN", null);
-        this.cookieService.set("JWT_REFRESH_TOKEN", null);
+        this.cookieService.deleteAll();
     }
 
     // api call
@@ -118,33 +109,5 @@ export class AuthService {
         // disable an existing user and update userlist
         const user = this.getUserByName(username);
         user.enabled = false;
-    }
-
-    isAuthenticated(): boolean {
-        return this.authenticated;
-    }
-
-    getAuthToken(): string {
-        return this.authToken.access;
-    }
-
-    getAuthRefreshToken(): string {
-        return this.authToken.refresh;
-    }
-
-    checkForStoredToken(token, rToken): void {
-        if (token && token !== null && token !== "null") {
-            this.setToken(token, rToken);
-        }
-    }
-
-    setToken(token, rToken) {
-        this.authToken = {
-            access: token,
-            refresh: rToken,
-        };
-        this.cookieService.set("JWT_TOKEN", token);
-        this.cookieService.set("JWT_REFRESH_TOKEN", rToken);
-        this.authenticated = true;
     }
 }

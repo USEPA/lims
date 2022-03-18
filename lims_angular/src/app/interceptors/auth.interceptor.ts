@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from "@angular/common/http";
 
-import { Observable, EMPTY } from "rxjs";
+import { Observable } from "rxjs";
 
 import { AuthService } from "../services/auth.service";
 import { filter, tap } from "rxjs/operators";

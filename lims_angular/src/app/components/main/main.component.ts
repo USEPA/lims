@@ -12,9 +12,7 @@ import { CookieService } from "ngx-cookie-service";
 export class MainComponent implements OnInit {
     constructor(private auth: AuthService, private cookieService: CookieService) {}
 
-    ngOnInit() {
-        this.auth.checkForStoredToken(this.cookieService.get("JWT_TOKEN"), this.cookieService.get("JWT_REFRESH_TOKEN"));
-    }
+    ngOnInit() {}
 
     isAuthenticated(): boolean {
         return this.auth.isAuthenticated();
