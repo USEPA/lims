@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl } from "@angular/forms";
 
@@ -8,6 +8,9 @@ import { map, startWith } from "rxjs/operators";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+
+import { DeleteConfirmationDialogComponent } from "src/app/components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
 import { TaskManagerService } from "src/app/services/task-manager.service";
 import { AuthService } from "src/app/services/auth.service";
@@ -20,9 +23,10 @@ import { Workflow } from "src/app/models/workflow.model";
     templateUrl: "./tasklist.component.html",
     styleUrls: ["./tasklist.component.css"],
 })
-export class TasklistComponent implements OnInit {
+export class TasklistComponent implements OnInit, OnDestroy {
     // tasklist refresh interval in ms
     reloadInterval = 3000;
+    tasklistUpdater: ReturnType<typeof setInterval>;
     loadingTasklist: boolean;
     loadingWorkflows: boolean;
     statusMessage: string;
@@ -38,7 +42,12 @@ export class TasklistComponent implements OnInit {
     sortableData = new MatTableDataSource();
     workflows: Workflow[];
 
-    constructor(private taskMgr: TaskManagerService, private auth: AuthService, private router: Router) {}
+    constructor(
+        private taskMgr: TaskManagerService,
+        private auth: AuthService,
+        private router: Router,
+        public dialog: MatDialog
+    ) {}
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,7 +64,7 @@ export class TasklistComponent implements OnInit {
 
         this.updateTasklist();
 
-        setInterval(() => {
+        this.tasklistUpdater = setInterval(() => {
             this.updateTasklist();
         }, this.reloadInterval);
     }
@@ -122,8 +131,16 @@ export class TasklistComponent implements OnInit {
     }
 
     deleteTask(id: string): void {
-        this.taskMgr.deleteTask(id).subscribe((response) => {
-            this.updateTasklist();
+        const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+            data: { type: "Task" },
+        });
+
+        dialogRef.afterClosed().subscribe((confirmDelete) => {
+            if (confirmDelete) {
+                this.taskMgr.deleteTask(id).subscribe((response) => {
+                    this.updateTasklist();
+                });
+            }
         });
     }
 
@@ -136,5 +153,9 @@ export class TasklistComponent implements OnInit {
         const filterValue = value.toLowerCase();
 
         return this.options.filter((option) => option.toLowerCase().includes(filterValue));
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.tasklistUpdater);
     }
 }

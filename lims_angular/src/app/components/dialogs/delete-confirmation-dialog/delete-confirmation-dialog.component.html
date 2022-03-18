@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>Delete {{ data.type || "unknown" }}?</h1>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="yes" (click)="confirmDelete()" cdkFocusInitial>Delete</button>
+</div>

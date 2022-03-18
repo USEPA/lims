@@ -8,6 +8,9 @@ import { map, startWith } from "rxjs/operators";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
+import { MatDialog } from "@angular/material/dialog";
+
+import { DeleteConfirmationDialogComponent } from "src/app/components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
 import { TaskManagerService } from "../../services/task-manager.service";
 
@@ -34,7 +37,7 @@ export class WorkflowsComponent implements OnInit {
 
     editingWorkflow = false;
 
-    constructor(private taskMgr: TaskManagerService, private router: Router) {}
+    constructor(private taskMgr: TaskManagerService, private router: Router, public dialog: MatDialog) {}
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -89,10 +92,16 @@ export class WorkflowsComponent implements OnInit {
     }
 
     removeWorkflow(workflowId): void {
-        console.log("remove ", workflowId);
-        this.taskMgr.removeWorkflow(workflowId).subscribe((response) => {
-            console.log("removeWorkflow: ", response);
-            this.getWorkflows();
+        const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+            data: { type: "Workflow" },
+        });
+
+        dialogRef.afterClosed().subscribe((confirmDelete) => {
+            if (confirmDelete) {
+                this.taskMgr.removeWorkflow(workflowId).subscribe((response) => {
+                    this.getWorkflows();
+                });
+            }
         });
     }
 
