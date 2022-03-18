@@ -88,7 +88,7 @@ export class AuthService {
     }
 
     setToken(token) {
-        this.cookieService.set("JWT_TOKEN", token.token);
+        this.cookieService.set("JWT_TOKEN", token.token, { expires: 1 });
     }
 
     isAuthenticated(): boolean {
