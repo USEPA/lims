@@ -39,7 +39,8 @@ import { LogListComponent } from "./components/logs/log-list/log-list.component"
 
 import { DeleteConfirmationDialogComponent } from "./components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
-import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
+import { AuthInterceptor } from "./interceptors/auth.interceptor";
+import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interceptor";
 
 import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
 
@@ -83,6 +84,11 @@ import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
     ],
     providers: [
         CookieService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: UnauthorizedRedirect,
