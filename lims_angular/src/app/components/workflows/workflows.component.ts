@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl } from "@angular/forms";
 
@@ -21,7 +21,7 @@ import { Workflow } from "../../models/workflow.model";
     templateUrl: "./workflows.component.html",
     styleUrls: ["./workflows.component.css"],
 })
-export class WorkflowsComponent implements OnInit {
+export class WorkflowsComponent implements OnInit, AfterViewChecked {
     loadingWorkflows: boolean;
     statusMessage: string;
 
@@ -41,6 +41,7 @@ export class WorkflowsComponent implements OnInit {
 
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild("workflows") private workflowsPanel: ElementRef;
     ngOnInit() {
         this.loadingWorkflows = true;
         this.statusMessage = "";
@@ -56,6 +57,10 @@ export class WorkflowsComponent implements OnInit {
 
     ngAfterViewInit() {
         this.sortableData.paginator = this.paginator;
+    }
+
+    ngAfterViewChecked() {
+        this.scrollToBottom();
     }
 
     getWorkflows() {
@@ -134,5 +139,13 @@ export class WorkflowsComponent implements OnInit {
         const filterValue = value.toLowerCase();
 
         return this.options.filter((option) => option.toLowerCase().includes(filterValue));
+    }
+
+    scrollToBottom(): void {
+        try {
+            this.workflowsPanel.nativeElement.scrollTop = this.workflowsPanel.nativeElement.scrollHeight;
+        } catch (err) {
+            console.log("scrollToBottom: ", err);
+        }
     }
 }

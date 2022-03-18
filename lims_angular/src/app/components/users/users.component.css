@@ -1,18 +1,12 @@
-.centered {
-    display: grid;
-    justify-items: center;
-}
-
 .mat-card {
     max-width: 90%;
     border-radius: 0px;
-    margin-top: 4em;
+    margin-top: 2em;
+    margin-bottom: 2rem;
 }
 
-#add-workflow {
-    height: 3rem;
-    margin-top: 1rem;
-    margin-right: 2rem;
+table {
+    margin-right: auto;
     margin-left: auto;
 }
 
@@ -46,8 +40,4 @@
 .statusMessage {
     margin-top: 1em;
     text-align: center;
-}
-
-#add-workflow {
-    width: 100%;
 }

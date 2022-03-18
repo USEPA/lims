@@ -24,17 +24,17 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDialogModule } from "@angular/material/dialog";
 
 import { LoginComponent } from "./admin/login/login.component";
-import { MainComponent } from "./main/main.component";
-import { TasklistComponent } from "./admin/tasklist/tasklist.component";
-import { UsersComponent } from "./admin/users/users.component";
-import { HeaderComponent } from "./header/header.component";
-import { WorkflowsComponent } from "./admin/workflows/workflows.component";
-import { TaskDetailComponent } from "./admin/task-detail/task-detail.component";
-import { WorkflowEditorComponent } from "./admin/workflow-editor/workflow-editor.component";
+import { MainComponent } from "./components/main/main.component";
+import { TasklistComponent } from "./components/tasklist/tasklist.component";
+import { UsersComponent } from "./components/users/users.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { WorkflowsComponent } from "./components/workflows/workflows.component";
+import { TaskDetailComponent } from "./components/task-detail/task-detail.component";
+import { WorkflowEditorComponent } from "./components/workflow-editor/workflow-editor.component";
 import { UserEditorComponent } from "./admin/user-editor/user-editor.component";
-import { WorkflowDetailComponent } from "./admin/workflow-detail/workflow-detail.component";
+import { WorkflowDetailComponent } from "./components/workflow-detail/workflow-detail.component";
 import { RegistrationComponent } from "./admin/registration/registration.component";
-import { ProcessorsComponent } from "./admin/processors/processors.component";
+import { ProcessorsComponent } from "./components/processors/processors.component";
 import { LogsComponent } from "./components/logs/logs.component";
 
 import { DeleteConfirmationDialogComponent } from "./components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";

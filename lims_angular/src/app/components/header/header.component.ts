@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AuthService } from "../services/auth.service";
-import { TaskManagerService } from "../services/task-manager.service";
+import { AuthService } from "../../services/auth.service";
+import { TaskManagerService } from "../../services/task-manager.service";
 
 @Component({
     selector: "app-header",

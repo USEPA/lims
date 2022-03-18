@@ -1,27 +1,18 @@
-.centered {
-    display: grid;
-    justify-items: center;
-}
-
 .mat-card {
     max-width: 90%;
     border-radius: 0px;
-    margin-top: 4em;
-}
-
-table {
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.mat-cell {
-    text-align: center;
-    padding: 0px 24px 0px 24px;
+    margin-top: 2em;
+    margin-bottom: 2rem;
 }
 
 .mat-header-cell {
     text-align: center;
     padding: 0px 24px 0px 36px;
+}
+
+.mat-cell {
+    text-align: center;
+    padding: 0px 24px 0px 24px;
 }
 
 .mat-button {
@@ -36,12 +27,11 @@ table {
     margin: 15px auto;
 }
 
-#filter-input {
+.filter-input {
     margin-right: 2rem;
     margin-left: auto;
 }
 
-.statusMessage {
-    margin-top: 1em;
-    text-align: center;
+#add-workflow {
+    width: 100%;
 }
