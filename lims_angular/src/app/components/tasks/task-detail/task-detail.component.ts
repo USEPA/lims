@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
-import { TaskManagerService } from "../../services/task-manager.service";
+import { TaskManagerService } from "../../../services/task-manager.service";
 
-import { Task } from "../../models/task.model";
+import { Task } from "../../../models/task.model";
 
 @Component({
     selector: "app-task-detail",

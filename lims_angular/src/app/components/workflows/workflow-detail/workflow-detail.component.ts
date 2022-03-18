@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { TaskManagerService } from "../../services/task-manager.service";
+import { TaskManagerService } from "../../../services/task-manager.service";
 
-import { Workflow } from "../../models/workflow.model";
+import { Workflow } from "../../../models/workflow.model";
 
 @Component({
     selector: "app-workflow-detail",

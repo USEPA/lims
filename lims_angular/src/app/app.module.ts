@@ -25,17 +25,17 @@ import { MatDialogModule } from "@angular/material/dialog";
 
 import { LoginComponent } from "./admin/login/login.component";
 import { MainComponent } from "./components/main/main.component";
-import { TasklistComponent } from "./components/tasklist/tasklist.component";
-import { UsersComponent } from "./components/users/users.component";
+import { TaskListComponent } from "./components/tasks/task-list/task-list.component";
+import { UsersComponent } from "./components/users/user-list/users.component";
 import { HeaderComponent } from "./components/header/header.component";
-import { WorkflowsComponent } from "./components/workflows/workflows.component";
-import { TaskDetailComponent } from "./components/task-detail/task-detail.component";
-import { WorkflowEditorComponent } from "./components/workflow-editor/workflow-editor.component";
+import { WorkflowsComponent } from "./components/workflows/workflow-list/workflows.component";
+import { TaskDetailComponent } from "./components/tasks/task-detail/task-detail.component";
+import { WorkflowEditorComponent } from "./components/workflows/workflow-editor/workflow-editor.component";
 import { UserEditorComponent } from "./admin/user-editor/user-editor.component";
-import { WorkflowDetailComponent } from "./components/workflow-detail/workflow-detail.component";
+import { WorkflowDetailComponent } from "./components/workflows/workflow-detail/workflow-detail.component";
 import { RegistrationComponent } from "./admin/registration/registration.component";
-import { ProcessorsComponent } from "./components/processors/processors.component";
-import { LogsComponent } from "./components/logs/logs.component";
+import { ProcessorsComponent } from "./components/processors/processor-list/processors.component";
+import { LogsComponent } from "./components/logs/log-list/logs.component";
 
 import { DeleteConfirmationDialogComponent } from "./components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
@@ -48,7 +48,7 @@ import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
         AppComponent,
         LoginComponent,
         MainComponent,
-        TasklistComponent,
+        TaskListComponent,
         UsersComponent,
         HeaderComponent,
         WorkflowsComponent,

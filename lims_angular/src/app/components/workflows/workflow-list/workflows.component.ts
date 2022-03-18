@@ -12,9 +12,9 @@ import { MatDialog } from "@angular/material/dialog";
 
 import { DeleteConfirmationDialogComponent } from "src/app/components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
-import { TaskManagerService } from "../../services/task-manager.service";
+import { TaskManagerService } from "../../../services/task-manager.service";
 
-import { Workflow } from "../../models/workflow.model";
+import { Workflow } from "../../../models/workflow.model";
 
 @Component({
     selector: "app-workflows",

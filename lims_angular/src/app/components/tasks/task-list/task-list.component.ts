@@ -19,11 +19,11 @@ import { Task } from "src/app/models/task.model";
 import { Workflow } from "src/app/models/workflow.model";
 
 @Component({
-    selector: "app-tasklist",
-    templateUrl: "./tasklist.component.html",
-    styleUrls: ["./tasklist.component.css"],
+    selector: "app-task-list",
+    templateUrl: "./task-list.component.html",
+    styleUrls: ["./task-list.component.css"],
 })
-export class TasklistComponent implements OnInit, OnDestroy {
+export class TaskListComponent implements OnInit, OnDestroy {
     // tasklist refresh interval in ms
     reloadInterval = 3000;
     tasklistUpdater: ReturnType<typeof setInterval>;
