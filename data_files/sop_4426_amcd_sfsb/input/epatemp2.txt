@@ -1,0 +1,58 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : C:\TOF data\2021\101421\
+  Data File : 101421_6.d                                         
+  Acq On    : 14 Oct 2021  17:34
+  Operator  : Bill Preston
+  Sample    : 1.5 ppb PFAS cal check most (some exceptions)
+  Misc      : 30 component PFAS std can 37162
+  ALS Vial  : 0   Sample Multiplier: 1
+
+  Quant Time: Oct 15 10:00:08 2021
+  Quant Method : C:\gcms\1\methods\Latest PFAS method May 2021\30 component PFAS in house August 18,2021.m
+  Quant Title  : 30 component In house PFAS GasPro
+  QLast Update : Wed Aug 18 10:23:25 2021
+  Response via : Initial Calibration
+
+          Compound                   R.T. QIon  Response  Conc Units Dev(Min)
+   --------------------------------------------------------------------------
+   Internal Standards
+    1) d5-chlorobenzene           34.330  117   534333    20.00 ppb     -0.09
+    2) 1,4-difluorobenzene        30.321  114  1563780    20.00 ppb      0.02
+
+   Target Compounds                                                   Qvalue
+    3) CF4                         7.221   69    72987   133.42 ppb       98
+    4) C2F6                        8.246  119   994597     7.88 ppb       90
+    5) chlorotrifluoromethane      8.663   85    91861     1.93 ppb       95
+    6) fluoroform                  8.879   69   237980     3.13 ppb       97
+    7) Octafluoropropane          11.121   69  1145296     1.67 ppb       97
+    8) difluoromethane            11.071   51    81321     1.17 ppb       96
+    9) pentafluoroethane          12.846   51   354488     1.56 ppb       98
+    10) octafluorocyclobutane      15.696  100   190887     1.61 ppb       99
+    11) fluoromethane              11.504   33    50302     1.51 ppb       97
+    12) TFE                         8.654   81   217329     1.84 ppb       99
+    13) HFP                        13.188  131   229088     1.60 ppb       99
+    14) 1,1,1-trifluoroethane      13.221   64    19454m    1.64 ppb         
+    15) HFPO                       13.338   69   118628m    1.82 ppb         
+    16) chlorodifluoromethane      13.754   51   327385     1.69 ppb       99
+    17) 1,1,1,2-tetrafluoroethane  15.879   33   237512     1.64 ppb       97
+    18) perfluorobutane            15.871  119   189077     1.45 ppb       93
+    19) 1H-heptafluoropropane      17.938   51   341729     1.52 ppb       99
+    20) octafluourocyclopentene    21.713   93    91714     1.34 ppb       99
+    21) trichlorofluoromethane     21.096  101   121421     1.08 ppb       99
+    22) dodecafluoro-n-pentane     20.688   69  1139535     1.31 ppb       97
+    23) 1H-Nonafluorobutane        22.588   51   759781     1.36 ppb       99
+    24) tetradecafluorohexane      24.321   69  1427475     1.60 ppb  #    94
+    25) 1H-perflluoropentane       25.979   51   358353     1.57 ppb  #    97
+    26) E1                         26.054  101   507370m    1.50 ppb         
+    27) hexadecaflluoroheptane     27.113   69  1020881     1.63 ppb       98
+    28) 1H-perfluorohexane         28.596   51   666382     1.56 ppb       97
+    29) perfluorooctane            29.346   69  1088177     1.65 ppb       97
+    30) 1H-perfluoroheptane        30.830   51   606876     1.38 ppb       98
+    31) 1H-Perfluorooctane         33.088   51   550243     1.15 ppb       97
+    32) E2                         32.688  169   696444     1.17 ppb       98
+   --------------------------------------------------------------------------
+
+   (#) = qualifier out of range (m) = manual integration (+) = signals summed
+
+30 componen...st 18,2021.m Mon Dec 06 14:28:20 2021   
