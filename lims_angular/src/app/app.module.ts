@@ -7,9 +7,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { CookieService } from "ngx-cookie-service";
-
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { CookieService } from "ngx-cookie-service";
 
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
@@ -21,6 +21,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { LoginComponent } from "./admin/login/login.component";
 import { MainComponent } from "./main/main.component";
@@ -33,57 +34,61 @@ import { WorkflowEditorComponent } from "./admin/workflow-editor/workflow-editor
 import { UserEditorComponent } from "./admin/user-editor/user-editor.component";
 import { WorkflowDetailComponent } from "./admin/workflow-detail/workflow-detail.component";
 import { RegistrationComponent } from "./admin/registration/registration.component";
-
 import { ProcessorsComponent } from "./admin/processors/processors.component";
+import { LogsComponent } from "./components/logs/logs.component";
+
+import { DeleteConfirmationDialogComponent } from "./components/dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component";
 
 import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interrceptor";
-import { LogsComponent } from "./components/logs/logs.component";
-import { HighlightSearchPipe } from './pipes/highlight-search.pipe';
+
+import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    MainComponent,
-    TasklistComponent,
-    UsersComponent,
-    HeaderComponent,
-    WorkflowsComponent,
-    TaskDetailComponent,
-    WorkflowEditorComponent,
-    UserEditorComponent,
-    WorkflowDetailComponent,
-    RegistrationComponent,
-    ProcessorsComponent,
-    LogsComponent,
-    HighlightSearchPipe,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-  ],
-  providers: [
-    CookieService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UnauthorizedRedirect,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        MainComponent,
+        TasklistComponent,
+        UsersComponent,
+        HeaderComponent,
+        WorkflowsComponent,
+        TaskDetailComponent,
+        WorkflowEditorComponent,
+        UserEditorComponent,
+        WorkflowDetailComponent,
+        RegistrationComponent,
+        ProcessorsComponent,
+        LogsComponent,
+        HighlightSearchPipe,
+        DeleteConfirmationDialogComponent,
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+    ],
+    providers: [
+        CookieService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: UnauthorizedRedirect,
+            multi: true,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}
