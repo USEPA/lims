@@ -33,8 +33,9 @@ namespace LimsServer.Helpers.DB
 	    public DBManagement(DBPurge purge)
 	    {
             this.details = purge;
-            this.secret = this.generateSecret("42");
-	    }
+            this.secret = "A1D0C6E83F027327D8461063F4AC58A6";
+
+        }
 
         public string generateSecret(string value)
         {
@@ -58,15 +59,15 @@ namespace LimsServer.Helpers.DB
                 return results;
             }
 
-            string purgeDate = DateTime.Now.AddDays(-1 * this.details.saveDays).ToString("yyyy’-‘MM’-‘dd’ ’HH’:’mm’:’ss");
+            string purgeDate = DateTime.Now.AddDays(-1 * this.details.saveDays).ToString("yyyy-MM-dd HH:mm:ss");
             // Date purge
-            string dateQuery = String.Format("DELETE FROM Logs WHERE strftime('%s', start) < strftime('%s', @purgeDate)");
-            if (!this.dbDeleteQuery(dateQuery))
+            string dateQuery = String.Format("DELETE FROM Logs WHERE strftime('%s', time) < strftime('%s', @purgeDate)");
+            if (!this.dbDeleteQuery(dateQuery, "@purgeDate", purgeDate))
             {
                 results.Add("DateLogPurge", "Error attempting to purge logs by date with query: " + dateQuery);
             }
-            string taskDateQuery = String.Format("DELETE FROM Tasks WHERE strftime('%s', time) < strftime('%s', @purgeDate)");
-            if (!this.dbDeleteQuery(taskDateQuery))
+            string taskDateQuery = String.Format("DELETE FROM Tasks WHERE strftime('%s', start) < strftime('%s', @purgeDate)");
+            if (!this.dbDeleteQuery(taskDateQuery, "@purgeDate", purgeDate))
             {
                 results.Add("DateTaskPurge", "Error attempting to purge tasks by date with query: " + taskDateQuery);
             }
@@ -136,7 +137,7 @@ namespace LimsServer.Helpers.DB
             return results;
         }
 
-        private bool dbDeleteQuery(string query)
+        private bool dbDeleteQuery(string query, string key = null, string value = null)
         {
             var conStrBuilder = new SqliteConnectionStringBuilder();
             conStrBuilder.DataSource = this.dbName;
@@ -147,6 +148,10 @@ namespace LimsServer.Helpers.DB
                     con.Open();
                     SqliteCommand com = con.CreateCommand();
                     com.CommandText = query;
+                    if (!String.IsNullOrEmpty(value) && !String.IsNullOrEmpty(key))
+                    {
+                        com.Parameters.Add(key, SqliteType.Text).Value = value;
+                    }
                     com.ExecuteNonQuery();
                 }
                 return true;

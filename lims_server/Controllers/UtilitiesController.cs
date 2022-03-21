@@ -66,7 +66,7 @@ namespace LimsServer.Controllers
         /// </summary>
         /// <returns>All workflows</returns>
         [AllowAnonymous]
-        [HttpPost("dbpurge")]
+        [HttpGet("dbpurge")]
         public async System.Threading.Tasks.Task<IActionResult> Get([FromQuery] LimsServer.Helpers.DB.DBPurge pInput)
         {
             if (pInput == null)
