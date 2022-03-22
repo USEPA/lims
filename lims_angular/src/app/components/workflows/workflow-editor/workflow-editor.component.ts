@@ -78,6 +78,7 @@ export class WorkflowEditorComponent implements OnInit {
     }
 
     saveWorkflow(): void {
+        console.log("this.workflow: ", this.workflow);
         this.workflowForm.updateValueAndValidity();
         this.statusMessage = "";
         const newWorkflow = this.workflowForm.value;
@@ -101,6 +102,7 @@ export class WorkflowEditorComponent implements OnInit {
                 if (pathsValid) {
                     if (this.redirect) {
                         newWorkflow["id"] = this.workflow.id;
+                        newWorkflow["active"] = true;
                         this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
                             // TODO: error checking/messaging
                             this.router.navigateByUrl("/tasks");
