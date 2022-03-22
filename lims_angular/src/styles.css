@@ -38,3 +38,15 @@ body {
 .disabled {
     background-color: red;
 }
+
+.button-task {
+    width: 6ch;
+}
+
+.button-workflow {
+    width: 20ch;
+}
+
+.button-enable {
+    width: 10ch;
+}

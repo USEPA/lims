@@ -31,7 +31,7 @@
                 <ng-container matColumnDef="taskID">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Task ID</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-button (click)="gotoTaskDetail(element.id)">
+                        <button mat-button class="button-task" (click)="gotoTaskDetail(element.id)">
                             {{ element.taskID || "unknown" }}
                         </button>
                     </td>
@@ -44,6 +44,9 @@
                             mat-button
                             (click)="gotoWorkflowDetail(element.workflowID)"
                             [innerHTML]="element.workflowName || 'unknown' | highlightSearch: filter"
+                            class="button-workflow"
+                            [class.enabled]="isWorkflowActive(element.workflowID)"
+                            [class.disabled]="!isWorkflowActive(element.workflowID)"
                         ></button>
                     </td>
                 </ng-container>

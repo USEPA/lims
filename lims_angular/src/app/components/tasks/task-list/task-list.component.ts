@@ -38,9 +38,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
     filteredOptions: Observable<string[]>;
 
     columnNames = ["taskID", "workflowName", "status", "start", "remove"];
-    taskList: Task[];
+    taskList: Task[] = [];
     sortableData = new MatTableDataSource();
-    workflows: Workflow[];
+    workflows: Workflow[] = [];
 
     constructor(
         private taskMgr: TaskManagerService,
@@ -116,6 +116,17 @@ export class TaskListComponent implements OnInit, OnDestroy {
                 }
             );
         }
+    }
+
+    isWorkflowActive(workflowID): boolean {
+        for (let workflow of this.workflows) {
+            if (workflow.id === workflowID) {
+                if (workflow.active) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     gotoTaskDetail(id: number) {
