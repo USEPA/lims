@@ -1,15 +1,14 @@
 import { environment } from "../../environments/environment";
 
 import { Injectable } from "@angular/core";
-
 import { HttpClient } from "@angular/common/http";
+
 import { Observable, of } from "rxjs";
 import { timeout, catchError, tap } from "rxjs/operators";
 
 import { CookieService } from "ngx-cookie-service";
 
 import { User } from "../models/user.model";
-import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: "root",
@@ -17,7 +16,7 @@ import { Router } from "@angular/router";
 export class AuthService {
     private users: User[] = [];
 
-    constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
+    constructor(private http: HttpClient, private cookieService: CookieService) {}
 
     // /Users - returns json: all registered users
     getUsers(): Observable<any> {
@@ -103,7 +102,6 @@ export class AuthService {
         this.cookieService.deleteAll();
     }
 
-    // api call
     // NOT CURRENTLY IMPLEMENTED
     disableUser(username: string): void {
         // disable an existing user and update userlist

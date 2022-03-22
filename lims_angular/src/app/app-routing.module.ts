@@ -17,6 +17,7 @@ const routes: Routes = [
     { path: "users", component: UserListComponent },
     { path: "workflows", component: WorkflowListComponent },
     { path: "workflows/detail/:id", component: WorkflowDetailComponent },
+    { path: "workflows/create", component: WorkflowEditorComponent },
     { path: "workflows/edit/:id", component: WorkflowEditorComponent },
     { path: "processors", component: ProcessorListComponent },
     { path: "**", redirectTo: "/" },

@@ -93,7 +93,7 @@ export class WorkflowListComponent implements OnInit, AfterViewChecked {
     }
 
     addWorkflow(): void {
-        this.editingWorkflow = true;
+        this.router.navigateByUrl("/workflows/create");
     }
 
     removeWorkflow(workflowId): void {

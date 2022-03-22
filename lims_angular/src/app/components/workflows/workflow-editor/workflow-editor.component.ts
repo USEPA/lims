@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
 import { TaskManagerService } from "src/app/services/task-manager.service";
 
@@ -26,6 +27,7 @@ export class WorkflowEditorComponent implements OnInit {
         private taskMgr: TaskManagerService,
         private router: Router,
         private route: ActivatedRoute,
+        private location: Location,
         private fb: FormBuilder
     ) {}
 
@@ -98,6 +100,7 @@ export class WorkflowEditorComponent implements OnInit {
                 }
                 if (pathsValid) {
                     if (this.redirect) {
+                        newWorkflow["id"] = this.workflow.id;
                         this.taskMgr.updateWorkflow(newWorkflow).subscribe(() => {
                             // TODO: error checking/messaging
                             this.router.navigateByUrl("/tasks");
@@ -136,7 +139,7 @@ export class WorkflowEditorComponent implements OnInit {
         if (this.redirect) {
             this.router.navigateByUrl("/workflows");
         } else {
-            this.editing.emit(false);
+            this.location.back();
         }
     }
 }

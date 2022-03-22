@@ -1,16 +1,17 @@
+.workflow-editor {
+    margin-top: 4em;
+    display: grid;
+}
+
 .mat-card {
     border-radius: 0px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .centered {
     display: grid;
     justify-items: center;
-}
-
-.workflow-editor {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 4em;
 }
 
 .control {

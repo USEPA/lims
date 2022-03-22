@@ -69,10 +69,7 @@
             <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
-        <button mat-button id="add-workflow" (click)="addWorkflow()" *ngIf="!editingWorkflow">Add Workflow</button>
-        <ng-container *ngIf="editingWorkflow">
-            <app-workflow-editor (editing)="isEditing($event)"></app-workflow-editor>
-        </ng-container>
+        <button mat-button id="add-workflow" (click)="addWorkflow()">Add Workflow</button>
         <ng-container *ngIf="loadingWorkflows">
             <mat-spinner></mat-spinner>
         </ng-container>
