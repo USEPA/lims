@@ -47,6 +47,8 @@
                     <button
                         mat-button
                         (click)="toggleEnable(element)"
+                        [class.enabled]="element.enabled"
+                        [class.disabled]="!element.enabled"
                         class="button-enable"
                         matTooltip="Click to enable/disable Processor"
                     >

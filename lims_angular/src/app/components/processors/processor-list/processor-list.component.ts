@@ -28,7 +28,7 @@ export class ProcessorListComponent implements OnInit {
     filteredOptions: Observable<string[]>;
 
     columnNames = ["name", "description", "file_type", "processor_status"];
-    processors: Processor[];
+    processors: Processor[] = [];
     sortableData = new MatTableDataSource();
 
     addingProcessor: boolean;
