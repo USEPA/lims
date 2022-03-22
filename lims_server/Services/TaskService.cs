@@ -33,10 +33,22 @@ namespace LimsServer.Services
 
         public async System.Threading.Tasks.Task RunTask(string id)
         {
-            var task = await _context.Tasks.SingleAsync(t => t.id == id);
+            // Step 1a: If the task does not exist in the database, has been deleted then return without rescheduling.
+            var task = new Task();
+            try 
+            { 
+                var foundTask = await _context.Tasks.SingleAsync(t => t.id == id); 
+                task = foundTask;
+            }
+            catch(ArgumentNullException ex)
+            {
+                _logService.Information($"No task found for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
+                return;
+            }
+
             _logService.Information($"Executing Task. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}", task: task);
 
-            // Step 1: If status!="SCHEDULED" cancel task
+            // Step 1b: If status!="SCHEDULED" cancel task
             if (!task.status.Equals("SCHEDULED"))
             {
                 _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Current Status: {task.status}, Message: Task status is not marked as scheduled.", task: task);
@@ -164,7 +176,7 @@ namespace LimsServer.Services
                 {
                     errorMessage = "Processor results template data is null. ";
                 }
-                if (result.ErrorMessage != null)
+                if (!String.IsNullOrEmpty(result.ErrorMessage))
                 {
                     errorMessage = errorMessage + result.ErrorMessage;
                     logMessage = errorMessage;
@@ -173,8 +185,23 @@ namespace LimsServer.Services
                 {
                     logMessage = result.LogMessage;
                 }
-                await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
-                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: {logMessage}", task: task);
+                //await this.UpdateStatus(task.id, "CANCELLED", "Error processing data: " + errorMessage);
+                //_logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: {logMessage}", task: task);
+                //return;
+                await this.UpdateStatus(task.id, "SCHEDULED", errorMessage);
+                var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
+                task.start = DateTime.Now.AddMinutes(workflow.interval);
+                await _context.SaveChangesAsync();
+                try
+                {
+                    BackgroundJobClient backgroundClient = new BackgroundJobClient();
+                    backgroundClient.ChangeState(task.taskID, newSchedule);
+                    _logService.Information($"Task Rescheduled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input Directory: {workflow.inputFolder}, Message: Invalid input file for selected processor.", task: task);
+                }
+                catch (Exception)
+                {
+                    _logService.Warning($"Error attempting to reschedule Hangfire job. Workflow ID: {task.workflowID}, task ID: {task.id}", task: task);
+                }
                 return;
             }
 
