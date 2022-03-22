@@ -44,8 +44,13 @@
             <ng-container matColumnDef="processor_status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-button (click)="toggleEnable(element)">
-                        {{ element.enabled ? "Disable" : "Enable" }}
+                    <button
+                        mat-button
+                        (click)="toggleEnable(element)"
+                        class="button-enable"
+                        matTooltip="Click to enable/disable Processor"
+                    >
+                        {{ element.enabled ? "Disable Processor" : "Enable Processor" }}
                     </button>
                 </td>
             </ng-container>

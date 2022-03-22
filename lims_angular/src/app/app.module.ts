@@ -22,6 +22,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 import { LoginComponent } from "./admin/login/login.component";
 import { MainComponent } from "./components/main/main.component";
@@ -81,6 +82,7 @@ import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
         MatProgressSpinnerModule,
         MatAutocompleteModule,
         MatDialogModule,
+        MatTooltipModule,
     ],
     providers: [
         CookieService,
