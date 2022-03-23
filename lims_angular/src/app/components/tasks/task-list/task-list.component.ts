@@ -129,6 +129,13 @@ export class TaskListComponent implements OnInit, OnDestroy {
         return false;
     }
 
+    executeWorkflowNow(workflowID: string): void {
+        console.log("task-list.executeNow: ", workflowID);
+        this.taskMgr.executeWorkflow(workflowID).subscribe((response) => {
+            this.updateTasklist();
+        });
+    }
+
     gotoTaskDetail(id: number) {
         this.router.navigateByUrl("/tasks/detail/" + id);
     }
@@ -141,14 +148,14 @@ export class TaskListComponent implements OnInit, OnDestroy {
         return this.taskMgr.getWorkflow(id).name;
     }
 
-    deleteTask(id: string): void {
+    deleteTask(task): void {
         const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-            data: { type: "Task" },
+            data: { type: `${task.workflowName} Task` },
         });
 
         dialogRef.afterClosed().subscribe((confirmDelete) => {
             if (confirmDelete) {
-                this.taskMgr.deleteTask(id).subscribe((response) => {
+                this.taskMgr.deleteTask(task.id).subscribe((response) => {
                     this.updateTasklist();
                 });
             }

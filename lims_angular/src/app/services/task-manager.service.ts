@@ -122,8 +122,9 @@ export class TaskManagerService {
     }
 
     // GET/api/workflows/execute/+id - immediately executes a task for a given workflow
-    executeWorkflow(workflow: any): Observable<any> {
-        return this.http.get(environment.apiUrl + `workflows/execute/${workflow.id}`).pipe(
+    executeWorkflow(id: string): Observable<any> {
+        console.log("workflowID: ", id);
+        return this.http.get(environment.apiUrl + `workflows/execute/${id}`).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to execute workflow!" });

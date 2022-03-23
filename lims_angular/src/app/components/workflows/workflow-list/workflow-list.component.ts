@@ -96,14 +96,14 @@ export class WorkflowListComponent implements OnInit, AfterViewChecked {
         this.router.navigateByUrl("/workflows/create");
     }
 
-    removeWorkflow(workflowId): void {
+    removeWorkflow(workflow): void {
         const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
-            data: { type: "Workflow" },
+            data: { type: `Workflow ${workflow.name}` },
         });
 
         dialogRef.afterClosed().subscribe((confirmDelete) => {
             if (confirmDelete) {
-                this.taskMgr.removeWorkflow(workflowId).subscribe((response) => {
+                this.taskMgr.removeWorkflow(workflow.id).subscribe((response) => {
                     this.getWorkflows();
                 });
             }
