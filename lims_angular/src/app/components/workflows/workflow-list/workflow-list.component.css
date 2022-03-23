@@ -1,8 +1,12 @@
-.mat-card {
-    max-width: 90%;
-    border-radius: 0px;
+.workflow-list {
     margin-top: 2em;
-    margin-bottom: 2rem;
+    display: grid;
+}
+
+.mat-card {
+    border-radius: 0px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .mat-header-cell {
@@ -32,6 +36,6 @@
     margin-left: auto;
 }
 
-#add-workflow {
+.button-add-workflow {
     width: 100%;
 }

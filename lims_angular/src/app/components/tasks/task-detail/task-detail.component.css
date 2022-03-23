@@ -1,16 +1,12 @@
-.mat-card {
-    border-radius: 0px;
-}
-
-.centered {
-    display: grid;
-    justify-items: center;
-}
-
 .task-detail {
-    margin-left: auto;
+    margin-top: 2rem;
+    display: grid;
+}
+
+mat-card {
+    border-radius: 0px;
     margin-right: auto;
-    margin-top: 4em;
+    margin-left: auto;
 }
 
 mat-card-content,

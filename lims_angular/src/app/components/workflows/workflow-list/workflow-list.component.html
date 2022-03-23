@@ -1,4 +1,4 @@
-<div class="panel-body" #workflows>
+<div class="workflow-list">
     <mat-card>
         <mat-card-header>
             <h2>Workflows</h2>
@@ -84,7 +84,14 @@
             <tr mat-row *matRowDef="let row; columns: columnNames"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10" showFirstLastButtons></mat-paginator>
-        <button mat-button id="add-workflow" (click)="addWorkflow()">Add Workflow</button>
+        <button
+            mat-button
+            class="button-add-workflow"
+            (click)="addWorkflow()"
+            matTooltip="Click to create a new Workflow"
+        >
+            Create Workflow
+        </button>
         <ng-container *ngIf="loadingWorkflows">
             <mat-spinner></mat-spinner>
         </ng-container>

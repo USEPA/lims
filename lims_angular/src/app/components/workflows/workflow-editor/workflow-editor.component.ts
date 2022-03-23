@@ -78,7 +78,6 @@ export class WorkflowEditorComponent implements OnInit {
     }
 
     saveWorkflow(): void {
-        console.log("this.workflow: ", this.workflow);
         this.workflowForm.updateValueAndValidity();
         this.statusMessage = "";
         const newWorkflow = this.workflowForm.value;
