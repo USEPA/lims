@@ -169,9 +169,12 @@ namespace LimsServer.Services
                     }
                 }
 
-                string taskId = System.Guid.NewGuid().ToString();
-                LimsServer.Entities.Task tsk = new Entities.Task(taskId, workflow.id, workflow.interval);
-                var task = await ts.Create(tsk);
+                if (workflow.active)
+                {
+                    string taskId = System.Guid.NewGuid().ToString();
+                    LimsServer.Entities.Task tsk = new Entities.Task(taskId, workflow.id, workflow.interval);
+                    var task = await ts.Create(tsk);
+                }
                 await _context.SaveChangesAsync();
                 return true;
             }
