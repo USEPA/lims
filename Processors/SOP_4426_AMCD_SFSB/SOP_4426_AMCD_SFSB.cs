@@ -32,11 +32,18 @@ namespace SOP_4426_AMCD_SFSB
 
                 using StreamReader sr = new StreamReader(input_file);
                 string? line;
-                               
+
+                string regexExp = "^.*?";
                 int rowIdx = 0;
                 while ((line = sr.ReadLine()) != null)
                 {
                     current_row = rowIdx;
+                    string currentLine = line.Trim();
+
+                    
+                    
+                    
+                    rowIdx++;
 
                 }
             }
