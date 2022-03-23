@@ -53,6 +53,7 @@
     display: grid;
     place-items: center;
     border-radius: 0.25rem;
+    color: white;
     border: 1.5px solid #424242;
     cursor: pointer;
 }
