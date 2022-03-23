@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { TaskManagerService } from "../../../services/task-manager.service";
@@ -13,11 +13,19 @@ import { Task } from "../../../models/task.model";
 })
 export class TaskDetailComponent implements OnInit {
     task: Task;
-    constructor(private route: ActivatedRoute, private taskMgr: TaskManagerService, private location: Location) {}
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private taskMgr: TaskManagerService,
+        private location: Location
+    ) {}
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get("id");
         this.task = this.taskMgr.getTask(id);
+        if (!this.task) {
+            this.router.navigateByUrl("/");
+        }
     }
 
     rerunTask(id: number): void {

@@ -1,6 +1,7 @@
 .task-detail {
     margin-top: 2rem;
     display: grid;
+    line-height: 2rem;
 }
 
 mat-card {

@@ -15,9 +15,8 @@ import { Workflow } from "../models/workflow.model";
     providedIn: "root",
 })
 export class TaskManagerService {
-    private taskList: Task[];
-    private workflows: Workflow[];
-    private processors: any[];
+    private taskList: Task[] = [];
+    private workflows: Workflow[] = [];
 
     constructor(private http: HttpClient, private auth: AuthService) {
         this.getWorkflows().subscribe();
@@ -45,17 +44,7 @@ export class TaskManagerService {
                 return task;
             }
         }
-        return {
-            id: null,
-            taskID: null,
-            start: null,
-            filePath: null,
-            processor: null,
-            workflowID: null,
-            status: null,
-            error: null,
-            message: null,
-        };
+        return null;
     }
 
     // GET/api/tasks/+id deletes a task by id
@@ -87,17 +76,7 @@ export class TaskManagerService {
                 }
             }
         }
-        return {
-            id: null,
-            name: null,
-            processor: null,
-            inputFolder: null,
-            outputFolder: null,
-            archiveFolder: null,
-            interval: null,
-            active: null,
-            creationDate: null,
-        };
+        return null;
     }
 
     // POST/api/utilitie/dircheck
@@ -123,7 +102,6 @@ export class TaskManagerService {
 
     // GET/api/workflows/execute/+id - immediately executes a task for a given workflow
     executeWorkflow(id: string): Observable<any> {
-        console.log("workflowID: ", id);
         return this.http.get(environment.apiUrl + `workflows/execute/${id}`).pipe(
             // timeout(5000),
             catchError((err) => {
@@ -170,11 +148,6 @@ export class TaskManagerService {
     getProcessors(): Observable<any> {
         return this.http.get<any>(environment.apiUrl + "processors/").pipe(
             // timeout(5000),
-            tap((processors) => {
-                if (processors) {
-                    this.processors = [...processors];
-                }
-            }),
             catchError((err) => {
                 return of({ error: "failed to retrieve processors!" });
             })

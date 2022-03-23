@@ -27,6 +27,9 @@ export class WorkflowDetailComponent implements OnInit {
         if (id) {
             this.workflow = this.taskMgr.getWorkflow(id);
         }
+        if (!this.workflow) {
+            this.router.navigateByUrl("/");
+        }
     }
 
     // api call
@@ -36,7 +39,6 @@ export class WorkflowDetailComponent implements OnInit {
 
     // api call
     executeWorkflow(workflow): void {
-        console.log("workflow-detail.executeNow: ", workflow.id);
         this.taskMgr.executeWorkflow(workflow.id).subscribe((response) => {
             this.router.navigateByUrl("tasks/");
         });

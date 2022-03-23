@@ -130,7 +130,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     executeWorkflowNow(workflowID: string): void {
-        console.log("task-list.executeNow: ", workflowID);
         this.taskMgr.executeWorkflow(workflowID).subscribe((response) => {
             this.updateTasklist();
         });

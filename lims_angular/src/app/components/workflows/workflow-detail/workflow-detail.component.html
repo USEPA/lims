@@ -1,5 +1,5 @@
 <div class="workflow-detail">
-    <mat-card>
+    <mat-card *ngIf="workflow">
         <mat-card-header>
             <mat-card-title>Workflow Name: {{ workflow.name || "invalid" }}</mat-card-title>
         </mat-card-header>
@@ -10,7 +10,7 @@
             <div>Output Folder: {{ workflow.outputFolder || "unknown" }}</div>
             <div>Archive Folder: {{ workflow.archiveFolder || "unknown" }}</div>
             <div>Interval: {{ workflow.interval || "unknown" }} minutes</div>
-            <div>Date Created: {{ workflow.creationDate || "unknown" | date: "short" }}</div>
+            <div>Date Created: {{ workflow.creationDate | date: "short" || "unknown" }}</div>
             <div>Active: {{ workflow.active }}</div>
         </mat-card-content>
         <div class="controls">

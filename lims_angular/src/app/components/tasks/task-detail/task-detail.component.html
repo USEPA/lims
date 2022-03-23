@@ -1,5 +1,5 @@
 <div class="task-detail">
-    <mat-card>
+    <mat-card *ngIf="task">
         <mat-card-header>
             <mat-card-title>Task ID: {{ task.taskID || "invalid" }}</mat-card-title>
         </mat-card-header>
