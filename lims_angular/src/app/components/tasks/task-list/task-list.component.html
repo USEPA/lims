@@ -45,27 +45,29 @@
                 <ng-container matColumnDef="workflowName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Workflow</th>
                     <td mat-cell *matCellDef="let element">
-                        <button
-                            mat-button
-                            (click)="gotoWorkflowDetail(element.workflowID)"
-                            [innerHTML]="element.workflowName || 'unknown' | highlightSearch: filter"
-                            class="button-workflow"
-                            [class.enabled]="isWorkflowActive(element.workflowID)"
-                            [class.disabled]="!isWorkflowActive(element.workflowID)"
-                            matTooltip="Click to see Workflow details and actions"
-                        ></button>
+                        <div class="cell-workflow">
+                            <button
+                                mat-button
+                                (click)="gotoWorkflowDetail(element.workflowID)"
+                                [innerHTML]="element.workflowName || 'unknown' | highlightSearch: filter"
+                                class="button-workflow"
+                                [class.enabled]="isWorkflowActive(element.workflowID)"
+                                [class.disabled]="!isWorkflowActive(element.workflowID)"
+                                matTooltip="Click to see Workflow details and actions"
+                            ></button>
 
-                        <button
-                            mat-button
-                            (click)="executeWorkflowNow(element.workflowID)"
-                            class="button-execute"
-                            [class.enabled]="isWorkflowActive(element.workflowID)"
-                            [class.disabled]="!isWorkflowActive(element.workflowID)"
-                            matTooltip="Execute Task now"
-                            [disabled]="!isWorkflowActive(element.workflowID)"
-                        >
-                            <mat-icon>update</mat-icon>
-                        </button>
+                            <div
+                                *ngIf="element.status !== 'COMPLETED'"
+                                (click)="executeWorkflowNow(element.workflowID)"
+                                class="button-execute"
+                                [class.enabled]="isWorkflowActive(element.workflowID)"
+                                [class.disabled]="!isWorkflowActive(element.workflowID)"
+                                matTooltip="Execute Task now"
+                                [disabled]="!isWorkflowActive(element.workflowID)"
+                            >
+                                <mat-icon>update</mat-icon>
+                            </div>
+                        </div>
                     </td>
                 </ng-container>
 

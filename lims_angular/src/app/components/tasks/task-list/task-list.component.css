@@ -37,6 +37,26 @@
     text-align: center;
 }
 
+.cell-workflow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 30ch;
+    justify-items: center;
+}
+
+.button-workflow {
+    width: 100%;
+}
+
+.button-execute {
+    width: 2.5rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.25rem;
+    border: 1.5px solid #424242;
+    cursor: pointer;
+}
+
 .status {
     width: 16ch;
 }
