@@ -1,0 +1,12 @@
+<mat-toolbar color="secondary" class="mat-elevation-z10">
+    <h1>LIMS task manager</h1>
+    <span class="spacer"></span>
+    <span *ngIf="isAuthenticated()">
+        <button mat-button class="control" (click)="gotoTasks()">Tasks</button>
+        <button mat-button class="control" (click)="gotoWorkflows()">Workflows</button>
+        <button mat-button class="control" (click)="gotoProcessors()">Processors</button>
+        <button mat-button class="control" (click)="gotoLogs()">Logs</button>
+        <button mat-button class="control" (click)="gotoUsers()">Users</button>
+        <button mat-button class="control" (click)="logout()">Logout</button>
+    </span>
+</mat-toolbar>

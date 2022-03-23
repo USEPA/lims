@@ -1,0 +1,67 @@
+.mat-card {
+    max-width: 90%;
+    border-radius: 0px;
+    margin-top: 2em;
+    margin-bottom: 2rem;
+}
+
+.mat-cell {
+    text-align: center;
+    padding: 0px 24px 0px 24px;
+}
+
+.mat-header-cell {
+    text-align: center;
+    padding: 0px 24px 0px 36px;
+}
+
+.mat-button {
+    border: 1px solid #303030;
+}
+
+.mat-form-field {
+    margin: 10px;
+}
+
+.mat-spinner {
+    margin: 15px auto;
+}
+
+#filter-input {
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
+.statusMessage {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.cell-workflow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 30ch;
+    justify-items: center;
+}
+
+.button-workflow {
+    width: 100%;
+}
+
+.button-execute {
+    width: 2.5rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.25rem;
+    color: white;
+    border: 1.5px solid #424242;
+    cursor: pointer;
+}
+
+.status {
+    width: 16ch;
+}
+
+.timestamp {
+    width: 26ch;
+}

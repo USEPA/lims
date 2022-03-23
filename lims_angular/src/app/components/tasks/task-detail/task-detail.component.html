@@ -1,0 +1,18 @@
+<div class="task-detail">
+    <mat-card *ngIf="task">
+        <mat-card-header>
+            <mat-card-title>Task ID: {{ task.taskID || "invalid" }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div>Workflow: {{ getWorkflowName(task.workflowID) || "unknown" }}</div>
+            <div>Processor: {{ getProcessorName(task.workflowID) || "unknown" }}</div>
+            <div>Start Time: {{ getFormattedDate(task.start) || "unknown" }}</div>
+            <div>Input Folder: {{ getInputFolderPath(task.workflowID) || "unknown" }}</div>
+            <div>Status: {{ task.status || "unknown" }}</div>
+            <div>Status message: {{ task.message || "none" }}</div>
+        </mat-card-content>
+        <div class="controls">
+            <button mat-button class="control" (click)="back()">Back</button>
+        </div>
+    </mat-card>
+</div>

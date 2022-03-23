@@ -1,0 +1,38 @@
+.mat-card {
+    max-width: 90%;
+    border-radius: 0px;
+    margin-top: 2em;
+    margin-bottom: 2rem;
+}
+
+.mat-cell {
+    text-align: center;
+    padding: 0px 24px 0px 24px;
+}
+
+.mat-header-cell {
+    text-align: center;
+    padding: 0px 24px 0px 36px;
+}
+
+.mat-button {
+    border: 1px solid #303030;
+}
+
+.mat-form-field {
+    margin: 10px;
+}
+
+.mat-spinner {
+    margin: 15px auto;
+}
+
+#filter-input {
+    margin-right: 2rem;
+    margin-left: auto;
+}
+
+.statusMessage {
+    margin-top: 1em;
+    text-align: center;
+}

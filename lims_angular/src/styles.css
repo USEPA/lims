@@ -13,7 +13,40 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.panel-body {
+    display: grid;
+    justify-items: center;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    max-height: 93vh;
+}
+
+.statusMessage {
+    margin-top: 1em;
+    text-align: center;
+}
+
 .filterHighlight {
     background-color: violet;
     font-weight: bold;
+}
+
+.enabled {
+    background-color: green;
+}
+
+.disabled {
+    background-color: red;
+}
+
+.button-task {
+    width: 6ch;
+}
+
+.button-workflow {
+    width: 20ch;
+}
+
+.button-enable {
+    width: 20ch;
 }

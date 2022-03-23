@@ -1,0 +1,25 @@
+<div class="workflow-detail">
+    <mat-card *ngIf="workflow">
+        <mat-card-header>
+            <mat-card-title>Workflow Name: {{ workflow.name || "invalid" }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div>ID: {{ workflow.id || "unknown" }}</div>
+            <div>Processor: {{ workflow.processor || "unknown" }}</div>
+            <div>Input Folder: {{ workflow.inputFolder || "unknown" }}</div>
+            <div>Output Folder: {{ workflow.outputFolder || "unknown" }}</div>
+            <div>Archive Folder: {{ workflow.archiveFolder || "unknown" }}</div>
+            <div>Interval: {{ workflow.interval || "unknown" }} minutes</div>
+            <div>Date Created: {{ workflow.creationDate | date: "short" || "unknown" }}</div>
+            <div>Active: {{ workflow.active }}</div>
+        </mat-card-content>
+        <div class="controls">
+            <button mat-button class="control" (click)="back()">Back</button>
+            <button mat-button class="control" (click)="editWorkflow(workflow)">Edit Workflow</button>
+            <button mat-button class="control" (click)="executeWorkflow(workflow)">Execute Workflow Now</button>
+            <button mat-button class="control" (click)="toggleEnableWorkflow(workflow)">
+                {{ getText(workflow.active) }}
+            </button>
+        </div>
+    </mat-card>
+</div>

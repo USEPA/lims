@@ -1,29 +1,30 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { TasklistComponent } from "./admin/tasklist/tasklist.component";
-import { UsersComponent } from "./admin/users/users.component";
-import { WorkflowsComponent } from "./admin/workflows/workflows.component";
-import { TaskDetailComponent } from "./admin/task-detail/task-detail.component";
-import { WorkflowDetailComponent } from "./admin/workflow-detail/workflow-detail.component";
-import { ProcessorsComponent } from "./admin/processors/processors.component";
-import { WorkflowEditorComponent } from "./admin/workflow-editor/workflow-editor.component";
-import { LogsComponent } from "./components/logs/logs.component";
+import { TaskListComponent } from "./components/tasks/task-list/task-list.component";
+import { UserListComponent } from "./components/users/user-list/user-list.component";
+import { WorkflowListComponent } from "./components/workflows/workflow-list/workflow-list.component";
+import { TaskDetailComponent } from "./components/tasks/task-detail/task-detail.component";
+import { WorkflowDetailComponent } from "./components/workflows/workflow-detail/workflow-detail.component";
+import { ProcessorListComponent } from "./components/processors/processor-list/processor-list.component";
+import { WorkflowEditorComponent } from "./components/workflows/workflow-editor/workflow-editor.component";
+import { LogListComponent } from "./components/logs/log-list/log-list.component";
 
 const routes: Routes = [
-  { path: "", component: TasklistComponent },
-  { path: "logs", component: LogsComponent },
-  { path: "tasks", component: TasklistComponent },
-  { path: "tasks/detail/:id", component: TaskDetailComponent },
-  { path: "users", component: UsersComponent },
-  { path: "workflows", component: WorkflowsComponent },
-  { path: "workflows/detail/:id", component: WorkflowDetailComponent },
-  { path: "workflows/edit/:id", component: WorkflowEditorComponent },
-  { path: "processors", component: ProcessorsComponent },
-  { path: "**", redirectTo: "/" },
+    { path: "", component: TaskListComponent },
+    { path: "logs", component: LogListComponent },
+    { path: "tasks", component: TaskListComponent },
+    { path: "tasks/detail/:id", component: TaskDetailComponent },
+    { path: "users", component: UserListComponent },
+    { path: "workflows", component: WorkflowListComponent },
+    { path: "workflows/detail/:id", component: WorkflowDetailComponent },
+    { path: "workflows/create", component: WorkflowEditorComponent },
+    { path: "workflows/edit/:id", component: WorkflowEditorComponent },
+    { path: "processors", component: ProcessorListComponent },
+    { path: "**", redirectTo: "/" },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

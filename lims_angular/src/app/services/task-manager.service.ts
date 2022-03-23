@@ -1,10 +1,10 @@
 import { environment } from "../../environments/environment";
 
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 import { Observable, of } from "rxjs";
-import { catchError, tap, timeout } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 
 import { AuthService } from "./auth.service";
 
@@ -15,9 +15,8 @@ import { Workflow } from "../models/workflow.model";
     providedIn: "root",
 })
 export class TaskManagerService {
-    private taskList: Task[];
-    private workflows: Workflow[];
-    private processors: any[];
+    private taskList: Task[] = [];
+    private workflows: Workflow[] = [];
 
     constructor(private http: HttpClient, private auth: AuthService) {
         this.getWorkflows().subscribe();
@@ -25,14 +24,7 @@ export class TaskManagerService {
 
     // GET/api/tasks - returns all tasks
     getTasks(): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-
-        return this.http.get<any>(environment.apiUrl + "tasks/", options).pipe(
+        return this.http.get<any>(environment.apiUrl + "tasks/").pipe(
             // timeout(5000),
             tap((tasks) => {
                 if (tasks) {
@@ -52,39 +44,17 @@ export class TaskManagerService {
                 return task;
             }
         }
-        return {
-            id: null,
-            taskID: null,
-            start: null,
-            filePath: null,
-            processor: null,
-            workflowID: null,
-            status: null,
-            error: null,
-            message: null,
-        };
+        return null;
     }
 
     // GET/api/tasks/+id deletes a task by id
     deleteTask(id: string): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.delete(environment.apiUrl + `tasks/${id}`, options);
+        return this.http.delete(environment.apiUrl + `tasks/${id}`);
     }
 
     // GET/api/workflows - returns all workflows
     getWorkflows(): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.get<any>(environment.apiUrl + "workflows/", options).pipe(
+        return this.http.get<any>(environment.apiUrl + "workflows/").pipe(
             // timeout(5000),
             tap((workflows) => {
                 if (workflows) {
@@ -106,29 +76,13 @@ export class TaskManagerService {
                 }
             }
         }
-        return {
-            id: null,
-            name: null,
-            processor: null,
-            inputFolder: null,
-            outputFolder: null,
-            archiveFolder: null,
-            interval: null,
-            active: null,
-            creationDate: null,
-        };
+        return null;
     }
 
     // POST/api/utilitie/dircheck
     // accepts a dictionary of paths and returns a boolean for the existance of each
     validatePaths(paths): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.post<any>(environment.apiUrl + "utility/dircheck/", paths, options).pipe(
+        return this.http.post<any>(environment.apiUrl + "utility/dircheck/", paths).pipe(
             catchError((err) => {
                 return of({ error: err });
             })
@@ -137,14 +91,8 @@ export class TaskManagerService {
 
     // POST/api/workflows - crates a new workflow
     createWorkflow(workflow: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
         const newWorkflow = JSON.stringify(workflow);
-        return this.http.post<any>(environment.apiUrl + "workflows/", newWorkflow, options).pipe(
+        return this.http.post<any>(environment.apiUrl + "workflows/", newWorkflow).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to add workflow!" });
@@ -153,14 +101,8 @@ export class TaskManagerService {
     }
 
     // GET/api/workflows/execute/+id - immediately executes a task for a given workflow
-    executeWorkflow(workflow: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.get(environment.apiUrl + `workflows/execute/${workflow.id}`, options).pipe(
+    executeWorkflow(id: string): Observable<any> {
+        return this.http.get(environment.apiUrl + `workflows/execute/${id}`).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to execute workflow!" });
@@ -170,14 +112,8 @@ export class TaskManagerService {
 
     // PUT/api/workflows - updates an existing workflow
     updateWorkflow(workflow: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
         const newWorkflow = JSON.stringify(workflow);
-        return this.http.put<any>(environment.apiUrl + "workflows/", newWorkflow, options).pipe(
+        return this.http.put<any>(environment.apiUrl + "workflows/", newWorkflow).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to update workflow!" });
@@ -200,13 +136,7 @@ export class TaskManagerService {
     // delete an existing workflow and associated tasks
     // DELETE/api/workflows/+id
     removeWorkflow(id: number): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.delete<any>(environment.apiUrl + "workflows/" + id, options).pipe(
+        return this.http.delete<any>(environment.apiUrl + "workflows/" + id).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to disable workflow!" });
@@ -216,19 +146,8 @@ export class TaskManagerService {
 
     // api/processors
     getProcessors(): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.get<any>(environment.apiUrl + "processors/", options).pipe(
+        return this.http.get<any>(environment.apiUrl + "processors/").pipe(
             // timeout(5000),
-            tap((processors) => {
-                if (processors) {
-                    this.processors = [...processors];
-                }
-            }),
             catchError((err) => {
                 return of({ error: "failed to retrieve processors!" });
             })
@@ -237,13 +156,7 @@ export class TaskManagerService {
 
     // PUT/api/processors
     updateProcessor(processor): Observable<any> {
-        const options = {
-            headers: new HttpHeaders({
-                Authorization: "Bearer " + this.auth.getAuthToken(),
-                "Content-Type": "application/json",
-            }),
-        };
-        return this.http.put<any>(environment.apiUrl + "processors/", processor, options).pipe(
+        return this.http.put<any>(environment.apiUrl + "processors/", processor).pipe(
             // timeout(5000),
             catchError((err) => {
                 return of({ error: "failed to update processor!" });

@@ -1,0 +1,32 @@
+.task-detail {
+    margin-top: 2rem;
+    display: grid;
+    line-height: 2rem;
+}
+
+mat-card {
+    border-radius: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+mat-card-content,
+.control {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 1.25em;
+    margin-bottom: 2em;
+}
+
+.mat-button {
+    border: 1px solid #303030;
+    margin-top: 10px;
+}
+
+.mat-form-field {
+    margin: 10px;
+}

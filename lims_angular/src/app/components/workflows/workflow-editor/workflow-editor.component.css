@@ -1,0 +1,48 @@
+.workflow-editor {
+    margin-top: 2em;
+    display: grid;
+}
+
+.mat-card {
+    border-radius: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centered {
+    display: grid;
+    justify-items: center;
+}
+
+.control {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 1.25em;
+}
+
+.mat-button {
+    border: 1px solid #303030;
+    margin-top: 10px;
+}
+
+.mat-form-field {
+    margin: 10px;
+}
+
+.statusMessage {
+    margin-top: 1em;
+    text-align: center;
+    width: 100ch;
+}
+
+.workflow-form {
+    display: grid;
+}
+
+.path-input {
+    width: 100ch;
+}
