@@ -69,16 +69,6 @@ namespace SOP_4426_AMCD_SFSB
                     if (!bDataFile || !bQuantTime)
                         continue;
 
-                    ////We can start looking for data
-                    //if (bStart == false)
-                    //{
-                    //    if (currentLine.Contains("----------------", StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        bStart = true;
-                    //        continue;
-                    //    }
-                    //}
-
                     //This regular expression will match any number of digits at the beginning of the string followed by a )
                     string regexExp = @"^[0-9]+[)]";
                     Match regexMatch = Regex.Match(currentLine, regexExp);
