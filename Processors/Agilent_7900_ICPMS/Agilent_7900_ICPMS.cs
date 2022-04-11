@@ -2,21 +2,19 @@
 using System.Data;
 using System.IO;
 using PluginBase;
-//using OfficeOpenXml;
-//using ExcelDataReader;
+using OfficeOpenXml;
 
-namespace MyInstrument
+namespace Agilent_7900_ICPMS
 {
-    public class MyInstrumentProcessor : DataProcessor
-    {        
-
-        public override string id { get => "myinstrument"; }
-        public override string name { get => "MyInstrument"; }
-        public override string description { get => "Processor used for MyInstrument translation to universal template"; }
+    public class Agilent_7900_ICPMS : DataProcessor
+    {
+        public override string id { get => "agilent_7900_icpms"; }
+        public override string name { get => "Agilent_7900_ICPMS"; }
+        public override string description { get => "Processor used for Agilent_7900_ICPMS translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
-        public override string input_file { get; set; }
-        public override string path { get; set; }
+        public override string? input_file { get; set; }
+        public override string? path { get; set; }
 
         public override DataTableResponseMessage Execute()
         {
@@ -65,9 +63,7 @@ namespace MyInstrument
                 errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
                 rm.ErrorMessage = errorMsg;
             }
-
-            rm.TemplateData = dt;
-
             return rm;
         }
+    }
 }
