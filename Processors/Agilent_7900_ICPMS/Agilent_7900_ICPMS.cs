@@ -13,13 +13,13 @@ namespace Agilent_7900_ICPMS
         public override string description { get => "Processor used for Agilent_7900_ICPMS translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
-        public override string? input_file { get; set; }
-        public override string? path { get; set; }
+        public override string input_file { get; set; }
+        public override string path { get; set; }
 
         public override DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = new DataTableResponseMessage();
-            DataTable? dt = null;
+            DataTable dt = null;
             try
             {
                 rm = VerifyInputFile();
@@ -48,10 +48,30 @@ namespace Agilent_7900_ICPMS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                for (int rowIdx = startRow; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
                 {
                     current_row = rowIdx;
+                    aliquot = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.G]);
+                    string dateTime = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
+                    analysisDateTime = Convert.ToDateTime(dateTime);
 
+                    for (int colIdx = ColumnIndex1.H; colIdx < numCols; colIdx=colIdx+2)
+                    {
+                        analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
+                        string mval = GetXLStringValue(worksheet.Cells[current_row, colIdx]);
+
+                        //Convert blank cells, “N/A”, and “<0.00” to be imported as “0”
+                        if (!Double.TryParse(mval, out measuredVal))
+                            measuredVal = 0.0;
+
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+
+                        dt.Rows.Add(dr);
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -63,6 +83,7 @@ namespace Agilent_7900_ICPMS
                 errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
                 rm.ErrorMessage = errorMsg;
             }
+            rm.TemplateData = dt;
             return rm;
         }
     }

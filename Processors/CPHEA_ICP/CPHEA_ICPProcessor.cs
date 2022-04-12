@@ -77,7 +77,7 @@ namespace CPHEA_ICP
 
                         double measuredVal;
                         //string tmpMeasuredVal = data[9].Trim();
-                        string tmpMeasuredVal = data[ColumnMap.L].Trim();
+                        string tmpMeasuredVal = data[ColumnIndex0.L].Trim();
                         if (string.IsNullOrWhiteSpace(tmpMeasuredVal))
                             measuredVal = 0.0;
                         else if (!double.TryParse(tmpMeasuredVal, out measuredVal))

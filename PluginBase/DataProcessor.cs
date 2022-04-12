@@ -288,7 +288,7 @@ namespace PluginBase
         }
     }
 
-    public static class ColumnMap
+    public static class ColumnIndex0
     {
         public readonly static int A = 0;
         public readonly static int B = 1;
@@ -316,5 +316,35 @@ namespace PluginBase
         public readonly static int X = 23;
         public readonly static int Y = 24;
         public readonly static int Z = 25;
+    }
+
+    public static class ColumnIndex1
+    {
+        public readonly static int A = 1;
+        public readonly static int B = 2;
+        public readonly static int C = 3;
+        public readonly static int D = 4;
+        public readonly static int E = 5;
+        public readonly static int F = 6;
+        public readonly static int G = 7;
+        public readonly static int H = 8;
+        public readonly static int I = 9;
+        public readonly static int J = 10;
+        public readonly static int K = 11;
+        public readonly static int L = 12;
+        public readonly static int M = 13;
+        public readonly static int N = 14;
+        public readonly static int O = 15;
+        public readonly static int P = 16;
+        public readonly static int Q = 17;
+        public readonly static int R = 18;
+        public readonly static int S = 19;
+        public readonly static int T = 20;
+        public readonly static int U = 21;
+        public readonly static int V = 22;
+        public readonly static int W = 23;
+        public readonly static int X = 24;
+        public readonly static int Y = 25;
+        public readonly static int Z = 26;
     }
 }
