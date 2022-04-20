@@ -58,9 +58,18 @@ namespace Thermo_Elemental_iCAP6500_ICP
                     {
                         analyteID = worksheet.Rows[4][colIdx].ToString();
                         string mval = worksheet.Rows[rowIdx][colIdx].ToString().Trim();
+                        //Some data looks like 'F .050'
                         if (!Double.TryParse(mval, out measuredVal))
-                            measuredVal = 0.0;
-
+                        {
+                            string[] tokens = mval.Split(" ");
+                            if (tokens.Length > 1)
+                            {
+                                if (!Double.TryParse(tokens[1], out measuredVal))
+                                    measuredVal = 0.0;
+                            }
+                            else
+                                measuredVal = 0.0;                         
+                        }
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
                         dr["Analysis Date/Time"] = analysisDateTime;
