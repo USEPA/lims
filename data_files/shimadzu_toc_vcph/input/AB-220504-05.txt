@@ -1,0 +1,140 @@
+[Header]	
+System	TOCL 	
+S/W Version	1.00	
+User		
+Date/Time	5/4/2022 9:57:39 AM	
+
+[System]	
+Instrument Options	TOC/ASI/IC Unit/	
+
+[Data]	
+Type	Anal.	Sample Name	Sample ID	Origin	Cal. Curve	Manual Dilution	Notes	Date / Time	Spl. No.	Inj. No.	Analysis(Inj.)	Area	Conc.	Result	SD Area	CV Area	Excluded	Inj. Vol.	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:16:44 AM	1	1	TC	2.387	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:19:11 AM	1	2	TC	2.150	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:21:39 AM	1	3	TC	1.900	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:24:06 AM	1	4	TC	1.649	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:26:37 AM	1	5	TC	1.479	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:29:08 AM	1	6	TC	1.533	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:31:35 AM	1	7	TC	1.545	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:34:12 AM	1	8	TC	1.703	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:36:24 AM	1	9	TC	1.416	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:38:45 AM	1	10	TC	1.527	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:41:01 AM	1	11	TC	1.811	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:43:18 AM	1	12	TC	1.387	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:45:40 AM	1	13	TC	1.562	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:48:06 AM	1	14	TC	1.501	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:50:25 AM	1	15	TC	1.384	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:52:47 AM	1	16	TC	1.595	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:55:06 AM	1	17	TC	1.451	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:57:23 AM	1	18	TC	1.615	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 11:59:33 AM	1	19	TC	1.410	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:01:55 PM	1	20	TC	1.406	0.000	TC:0.000mg/L	0.2638	16.28	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:06:04 PM	2	1	TC	1.454	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:08:24 PM	2	2	TC	1.450	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:10:47 PM	2	3	TC	1.509	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:13:08 PM	2	4	TC	1.599	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:15:26 PM	2	5	TC	1.390	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:17:42 PM	2	6	TC	1.436	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:19:57 PM	2	7	TC	1.197	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:22:21 PM	2	8	TC	1.343	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:24:41 PM	2	9	TC	1.441	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:26:57 PM	2	10	TC	1.248	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:29:13 PM	2	11	TC	1.321	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:31:25 PM	2	12	TC	1.288	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:33:40 PM	2	13	TC	1.202	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:35:56 PM	2	14	TC	1.311	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:38:12 PM	2	15	TC	1.470	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:40:27 PM	2	16	TC	1.495	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:42:43 PM	2	17	TC	1.679	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:45:02 PM	2	18	TC	1.447	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:47:15 PM	2	19	TC	1.385	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Unknown	TC	flush blanks	Untitled			1.00		5/3/2022 12:49:31 PM	2	20	TC	1.395	0.000	TC:0.000mg/L	0.1230	8.77	0	150	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:14:06 PM	1	1	NPOC	0.5798	0.000	 	0.08655	35.46	1	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:16:35 PM	1	2	NPOC	0.3053	0.000	 	0.08655	35.46	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:18:44 PM	1	3	NPOC	0.1829	0.000	 	0.08655	35.46	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:27:21 PM	2	1	NPOC	3.721	1.250	 	0.01556	0.42	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:29:49 PM	2	2	NPOC	3.743	1.250	 	0.01556	0.42	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:37:28 PM	3	1	NPOC	7.534	2.500	 	0.06930	0.93	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:40:13 PM	3	2	NPOC	7.436	2.500	 	0.06930	0.93	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:48:04 PM	4	1	NPOC	15.12	5.000	 	0.03536	0.23	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:51:07 PM	4	2	NPOC	15.17	5.000	 	0.03536	0.23	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 1:58:52 PM	5	1	NPOC	30.51	10.00	 	0.1131	0.38	1	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 2:01:55 PM	5	2	NPOC	29.38	10.00	 	0.1131	0.38	0	50	
+Standard	NPOC	Standard	10mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal		1.00		5/3/2022 2:04:55 PM	5	3	NPOC	29.54	10.00	 	0.1131	0.38	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:19:46 PM	1	1	NPOC	0.2251	0.00653	NPOC:-0.04303mg/L	0.03939	49.45	1	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:21:54 PM	1	2	NPOC	0.05180	-0.05251	NPOC:-0.04303mg/L	0.03939	49.45	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:24:02 PM	1	3	NPOC	0.1075	-0.03354	NPOC:-0.04303mg/L	0.03939	49.45	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:32:39 PM	1	1	NPOC	29.92	10.12	NPOC:10.07mg/L	0.2192	0.74	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:35:46 PM	1	2	NPOC	29.61	10.02	NPOC:10.07mg/L	0.2192	0.74	0	50	
+Unknown	NPOC	Whets March 2022	1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:43:50 PM	1	1	NPOC	8.462	2.813	NPOC:2.832mg/L	0.07990	0.94	0	50	
+Unknown	NPOC	Whets March 2022	1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:46:28 PM	1	2	NPOC	8.575	2.851	NPOC:2.832mg/L	0.07990	0.94	0	50	
+Unknown	NPOC	Whets March 2022	2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:54:31 PM	1	1	NPOC	5.330	1.746	NPOC:1.625mg/L	0.00354	0.07	1	50	
+Unknown	NPOC	Whets March 2022	2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:57:00 PM	1	2	NPOC	4.974	1.624	NPOC:1.625mg/L	0.00354	0.07	0	50	
+Unknown	NPOC	Whets March 2022	2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 2:59:31 PM	1	3	NPOC	4.979	1.626	NPOC:1.625mg/L	0.00354	0.07	0	50	
+Unknown	NPOC	Whets March 2022	3	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:07:29 PM	1	1	NPOC	5.205	1.703	NPOC:1.613mg/L	0.1039	2.10	1	50	
+Unknown	NPOC	Whets March 2022	3	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:10:00 PM	1	2	NPOC	5.013	1.638	NPOC:1.613mg/L	0.1039	2.10	0	50	
+Unknown	NPOC	Whets March 2022	3	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:12:36 PM	1	3	NPOC	4.866	1.588	NPOC:1.613mg/L	0.1039	2.10	0	50	
+Unknown	NPOC	Whets March 2022	4	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:20:30 PM	1	1	NPOC	5.048	1.650	NPOC:1.541mg/L	0.06010	1.27	1	50	
+Unknown	NPOC	Whets March 2022	4	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:23:12 PM	1	2	NPOC	4.773	1.556	NPOC:1.541mg/L	0.06010	1.27	0	50	
+Unknown	NPOC	Whets March 2022	4	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:25:47 PM	1	3	NPOC	4.688	1.527	NPOC:1.541mg/L	0.06010	1.27	0	50	
+Unknown	NPOC	Whets March 2022	5	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:33:52 PM	1	1	NPOC	6.184	2.037	NPOC:1.940mg/L	0.1202	2.04	1	50	
+Unknown	NPOC	Whets March 2022	5	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:36:28 PM	1	2	NPOC	5.985	1.969	NPOC:1.940mg/L	0.1202	2.04	0	50	
+Unknown	NPOC	Whets March 2022	5	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:39:05 PM	1	3	NPOC	5.815	1.911	NPOC:1.940mg/L	0.1202	2.04	0	50	
+Unknown	NPOC	Whets March 2022	6	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:47:11 PM	1	1	NPOC	6.708	2.215	NPOC:2.022mg/L	0.1895	3.09	1	50	
+Unknown	NPOC	Whets March 2022	6	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:49:57 PM	1	2	NPOC	6.274	2.067	NPOC:2.022mg/L	0.1895	3.09	0	50	
+Unknown	NPOC	Whets March 2022	6	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 3:52:24 PM	1	3	NPOC	6.006	1.976	NPOC:2.022mg/L	0.1895	3.09	0	50	
+Unknown	NPOC	Whets March 2022	7	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:00:26 PM	1	1	NPOC	5.558	1.823	NPOC:1.768mg/L	0.2291	4.25	0	50	
+Unknown	NPOC	Whets March 2022	7	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:03:00 PM	1	2	NPOC	5.234	1.713	NPOC:1.768mg/L	0.2291	4.25	0	50	
+Unknown	NPOC	Whets March 2022	7	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:05:31 PM	1	3	NPOC	4.866	1.588	NPOC:1.768mg/L	0.2291	4.25	1	50	
+Unknown	NPOC	Whets March 2022	8	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:13:25 PM	1	1	NPOC	4.987	1.629	NPOC:1.608mg/L	0.08839	1.79	0	50	
+Unknown	NPOC	Whets March 2022	8	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:15:55 PM	1	2	NPOC	4.862	1.586	NPOC:1.608mg/L	0.08839	1.79	0	50	
+Unknown	NPOC	Whets March 2022	9	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:24:20 PM	1	1	NPOC	10.06	3.357	NPOC:3.225mg/L	0.05728	0.59	1	50	
+Unknown	NPOC	Whets March 2022	9	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:27:06 PM	1	2	NPOC	9.714	3.239	NPOC:3.225mg/L	0.05728	0.59	0	50	
+Unknown	NPOC	Whets March 2022	9	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:29:50 PM	1	3	NPOC	9.633	3.212	NPOC:3.225mg/L	0.05728	0.59	0	50	
+Unknown	NPOC	Whets March 2022	10	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:37:56 PM	1	1	NPOC	5.327	1.745	NPOC:1.601mg/L	0.05091	1.04	1	50	
+Unknown	NPOC	Whets March 2022	10	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:40:28 PM	1	2	NPOC	4.869	1.589	NPOC:1.601mg/L	0.05091	1.04	0	50	
+Unknown	NPOC	Whets March 2022	10	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:43:06 PM	1	3	NPOC	4.941	1.613	NPOC:1.601mg/L	0.05091	1.04	0	50	
+Unknown	NPOC	Whets April 2022	1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:51:21 PM	1	1	NPOC	6.822	2.254	NPOC:2.123mg/L	0.09829	1.53	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-01-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:54:03 PM	1	2	NPOC	6.507	2.147	NPOC:2.123mg/L	0.09829	1.53	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 4:56:39 PM	1	3	NPOC	6.368	2.099	NPOC:2.123mg/L	0.09829	1.53	0	50	
+Unknown	NPOC	Whets April 2022	2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:04:44 PM	1	1	NPOC	6.774	2.238	NPOC:2.119mg/L	0.09405	1.46	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-02-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:07:17 PM	1	2	NPOC	6.360	2.097	NPOC:2.119mg/L	0.09405	1.46	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:10:00 PM	1	3	NPOC	6.493	2.142	NPOC:2.119mg/L	0.09405	1.46	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:18:43 PM	1	1	NPOC	31.58	10.69	NPOC:10.22mg/L	0.1485	0.49	1	50	
+Unknown	NPOC	DOC Check Std	AB-220504-05 ICV 1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:21:40 PM	1	2	NPOC	30.10	10.18	NPOC:10.22mg/L	0.1485	0.49	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:24:43 PM	1	3	NPOC	30.31	10.26	NPOC:10.22mg/L	0.1485	0.49	0	50	
+Unknown	NPOC	Wash	AB-220504-05 ICB 1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:32:17 PM	1	1	NPOC	0.6264	0.1432	NPOC:0.1491mg/L	0.02418	3.76	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:34:25 PM	1	2	NPOC	0.6606	0.1549	NPOC:0.1491mg/L	0.02418	3.76	0	50	
+Unknown	NPOC	Whets April 2022	WO-22195-03-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:42:21 PM	1	1	NPOC	5.511	1.807	NPOC:1.820mg/L	0.05233	0.94	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 3	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:44:55 PM	1	2	NPOC	5.585	1.833	NPOC:1.820mg/L	0.05233	0.94	0	50	
+Unknown	NPOC	Whets April 2022	4	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:52:55 PM	1	1	NPOC	6.320	2.083	NPOC:1.927mg/L	0.05020	0.86	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-04-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:55:29 PM	1	2	NPOC	5.898	1.939	NPOC:1.927mg/L	0.05020	0.86	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 4	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 5:58:00 PM	1	3	NPOC	5.827	1.915	NPOC:1.927mg/L	0.05020	0.86	0	50	
+Unknown	NPOC	Whets April 2022	5	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:06:42 PM	1	1	NPOC	8.137	2.702	NPOC:2.345mg/L	0.1973	2.78	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-05-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:09:25 PM	1	2	NPOC	7.229	2.393	NPOC:2.345mg/L	0.1973	2.78	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 5	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:12:02 PM	1	3	NPOC	6.950	2.298	NPOC:2.345mg/L	0.1973	2.78	0	50	
+Unknown	NPOC	Whets April 2022	WO-22195-06-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:20:03 PM	1	1	NPOC	7.753	2.571	NPOC:2.551mg/L	0.08202	1.07	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 6	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:22:47 PM	1	2	NPOC	7.637	2.532	NPOC:2.551mg/L	0.08202	1.07	0	50	
+Unknown	NPOC	Whets April 2022	7	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:30:49 PM	1	1	NPOC	6.226	2.051	NPOC:1.923mg/L	0.06152	1.05	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-07-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:33:26 PM	1	2	NPOC	5.895	1.938	NPOC:1.923mg/L	0.06152	1.05	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 7	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:36:02 PM	1	3	NPOC	5.808	1.909	NPOC:1.923mg/L	0.06152	1.05	0	50	
+Unknown	NPOC	Whets April 2022	8	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:43:59 PM	1	1	NPOC	5.747	1.888	NPOC:1.801mg/L	0.01485	0.27	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-08-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:46:35 PM	1	2	NPOC	5.482	1.797	NPOC:1.801mg/L	0.01485	0.27	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 8	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:49:18 PM	1	3	NPOC	5.503	1.805	NPOC:1.801mg/L	0.01485	0.27	0	50	
+Unknown	NPOC	Whets April 2022	9	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:57:19 PM	1	1	NPOC	6.631	2.189	NPOC:2.022mg/L	0.2086	3.40	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-09-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 6:59:59 PM	1	2	NPOC	6.288	2.072	NPOC:2.022mg/L	0.2086	3.40	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 9	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:02:34 PM	1	3	NPOC	5.993	1.972	NPOC:2.022mg/L	0.2086	3.40	0	50	
+Unknown	NPOC	Whets April 2022	10	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:10:43 PM	1	1	NPOC	9.326	3.107	NPOC:2.998mg/L	0.05162	0.57	1	50	
+Unknown	NPOC	Whets April 2022	WO-22195-10-B-2	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:13:24 PM	1	2	NPOC	9.042	3.010	NPOC:2.998mg/L	0.05162	0.57	0	50	
+Unknown	NPOC	Whets April 2022	AB-220504-05 DUP-mean 10	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:16:07 PM	1	3	NPOC	8.969	2.985	NPOC:2.998mg/L	0.05162	0.57	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:24:53 PM	1	1	NPOC	30.88	10.45	NPOC:9.958mg/L	0.03536	0.12	1	50	
+Unknown	NPOC	DOC Check Std	AB-220504-05 CCV 1	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:27:57 PM	1	2	NPOC	29.41	9.949	NPOC:9.958mg/L	0.03536	0.12	0	50	
+Unknown	NPOC	DOC Check Std	10 mg/L	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:30:56 PM	1	3	NPOC	29.46	9.966	NPOC:9.958mg/L	0.03536	0.12	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:38:32 PM	1	1	NPOC	0.6337	0.1457	NPOC:0.1363mg/L	0.03932	6.49	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:40:41 PM	1	2	NPOC	0.5781	0.1268	NPOC:0.1363mg/L	0.03932	6.49	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:47:03 PM	1	1	NPOC	0.1690	-0.01259	NPOC:-0.02057mg/L	0.03316	22.78	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:49:11 PM	1	2	NPOC	0.1221	-0.02856	NPOC:-0.02057mg/L	0.03316	22.78	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:55:33 PM	1	1	NPOC	0.1986	-0.00250	NPOC:0.01177mg/L	0.05926	24.64	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 7:57:40 PM	1	2	NPOC	0.2824	0.02605	NPOC:0.01177mg/L	0.05926	24.64	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 8:04:02 PM	1	1	NPOC	0.1485	-0.01957	NPOC:-0.04178mg/L	0.09221	110.69	0	50	
+Unknown	NPOC	Wash	Milli Q water	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.cal	C:\TOC-L\CalCurves\DOCstandardcurve_02May2022.2022_05_03_13_06_39.cal	1.00		5/3/2022 8:06:09 PM	1	2	NPOC	0.01810	-0.06399	NPOC:-0.04178mg/L	0.09221	110.69	0	50	
