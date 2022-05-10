@@ -2,6 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using PluginBase;
 using OfficeOpenXml;
 
@@ -53,17 +54,55 @@ namespace ETTB_UPLC
                 for (int rowIdx = 2; rowIdx < numRows; rowIdx++)
                 {
                     current_row = rowIdx;
+
+
+                    //Looking for value like 'Compound 1:  Octafluoroadipic Acid'
+                    string analyteIDTmp = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.A]);
+                    string pattern = "^Compound \\d+:";                    
+                    Regex regex = new Regex(pattern, RegexOptions.Compiled);
+                    Match match = regex.Match(analyteIDTmp);
+                    if (match.Success)
+                    {
+                        string[] tokens = analyteIDTmp.Split(":");
+                        analyteID = tokens[1].Trim();
+                        continue;
+                    }
+
+
                     aliquot = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.C]);
 
                     //Skip blank cells or cell with 'Name'
                     if (string.IsNullOrWhiteSpace(aliquot) || string.Compare(aliquot, "name", true) == 0)
                         continue;
 
+                    //Date and time are in two different columns
                     string date = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.O]);
                     string time = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.P]);
 
                     if (!DateTime.TryParse(date + " " + time, out analysisDateTime))
                         throw new Exception("Invalid analysis DateTime: " + date + " " + time);
+
+                    //There are a lot of empty cells in measured value column
+                    string measuredValTmp = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.M]);
+                    if (!string.IsNullOrEmpty(measuredValTmp))
+                    {
+                        if (!Double.TryParse(measuredValTmp, out measuredVal))
+                            throw new Exception("Invalid measured value: " + measuredValTmp);
+                    }
+                    else
+                        measuredVal = 0.0;
+
+                    dataDescription = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
+
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Description"] = dataDescription;
+
+                    dt.Rows.Add(dr);
+
 
 
                 }
