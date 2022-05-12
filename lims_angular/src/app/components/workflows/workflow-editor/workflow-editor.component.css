@@ -43,6 +43,11 @@
     display: grid;
 }
 
-.path-input {
+.path-input,
+.string-input {
     width: 100ch;
+}
+
+.multi-checkbox {
+    padding-left: 1rem;
 }
