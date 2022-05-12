@@ -41,6 +41,9 @@ export class WorkflowEditorComponent implements OnInit {
             inputFolder: ["", Validators.required],
             outputFolder: ["", Validators.required],
             archiveFolder: ["", Validators.required],
+            multiFolder: [""],
+            includedExtensions: [""],
+            excludedExtensions: [""],
         });
 
         if (id) {
@@ -73,6 +76,9 @@ export class WorkflowEditorComponent implements OnInit {
             inputFolder: workflow.inputFolder,
             outputFolder: workflow.outputFolder,
             archiveFolder: workflow.archiveFolder,
+            multiFolder: workflow.multiFolder,
+            includedExtensions: workflow.includedExtensions,
+            excludedExtensions: workflow.excludedExtensions,
         };
         this.workflowForm.setValue(newWorkflow);
     }
