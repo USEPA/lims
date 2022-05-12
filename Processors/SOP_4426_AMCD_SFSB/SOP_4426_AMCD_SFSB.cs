@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Data;
+using System.Text.RegularExpressions;
 using PluginBase;
+using System.Globalization;
 
 namespace SOP_4426_AMCD_SFSB
 {
@@ -32,11 +34,61 @@ namespace SOP_4426_AMCD_SFSB
 
                 using StreamReader sr = new StreamReader(input_file);
                 string? line;
-                               
+
+                string[] tokens;
                 int rowIdx = 0;
+                //bool bStart = false;
+                bool bDataFile = false;
+                bool bQuantTime = false;
                 while ((line = sr.ReadLine()) != null)
                 {
+                    rowIdx++;
                     current_row = rowIdx;
+                    string currentLine = line.Trim();
+                    if (currentLine.Contains("Data File", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //e.g.  Data File : 101421_6.d
+                        tokens = currentLine.Split(":");
+                        aliquot = tokens[1].Trim();
+                        bDataFile = true;
+                        continue;
+                    }
+
+                    if (currentLine.Contains("Quant Time", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //e.g.  Quant Time: Oct 15 10:00:08 2021
+                        int idx = currentLine.IndexOf(':');
+                        string tmpDT = currentLine.Substring(idx + 1).Trim();
+                        string pattern = "MMM dd HH:mm:ss yyyy";
+                        if (!DateTime.TryParseExact(tmpDT, pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out analysisDateTime))
+                            throw new Exception("Invalid format for Quant Time");
+                        bQuantTime = true;
+                        continue;
+                    }
+
+                    if (!bDataFile || !bQuantTime)
+                        continue;
+
+                    //This regular expression will match any number of digits at the beginning of the string followed by a )
+                    string regexExp = @"^[0-9]+[)]";
+                    Match regexMatch = Regex.Match(currentLine, regexExp);
+                    if (!regexMatch.Success)
+                        continue;
+
+                    //Split the string on one or more blank spaces
+                    tokens = Regex.Split(currentLine, @"\s{1,}");
+                    analyteID = tokens[1].Trim();
+
+                    if (!Double.TryParse(tokens[5].Trim(), out measuredVal))
+                        throw new Exception("Invalid data type for measured value");
+
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dr["Measured Value"] = measuredVal;
+
+                    dt.Rows.Add(dr);
 
                 }
             }
@@ -46,7 +98,7 @@ namespace SOP_4426_AMCD_SFSB
                 errorMsg = errorMsg + Environment.NewLine;
                 errorMsg = errorMsg + ex.Message;
                 errorMsg = errorMsg + Environment.NewLine;
-                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row + 1);
                 rm.ErrorMessage = errorMsg;
             }
 

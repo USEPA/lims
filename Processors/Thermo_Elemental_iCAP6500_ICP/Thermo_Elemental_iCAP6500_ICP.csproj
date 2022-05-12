@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath></OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\PluginBase\PluginBase.csproj">
+			<Private>false</Private>
+		</ProjectReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Condition="'$(OS)' == 'Windows_NT'" Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\$(TargetFramework)-windows\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+		<Exec Condition="'$(OS)' != 'Windows_NT'" Command="rsync -vhr &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server/app_files/processors/$(ProjectName)/$(ProjectName).dll&quot;&#xD;&#xA;" />
+	</Target>
+</Project>

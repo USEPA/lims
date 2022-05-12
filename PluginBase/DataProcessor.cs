@@ -66,8 +66,7 @@ namespace PluginBase
         protected string userDefined19 = "";
         protected string userDefined20 = "";
 
-
-
+        
         public readonly TemplateField[] Fields = new TemplateField[]
         {
                 new TemplateField("Aliquot", typeof(string)),
@@ -287,5 +286,65 @@ namespace PluginBase
         {
             TemplateData = null;
         }
+    }
+
+    public static class ColumnIndex0
+    {
+        public readonly static int A = 0;
+        public readonly static int B = 1;
+        public readonly static int C = 2;
+        public readonly static int D = 3;
+        public readonly static int E = 4;
+        public readonly static int F = 5;
+        public readonly static int G = 6;
+        public readonly static int H = 7;
+        public readonly static int I = 8;
+        public readonly static int J = 9;
+        public readonly static int K = 10;
+        public readonly static int L = 11;
+        public readonly static int M = 12;
+        public readonly static int N = 13;
+        public readonly static int O = 14;
+        public readonly static int P = 15;
+        public readonly static int Q = 16;
+        public readonly static int R = 17;
+        public readonly static int S = 18;
+        public readonly static int T = 19;
+        public readonly static int U = 20;
+        public readonly static int V = 21;
+        public readonly static int W = 22;
+        public readonly static int X = 23;
+        public readonly static int Y = 24;
+        public readonly static int Z = 25;
+    }
+
+    public static class ColumnIndex1
+    {
+        public readonly static int A = 1;
+        public readonly static int B = 2;
+        public readonly static int C = 3;
+        public readonly static int D = 4;
+        public readonly static int E = 5;
+        public readonly static int F = 6;
+        public readonly static int G = 7;
+        public readonly static int H = 8;
+        public readonly static int I = 9;
+        public readonly static int J = 10;
+        public readonly static int K = 11;
+        public readonly static int L = 12;
+        public readonly static int M = 13;
+        public readonly static int N = 14;
+        public readonly static int O = 15;
+        public readonly static int P = 16;
+        public readonly static int Q = 17;
+        public readonly static int R = 18;
+        public readonly static int S = 19;
+        public readonly static int T = 20;
+        public readonly static int U = 21;
+        public readonly static int V = 22;
+        public readonly static int W = 23;
+        public readonly static int X = 24;
+        public readonly static int Y = 25;
+        public readonly static int Z = 26;
     }
 }

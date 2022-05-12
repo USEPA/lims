@@ -56,6 +56,7 @@ namespace CPHEA_ICP
                         }
 
                         idxRow++;
+                        current_row = idxRow;
 
                         string[] data = line.Split(',');
                         //Column P is the last column that contains data we need
@@ -75,7 +76,8 @@ namespace CPHEA_ICP
                         string analyteID = element + " " + waveLength + radialView;
 
                         double measuredVal;
-                        string tmpMeasuredVal = data[9].Trim();
+                        //string tmpMeasuredVal = data[9].Trim();
+                        string tmpMeasuredVal = data[ColumnIndex0.L].Trim();
                         if (string.IsNullOrWhiteSpace(tmpMeasuredVal))
                             measuredVal = 0.0;
                         else if (!double.TryParse(tmpMeasuredVal, out measuredVal))
@@ -83,24 +85,7 @@ namespace CPHEA_ICP
 
                         DateTime analysisDateTime;
                         if (!DateTime.TryParse(data[1] + " " + data[2], out analysisDateTime ))
-                            throw new Exception("Invalid date-time value in line: " + idxRow.ToString());
-   
-                        //double dilutionFactor = 0.0;
-                        //string vol = data[4].Trim();
-                        //string dilution = data[5].Trim();
-                        //if (string.IsNullOrWhiteSpace(vol) || string.IsNullOrWhiteSpace(dilution))
-                        //    dilutionFactor = 0.0;
-                        //else
-                        //{
-                        //    double dvol;
-                        //    double ddilution;
-                        //    if (!double.TryParse(vol, out dvol))
-                        //        break;
-                        //    if (!double.TryParse(dilution, out ddilution))
-                        //        break;
-
-                        //    dilutionFactor = dvol / ddilution;
-                        //}
+                            throw new Exception("Invalid date-time value: " + data[1]);
 
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
@@ -118,8 +103,14 @@ namespace CPHEA_ICP
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
+                //rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
+                //rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
             }
             return rm;
         }

@@ -85,13 +85,17 @@ namespace LIMSDesktop
                     return;
 
                 }
-                if (dtRespMsg.ErrorMessage != null)                
+                if (dtRespMsg.ErrorMessage != null)
+                {
                     LogMessage(dtRespMsg.ErrorMessage);
                     //UserMessage(dtRespMsg.ErrorMessage);
-                   
-                
-                if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
-                    LogMessage(dtRespMsg.LogMessage);
+                    return;
+                }
+                    //LogMessage(dtRespMsg.ErrorMessage);                
+
+
+                //if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
+                //    LogMessage(dtRespMsg.LogMessage);
 
                 if (dtRespMsg.TemplateData != null)
                 {
