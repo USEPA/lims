@@ -23,6 +23,11 @@ namespace LimsServer.Entities
         public string message { get; set; }
         public bool active { get; set; }
         public DateTime creationDate { get; set; }
+        
+        //Workflow that processes multiple files using single processor
+        public bool multiFile { get; set; }
+        //Only process files matching this string filter
+        public string filter { get; set; }
 
         public Workflow() { }
 

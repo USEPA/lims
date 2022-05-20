@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -42,12 +42,15 @@
     <Folder Include="app_files\TestFiles\Input\" />
     <Folder Include="app_files\TestFiles\Output\" />
     <Folder Include="app_files\TestFiles\Store\" />
-    <Folder Include="Entities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_files\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Remove="Entities\**" />
+    <Content Remove="Entities\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <None Remove="Entities\**" />
     <None Remove="lims_data.db" />
     <Content Include="lims.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

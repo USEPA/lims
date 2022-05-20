@@ -15,7 +15,7 @@ namespace LimsServer.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
 
             modelBuilder.Entity("LimsServer.Entities.Log", b =>
                 {
@@ -159,6 +159,9 @@ namespace LimsServer.Migrations
                     b.Property<DateTime>("creationDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("filter")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("inputFolder")
                         .HasColumnType("TEXT");
 
@@ -167,6 +170,9 @@ namespace LimsServer.Migrations
 
                     b.Property<string>("message")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("multiFile")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("name")
                         .HasColumnType("TEXT");
