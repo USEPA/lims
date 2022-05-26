@@ -79,6 +79,16 @@ namespace LimsServer.Services
                 dirFileMessage = String.Format("Input directory {0} not found", workflow.inputFolder);
                 _logService.Information(dirFileMessage, task: task);
             }
+            
+            //Handle directory containing multiple files
+            if (workflow.multiFile)
+            {
+                List<string> dirs = Directory.GetDirectories(@workflow.inputFolder).ToList();
+                if (dirs.Count > 0)
+                {
+
+                }
+            }
 
             // Step 4: If directory or files do not exist reschedule task
             if (files.Count == 0)
