@@ -288,17 +288,28 @@ namespace LimsServer.Services
             List<string> files = Directory.GetFiles(dataPath, fileFilter, SearchOption.AllDirectories).OrderBy(p => p).ToList();
             //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
-            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            if (result.ErrorMessage == null && result.TemplateData != null)
+            DataTableResponseMessage totalResult = new DataTableResponseMessage();
+            foreach (string filename in files)
             {
-                var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
-                //outputs.Add(file, output);
-            }
+                DataTableResponseMessage singleResult = pm.ExecuteProcessor(processor.Path, processor.Name, filename);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
-            return result;
+                if (singleResult.ErrorMessage == null && singleResult.TemplateData != null)
+                {                 
+                    totalResult.TemplateData.Merge(singleResult.TemplateData);
+                }
+                else
+                {
+                    totalResult.TemplateData = null;
+                    totalResult.ErrorMessage = $"Unable to process: {filename} for multifile data in: {dataPath}";
+                    return totalResult;
+                }
+                
+            }
+            var output = pm.WriteTemplateOutputFile(workflow.outputFolder, totalResult.TemplateData);
+
+            return totalResult;
         }
 
         protected async System.Threading.Tasks.Task<DataTableResponseMessage> ProcessSingleFile(Task task, Workflow workflow, string dataFile)
