@@ -75,11 +75,21 @@ namespace SOP_4426_AMCD_SFSB
                     if (!regexMatch.Success)
                         continue;
 
+
                     //Split the string on one or more blank spaces
+                    //This is a valid string we are looking for                    
+                    //16) chlorodifluoromethane      13.713   51     2428m    0.02 ppb
+                    
+                    //This is an invalid string with N.D. (non detect values)
+                    //Parsing this string will return one fewer tokens - 6
+                    //17) 1,1,1,2-tetrafluoroethane   0.000             0      N.D. d
+
                     tokens = Regex.Split(currentLine, @"\s{1,}");
                     analyteID = tokens[1].Trim();
 
-                    if (!Double.TryParse(tokens[5].Trim(), out measuredVal))
+                    if (string.Compare(tokens[5].Trim(), "d", true) ==0 || string.Compare(tokens[5].Trim(), "n.d.", true) == 0)
+                        measuredVal = 0.0;
+                    else if (!Double.TryParse(tokens[5].Trim(), out measuredVal))
                         throw new Exception("Invalid data type for measured value");
 
                     DataRow dr = dt.NewRow();
