@@ -120,7 +120,7 @@ namespace LimsServer.Services
             }            
             
 
-            if (result.ErrorMessage == null && result.TemplateData != null)
+            if (result != null && string.IsNullOrWhiteSpace(result!.ErrorMessage) && result!.TemplateData != null)
             {
 
                 ResponseMessage rm = new ResponseMessage();
