@@ -289,15 +289,18 @@ namespace LimsServer.Services
             //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
             DataTableResponseMessage totalResult = new DataTableResponseMessage();
+            
             foreach (string filename in files)
             {
                 DataTableResponseMessage singleResult = pm.ExecuteProcessor(processor.Path, processor.Name, filename);
                 GC.Collect();
-                GC.WaitForPendingFinalizers();
-
+                GC.WaitForPendingFinalizers();                
                 if (singleResult.ErrorMessage == null && singleResult.TemplateData != null)
-                {                 
-                    totalResult.TemplateData.Merge(singleResult.TemplateData);
+                {
+                    if (totalResult.TemplateData == null)
+                        totalResult.TemplateData = singleResult.TemplateData;
+                    else
+                        totalResult.TemplateData.Merge(singleResult.TemplateData);
                 }
                 else
                 {
