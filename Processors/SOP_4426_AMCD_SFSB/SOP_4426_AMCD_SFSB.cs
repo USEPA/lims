@@ -75,11 +75,38 @@ namespace SOP_4426_AMCD_SFSB
                     if (!regexMatch.Success)
                         continue;
 
+                    /*
+                     * 
+                               Compound                  R.T. QIon  Response  Conc Units Dev(Min)
+                       --------------------------------------------------------------------------
+                       Internal Standards
+                         1) d5-chlorobenzene           34.246  117   423722    20.00 ppb     -0.02
+                         2) 1,4 difluorobenzene        30.180  114  1145578    20.00 ppb     -0.06
+
+                       Target Compounds                                                   Qvalue
+                         3) CF4                         7.163   69       57     0.11 ppb  #     1
+                         4) C2F6                        8.229  119      118     0.00 ppb  #    64
+                         5) chlorotrifluoromethane      8.654   85      219     0.01 ppb  #     1 
+                     *
+                     */
+
+
+                    //numID will be like 1)
+                    string numID = currentLine.Substring(0,8).Trim();
+
+                    analyteID = currentLine.Substring(9, 27).Trim();
+
+                    userDefined1 = currentLine.Substring(47, 9).Trim();
+
+                    string measuredValTmp = currentLine.Substring(56, 15).Trim();
+                    tokens = Regex.Split(measuredValTmp, @"\s{1,}");
+
+
 
                     //Split the string on one or more blank spaces
                     //This is a valid string we are looking for                    
                     //16) chlorodifluoromethane      13.713   51     2428m    0.02 ppb
-                    
+
                     //This is an invalid string with N.D. (non detect values)
                     //Parsing this string will return one fewer tokens - 6
                     //17) 1,1,1,2-tetrafluoroethane   0.000             0      N.D. d
