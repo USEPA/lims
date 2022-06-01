@@ -41,9 +41,8 @@ export class WorkflowEditorComponent implements OnInit {
             inputFolder: ["", Validators.required],
             outputFolder: ["", Validators.required],
             archiveFolder: ["", Validators.required],
-            multiFolder: [""],
-            includedExtensions: [""],
-            excludedExtensions: [""],
+            multiFile: [""],
+            filter: [""],
         });
 
         if (id) {
@@ -76,9 +75,8 @@ export class WorkflowEditorComponent implements OnInit {
             inputFolder: workflow.inputFolder,
             outputFolder: workflow.outputFolder,
             archiveFolder: workflow.archiveFolder,
-            multiFolder: workflow.multiFolder,
-            includedExtensions: workflow.includedExtensions,
-            excludedExtensions: workflow.excludedExtensions,
+            multiFolder: workflow.multiFile,
+            filter: workflow.filter,
         };
         this.workflowForm.setValue(newWorkflow);
     }
@@ -138,6 +136,9 @@ export class WorkflowEditorComponent implements OnInit {
             }
             if (newWorkflow.archiveFolder.length < 1) {
                 this.statusMessage += "You must provide a path to the backup folder.";
+            }
+            if (newWorkflow.multiFile && newWorkflow.filter.length < 1) {
+                this.statusMessage += "You must provide a filter when selecting multi-file";
             }
         }
     }
