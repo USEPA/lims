@@ -1,0 +1,9 @@
+//Update EF cli tool
+dotnet tool update --global dotnet-ef
+
+//Run migrations
+e.g. updating the workflow entity
+dotnet-ef migrations add UpdateWorkflow
+
+//Update the database
+dotnet-ef database update

@@ -69,21 +69,28 @@ namespace LimsServer.Services
 
             // Step 3: Check source directory for files
             List<string> files = new List<string>();
+            //Handle directory containing multiple files
+            //We will treat directories like files, process it, archive it, remove it
+            List<string> dirs = new List<string>(); ;
             string dirFileMessage = "";
             if (new DirectoryInfo(@workflow.inputFolder).Exists)
             {
-                files = Directory.GetFiles(@workflow.inputFolder).ToList();
+                if (workflow.multiFile)
+                    dirs = Directory.GetDirectories(@workflow.inputFolder).ToList();
+                else
+                    files = Directory.GetFiles(@workflow.inputFolder).ToList();
             }
             else
             {
                 dirFileMessage = String.Format("Input directory {0} not found", workflow.inputFolder);
                 _logService.Information(dirFileMessage, task: task);
             }
+                               
 
-            // Step 4: If directory or files do not exist reschedule task
-            if (files.Count == 0)
+            // Step 4: If directory or files or subdirectories do not exist reschedule task
+            if (files.Count < 1 && dirs.Count < 1)
             {
-                dirFileMessage = (dirFileMessage.Length > 0) ? dirFileMessage : String.Format("No files found in directory: {0}", workflow.inputFolder);
+                dirFileMessage = (dirFileMessage.Length > 0) ? dirFileMessage : String.Format("No files or subdirectories found in directory: {0}", workflow.inputFolder);
                 await this.UpdateStatus(task.id, "SCHEDULED", dirFileMessage);
                 var newSchedule = new Hangfire.States.ScheduledState(TimeSpan.FromMinutes(workflow.interval));
                 task.start = DateTime.Now.AddMinutes(workflow.interval);
@@ -101,72 +108,25 @@ namespace LimsServer.Services
                 return;
             }
 
-            // Step 5: If file does exist, update task inputFile then compare against previous Tasks.
-            task.inputFile = files.First();
-            task.status = "PROCESSING";
-            await _context.SaveChangesAsync();
-            bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
-            if (alreadyCompleted)
-            {
-                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
-                try
-                {
-                    File.Delete(task.inputFile);
-                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
-                }
-                catch (FileNotFoundException ex)
-                {
-                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
-                }
-
-                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
-                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
-                await this.RunTask(task.id);
-                return;
-            }
-
-            ProcessorManager pm = new ProcessorManager();
-            string config = "./app_files/processors";
-            ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
-            if (processor == null)
-            {
-                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Unable to find Processor for the Task., Processor: {workflow.processor}", task: task);
-                await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
-                return;
-            }
-
-            // If processor is disabled don't run task
-            var proc = await _context.Processors.Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
-            if (!proc.enabled)
-            {
-                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Processor is not enabled.", task: task);
-                await this.UpdateStatus(task.id, "CANCELLED", "Error, processor is not enabled. Name: " + workflow.processor);
-                return;
-            }
-
-            try
-            {
-                // Step 6: Run processor on source file
-                if (!new DirectoryInfo(@workflow.outputFolder).Exists)
-                {
-                    Directory.CreateDirectory(@workflow.outputFolder);
-                }
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                _logService.Warning($"Task unable to create output directory, unauthorized access exception. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Output Directory: {workflow.outputFolder}", task: task);
-            }
-
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
-            string file = task.inputFile;
-            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            if (result.ErrorMessage == null && result.TemplateData != null)
+            DataTableResponseMessage result;
+            if (workflow.multiFile)
             {
-                var output = pm.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
-                outputs.Add(file, output);
+                result = await ProcessMultiFile(task, workflow, dirs[0]);
+            }
+            else
+            {
+                result = await ProcessSingleFile(task, workflow, files[0]);
+            }            
+            
+
+            if (result != null && string.IsNullOrWhiteSpace(result!.ErrorMessage) && result!.TemplateData != null)
+            {
+
+                ResponseMessage rm = new ResponseMessage();
+                rm.Message = "";
+                rm.OutputFile = result.OutputFile;
+                outputs.Add(rm.OutputFile, rm);
             }
             else
             {
@@ -266,6 +226,163 @@ namespace LimsServer.Services
             await this.UpdateStatus(task.id, newStatus);
         }
 
+        protected async System.Threading.Tasks.Task<DataTableResponseMessage> ProcessMultiFile(Task task, Workflow workflow, string dataPath)
+        {
+            DataTableResponseMessage dataResponseMessage = null;
+            // Step 5: If file does exist, update task inputFile then compare against previous Tasks.
+            task.inputFile = dataPath;
+            task.status = "PROCESSING";
+            await _context.SaveChangesAsync();
+            bool alreadyCompleted = await this.InputDirectoryCheck(task.inputFile, task.workflowID);
+            if (alreadyCompleted)
+            {
+                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
+                try
+                {
+                    File.Delete(task.inputFile);
+                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                }
+
+                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
+                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
+                await this.RunTask(task.id);
+                return dataResponseMessage;
+            }
+
+            ProcessorManager pm = new ProcessorManager();
+            string config = "./app_files/processors";
+            ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
+            if (processor == null)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Unable to find Processor for the Task., Processor: {workflow.processor}", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
+                return dataResponseMessage;
+            }
+            // If processor is disabled don't run task
+            var proc = await _context.Processors.Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (!proc.enabled)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Processor is not enabled.", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, processor is not enabled. Name: " + workflow.processor);
+                return dataResponseMessage;
+            }
+
+            try
+            {
+                // Step 6: Run processor on source file
+                if (!new DirectoryInfo(@workflow.outputFolder).Exists)
+                {
+                    Directory.CreateDirectory(@workflow.outputFolder);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logService.Warning($"Task unable to create output directory, unauthorized access exception. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Output Directory: {workflow.outputFolder}", task: task);
+            }
+
+            string fileFilter = workflow.filter;
+            List<string> files = Directory.GetFiles(dataPath, fileFilter, SearchOption.AllDirectories).OrderBy(p => p).ToList();
+            //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
+            string file = task.inputFile;
+            DataTableResponseMessage totalResult = new DataTableResponseMessage();
+            
+            foreach (string filename in files)
+            {
+                DataTableResponseMessage singleResult = pm.ExecuteProcessor(processor.Path, processor.Name, filename);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();                
+                if (singleResult.ErrorMessage == null && singleResult.TemplateData != null)
+                {
+                    if (totalResult.TemplateData == null)
+                        totalResult.TemplateData = singleResult.TemplateData;
+                    else
+                        totalResult.TemplateData.Merge(singleResult.TemplateData);
+                }
+                else
+                {
+                    totalResult.TemplateData = null;
+                    totalResult.ErrorMessage = $"Unable to process: {filename} for multifile data in: {dataPath}";
+                    return totalResult;
+                }
+                
+            }
+            var output = pm.WriteTemplateOutputFile(workflow.outputFolder, totalResult.TemplateData);
+
+            return totalResult;
+        }
+
+        protected async System.Threading.Tasks.Task<DataTableResponseMessage> ProcessSingleFile(Task task, Workflow workflow, string dataFile)
+        {
+            DataTableResponseMessage dataResponseMessage = null;
+            // Step 5: If file does exist, update task inputFile then compare against previous Tasks.
+            task.inputFile = dataFile;
+            task.status = "PROCESSING";
+            await _context.SaveChangesAsync();
+            bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
+            if (alreadyCompleted)
+            {
+                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
+                try
+                {
+                    File.Delete(task.inputFile);
+                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+                }
+
+                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
+                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
+                await this.RunTask(task.id);
+                return dataResponseMessage;
+            }
+
+            ProcessorManager pm = new ProcessorManager();
+            string config = "./app_files/processors";
+            ProcessorDTO processor = pm.GetProcessors(config).Find(p => p.Name.ToLower() == workflow.processor.ToLower());
+            if (processor == null)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Unable to find Processor for the Task., Processor: {workflow.processor}", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, invalid processor name. Name: " + workflow.processor);
+                return dataResponseMessage;
+            }
+
+            // If processor is disabled don't run task
+            var proc = await _context.Processors.Where(p => p.name.ToLower() == workflow.processor.ToLower()).FirstOrDefaultAsync();
+            if (!proc.enabled)
+            {
+                _logService.Information($"Task Cancelled. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Message: Processor is not enabled.", task: task);
+                await this.UpdateStatus(task.id, "CANCELLED", "Error, processor is not enabled. Name: " + workflow.processor);
+                return dataResponseMessage;
+            }
+
+            try
+            {
+                // Step 6: Run processor on source file
+                if (!new DirectoryInfo(@workflow.outputFolder).Exists)
+                {
+                    Directory.CreateDirectory(@workflow.outputFolder);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logService.Warning($"Task unable to create output directory, unauthorized access exception. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Output Directory: {workflow.outputFolder}", task: task);
+            }
+
+            Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
+            string file = task.inputFile;
+            DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            return result;
+        }
+
         /// <summary>
         /// Get all task IDs for the specified workflow, get the input bytes and run a MD5 hash, compare to the inputFile
         /// </summary>
@@ -306,6 +423,62 @@ namespace LimsServer.Services
                         match = true;
                     }
                 }
+            }
+            return match;
+        }
+
+        /// <summary>
+        /// Get all task IDs for the specified workflow, get the input bytes and run a MD5 hash, compare to the inputDirectory
+        /// Courtesy of stackoverflow: https://stackoverflow.com/questions/3625658/how-do-you-create-the-hash-of-a-folder-in-c
+        /// </summary>
+        /// <param name="inputDirectoryPath"></param>
+        /// <param name="workflowID"></param>
+        /// <returns></returns>
+        protected async System.Threading.Tasks.Task<bool> InputDirectoryCheck(string inputDirectoryPath, string workflowID)
+        {
+            var tasks = await _context.Tasks.Where(t => t.workflowID == workflowID && t.status == "COMPLETED").ToListAsync();
+            bool match = false;
+
+            if (tasks.Count >= 1)
+            {
+                var filePaths = Directory.GetFiles(inputDirectoryPath, "*", SearchOption.AllDirectories).OrderBy(p => p).ToArray();
+                using var md5 = MD5.Create();
+                
+                foreach (var filePath in filePaths)
+                {
+                    // hash path
+                    byte[] pathBytes = Encoding.UTF8.GetBytes(filePath);
+                    md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
+
+                    // hash contents
+                    byte[] contentBytes = File.ReadAllBytes(filePath);
+
+                    md5.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
+                }
+
+                //Handles empty filePaths case
+                md5.TransformFinalBlock(new byte[0], 0, 0);
+
+                string inputHash = BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+                _logService.Debug($"Input file compare. WorkflowID: {workflowID}, InputFile: {inputDirectoryPath}, InputFile Hash: {inputHash}", workflowID: workflowID);
+                DataBackup db = new DataBackup();
+                foreach (Task t in tasks)
+                {
+                    Dictionary<string, byte[]> previousTask = db.GetData(t.id);
+                    byte[] previousData = MD5.Create().ComputeHash(previousTask["input"]);
+                    StringBuilder jb = new StringBuilder();
+                    for (int j = 0; j < previousData.Length; j++)
+                    {
+                        jb.Append(previousData[j].ToString("x2"));
+                    }
+                    string previousHash = jb.ToString();
+                    _logService.Debug($"Input file compare. WorkflowID: {workflowID}, Previous Input Hash: {previousHash}", task: t);
+                    if (StringComparer.OrdinalIgnoreCase.Compare(inputHash, previousHash) == 0)
+                    {
+                        match = true;
+                    }
+                }                
+            
             }
             return match;
         }

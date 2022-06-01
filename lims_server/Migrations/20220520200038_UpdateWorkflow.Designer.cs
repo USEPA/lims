@@ -6,17 +6,52 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace LimsServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200401193409_UserUpdate01")]
-    partial class UserUpdate01
+    [Migration("20220520200038_UpdateWorkflow")]
+    partial class UpdateWorkflow
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
+
+            modelBuilder.Entity("LimsServer.Entities.Log", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("action")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("processorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("taskHangfireID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("taskId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("workflowId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Logs");
+                });
 
             modelBuilder.Entity("LimsServer.Entities.Processor", b =>
                 {
@@ -49,6 +84,9 @@ namespace LimsServer.Migrations
             modelBuilder.Entity("LimsServer.Entities.Task", b =>
                 {
                     b.Property<string>("id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("archiveFile")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("inputFile")
@@ -117,6 +155,15 @@ namespace LimsServer.Migrations
                     b.Property<bool>("active")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("archiveFolder")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("creationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("filter")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("inputFolder")
                         .HasColumnType("TEXT");
 
@@ -125,6 +172,9 @@ namespace LimsServer.Migrations
 
                     b.Property<string>("message")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("multiFile")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("name")
                         .HasColumnType("TEXT");
