@@ -22,26 +22,21 @@ export class TaskDetailComponent implements OnInit {
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get("id");
-        this.task = this.taskMgr.getTask(id);
-        if (!this.task) {
-            this.router.navigateByUrl("/");
-        }
+        this.taskMgr.getTask(id).subscribe((task) => {
+            if (!task) {
+                this.router.navigateByUrl("/");
+            }
+            this.task = task;
+            this.taskMgr.getWorkflow(this.task.workflowID).subscribe((workflow) => {
+                this.task["workflowName"] = workflow.name;
+                this.task["processor"] = workflow.processor;
+                this.task["inputFolder"] = workflow.inputFolder;
+            });
+        });
     }
 
     rerunTask(id: number): void {
         // re-run existing task
-    }
-
-    getWorkflowName(id: string) {
-        return this.taskMgr.getWorkflow(id).name;
-    }
-
-    getInputFolderPath(id: string) {
-        return this.taskMgr.getWorkflow(id).inputFolder;
-    }
-
-    getProcessorName(id: string) {
-        return this.taskMgr.getWorkflow(id).processor;
     }
 
     cancelTask(id: number): void {

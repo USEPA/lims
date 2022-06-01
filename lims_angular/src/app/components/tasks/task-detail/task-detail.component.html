@@ -4,10 +4,10 @@
             <mat-card-title>Task ID: {{ task.taskID || "invalid" }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <div>Workflow: {{ getWorkflowName(task.workflowID) || "unknown" }}</div>
-            <div>Processor: {{ getProcessorName(task.workflowID) || "unknown" }}</div>
+            <div>Workflow: {{ task.workflowName || "unknown" }}</div>
+            <div>Processor: {{ task.processor || "unknown" }}</div>
             <div>Start Time: {{ getFormattedDate(task.start) || "unknown" }}</div>
-            <div>Input Folder: {{ getInputFolderPath(task.workflowID) || "unknown" }}</div>
+            <div>Input Folder: {{ task.inputFolder || "unknown" }}</div>
             <div>Status: {{ task.status || "unknown" }}</div>
             <div>Status message: {{ task.message || "none" }}</div>
         </mat-card-content>

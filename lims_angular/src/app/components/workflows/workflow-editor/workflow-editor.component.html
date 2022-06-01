@@ -46,21 +46,25 @@
                         <input matInput type="text" formControlName="archiveFolder" />
                     </mat-form-field>
                 </div>
-                <!-- multi folder folder -->
+                <!-- multi file -->
                 <div class="multi-checkbox">
-                    <label for="multi-folder">Multi folder/file input</label>
-                    <input name="multi-folder" type="checkbox" formControlName="multiFolder" />
+                    <span class="multi-label" for="multi-file">Multi file input</span>
+                    <input
+                        name="multi-file"
+                        type="checkbox"
+                        formControlName="multiFile"
+                        (click)="toggleFilterInput()"
+                    />
                 </div>
-                <div>
+                <div *ngIf="multiSelected">
                     <mat-form-field class="string-input">
-                        <mat-label>Included folder extensions</mat-label>
-                        <input matInput type="text" formControlName="includedExtensions" />
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="string-input">
-                        <mat-label>Excluded folder extensions</mat-label>
-                        <input matInput type="text" formControlName="excludedExtensions" />
+                        <mat-label>Filter</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="filter"
+                            matTooltip="Enter the expected file name"
+                        />
                     </mat-form-field>
                 </div>
                 <ng-container *ngIf="statusMessage">
