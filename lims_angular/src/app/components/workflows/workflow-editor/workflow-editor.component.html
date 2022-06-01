@@ -59,7 +59,12 @@
                 <div *ngIf="multiSelected">
                     <mat-form-field class="string-input">
                         <mat-label>Filter</mat-label>
-                        <input matInput type="text" formControlName="filter" />
+                        <input
+                            matInput
+                            type="text"
+                            formControlName="filter"
+                            matTooltip="Enter the expected file name"
+                        />
                     </mat-form-field>
                 </div>
                 <ng-container *ngIf="statusMessage">
