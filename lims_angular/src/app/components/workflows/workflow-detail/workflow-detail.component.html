@@ -9,8 +9,8 @@
             <div>Input Folder: {{ workflow.inputFolder || "unknown" }}</div>
             <div>Output Folder: {{ workflow.outputFolder || "unknown" }}</div>
             <div>Archive Folder: {{ workflow.archiveFolder || "unknown" }}</div>
-            <div>Multi-File: {{ workflow.multiFile || "unknown" }}</div>
-            <div>Multi-File Filter: {{ workflow.filter || "unknown" }}</div>
+            <div>Multi-File: {{ workflow.multiFile || "false" }}</div>
+            <div>Multi-File Filter: {{ workflow.filter || "none" }}</div>
             <div>Interval: {{ workflow.interval || "unknown" }} minutes</div>
             <div>Date Created: {{ workflow.creationDate | date: "short" || "unknown" }}</div>
             <div>Active: {{ workflow.active }}</div>
