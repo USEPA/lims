@@ -19,7 +19,7 @@ export class WorkflowEditorComponent implements OnInit {
     buttonText = "Save workflow";
     redirect = false;
 
-    workflow: Workflow;
+    workflow;
     processors = [];
     statusMessage = "";
 
@@ -48,11 +48,13 @@ export class WorkflowEditorComponent implements OnInit {
         });
 
         if (id) {
-            this.workflow = this.taskMgr.getWorkflow(id);
             this.cardTitle = "Edit workflow";
             this.buttonText = "Save changes";
             this.redirect = true;
-            this.populateForm(this.workflow);
+            this.taskMgr.getWorkflow(id).subscribe((workflow) => {
+                this.workflow = workflow;
+                this.populateForm(this.workflow);
+            });
         }
 
         this.taskMgr.getProcessors().subscribe((response) => {

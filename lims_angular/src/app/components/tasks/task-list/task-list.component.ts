@@ -75,37 +75,37 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
     updateTasklist(): void {
         if (this.auth.isAuthenticated()) {
-            this.taskMgr.getTasks().subscribe(
-                (tasks) => {
-                    if (tasks.error) {
-                        this.statusMessage = tasks.error;
-                    } else {
-                        if (tasks && tasks.length > 0) {
-                            for (let task of tasks) {
-                                task["workflowName"] = this.getWorkflowName(task.workflowID);
-                            }
-                            this.taskList = [...tasks];
-                            this.sortableData.data = [...this.taskList];
-                            this.sortableData.sort = this.sort;
-                            this.statusMessage = "";
-                        } else {
-                            this.statusMessage = "There are currently no Tasks scheduled";
-                        }
-                    }
-                },
-                (err) => {
-                    this.statusMessage = "Error retrieving data";
-                },
-                () => {
-                    this.loadingTasklist = false;
-                }
-            );
             this.taskMgr.getWorkflows().subscribe(
                 (workflows) => {
                     if (workflows.error) {
                         console.log(workflows.error);
                     } else {
                         this.workflows = [...workflows];
+                        this.taskMgr.getTasks().subscribe(
+                            (tasks) => {
+                                if (tasks.error) {
+                                    this.statusMessage = tasks.error;
+                                } else {
+                                    if (tasks && tasks.length > 0) {
+                                        for (let task of tasks) {
+                                            task["workflowName"] = this.getWorkflowName(task.workflowID);
+                                        }
+                                        this.taskList = [...tasks];
+                                        this.sortableData.data = [...this.taskList];
+                                        this.sortableData.sort = this.sort;
+                                        this.statusMessage = "";
+                                    } else {
+                                        this.statusMessage = "There are currently no Tasks scheduled";
+                                    }
+                                }
+                            },
+                            (err) => {
+                                this.statusMessage = "Error retrieving data";
+                            },
+                            () => {
+                                this.loadingTasklist = false;
+                            }
+                        );
                     }
                 },
                 (err) => {
@@ -144,7 +144,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
 
     getWorkflowName(id: string) {
-        return this.taskMgr.getWorkflow(id).name;
+        const workflow = this.workflows.find((workflow) => {
+            return workflow.id == id;
+        });
+        return workflow.name;
     }
 
     deleteTask(task): void {
