@@ -48,10 +48,15 @@
                 </div>
                 <!-- multi file -->
                 <div class="multi-checkbox">
-                    <label for="multi-file">Multi file input</label>
-                    <input name="multi-file" type="checkbox" formControlName="multiFile" />
+                    <span class="multi-label" for="multi-file">Multi file input</span>
+                    <input
+                        name="multi-file"
+                        type="checkbox"
+                        formControlName="multiFile"
+                        (click)="toggleFilterInput()"
+                    />
                 </div>
-                <div>
+                <div *ngIf="multiSelected">
                     <mat-form-field class="string-input">
                         <mat-label>Filter</mat-label>
                         <input matInput type="text" formControlName="filter" />

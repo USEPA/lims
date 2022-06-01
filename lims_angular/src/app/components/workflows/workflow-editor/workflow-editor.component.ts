@@ -23,6 +23,8 @@ export class WorkflowEditorComponent implements OnInit {
     processors = [];
     statusMessage = "";
 
+    multiSelected = false;
+
     constructor(
         private taskMgr: TaskManagerService,
         private router: Router,
@@ -135,12 +137,16 @@ export class WorkflowEditorComponent implements OnInit {
                 this.statusMessage += "You must provide a path to the output folder. ";
             }
             if (newWorkflow.archiveFolder.length < 1) {
-                this.statusMessage += "You must provide a path to the backup folder.";
+                this.statusMessage += "You must provide a path to the backup folder. ";
             }
             if (newWorkflow.multiFile && newWorkflow.filter.length < 1) {
-                this.statusMessage += "You must provide a filter when selecting multi-file";
+                this.statusMessage += "You must provide a filter when selecting multi-file. ";
             }
         }
+    }
+
+    toggleFilterInput(): void {
+        this.multiSelected = !this.multiSelected;
     }
 
     cancel(): void {
