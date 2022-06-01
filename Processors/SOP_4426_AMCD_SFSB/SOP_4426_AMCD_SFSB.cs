@@ -44,7 +44,7 @@ namespace SOP_4426_AMCD_SFSB
                 {
                     rowIdx++;
                     current_row = rowIdx;
-                    string currentLine = line.Trim();
+                    string currentLine = line;
                     if (currentLine.Contains("Data File", StringComparison.OrdinalIgnoreCase))
                     {
                         //e.g.  Data File : 101421_6.d
@@ -54,11 +54,17 @@ namespace SOP_4426_AMCD_SFSB
                         continue;
                     }
 
-                    if (currentLine.Contains("Quant Time", StringComparison.OrdinalIgnoreCase))
+                    //e.g.  Quant Time: Oct 15 10:00:08 2021
+                    string target = @"Quant Time:";
+                    if (currentLine.Contains(target, StringComparison.OrdinalIgnoreCase))
                     {
-                        //e.g.  Quant Time: Oct 15 10:00:08 2021
-                        int idx = currentLine.IndexOf(':');
-                        string tmpDT = currentLine.Substring(idx + 1).Trim();
+                        
+                        int idx = currentLine.IndexOf(target);
+
+                        //string sval3 = currentLine.Substring(idx, target.Length);
+                        string tmpDT = currentLine.Substring(idx + target.Length).Trim();
+                        //int idx = currentLine.Trim().IndexOf(':');
+                        //string tmpDT = currentLine.Substring(idx + 1).Trim();
                         string pattern = "MMM dd HH:mm:ss yyyy";
                         if (!DateTime.TryParseExact(tmpDT, pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out analysisDateTime))
                             throw new Exception("Invalid format for Quant Time");
@@ -71,7 +77,7 @@ namespace SOP_4426_AMCD_SFSB
 
                     //This regular expression will match any number of digits at the beginning of the string followed by a )
                     string regexExp = @"^[0-9]+[)]";
-                    Match regexMatch = Regex.Match(currentLine, regexExp);
+                    Match regexMatch = Regex.Match(currentLine.Trim(), regexExp);
                     if (!regexMatch.Success)
                         continue;
 
@@ -92,38 +98,27 @@ namespace SOP_4426_AMCD_SFSB
 
 
                     //numID will be like 1)
-                    string numID = currentLine.Substring(0,8).Trim();
+                    string numID = currentLine.Substring(0,7).Trim();
 
-                    analyteID = currentLine.Substring(9, 27).Trim();
+                    analyteID = currentLine.Substring(8, 26).Trim();
 
                     userDefined1 = currentLine.Substring(47, 9).Trim();
 
                     string measuredValTmp = currentLine.Substring(56, 15).Trim();
                     tokens = Regex.Split(measuredValTmp, @"\s{1,}");
 
-
-
-                    //Split the string on one or more blank spaces
-                    //This is a valid string we are looking for                    
-                    //16) chlorodifluoromethane      13.713   51     2428m    0.02 ppb
-
-                    //This is an invalid string with N.D. (non detect values)
-                    //Parsing this string will return one fewer tokens - 6
-                    //17) 1,1,1,2-tetrafluoroethane   0.000             0      N.D. d
-
-                    tokens = Regex.Split(currentLine, @"\s{1,}");
-                    analyteID = tokens[1].Trim();
-
-                    if (string.Compare(tokens[5].Trim(), "d", true) ==0 || string.Compare(tokens[5].Trim(), "n.d.", true) == 0)
+                    measuredValTmp = tokens[0].Trim();
+                    //if (string.Compare(tokens[0].Trim(), "n.d.", true) ==0 || string.Compare(tokens[1].Trim(), "n.d.", true) == 0)
+                    //    measuredVal = 0.0;
+                    if (!Double.TryParse(measuredValTmp, out measuredVal))
                         measuredVal = 0.0;
-                    else if (!Double.TryParse(tokens[5].Trim(), out measuredVal))
-                        throw new Exception("Invalid data type for measured value");
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
 
                     dt.Rows.Add(dr);
 
