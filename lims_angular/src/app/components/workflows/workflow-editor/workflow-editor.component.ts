@@ -77,9 +77,10 @@ export class WorkflowEditorComponent implements OnInit {
             inputFolder: workflow.inputFolder,
             outputFolder: workflow.outputFolder,
             archiveFolder: workflow.archiveFolder,
-            multiFolder: workflow.multiFile,
+            multiFile: workflow.multiFile,
             filter: workflow.filter,
         };
+        this.multiSelected = workflow.multiFile;
         this.workflowForm.setValue(newWorkflow);
     }
 
@@ -120,28 +121,27 @@ export class WorkflowEditorComponent implements OnInit {
                     }
                 }
             });
-        } else {
-            if (newWorkflow.name.length < 1) {
-                this.statusMessage += "Workflows must include a workflow name. ";
-            }
-            if (newWorkflow.processor === "") {
-                this.statusMessage += "Workflows must include a processor. ";
-            }
-            if (+newWorkflow.interval < 1) {
-                this.statusMessage += "Intervals must be at least one minute in duration. ";
-            }
-            if (newWorkflow.inputFolder.length < 1) {
-                this.statusMessage += "You must provide a path to the input folder. ";
-            }
-            if (newWorkflow.outputFolder.length < 1) {
-                this.statusMessage += "You must provide a path to the output folder. ";
-            }
-            if (newWorkflow.archiveFolder.length < 1) {
-                this.statusMessage += "You must provide a path to the backup folder. ";
-            }
-            if (newWorkflow.multiFile && newWorkflow.filter.length < 1) {
-                this.statusMessage += "You must provide a filter when selecting multi-file. ";
-            }
+        }
+        if (newWorkflow.name.length < 1) {
+            this.statusMessage += "Workflows must include a workflow name. ";
+        }
+        if (newWorkflow.processor === "") {
+            this.statusMessage += "Workflows must include a processor. ";
+        }
+        if (+newWorkflow.interval < 1) {
+            this.statusMessage += "Intervals must be at least one minute in duration. ";
+        }
+        if (newWorkflow.inputFolder.length < 1) {
+            this.statusMessage += "You must provide a path to the input folder. ";
+        }
+        if (newWorkflow.outputFolder.length < 1) {
+            this.statusMessage += "You must provide a path to the output folder. ";
+        }
+        if (newWorkflow.archiveFolder.length < 1) {
+            this.statusMessage += "You must provide a path to the backup folder. ";
+        }
+        if (newWorkflow.multiFile && newWorkflow.filter.length < 1) {
+            this.statusMessage += "You must provide a filter when selecting multi-file. ";
         }
     }
 
