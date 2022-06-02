@@ -198,7 +198,7 @@ namespace PluginBase
             //    return dtRespMsg;            
         }
 
-        public ResponseMessage WriteTemplateOutputFile(string outputPath, DataTable dt)
+        public static ResponseMessage WriteTemplateOutputFile(string outputPath, DataTable dt)
         {
             ResponseMessage rm = new ResponseMessage();
             string fileName = Path.Combine(outputPath, dt.TableName + ".xlsx");
