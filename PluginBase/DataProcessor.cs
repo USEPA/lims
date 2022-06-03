@@ -145,6 +145,8 @@ namespace PluginBase
                 return rm;
             }
 
+
+
             //Nothing to see here
             return null;
         }
@@ -227,6 +229,11 @@ namespace PluginBase
         public string Message { get; set;}
        
         public string OutputFile { get; set; }
+
+        //Input file or directory
+        public string InputFile { get; set; }
+
+
 
         //private List<string> _logMessages = null;
         //private List<string> _errorMessages = null;                
