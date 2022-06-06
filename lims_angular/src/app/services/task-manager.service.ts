@@ -1,10 +1,10 @@
 import { environment } from "../../environments/environment";
 
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import { Observable, of, Subject } from "rxjs";
+import { catchError, switchMap, takeUntil, tap } from "rxjs/operators";
 
 import { AuthService } from "./auth.service";
 
@@ -14,12 +14,19 @@ import { Workflow } from "../models/workflow.model";
 @Injectable({
     providedIn: "root",
 })
-export class TaskManagerService {
+export class TaskManagerService implements OnDestroy {
+    private ngUnsubscribe = new Subject();
+
     private taskList: Task[] = [];
     private workflows: Workflow[] = [];
 
     constructor(private http: HttpClient, private auth: AuthService) {
         this.getWorkflows().subscribe();
+    }
+
+    ngOnDestroy() {
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
     }
 
     // GET/api/tasks - returns all tasks
@@ -37,14 +44,21 @@ export class TaskManagerService {
         );
     }
 
-    // given an id returns a task obj from this.taskList
-    getTask(id: string): Task {
-        for (const task of this.taskList) {
-            if (task.id === id) {
-                return task;
-            }
-        }
-        return null;
+    // given an id returns an Observable that resolves a Task
+    getTask(id: string): Observable<any> {
+        return this.getTasks().pipe(
+            switchMap((tasks: any[]) => {
+                let task = tasks.find((task) => {
+                    return task.id == id;
+                });
+
+                return of({ ...task });
+            }),
+            takeUntil(this.ngUnsubscribe),
+            catchError((err) => {
+                return of({ error: "failed to retrieve workflow!" });
+            })
+        );
     }
 
     // GET/api/tasks/+id deletes a task by id
@@ -67,20 +81,25 @@ export class TaskManagerService {
         );
     }
 
-    // given an id returns a workflow obj from this.workflows
-    getWorkflow(id: string): Workflow {
-        if (this.workflows) {
-            for (const wf of this.workflows) {
-                if (id === wf.id) {
-                    return wf;
-                }
-            }
-        }
-        return null;
+    // given an id returns an Observable that resolves a Workflow
+    getWorkflow(id: string): Observable<any> {
+        return this.getWorkflows().pipe(
+            switchMap((workflows: any[]) => {
+                let workflow = workflows.find((workflow) => {
+                    return workflow.id == id;
+                });
+
+                return of({ ...workflow });
+            }),
+            takeUntil(this.ngUnsubscribe),
+            catchError((err) => {
+                return of({ error: "failed to retrieve workflow!" });
+            })
+        );
     }
 
-    // POST/api/utilitie/dircheck
-    // accepts a dictionary of paths and returns a boolean for the existance of each
+    // POST/api/utility/dircheck
+    // accepts a dictionary of paths and returns a boolean for the existence of each
     validatePaths(paths): Observable<any> {
         return this.http.post<any>(environment.apiUrl + "utility/dircheck/", paths).pipe(
             catchError((err) => {

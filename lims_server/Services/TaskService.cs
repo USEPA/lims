@@ -122,11 +122,9 @@ namespace LimsServer.Services
 
             if (result != null && string.IsNullOrWhiteSpace(result!.ErrorMessage) && result!.TemplateData != null)
             {
-
-                ResponseMessage rm = new ResponseMessage();
-                rm.Message = "";
-                rm.OutputFile = result.OutputFile;
-                outputs.Add(rm.OutputFile, rm);
+                //var output = pm.WriteTemplateOutputFile(workflow.outputFolder, totalResult.TemplateData)
+                var output = ProcessorManager.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
+                outputs.Add(output.OutputFile, output);
             }
             else
             {
@@ -309,8 +307,7 @@ namespace LimsServer.Services
                     return totalResult;
                 }
                 
-            }
-            var output = pm.WriteTemplateOutputFile(workflow.outputFolder, totalResult.TemplateData);
+            }           
 
             return totalResult;
         }
@@ -513,6 +510,7 @@ namespace LimsServer.Services
                     // Move input file to archive folder
                     string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
                     File.Move(inputPath, archivePath);
+                    //Directory.Move(inputPath, archivePath);
                     // Set task archiveFile location
                     task.archiveFile = archivePath;
                     await _context.SaveChangesAsync();

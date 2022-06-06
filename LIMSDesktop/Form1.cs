@@ -143,7 +143,8 @@ namespace LIMSDesktop
                 if (!di.Exists)
                     di.Create();
 
-                procMgr.WriteTemplateOutputFile(fbd.SelectedPath, dt);
+                //procMgr.WriteTemplateOutputFile(fbd.SelectedPath, dt);
+                ProcessorManager.WriteTemplateOutputFile(fbd.SelectedPath, dt);
                 UserMessage("Success");
             }
             catch(Exception ex)
