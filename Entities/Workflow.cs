@@ -42,6 +42,8 @@ namespace LimsServer.Entities
             this.interval = wf.interval;
             this.message = "";
             this.active = wf.active;
+            this.multiFile = wf.multiFile;
+            this.filter = wf.filter;
         }
 
     }

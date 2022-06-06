@@ -98,26 +98,10 @@ namespace SOP_4426_AMCD_SFSB
 
                     userDefined1 = currentLine.Substring(47, 9).Trim();
 
-                    string measuredValTmp = currentLine.Substring(56, 15).Trim();
+                    string measuredValTmp = currentLine.Substring(57, 15).Trim();
                     tokens = Regex.Split(measuredValTmp, @"\s{1,}");
-
-
-
-                    //Split the string on one or more blank spaces
-                    //This is a valid string we are looking for                    
-                    //16) chlorodifluoromethane      13.713   51     2428m    0.02 ppb
-
-                    //This is an invalid string with N.D. (non detect values)
-                    //Parsing this string will return one fewer tokens - 6
-                    //17) 1,1,1,2-tetrafluoroethane   0.000             0      N.D. d
-
-                    tokens = Regex.Split(currentLine, @"\s{1,}");
-                    analyteID = tokens[1].Trim();
-
-                    if (string.Compare(tokens[5].Trim(), "d", true) ==0 || string.Compare(tokens[5].Trim(), "n.d.", true) == 0)
+                    if (!double.TryParse(tokens[0].Trim(), out double measuredVal))
                         measuredVal = 0.0;
-                    else if (!Double.TryParse(tokens[5].Trim(), out measuredVal))
-                        throw new Exception("Invalid data type for measured value");
 
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
