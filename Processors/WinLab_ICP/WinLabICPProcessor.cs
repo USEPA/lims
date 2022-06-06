@@ -24,9 +24,7 @@ namespace WinLab_ICP
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
-            DataTable dt = GetDataTable();
-            dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);
+            DataTableResponseMessage rm = null;
 
             DateTime analysisDateTime = DateTime.MinValue;
 
@@ -38,10 +36,11 @@ namespace WinLab_ICP
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
 
-                rm = new DataTableResponseMessage();
+                DataTable dt = GetDataTable();
+                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);
 
                 using (StreamReader sr = new StreamReader(input_file))
                 {

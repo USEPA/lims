@@ -25,10 +25,9 @@ namespace ETTB_UPLC
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
 
-                rm = new DataTableResponseMessage();
                 dt = GetDataTable();
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);

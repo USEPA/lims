@@ -41,10 +41,9 @@ namespace Tracefinder
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
 
-                rm = new DataTableResponseMessage();
                 DataTable dt = GetDataTable();
                 List<AliquotAnalyte> lstAliquotAnalytes = new List<AliquotAnalyte>();
                 FileInfo fi = new FileInfo(input_file);

@@ -27,14 +27,13 @@ namespace Qubit2_0
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = null;
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
 
-                rm = new DataTableResponseMessage();
                 FileInfo fi = new FileInfo(input_file);
 
                 //New in version 5 - must deal with License

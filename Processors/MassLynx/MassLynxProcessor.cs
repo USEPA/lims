@@ -24,7 +24,7 @@ namespace MassLynx
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = null;
             DataTable dt = GetDataTable();
             dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);
             string aliquot = "";
@@ -34,10 +34,8 @@ namespace MassLynx
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
-
-                rm = new DataTableResponseMessage();
 
                 using (StreamReader sr = new StreamReader(input_file))
                 {
