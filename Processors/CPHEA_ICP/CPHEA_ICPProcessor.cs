@@ -28,10 +28,8 @@ namespace CPHEA_ICP
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
-                    return rm;
-
-                rm = new DataTableResponseMessage();
+                if (!rm.IsValid)
+                    return rm;          
 
                 DataTable dt = GetDataTable();
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(input_file);

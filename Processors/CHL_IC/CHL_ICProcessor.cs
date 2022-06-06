@@ -25,10 +25,9 @@ namespace CHL_IC
             {
                 //Using ExcelDataReader Package
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
 
-                rm = new DataTableResponseMessage();
                 FileInfo fi = new FileInfo(input_file);
 
                 DataTableCollection tables;

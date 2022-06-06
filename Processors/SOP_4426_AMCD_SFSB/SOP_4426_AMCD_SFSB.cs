@@ -19,7 +19,7 @@ namespace SOP_4426_AMCD_SFSB
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = new DataTableResponseMessage(input_file);           
             DataTable? dt = null;
             try
             {

@@ -125,13 +125,14 @@ namespace PluginBase
 
         public DataTableResponseMessage VerifyInputFile()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = new DataTableResponseMessage(input_file);
 
             //Verify that the file exists
             if (!File.Exists(input_file))
             {
                 rm.ErrorMessage = string.Format("Input data file not found: {0}", input_file);
                 rm.LogMessage = string.Format("Input data file not found: {0}", input_file);
+                rm.IsValid = false;
                 return rm;
             }
 
@@ -141,14 +142,14 @@ namespace PluginBase
             if (string.Compare(ext, file_type, StringComparison.OrdinalIgnoreCase) != 0)
             {
                 rm.ErrorMessage = string.Format("Input data file not correct file type. Need {0} , found {1}", file_type, ext);
-                rm.LogMessage = string.Format("Input data file not correct file type: {0}", input_file);                
+                rm.LogMessage = string.Format("Input data file not correct file type: {0}", input_file);
+                rm.IsValid = false;
                 return rm;
             }
 
-
-
             //Nothing to see here
-            return null;
+            rm.IsValid = true;
+            return rm;
         }
 
         protected string GetBaseFileName()
@@ -233,6 +234,8 @@ namespace PluginBase
         //Input file or directory
         public string InputFile { get; set; }
 
+        public bool IsValid { get; set; }
+
 
 
         //private List<string> _logMessages = null;
@@ -292,6 +295,13 @@ namespace PluginBase
         public DataTableResponseMessage()
         {
             TemplateData = null;
+            IsValid = true;
+        }
+        public DataTableResponseMessage(string inputFile)
+        {
+            TemplateData = null;
+            InputFile = inputFile;
+            IsValid = true;
         }
     }
 

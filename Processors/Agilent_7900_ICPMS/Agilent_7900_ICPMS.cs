@@ -18,15 +18,14 @@ namespace Agilent_7900_ICPMS
 
         public override DataTableResponseMessage Execute()
         {
-            DataTableResponseMessage rm = new DataTableResponseMessage();
+            DataTableResponseMessage rm = null;
             DataTable dt = null;
             try
             {
                 rm = VerifyInputFile();
-                if (rm != null)
+                if (!rm.IsValid)
                     return rm;
-
-                rm = new DataTableResponseMessage();
+                
                 dt = GetDataTable();
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);

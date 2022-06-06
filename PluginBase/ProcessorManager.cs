@@ -233,6 +233,8 @@ namespace PluginBase
                 xlPkg.Save();
                     
                 rm.Message = "";
+                rm.ErrorMessage = "";
+                rm.IsValid = true;
                 rm.OutputFile = fileName;
                 
             }
