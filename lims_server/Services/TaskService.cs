@@ -113,18 +113,21 @@ namespace LimsServer.Services
             if (workflow.multiFile)
             {
                 result = await ProcessMultiFile(task, workflow, dirs[0]);
+                result.OutputFile = workflow.outputFolder;
             }
             else
             {
                 result = await ProcessSingleFile(task, workflow, files[0]);
-            }            
+            }
             
+            //outputs.Add(result.InputFile, result);
 
             if (result != null && string.IsNullOrWhiteSpace(result!.ErrorMessage) && result!.TemplateData != null)
             {
                 //var output = pm.WriteTemplateOutputFile(workflow.outputFolder, totalResult.TemplateData)
                 var output = ProcessorManager.WriteTemplateOutputFile(workflow.outputFolder, result.TemplateData);
-                outputs.Add(output.OutputFile, output);
+                result.OutputFile = output.OutputFile;
+                //outputs.Add(output.OutputFile, output);
             }
             else
             {
@@ -164,34 +167,58 @@ namespace LimsServer.Services
             }
 
             // Step 7: Check if output file exists
+            //This check shouldnt be necessesary buy whatever
             bool processed = false;
-            for (int i = 0; i < outputs.Count; i++)
+            if (result != null)
             {
-                var output = outputs.ElementAt(i);
-                string outputPath = output.Value.OutputFile;
-                // Step 8: If output file does exist, update task outputFile
-                if (File.Exists(outputPath))
+                string inputPath = result.InputFile;
+                if ((!workflow.multiFile && File.Exists(inputPath)) || (workflow.multiFile && Directory.Exists(inputPath)))
                 {
                     processed = true;
-                    task.outputFile = outputPath;
+                    task.outputFile = result.OutputFile;
 
                     // Get input file path
-                    string fileName = System.IO.Path.GetFileName(output.Key);
-                    string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
-
-                    // Backup input file
-                    DataBackup dbBackup = new DataBackup();
-                    dbBackup.DumpData(id, inputPath, outputPath);
+                    string fileName = System.IO.Path.GetFileName(result.InputFile);
+                    inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
 
                     // If archive folder exists archive input file, otherwise delete
                     await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
                     await _context.SaveChangesAsync();
+
                 }
                 else
                 {
-                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessage);
+                    await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + result.ErrorMessage);
                 }
             }
+            
+            //for (int i = 0; i < outputs.Count; i++)
+            //{
+            //    var output = outputs.ElementAt(i);
+            //    string inputPath = output.Value.InputFile;
+            //    // Step 8: If output file does exist, update task outputFile
+            //    if (File.Exists(inputPath))
+            //    {
+            //        processed = true;
+            //        task.outputFile = outputPath;
+
+            //        // Get input file path
+            //        string fileName = System.IO.Path.GetFileName(output.Key);
+            //        string inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
+
+            //        // Backup input file
+            //        DataBackup dbBackup = new DataBackup();
+            //        dbBackup.DumpData(id, inputPath, outputPath);
+
+            //        // If archive folder exists archive input file, otherwise delete
+            //        await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    else
+            //    {
+            //        await this.UpdateStatus(task.id, "SCHEDULED", "Error unable to export output. Error Messages: " + output.Value.ErrorMessage);
+            //    }
+            //}
 
             // Step 9: Change task status to COMPLETED
             // Step 10: Create new Task and schedule
@@ -286,7 +313,7 @@ namespace LimsServer.Services
             List<string> files = Directory.GetFiles(dataPath, fileFilter, SearchOption.AllDirectories).OrderBy(p => p).ToList();
             //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
-            DataTableResponseMessage totalResult = new DataTableResponseMessage();
+            DataTableResponseMessage totalResult = new DataTableResponseMessage(dataPath);
             
             foreach (string filename in files)
             {
@@ -307,8 +334,9 @@ namespace LimsServer.Services
                     return totalResult;
                 }
                 
-            }           
+            }
 
+            totalResult.IsValid = true;
             return totalResult;
         }
 
@@ -509,8 +537,16 @@ namespace LimsServer.Services
                         Directory.CreateDirectory(workflow.archiveFolder);
                     // Move input file to archive folder
                     string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
-                    File.Move(inputPath, archivePath);
-                    //Directory.Move(inputPath, archivePath);
+                    if (workflow.multiFile)
+                    {
+                        Directory.Move(inputPath, archivePath);
+                    }
+                    else
+                    {
+                        File.Move(inputPath, archivePath);
+                    }
+                    
+                    
                     // Set task archiveFile location
                     task.archiveFile = archivePath;
                     await _context.SaveChangesAsync();
