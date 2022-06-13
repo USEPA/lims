@@ -43,11 +43,14 @@ namespace SFSB_Light_Hydrocarbons
                 {
                     rowIdx++;
                     current_row = rowIdx;
-                    string currentLine = line;
+                    string currentLine = line.Trim();
                     tokens = Regex.Split(currentLine, @"\s{1,}");
-                    if (currentLine.Contains("Data File", StringComparison.OrdinalIgnoreCase))
+                    Regex regex = new Regex(@"Data\s{1,}File", RegexOptions.Compiled);
+
+                    Match match = regex.Match(line);
+                    if (match.Success)
                     {
-                        //e.g.  Data File : 101421_6.d
+                        //e.g.  Data	File	:	062521_10.D
                         tokens = currentLine.Split(":");
                         aliquot = tokens[1].Trim();
                         bDataFile = true;
