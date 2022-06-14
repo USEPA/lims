@@ -35,84 +35,73 @@ namespace SFSB_Light_Hydrocarbons
                 string? line;
 
                 string[] tokens;
-                int rowIdx = 0;
-                //bool bStart = false;
+                int rowIdx = 0;                
                 bool bDataFile = false;
-                bool bQuantTime = false;
+                bool bQuantTime = false;                
+                Match match;
                 while ((line = sr.ReadLine()) != null)
                 {
                     rowIdx++;
                     current_row = rowIdx;
                     string currentLine = line.Trim();
-                    tokens = Regex.Split(currentLine, @"\s{1,}");
-                    Regex regex = new Regex(@"Data\s{1,}File", RegexOptions.Compiled);
-
-                    Match match = regex.Match(line);
-                    if (match.Success)
+                    if (!bDataFile)
                     {
                         //e.g.  Data	File	:	062521_10.D
-                        tokens = currentLine.Split(":");
-                        aliquot = tokens[1].Trim();
-                        bDataFile = true;
-                        continue;
+                        match = Regex.Match(line, @"Data\s{1,}File");                                                
+                        if (match.Success)
+                        {
+                            tokens = currentLine.Split(":");
+                            aliquot = tokens[1].Trim();
+                            bDataFile = true;
+                            continue;
+                        }
                     }
 
-                    //e.g.  Quant Time: Oct 15 10:00:08 2021
-                    string target = @"Quant Time:";
-                    if (currentLine.Contains(target, StringComparison.OrdinalIgnoreCase))
+                    if (!bQuantTime)
                     {
-
-                        int idx = currentLine.IndexOf(target);
-
-                        //string sval3 = currentLine.Substring(idx, target.Length);
-                        string tmpDT = currentLine.Substring(idx + target.Length).Trim();
-                        //int idx = currentLine.Trim().IndexOf(':');
-                        //string tmpDT = currentLine.Substring(idx + 1).Trim();
-                        string pattern = "MMM dd HH:mm:ss yyyy";
-                        if (!DateTime.TryParseExact(tmpDT, pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out analysisDateTime))
-                            throw new Exception("Invalid format for Quant Time");
-                        bQuantTime = true;
-                        continue;
+                        //e.g.  Quant Time: Oct 15 10:00:08 2021                        
+                        match = Regex.Match(line, @"Quant\s{1,}Time");
+                        if (match.Success)
+                        {
+                            int idx = line.IndexOf(":");
+                            if (idx != -1)
+                            {
+                                string tmpDT = line.Substring(idx + 1).Trim();
+                                tmpDT = tmpDT.Replace("\t", " ");
+                                string pattern = "MMM dd HH:mm:ss yyyy";
+                                if (!DateTime.TryParseExact(tmpDT, pattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out analysisDateTime))
+                                    throw new Exception("Invalid format for Quant Time");
+                                bQuantTime = true;
+                            }
+                            continue;
+                        }
                     }
-
+                        
                     if (!bDataFile || !bQuantTime)
                         continue;
 
                     //This regular expression will match any number of digits at the beginning of the string followed by a )
                     string regexExp = @"^[0-9]+[)]";
-                    Match regexMatch = Regex.Match(currentLine.Trim(), regexExp);
+                    Match regexMatch = Regex.Match(currentLine, regexExp);
                     if (!regexMatch.Success)
                         continue;
 
                     /*
                      * 
-                               Compound                  R.T. QIon  Response  Conc Units Dev(Min)
-                       --------------------------------------------------------------------------
-                       Internal Standards
-                         1) d5-chlorobenzene           34.246  117   423722    20.00 ppb     -0.02
-                         2) 1,4 difluorobenzene        30.180  114  1145578    20.00 ppb     -0.06
+                                  Compound                     R.T.       Response    Conc Units
+                           ---------------------------------------------------------------------------
 
-                       Target Compounds                                                   Qvalue
-                         3) CF4                         7.163   69       57     0.11 ppb  #     1
-                         4) C2F6                        8.229  119      118     0.00 ppb  #    64
-                         5) chlorotrifluoromethane      8.654   85      219     0.01 ppb  #     1 
+                           Target Compounds
+                           1)     Methane                     8.816          28699    N.D.  ppbv m
+                           2)     Ethane                     10.268          81417    1.398 ppbv m
                      *
                      */
 
+                    //This is different from SOP_4426_AMCD_SFSB processor                                  
+                    tokens = Regex.Split(currentLine, @"\s{1,}");
+                    analyteID = tokens[1].Trim();
 
-                    //numID will be like 1)
-                    string numID = currentLine.Substring(0, 7).Trim();
-
-                    analyteID = currentLine.Substring(8, 26).Trim();
-
-                    userDefined1 = currentLine.Substring(47, 9).Trim();
-
-                    string measuredValTmp = currentLine.Substring(57, 15).Trim();
-                    tokens = Regex.Split(measuredValTmp, @"\s{1,}");
-
-                    measuredValTmp = tokens[0].Trim();
-                    //if (string.Compare(tokens[0].Trim(), "n.d.", true) ==0 || string.Compare(tokens[1].Trim(), "n.d.", true) == 0)
-                    //    measuredVal = 0.0;
+                    string measuredValTmp = tokens[4].Trim();                    
                     if (!Double.TryParse(measuredValTmp, out measuredVal))
                         measuredVal = 0.0;
 
@@ -120,8 +109,7 @@ namespace SFSB_Light_Hydrocarbons
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Analysis Date/Time"] = analysisDateTime;
-                    dr["Measured Value"] = measuredVal;
-                    dr["User Defined 1"] = userDefined1;
+                    dr["Measured Value"] = measuredVal;                    
 
                     dt.Rows.Add(dr);
 
