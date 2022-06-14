@@ -46,12 +46,12 @@ namespace NRSA_ddPCR
                 if (worksheet.Dimension == null)
                     throw new Exception("Spreadsheet contains no data");
                                     
+                //Rows and columns start at 1 not 0
                 int startRow = worksheet.Dimension.Start.Row;
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
-                int numCols = worksheet.Dimension.End.Column;
+                int numCols = worksheet.Dimension.End.Column;                
 
-                
                 //We get 4 measured values from each row. Data will be in columns D,P,Q,R
                 for (int rowIdx = 1; rowIdx < numRows; rowIdx++)
                 {
@@ -59,14 +59,14 @@ namespace NRSA_ddPCR
                     if (rowIdx == 1)
                         continue;
 
-
                     //This will be the same for all measured values in the row
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, 1]);
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    userDefined1 = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
 
                     //Info for measured value in column D
                     DataRow dr = dt.NewRow();
-                    analyteID = GetXLStringValue(worksheet.Cells[rowIdx, 3]);
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx,4]);
+                    analyteID = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx,ColumnIndex1.D]);
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Measured Value"] = measuredVal;
