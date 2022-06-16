@@ -44,6 +44,35 @@ namespace Agilent_6890
                     rowIdx++;
                     current_row = rowIdx;
                     string currentLine = line;
+                    //Example of line 2 - used for aliquot
+                    //Sample	Name:	Std	3_0.933
+                    if (current_row == 2)
+                    {
+                        tokens = currentLine.Split(":");
+                        for (int i = 1; i < tokens.Length; i++)
+                            aliquot += tokens[i].Trim() + " ";
+                        //Remove trailing space
+                        aliquot = aliquot.Trim();
+                        continue;
+                    }
+
+                    //Example of line 8 - used for analysis datetime
+                    //Injection Date    :	4/8/2019    7:21:57 PM Inj :	1
+                    if (current_row == 8)
+                    {
+                        int idx = currentLine.IndexOf(":");
+                        if (idx == -1)
+                            throw new Exception("Unable to parse datetime line- " + currentLine);
+                        string tmpDateTime = currentLine.Substring(idx + 1).Trim();
+                        //Split rest of string on spaces and tabs
+                        tokens = Regex.Split(tmpDateTime, @"\s{1,}");
+                        tmpDateTime = tokens[0].Trim() + " " + tokens[1].Trim() + " " + tokens[2].Trim();
+                        if (!DateTime.TryParse(tmpDateTime, out analysisDateTime))
+                            throw new Exception("Unable to parse datetime value- " + tmpDateTime);
+
+                        continue;
+
+                    }
                 }
             }
             catch (Exception ex)
@@ -52,7 +81,7 @@ namespace Agilent_6890
                 errorMsg = errorMsg + Environment.NewLine;
                 errorMsg = errorMsg + ex.Message;
                 errorMsg = errorMsg + Environment.NewLine;
-                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row + 1);
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row );
                 rm.ErrorMessage = errorMsg;
             }
 
