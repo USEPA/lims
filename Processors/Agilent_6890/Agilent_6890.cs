@@ -4,6 +4,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using PluginBase;
 using System.Globalization;
+using System.Linq;
 
 namespace Agilent_6890
 {
@@ -71,8 +72,43 @@ namespace Agilent_6890
                             throw new Exception("Unable to parse datetime value- " + tmpDateTime);
 
                         continue;
+                    }
+
+                    if (current_row == 32)
+                    {
+                        currentLine = currentLine.Replace("\t", " ").Trim();
+                        tokens = Regex.Split(currentLine, @"\s{1,}");
+                        string D32 = tokens[2];
+                        bool isAlpha = !D32.Any(char.IsDigit);
+                        
+                        analyteID = tokens[tokens.Length - 1].Trim();
+                        string sMeasuredVal = tokens[tokens.Length - 2].Trim();
+                        if (!Double.TryParse(sMeasuredVal, out measuredVal))
+                            throw new Exception("Unable to parse measured value- " + sMeasuredVal);
+
+                        userDefined1 = tokens[1].Trim();
+                        if (isAlpha)
+                        {
+                            userDefined2 = tokens[3].Trim();
+                            userDefined3 = tokens[4].Trim();
+                        }
+                        else
+                        {
+                            userDefined2 = tokens[2].Trim();
+                            userDefined3 = tokens[3].Trim();
+                        }
 
                     }
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
+                    dr["User Defined 2"] = userDefined2;
+                    dr["User Defined 3"] = userDefined3;
+
+                    dt.Rows.Add(dr);
                 }
             }
             catch (Exception ex)
