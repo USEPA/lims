@@ -175,7 +175,7 @@ namespace PluginBase
 
         protected double GetXLDoubleValue(ExcelRange cell)
         {
-            double dval = default;
+            double dval = double.NaN;
             try
             {
                 if (cell == null || cell.Value == null)
