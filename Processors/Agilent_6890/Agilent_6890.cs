@@ -54,6 +54,7 @@ namespace Agilent_6890
                             aliquot += tokens[i].Trim() + " ";
                         //Remove trailing space
                         aliquot = aliquot.Trim();
+                        aliquot = aliquot.Replace("\t", " ").Trim();
                         continue;
                     }
 
@@ -98,17 +99,20 @@ namespace Agilent_6890
                             userDefined3 = tokens[3].Trim();
                         }
 
-                    }
-                    DataRow dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["User Defined 1"] = userDefined1;
-                    dr["User Defined 2"] = userDefined2;
-                    dr["User Defined 3"] = userDefined3;
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+                        dr["User Defined 1"] = userDefined1;
+                        dr["User Defined 2"] = userDefined2;
+                        dr["User Defined 3"] = userDefined3;
 
-                    dt.Rows.Add(dr);
+                        dt.Rows.Add(dr);
+
+                        break;
+                    }
+                   
                 }
             }
             catch (Exception ex)
