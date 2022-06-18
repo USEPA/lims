@@ -65,32 +65,37 @@ namespace NRSA_ddPCR
 
                     //Info for measured value in column D
                     DataRow dr = dt.NewRow();
-                    analyteID = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx,ColumnIndex1.D]);
+                    analyteID = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.D]);
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx,ColumnIndex1.E]);
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Measured Value"] = measuredVal;
                     dt.Rows.Add(dr);
 
-                    //Info for measured value in column P
-                    dr = dt.NewRow();                    
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 16]);
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = "Accepted Droplets";
-                    dr["Measured Value"] = measuredVal;
-                    dt.Rows.Add(dr);
-
                     //Info for measured value in column Q
+                    //These values will appear twice but only need to import one value
+                    if (rowIdx % 2 == 0)
+                    {
+                        dr = dt.NewRow();
+                        measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.Q]);
+                        dr["Aliquot"] = aliquot;
+                        dr["Analyte Identifier"] = "Accepted Droplets";
+                        dr["Measured Value"] = measuredVal;
+                        dt.Rows.Add(dr);
+                    }
+                    //Info for measured value in column R
                     dr = dt.NewRow();
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 17]);
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.R]);
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID + " Positive Droplets";
                     dr["Measured Value"] = measuredVal;
                     dt.Rows.Add(dr);
 
-                    //Info for measured value in column R
+                    //Info for measured value in column S
                     dr = dt.NewRow();
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, 18]);
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.S]);
+                    if (measuredVal == double.NaN)
+                        measuredVal = 0.0;
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID + " Negative Droplets";
                     dr["Measured Value"] = measuredVal;
