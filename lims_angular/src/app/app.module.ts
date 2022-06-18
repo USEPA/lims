@@ -45,6 +45,7 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { UnauthorizedRedirect } from "./interceptors/unauthorized-redirect.interceptor";
 
 import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
+import { LimsManagementComponent } from './admin/lims-management/lims-management.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import { HighlightSearchPipe } from "./pipes/highlight-search.pipe";
         LogListComponent,
         HighlightSearchPipe,
         DeleteConfirmationDialogComponent,
+        LimsManagementComponent,
     ],
     imports: [
         BrowserModule,

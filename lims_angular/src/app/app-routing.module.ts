@@ -8,6 +8,7 @@ import { WorkflowDetailComponent } from "./components/workflows/workflow-detail/
 import { ProcessorListComponent } from "./components/processors/processor-list/processor-list.component";
 import { WorkflowEditorComponent } from "./components/workflows/workflow-editor/workflow-editor.component";
 import { LogListComponent } from "./components/logs/log-list/log-list.component";
+import { LimsManagementComponent } from "./admin/lims-management/lims-management.component";
 
 const routes: Routes = [
     { path: "", component: TaskListComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
     { path: "workflows/create", component: WorkflowEditorComponent },
     { path: "workflows/edit/:id", component: WorkflowEditorComponent },
     { path: "processors", component: ProcessorListComponent },
+    { path: "management", component: LimsManagementComponent },
     { path: "**", redirectTo: "/" },
 ];
 
