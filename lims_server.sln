@@ -65,7 +65,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACESD_DOC", "Processors\ACE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFSB_Light_Hydrocarbons", "Processors\SFSB_Light_Hydrocarbons\SFSB_Light_Hydrocarbons.csproj", "{C83FE3AB-E08F-4911-B07D-1359DB822F68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agilent_6890", "Processors\Agilent_6890\Agilent_6890.csproj", "{C5E32457-4B94-4D5E-82E6-7070F318FB71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agilent_6890", "Processors\Agilent_6890\Agilent_6890.csproj", "{C5E32457-4B94-4D5E-82E6-7070F318FB71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thermo_Finnigan_DeltaPlus_IRMS", "Processors\Thermo_Finnigan_DeltaPlus_IRMS\Thermo_Finnigan_DeltaPlus_IRMS.csproj", "{3635F06C-7736-436C-94FB-C4AB026DB8C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CE_Instruments_NC2500_Elemental_Analyzer", "Processors\CE_Instruments_NC2500_Elemental_Analyzer\CE_Instruments_NC2500_Elemental_Analyzer.csproj", "{102ED65C-9EBA-446F-860A-19F31997C83A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +201,14 @@ Global
 		{C5E32457-4B94-4D5E-82E6-7070F318FB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E32457-4B94-4D5E-82E6-7070F318FB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5E32457-4B94-4D5E-82E6-7070F318FB71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3635F06C-7736-436C-94FB-C4AB026DB8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3635F06C-7736-436C-94FB-C4AB026DB8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3635F06C-7736-436C-94FB-C4AB026DB8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3635F06C-7736-436C-94FB-C4AB026DB8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{102ED65C-9EBA-446F-860A-19F31997C83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{102ED65C-9EBA-446F-860A-19F31997C83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{102ED65C-9EBA-446F-860A-19F31997C83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{102ED65C-9EBA-446F-860A-19F31997C83A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +240,8 @@ Global
 		{8702762F-AC7E-44A1-A4F6-3FFDCF0D4208} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{C83FE3AB-E08F-4911-B07D-1359DB822F68} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 		{C5E32457-4B94-4D5E-82E6-7070F318FB71} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{3635F06C-7736-436C-94FB-C4AB026DB8C4} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
+		{102ED65C-9EBA-446F-860A-19F31997C83A} = {B0410B75-36D7-480E-81D3-5F4AFC266C0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C30C58D6-0637-4A2A-A42E-364C533B80B3}
