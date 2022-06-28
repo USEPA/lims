@@ -333,6 +333,9 @@ namespace PluginBase
         public readonly static int X = 23;
         public readonly static int Y = 24;
         public readonly static int Z = 25;
+        public readonly static int AA = 26;
+        public readonly static int AB = 27;
+        public readonly static int AC = 28;
     }
 
     public static class ColumnIndex1
