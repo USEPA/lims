@@ -52,6 +52,7 @@ namespace CE_Instruments_NC2500_Elemental_Analyzer
                 //Data starts are row 4 in file but we've import into a datatable which has 0 based rows
                 for (int row = 3; row < numRows; row++)
                 {
+                    current_row = row;
                     string tmpMeasuredVal = "";
                     DataRow dr = null;
                     aliquot = worksheet.Rows[row][ColumnIndex0.A].ToString().Trim();
