@@ -14,7 +14,7 @@ namespace CE_Instruments_NC2500_Elemental_Analyzer
         public override string id { get => "ce_instruments_nc2500_elemental_analyzer"; }
         public override string name { get => "CE_Instruments_NC2500_Elemental_Analyzer"; }
         public override string description { get => "Processor used for CE Instruments NC2500 Elemental Analyzer translation to universal template"; }
-        public override string file_type { get => ".XLS"; }
+        public override string file_type { get => ".xlt"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
@@ -40,25 +40,71 @@ namespace CE_Instruments_NC2500_Elemental_Analyzer
                 tables = result.Tables;
 
 
-                DataTable dt_template = GetDataTable();
-                dt_template.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
+                DataTable dt = GetDataTable();
+                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                 TemplateField[] fields = Fields;
 
                 var worksheet = tables[0];
                 int numRows = worksheet.Rows.Count;
                 int numCols = worksheet.Columns.Count;
 
-                for (int row = 1; row < numRows; row++)
+                //There are three measured values per row in columns D, F and L
+                //Data starts are row 4 in file but we've import into a datatable which has 0 based rows
+                for (int row = 3; row < numRows; row++)
                 {
-                    string aliquot_id = worksheet.Rows[row][0].ToString();
-                    DateTime analysis_datetime = fi.CreationTime.Date.Add(DateTime.Parse(worksheet.Rows[row][8].ToString()).TimeOfDay);
+                    string tmpMeasuredVal = "";
+                    DataRow dr = null;
+                    aliquot = worksheet.Rows[row][ColumnIndex0.A].ToString().Trim();
+                    
+
+                    //Data for column D
+                    analyteID = "Amount";
+                    tmpMeasuredVal = worksheet.Rows[row][ColumnIndex0.D].ToString().Trim();
+                    if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
+                        throw new Exception("Unable to parse measured value for column D: " + tmpMeasuredVal);
+
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;                    
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
+
+                    //Data for column F
+                    analyteID = "N Area";
+                    tmpMeasuredVal = worksheet.Rows[row][ColumnIndex0.F].ToString().Trim();
+                    if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
+                        throw new Exception("Unable to parse measured value for column F: " + tmpMeasuredVal);
+
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
+
+                    //Data for column L
+                    analyteID = "C Area";
+                    tmpMeasuredVal = worksheet.Rows[row][ColumnIndex0.L].ToString().Trim();
+                    if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
+                        throw new Exception("Unable to parse measured value for column L: " + tmpMeasuredVal);
+
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
                 }
+
+                rm.TemplateData = dt;
             }
 
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
             return rm;
         }

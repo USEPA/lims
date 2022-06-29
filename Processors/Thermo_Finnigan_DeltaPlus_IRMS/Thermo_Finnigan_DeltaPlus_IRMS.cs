@@ -104,7 +104,7 @@ namespace Thermo_Finnigan_DeltaPlus_IRMS
                         bCO2 = true;
                     }
 
-                    tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.J].ToString();
+                    tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.J].ToString().Trim();
                     if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
                         throw new Exception("Unable to parse measured value for column J: " + tmpMeasuredVal);
 
@@ -121,7 +121,7 @@ namespace Thermo_Finnigan_DeltaPlus_IRMS
                     if (bCO2)
                     {
                         analyteID = "Raw 13C";
-                        tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.W].ToString();
+                        tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.W].ToString().Trim();
                         if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
                             throw new Exception("Unable to parse measured value for column W: " + tmpMeasuredVal);
 
@@ -138,7 +138,7 @@ namespace Thermo_Finnigan_DeltaPlus_IRMS
                     if (bN2)
                     {
                         analyteID = "Raw 15N";
-                        tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.AC].ToString();
+                        tmpMeasuredVal = worksheet.Rows[rowIdx][ColumnIndex0.AC].ToString().Trim();
                         if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
                             throw new Exception("Unable to parse measured value for column AC: " + tmpMeasuredVal);
 
