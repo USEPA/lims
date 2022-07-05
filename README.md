@@ -1,2 +1,3 @@
 # lims
-Support for Laboratory Information Management System
+
+Support for TITAN Laboratory Information Management System
