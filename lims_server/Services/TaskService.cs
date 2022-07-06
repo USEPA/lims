@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Hangfire;
 using Hangfire.Server;
 using LimsServer.Entities;
@@ -309,13 +310,22 @@ namespace LimsServer.Services
                 _logService.Warning($"Task unable to create output directory, unauthorized access exception. WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Output Directory: {workflow.outputFolder}", task: task);
             }
 
-            string fileFilter = workflow.filter;
-            List<string> files = Directory.GetFiles(dataPath, fileFilter, SearchOption.AllDirectories).OrderBy(p => p).ToList();
-            //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
+            string regexFilter = workflow.filter;
+            List<string> files = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
+            List<string> lstFiles = new List<string>();
+            Match match;
+            foreach (string fullFilename in files)
+            {
+                string filename = Path.GetFileName(fullFilename);
+                match = Regex.Match(filename, regexFilter, RegexOptions.IgnoreCase);
+                if (match.Success)
+                    lstFiles.Add(fullFilename);
+            }
+                //Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
             DataTableResponseMessage totalResult = new DataTableResponseMessage(dataPath);
             
-            foreach (string filename in files)
+            foreach (string filename in lstFiles)
             {
                 DataTableResponseMessage singleResult = pm.ExecuteProcessor(processor.Path, processor.Name, filename);
                 GC.Collect();
