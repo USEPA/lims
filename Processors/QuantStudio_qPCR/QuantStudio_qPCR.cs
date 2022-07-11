@@ -94,6 +94,7 @@ namespace QuantStudio_qPCR
                     dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
+                    dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Measured Value"] = measuredVal;
                     dr["User Defined 1"] = userDefined1;
                     dt.Rows.Add(dr);                    

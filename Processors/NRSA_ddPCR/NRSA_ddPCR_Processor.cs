@@ -70,6 +70,7 @@ namespace NRSA_ddPCR
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
                     dt.Rows.Add(dr);
 
                     //Info for measured value in column Q
@@ -81,6 +82,7 @@ namespace NRSA_ddPCR
                         dr["Aliquot"] = aliquot;
                         dr["Analyte Identifier"] = "Accepted Droplets";
                         dr["Measured Value"] = measuredVal;
+                        dr["User Defined 1"] = userDefined1;
                         dt.Rows.Add(dr);
                     }
                     //Info for measured value in column R
@@ -89,6 +91,7 @@ namespace NRSA_ddPCR
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID + " Positive Droplets";
                     dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
                     dt.Rows.Add(dr);
 
                     //Info for measured value in column S
@@ -99,6 +102,7 @@ namespace NRSA_ddPCR
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID + " Negative Droplets";
                     dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
                     dt.Rows.Add(dr);
 
                 }
