@@ -15,10 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="5.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PluginBase\PluginBase.csproj" />
   </ItemGroup>
 
