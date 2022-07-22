@@ -259,25 +259,25 @@ namespace LimsServer.Services
             task.inputFile = dataPath;
             task.status = "PROCESSING";
             await _context.SaveChangesAsync();
-            bool alreadyCompleted = await this.InputDirectoryCheck(task.inputFile, task.workflowID);
-            if (alreadyCompleted)
-            {
-                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
-                try
-                {
-                    File.Delete(task.inputFile);
-                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
-                }
-                catch (FileNotFoundException ex)
-                {
-                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
-                }
+            //bool alreadyCompleted = await this.InputDirectoryCheck(task.inputFile, task.workflowID);
+            //if (alreadyCompleted)
+            //{
+            //    _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
+            //    try
+            //    {
+            //        File.Delete(task.inputFile);
+            //        _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
+            //    }
+            //    catch (FileNotFoundException ex)
+            //    {
+            //        _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+            //    }
 
-                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
-                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
-                await this.RunTask(task.id);
-                return dataResponseMessage;
-            }
+            //    string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
+            //    await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
+            //    await this.RunTask(task.id);
+            //    return dataResponseMessage;
+            //}
 
             ProcessorManager pm = new ProcessorManager();
             string config = "./app_files/processors";
@@ -357,25 +357,25 @@ namespace LimsServer.Services
             task.inputFile = dataFile;
             task.status = "PROCESSING";
             await _context.SaveChangesAsync();
-            bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
-            if (alreadyCompleted)
-            {
-                _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
-                try
-                {
-                    File.Delete(task.inputFile);
-                    _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
-                }
-                catch (FileNotFoundException ex)
-                {
-                    _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
-                }
+            //bool alreadyCompleted = await this.InputFileCheck(task.inputFile, task.workflowID);
+            //if (alreadyCompleted)
+            //{
+            //    _logService.Information($"Hash input file match for WorkflowID: {task.workflowID}, ID: {task.id}, Hangfire ID: {task.taskID}, Input File: {task.inputFile}, Message: Rerunning task after removing file.", task: task);
+            //    try
+            //    {
+            //        File.Delete(task.inputFile);
+            //        _logService.Information($"Hash input file match successfully deleted. WorkflowID: {task.workflowID}, ID: {task.id}, Input File: {task.inputFile}", task: task);
+            //    }
+            //    catch (FileNotFoundException ex)
+            //    {
+            //        _logService.Warning($"Error unable to delete input file after hash file match with previous input file. Workflow ID: {task.workflowID}, ID: {task.id}", task: task);
+            //    }
 
-                string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
-                await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
-                await this.RunTask(task.id);
-                return dataResponseMessage;
-            }
+            //    string statusMessage = String.Format("Input file: {0} matches previously processed input file", task.inputFile);
+            //    await this.UpdateStatus(task.id, "SCHEDULED", statusMessage);
+            //    await this.RunTask(task.id);
+            //    return dataResponseMessage;
+            //}
 
             ProcessorManager pm = new ProcessorManager();
             string config = "./app_files/processors";
