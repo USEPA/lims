@@ -58,6 +58,37 @@ namespace ACESD_TSS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                string D3_analyteID = "Initial Weight";
+                string E3_analyteID = "Final Weight";
+                string F3_analyteID = "Ashed Weight";
+
+                for (int rowIdx=4;rowIdx<numRows;rowIdx++)
+                {
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.D]);
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = D3_analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
+
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.E]);
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = E3_analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
+
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.F]);
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = F3_analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dt.Rows.Add(dr);
+
+                }
+
             }
 
             catch (Exception ex)
