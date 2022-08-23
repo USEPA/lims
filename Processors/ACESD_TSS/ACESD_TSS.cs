@@ -1,12 +1,7 @@
-﻿using PluginBase;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.IO;
 using System.Xml.Linq;
-
-sing System;
-using System.Data;
-using System.IO;
 using PluginBase;
 using OfficeOpenXml;
 
@@ -64,6 +59,7 @@ namespace ACESD_TSS
 
                 for (int rowIdx=4;rowIdx<numRows;rowIdx++)
                 {
+                    current_row = rowIdx;
                     aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
 
                     measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.D]);
@@ -81,7 +77,7 @@ namespace ACESD_TSS
                     dt.Rows.Add(dr);
 
                     measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.F]);
-                    DataRow dr = dt.NewRow();
+                    dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = F3_analyteID;
                     dr["Measured Value"] = measuredVal;
@@ -93,8 +89,12 @@ namespace ACESD_TSS
 
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             rm.TemplateData = dt;

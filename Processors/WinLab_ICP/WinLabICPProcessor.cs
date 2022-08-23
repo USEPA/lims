@@ -49,6 +49,7 @@ namespace WinLab_ICP
 
                     while ((line = sr.ReadLine()) != null)
                     {
+                        current_row = idxRow;
                         //First row is header. We'll skip it
                         if (idxRow < 1)
                         {
@@ -111,8 +112,12 @@ namespace WinLab_ICP
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             return rm;
