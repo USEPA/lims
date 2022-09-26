@@ -51,15 +51,30 @@ namespace EGB_YSI6600
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
-
-
                 
-                string user_defined1 = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, 6]));
-                
-                string analyteID = "";
+                string analyteID_J = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.J]));
+                string analyteID_K = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.K]));
+                string analyteID_L = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.L]));
+                string analyteID_M = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.M]));
+                string analyteID_N = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.N]));
+                string analyteID_O = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.O]));
+                string analyteID_P = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.P]));
+                string analyteID_Q = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.Q]));
+                string analyteID_R = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.R]));
+                string analyteID_S = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.S]));
+                string analyteID_T = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.T]));
+                                
 
-                for (int rowIdx = 7; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
                 {
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
+                    string sTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
+                    if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
+                        throw  new Exception($"Invalid Analysis DateTime: {sDate} {sTime}");
+
+                    userDefined1 = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.I]);
+
                 }
 
             }
