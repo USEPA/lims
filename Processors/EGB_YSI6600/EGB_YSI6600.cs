@@ -63,11 +63,13 @@ namespace EGB_YSI6600
                 string analyteID_R = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.R]));
                 string analyteID_S = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.S]));
                 string analyteID_T = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.T]));
-                                
 
+                aliquot = "";
+                string currentAliquot = "";
                 for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
                 {
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    current_row = rowIdx;
+                    currentAliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
                     string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
                     string sTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
                     if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
@@ -80,8 +82,12 @@ namespace EGB_YSI6600
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             rm.TemplateData = dt;
