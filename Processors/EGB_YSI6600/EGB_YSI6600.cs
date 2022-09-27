@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using System.Linq;
 using PluginBase;
 using OfficeOpenXml;
 using System.Collections.Generic;
@@ -36,7 +37,11 @@ namespace EGB_YSI6600
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
 
-                var worksheet = package.Workbook.Worksheets[0];  //Worksheets are zero-based index                
+                //Will this thro
+                var worksheet = package.Workbook.Worksheets["SondeDiscreteData"];  //Worksheets are zero-based index
+                if (worksheet == null)
+                    throw new Exception($"Unable to find worksheet: SondeDiscreteData");
+
                 string name = worksheet.Name;
 
                 //File validation
@@ -53,51 +58,73 @@ namespace EGB_YSI6600
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
                                 
-                string analyteID_K = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.K]));
-                string analyteID_L = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.L]));
-                string analyteID_M = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.M]));
-                string analyteID_N = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.N]));
-                string analyteID_O = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.O]));
-                string analyteID_P = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.P]));
-                string analyteID_Q = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.Q]));
-                string analyteID_R = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.R]));
-                string analyteID_S = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.S]));
-                string analyteID_T = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.T]));
-                string analyteID_U = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.U]));
+                List<string> lstAnalyteIDs = new List<string>();
+                for (int i = ColumnIndex1.K; i <= ColumnIndex1.U; i++)                
+                    lstAnalyteIDs.Add(GetXLStringValue(worksheet.Cells[2, i]));
+                
+                //string analyteID_K = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.K]));
+                //string analyteID_L = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.L]));
+                //string analyteID_M = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.M]));
+                //string analyteID_N = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.N]));
+                //string analyteID_O = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.O]));
+                //string analyteID_P = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.P]));
+                //string analyteID_Q = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.Q]));
+                //string analyteID_R = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.R]));
+                //string analyteID_S = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.S]));
+                //string analyteID_T = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.T]));
+                //string analyteID_U = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.U]));
 
                 aliquot = "";
-                Dictionary<string, List<double>> dctMeasuredVals = new Dictionary<string, List<double>>(11);
+                Dictionary<string, AliquotData> dctAliquots = new Dictionary<string, AliquotData);
                 Dictionary<string, int> dctCount = new Dictionary<string, int>();
                 string currentAliquot = "";
+                AliquotData aliquot = null;
                 for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
                 {
                     current_row = rowIdx;
                     currentAliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
-                    if (!dctMeasuredVals.ContainsKey(currentAliquot))
-                        dctMeasuredVals.Add(currentAliquot, new List<double>(11));
-                   
-                    string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
-                    string sTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
-                    if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
-                        throw  new Exception($"Invalid Analysis DateTime: {sDate} {sTime}");
+                    //Add this aliquot if its the first time we've seen it
+                    if (!dctAliquots.ContainsKey(currentAliquot))
+                    {
+                        aliquot = new AliquotData(currentAliquot);
+                        dctAliquots.Add(currentAliquot, aliquot);
+                        string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
+                        string sTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
+                        if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
+                            throw new Exception($"Invalid Analysis DateTime: {sDate} {sTime}");
+                        aliquot.AnalysisDateTime = analysisDateTime;
 
-                    userDefined1 = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.I]);
-
-                    List<double> lstTmp = dctMeasuredVals[currentAliquot];
+                        userDefined1 = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.I]);
+                        aliquot.UserDefined1 = userDefined1;
+                    }
+                    else
+                        aliquot = dctAliquots[currentAliquot];                                       
 
                     //Keep track of how many aliquots need to be averaged
-                    dctCount[currentAliquot] += 1;
+                    aliquot.Count += 1;
                     int lstIdx = 0;
                     for (int colIdx = ColumnIndex1.K; colIdx <= ColumnIndex1.U; colIdx++)
                     {
                         double dval = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
-                        lstTmp[lstIdx] += dval;
+                        aliquot.MeasuredValues[lstIdx] += dval;
                         lstIdx++;
-                    }
-                    
-
+                    }                   
                 }
+                //We have all the data. Calculate the averages and build datatable
+                foreach (AliquotData alqt in dctAliquots.Values)
+                {
+                    for (int analyteIdx = 0; analyteIdx < alqt.MeasuredValues.Count; analyteIdx++)
+                    {
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = alqt.Aliquot;
+                        dr["Analyte Identifier"] = lstAnalyteIDs[analyteIdx];
+                        dr["Measured Value"] = alqt.MeasuredValues.Sum() / (double)alqt.Count;
+                        dr["Analysis Date/Time"] = alqt.AnalysisDateTime;
+                        dr["User Defined 1"] = alqt.UserDefined1;
 
+                        dt.Rows.Add(dr);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -113,6 +140,25 @@ namespace EGB_YSI6600
 
             return rm;
 
+        }
+    }
+
+    public class AliquotData
+    {
+        public string Aliquot { get; set; }
+        public int Count { get; set; }
+        public DateTime AnalysisDateTime { get; set; }
+        public List<double> MeasuredValues { get; set; }
+        public string UserDefined1 { get; set; }
+
+
+
+        public AliquotData(string aliquot)
+        {
+            Aliquot = aliquot;
+            Count = 0;
+            AnalysisDateTime = DateTime.MinValue;
+            MeasuredValues = new List<double>(11);
         }
     }
 }
