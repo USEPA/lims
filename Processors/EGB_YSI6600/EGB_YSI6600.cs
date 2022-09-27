@@ -73,9 +73,8 @@ namespace EGB_YSI6600
                 //string analyteID_S = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.S]));
                 //string analyteID_T = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.T]));
                 //string analyteID_U = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.U]));
-
-                aliquot = "";
-                Dictionary<string, AliquotData> dctAliquots = new Dictionary<string, AliquotData);
+                
+                Dictionary<string, AliquotData> dctAliquots = new Dictionary<string, AliquotData>();
                 Dictionary<string, int> dctCount = new Dictionary<string, int>();
                 string currentAliquot = "";
                 AliquotData aliquot = null;
@@ -90,9 +89,13 @@ namespace EGB_YSI6600
                         dctAliquots.Add(currentAliquot, aliquot);
                         string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
                         string sTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
-                        if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
-                            throw new Exception($"Invalid Analysis DateTime: {sDate} {sTime}");
-                        aliquot.AnalysisDateTime = analysisDateTime;
+                        DateTime date = Convert.ToDateTime(sDate);
+                        DateTime time = Convert.ToDateTime(sTime);
+                        DateTime date_time = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+                        
+                        //if (!DateTime.TryParse(sDate + " " + sTime, out analysisDateTime))
+                        //    throw new Exception($"Invalid Analysis DateTime: {sDate} {sTime}");
+                        aliquot.AnalysisDateTime = date_time;
 
                         userDefined1 = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.I]);
                         aliquot.UserDefined1 = userDefined1;
@@ -158,7 +161,7 @@ namespace EGB_YSI6600
             Aliquot = aliquot;
             Count = 0;
             AnalysisDateTime = DateTime.MinValue;
-            MeasuredValues = new List<double>(11);
+            MeasuredValues = new List<double>(new double[11]);
         }
     }
 }
