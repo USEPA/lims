@@ -57,7 +57,8 @@ namespace Tracefinder
                 
                 //Start Sheet 2 -------------------------------------------------------------------------------
                 //Data is in the 2nd sheet
-                var worksheet2 = package.Workbook.Worksheets[1];  //Worksheets are zero-based index                
+                //var worksheet2 = package.Workbook.Worksheets[1];  //Worksheets are zero-based index                
+                var worksheet2 = package.Workbook.Worksheets["Sheet2"];
                 string name = worksheet2.Name;
                 //File validation
                 if (worksheet2.Dimension == null)
@@ -155,7 +156,8 @@ namespace Tracefinder
                 //End Sheet 2 -------------------------------------------------------------------------------
 
                 //Start Sheet 4 -----------------------------------------------------------------------------
-                var worksheet4 = package.Workbook.Worksheets[3];  //Worksheets are zero-based index        
+                //var worksheet4 = package.Workbook.Worksheets[3];  //Worksheets are zero-based index
+                var worksheet4 = package.Workbook.Worksheets["Sheet4"];  //Worksheets are zero-based index        
                 name = worksheet4.Name;
                 //File validation
                 if (worksheet4.Dimension == null)
