@@ -1,17 +1,17 @@
-﻿using PluginBase;
-using OfficeOpenXml;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using PluginBase;
+using OfficeOpenXml;
 
-namespace ACESD_IRMS
+namespace SFSB_VBS
 {
-    public class ACESD_IRMS : DataProcessor
+    public class SFSB_VBS : DataProcessor
     {
-        public override string id { get => "acesd_irms.0"; }
-        public override string name { get => "ACESD_IRMS"; }
-        public override string description { get => "Processor used for ACESD_IRMS translation to universal template"; }
+        public override string id { get => "sfsb_vbs.0"; }
+        public override string name { get => "SFSB_VBS"; }
+        public override string description { get => "Processor used for SFSB_VBS translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
@@ -36,7 +36,7 @@ namespace ACESD_IRMS
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
 
-                var worksheet = package.Workbook.Worksheets["Compiled"];  //Worksheets are zero-based index                
+                var worksheet = package.Workbook.Worksheets["Binmass"];  //Worksheets are zero-based index                
                 string name = worksheet.Name;
 
                 //File validation
@@ -51,25 +51,23 @@ namespace ACESD_IRMS
                 int startRow = worksheet.Dimension.Start.Row;
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
-                int numCols = worksheet.Dimension.End.Column;
+                int numCols = worksheet.Dimension.End.Column; 
 
                 for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
-                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
+                    analyteID = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);                    
 
-                    for (int colIdx = ColumnIndex1.I; colIdx <= numCols; colIdx++)
+                    for (int colIdx = ColumnIndex1.B; colIdx <= numCols; colIdx++)
                     {
-                        string analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
+                        aliquot = GetXLStringValue(worksheet.Cells[1, colIdx]);
                         if (string.IsNullOrWhiteSpace(analyteID))
                             break;
 
                         measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
 
                         DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;
-                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Aliquot"] = aliquot;                        
                         dr["Analyte Identifier"] = analyteID;
                         dr["Measured Value"] = measuredVal;
 

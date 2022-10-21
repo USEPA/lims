@@ -1,0 +1,831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ACAML xmlns="urn:schemas-agilent-com:acaml15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Checksum Algorithm="MD5">
+		<Value>jRlafvIQdGcLfiaA8yLJ8Q==</Value>
+	</Checksum>
+	<Doc ContentVersioned="false">
+		<DocID>c21a737a-fdae-489a-a5cc-fd8517f8997f</DocID>
+		<DocInfo>
+			<Description>Method ACAML</Description>
+			<CreatedByUser>Agilent_GCLC2\Admin</CreatedByUser>
+			<CreatedByApplication>
+				<AgilentApp>
+					<Name>ChemStation</Name>
+					<Version>2.169.0.0</Version>
+				</AgilentApp>
+			</CreatedByApplication>
+			<CreationDate>2019-04-08T20:10:26.029-05:00</CreationDate>
+			<ClientName>Agilent_GCLC2</ClientName>
+		</DocInfo>
+		<Content>
+			<MethodConfiguration xsi:type="MethodConfigurationType" id="67352ea2-6961-4f7b-8ea3-5f0d16bfaf4f" ver="0">
+				<MethodDescription>
+					<Name>Method Configuration</Name>
+					<ID>Method_Configuration</ID>
+					<Section>
+						<Name>Acquisition Method</Name>
+						<ID>Acquisition_Method</ID>
+						<Section>
+							<Name>6890</Name>
+							<ID>GC</ID>
+							<Section>
+								<Name>OVEN</Name>
+								<ID>Oven_Section</ID>
+								<Section>
+									<Name>Initial conditions</Name>
+									<ID>Oven_Init_Params</ID>
+									<Parameter>
+										<Name>Oven Equilibration Time</Name>
+										<ID>ICF.OVEN_Equib_Time</ID>
+										<Value>0.5</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Maximum Oven Temperature</Name>
+										<ID>ICF.OVEN_Max</ID>
+										<Value>310</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Initial Oven Temperature</Name>
+										<ID>ICF.OVEN_Init_Temp</ID>
+										<Value>175</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Oven</Name>
+										<ID>ICF.OVEN_OnOff</ID>
+										<Value>On</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Initial Oven Time</Name>
+										<ID>ICF.OVEN_Init_Time</ID>
+										<Value>1</Value>
+									</Parameter>
+								</Section>
+								<Section>
+									<Name>Ramps</Name>
+									<ID>Oven_Ramps</ID>
+									<Table>
+										<Name>Ramp table</Name>
+										<ID>Oven_Ramps_Table</ID>
+										<Row>
+											<Parameter>
+												<Name>Rate</Name>
+												<ID>RATE</ID>
+												<Value>25</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Value</Name>
+												<ID>NEXT</ID>
+												<Value>275</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Hold Time</Name>
+												<ID>HOLD</ID>
+												<Value>0</Value>
+											</Parameter>
+										</Row>
+										<Row>
+											<Parameter>
+												<Name>Rate</Name>
+												<ID>RATE</ID>
+												<Value>10</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Value</Name>
+												<ID>NEXT</ID>
+												<Value>280</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Hold Time</Name>
+												<ID>HOLD</ID>
+												<Value>0</Value>
+											</Parameter>
+										</Row>
+										<Row>
+											<Parameter>
+												<Name>Rate</Name>
+												<ID>RATE</ID>
+												<Value>25</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Value</Name>
+												<ID>NEXT</ID>
+												<Value>310</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Hold Time</Name>
+												<ID>HOLD</ID>
+												<Value>3</Value>
+											</Parameter>
+										</Row>
+									</Table>
+								</Section>
+								<Section>
+									<Name>Post-run conditions</Name>
+									<ID>Oven_Post_Params</ID>
+									<Parameter>
+										<Name>Oven Post Temperature</Name>
+										<ID>ICF.OVEN_Post_Temp</ID>
+										<Value>55</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Oven Post Time</Name>
+										<ID>ICF.OVEN_Post_Time</ID>
+										<Value>0</Value>
+									</Parameter>
+								</Section>
+							</Section>
+							<Section>
+								<Name>FRONT INLET</Name>
+								<ID>FInlet_Section</ID>
+								<Parameter>
+									<Name>Front Inlet Title</Name>
+									<ID>ICF.FINL_Title</ID>
+									<Value>SPLIT/SPLITLESS</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Injection Mode</Name>
+									<ID>ICF.FINL_SS_lInjMode</ID>
+									<Value>Splitless</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Temperature</Name>
+									<ID>ICF.FINL_SS_TSET</ID>
+									<Value>250</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Inlet Zone Control</Name>
+									<ID>ICF.FINL_lbZone</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Pressure</Name>
+									<ID>ICF.FINL_SS_PSET</ID>
+									<Value>13.0 psi</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Inlet Pressure Control</Name>
+									<ID>ICF.FINL_lbPresOnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Purge Flow</Name>
+									<ID>ICF.FINL_SS_PURGEF</ID>
+									<Value>54.9 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Purge Time</Name>
+									<ID>ICF.FINL_SS_PURGET</ID>
+									<Value>0.75</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Total Flow</Name>
+									<ID>ICF.FINL_SS_TFSET</ID>
+									<Value>58.8 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Gas Saver</Name>
+									<ID>ICF.FINL_SS_lbSaver</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Gas Saver Flow</Name>
+									<ID>ICF.FINL_SS_SAVERF</ID>
+									<Value>20.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Front Inlet Gas Saver Time</Name>
+									<ID>ICF.FINL_SS_SAVERT</ID>
+									<Value>2</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Inlet Gas Type</Name>
+									<ID>ICF.FINL_lGasType</ID>
+									<Value>He</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>BACK INLET</Name>
+								<ID>BInlet_Section</ID>
+								<Parameter>
+									<Name>Back Inlet Title</Name>
+									<ID>ICF.BINL_Title</ID>
+									<Value>SPLIT/SPLITLESS</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet lnlet Injection Mode</Name>
+									<ID>ICF.BINL_SS_lInjMode</ID>
+									<Value>Splitless</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Temperature</Name>
+									<ID>ICF.BINL_SS_TSET</ID>
+									<Value>240</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Inlet Zone Control</Name>
+									<ID>ICF.BINL_lbZone</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Pressure</Name>
+									<ID>ICF.BINL_SS_PSET</ID>
+									<Value>18.5 psi</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Inlet Pressure Control</Name>
+									<ID>ICF.BINL_lbPresOnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Purge Flow</Name>
+									<ID>ICF.BINL_SS_PURGEF</ID>
+									<Value>50.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Purge Time</Name>
+									<ID>ICF.BINL_SS_PURGET</ID>
+									<Value>1</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Total Flow</Name>
+									<ID>ICF.BINL_SS_TFSET</ID>
+									<Value>55.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Gas Saver</Name>
+									<ID>ICF.BINL_SS_lbSaver</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Gas Saver Flow</Name>
+									<ID>ICF.BINL_SS_SAVERF</ID>
+									<Value>20.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Split/Splitless Back Inlet Gas Saver Time</Name>
+									<ID>ICF.BINL_SS_SAVERT</ID>
+									<Value>2</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Inlet Gas Type</Name>
+									<ID>ICF.BINL_lGasType</ID>
+									<Value>He</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>COLUMN 1</Name>
+								<ID>Col1_Section</ID>
+								<Section>
+									<Name>Column 1 Information</Name>
+									<ID>Col1_Info</ID>
+									<Parameter>
+										<Name>Column 1 Technology</Name>
+										<ID>ICF.COL1_Category</ID>
+										<Value>Capillary</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Manufacturer</Name>
+										<ID>ICF.COL1_Manufacturer</ID>
+										<Value />
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Type</Name>
+										<ID>ICF.COL1_Type</ID>
+										<Value />
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Serial Number</Name>
+										<ID>ICF.COL1_SerialNumber</ID>
+										<Value> </Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Description</Name>
+										<ID>ICF.COL1_Description</ID>
+										<Value>HP-5_ #136</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Maximum Temperature</Name>
+										<ID>ICF.COL1_TMax</ID>
+										<Value>325</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Length</Name>
+										<ID>ICF.COL1_fNomLen</ID>
+										<Value>30</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Diameter</Name>
+										<ID>ICF.COL1_fNomDia</ID>
+										<Value>320</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Film Thickness</Name>
+										<ID>ICF.COL1_fThk</ID>
+										<Value>0.25</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Source</Name>
+										<ID>ICF.COL1_lInletConn</ID>
+										<Value>Front Inlet</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Outlet</Name>
+										<ID>ICF.COL1_lDetConn</ID>
+										<Value>Front Detector</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Outlet Mode</Name>
+										<ID>ICF.COL1_lOutletMode</ID>
+										<Value>Ambient</Value>
+									</Parameter>
+								</Section>
+								<Section>
+									<Name>Column 1 Pressure or Flow Setpoints</Name>
+									<ID>Col1_Pneum</ID>
+									<Parameter>
+										<Name>Column 1 Mode</Name>
+										<ID>ICF.COL1_lMode</ID>
+										<Value>Constant flow</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Flow</Name>
+										<ID>ICF.COL1_F_SET</ID>
+										<Value>1.7 mL/min</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Pressure</Name>
+										<ID>ICF.COL1_P_SET</ID>
+										<Value>13.0 psi</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Average Linear Velocity</Name>
+										<ID>ICF.COL1_V_SET</ID>
+										<Value>36 cm/sec</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 1 Post-Run Setpoint</Name>
+										<ID>ICF.COL1_Post_Value</ID>
+										<Value>0.0 mL/min</Value>
+									</Parameter>
+								</Section>
+							</Section>
+							<Section>
+								<Name>COLUMN 2</Name>
+								<ID>Col2_Section</ID>
+								<Section>
+									<Name>Column 2 Information</Name>
+									<ID>Col2_Info</ID>
+									<Parameter>
+										<Name>Column 2 Technology</Name>
+										<ID>ICF.COL2_Category</ID>
+										<Value>Capillary</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Manufacturer</Name>
+										<ID>ICF.COL2_Manufacturer</ID>
+										<Value />
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Type</Name>
+										<ID>ICF.COL2_Type</ID>
+										<Value />
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Serial Number</Name>
+										<ID>ICF.COL2_SerialNumber</ID>
+										<Value> </Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Description</Name>
+										<ID>ICF.COL2_Description</ID>
+										<Value>DB-35MS UI  durabond #137</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Maximum Temperature</Name>
+										<ID>ICF.COL2_TMax</ID>
+										<Value>340</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Length</Name>
+										<ID>ICF.COL2_fNomLen</ID>
+										<Value>30</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Diameter</Name>
+										<ID>ICF.COL2_fNomDia</ID>
+										<Value>320</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Film Thickness</Name>
+										<ID>ICF.COL2_fThk</ID>
+										<Value>0.25</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Calibrated Length</Name>
+										<ID>ICF.COL2_CalibratedLength</ID>
+										<Value>29.23</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Source</Name>
+										<ID>ICF.COL2_lInletConn</ID>
+										<Value>Back Inlet</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Outlet</Name>
+										<ID>ICF.COL2_lDetConn</ID>
+										<Value>Back Detector</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Outlet Mode</Name>
+										<ID>ICF.COL2_lOutletMode</ID>
+										<Value>Ambient</Value>
+									</Parameter>
+								</Section>
+								<Section>
+									<Name>Column 2 Pressure or Flow Setpoints</Name>
+									<ID>Col2_Pneum</ID>
+									<Parameter>
+										<Name>Column 2 Mode</Name>
+										<ID>ICF.COL2_lMode</ID>
+										<Value>Ramped flow</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Flow</Name>
+										<ID>ICF.COL2_F_SET</ID>
+										<Value>2.8 mL/min</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Pressure</Name>
+										<ID>ICF.COL2_P_SET</ID>
+										<Value>18.5 psi</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Average Linear Velocity</Name>
+										<ID>ICF.COL2_V_SET</ID>
+										<Value>50 cm/sec</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Initial Hold Time</Name>
+										<ID>ICF.COL2_tInl</ID>
+										<Value>6.5</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Column 2 Post-Run Setpoint</Name>
+										<ID>ICF.COL2_Post_Value</ID>
+										<Value>2.8 mL/min</Value>
+									</Parameter>
+									<Table>
+										<Name>Column 2 Ramp Table</Name>
+										<ID>Col2_Ramps</ID>
+										<Row>
+											<Parameter>
+												<Name>Rate</Name>
+												<ID>RATE</ID>
+												<Value>99.00 mL/min^2</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Value</Name>
+												<ID>NEXT</ID>
+												<Value>6.0 mL/min</Value>
+											</Parameter>
+											<Parameter>
+												<Name>Hold Time</Name>
+												<ID>HOLD</ID>
+												<Value>0</Value>
+											</Parameter>
+										</Row>
+									</Table>
+								</Section>
+							</Section>
+							<Section>
+								<Name>FRONT DETECTOR</Name>
+								<ID>FDet_Section</ID>
+								<Parameter>
+									<Name>Front Detector Type</Name>
+									<ID>ICF.FDET_Title</ID>
+									<Value>ECD</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Temperature</Name>
+									<ID>ICF.FDET_ECD_Temp</ID>
+									<Value>290</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector Temperature Control</Name>
+									<ID>ICF.FDET_Temp_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector Gas 2 Type</Name>
+									<ID>ICF.FDET_Gas2_Title</ID>
+									<Value>Anode Purge</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Anode Flow</Name>
+									<ID>ICF.FDET_ECD_Anode_Flow</ID>
+									<Value>6.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Purge</Name>
+									<ID>ICF.FDET_ECD_Purge_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector Gas 3 Type</Name>
+									<ID>ICF.FDET_Gas3_Title</ID>
+									<Value>Makeup</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Constant Column+Makeup Mode</Name>
+									<ID>ICF.FDET_ECD_Const_ColMkup</ID>
+									<Value>Off</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Makeup Flow Setpoint</Name>
+									<ID>ICF.FDET_ECD_Combo_Flow</ID>
+									<Value>20.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Makeup Gas Flow Control</Name>
+									<ID>ICF.FDET_ECD_Mkup_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Makeup Gas Type</Name>
+									<ID>ICF.FDET_ECD_Mkup_GasType</ID>
+									<Value>N2</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Front Detector ECD Electrometer</Name>
+									<ID>ICF.FDET_ECD_Elec_OnOff</ID>
+									<Value>Off</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>BACK DETECTOR</Name>
+								<ID>BDet_Section</ID>
+								<Parameter>
+									<Name>Back Detector Type</Name>
+									<ID>ICF.BDET_Title</ID>
+									<Value>uECD</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Temperature</Name>
+									<ID>ICF.BDET_EuCD_Temp</ID>
+									<Value>325</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector Temperature Control</Name>
+									<ID>ICF.BDET_Temp_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector Gas 3 Type</Name>
+									<ID>ICF.BDET_Gas3_Title</ID>
+									<Value>Makeup</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Constant Column+Makeup Mode</Name>
+									<ID>ICF.BDET_EuCD_Const_ColMkup</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Makeup Flow Setpoint</Name>
+									<ID>ICF.BDET_EuCD_Combo_Flow</ID>
+									<Value>30.0 mL/min</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Makeup Gas Flow Control</Name>
+									<ID>ICF.BDET_EuCD_Mkup_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Makeup Gas Type</Name>
+									<ID>ICF.BDET_EuCD_Mkup_GasType</ID>
+									<Value>N2</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Back Detector uECD Electrometer</Name>
+									<ID>ICF.BDET_EuCD_Elec_OnOff</ID>
+									<Value>On</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>SIGNAL 1</Name>
+								<ID>Sig1_Section</ID>
+								<Parameter>
+									<Name>Signal 1 Save Data</Name>
+									<ID>ICF.SIG1_lbSave</ID>
+									<Value>Off</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>SIGNAL 2</Name>
+								<ID>Sig2_Section</ID>
+								<Parameter>
+									<Name>Signal 2 Save Data</Name>
+									<ID>ICF.SIG2_lbSave</ID>
+									<Value>On</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Signal 2 Data Rate</Name>
+									<ID>ICF.SIG2_fRate</ID>
+									<Value>20</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Signal 2 Source</Name>
+									<ID>ICF.SIG2_szInlDef</ID>
+									<Value>back detector</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>THERMAL AUX 1</Name>
+								<ID>Aux1_Section</ID>
+								<Parameter>
+									<Name>Thermal Aux 1 Heater Type</Name>
+									<ID>ICF.AUX1_Type</ID>
+									<Value>Valve Box</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Thermal Aux 1 Heater Initial Temperature</Name>
+									<ID>ICF.AUX1_Temp</ID>
+									<Value>150</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Thermal Aux 1 Heater</Name>
+									<ID>ICF.AUX1_ON_OFF</ID>
+									<Value>Off</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #1</Name>
+								<ID>Valve1_Section</ID>
+								<Parameter>
+									<Name>Valve 1 Type</Name>
+									<ID>ICF.VLV1_Type</ID>
+									<Value>Other</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Valve 1 Description</Name>
+									<ID>ICF.VLV1_Description</ID>
+									<Value />
+								</Parameter>
+								<Parameter>
+									<Name>Valve 1 State</Name>
+									<ID>ICF.VLV1_SV_ON_OFF</ID>
+									<Value>Off</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #2</Name>
+								<ID>Valve2_Section</ID>
+								<Parameter>
+									<Name>Valve 2 Type</Name>
+									<ID>ICF.VLV2_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #3</Name>
+								<ID>Valve3_Section</ID>
+								<Parameter>
+									<Name>Valve 3 Type</Name>
+									<ID>ICF.VLV3_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #4</Name>
+								<ID>Valve4_Section</ID>
+								<Parameter>
+									<Name>Valve 4 Type</Name>
+									<ID>ICF.VLV4_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #5</Name>
+								<ID>Valve5_Section</ID>
+								<Parameter>
+									<Name>Valve 5 Type</Name>
+									<ID>ICF.VLV5_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #6</Name>
+								<ID>Valve6_Section</ID>
+								<Parameter>
+									<Name>Valve 6 Type</Name>
+									<ID>ICF.VLV6_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #7</Name>
+								<ID>Valve7_Section</ID>
+								<Parameter>
+									<Name>Valve 7 Type</Name>
+									<ID>ICF.VLV7_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>VALVE #8</Name>
+								<ID>Valve8_Section</ID>
+								<Parameter>
+									<Name>Valve 8 Type</Name>
+									<ID>ICF.VLV8_Type</ID>
+									<Value>Not configured</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>INJECTOR 2</Name>
+								<ID>Inj2_Section</ID>
+								<Parameter>
+									<Name>Injector 2 Sample Prewash</Name>
+									<ID>ICF.INJ2_Sample_Prewash</ID>
+									<Value>5</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Sample Pumps</Name>
+									<ID>ICF.INJ2_Sample_Pumps</ID>
+									<Value>5</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Sample Volume</Name>
+									<ID>ICF.INJ2_Sample_Volume</ID>
+									<Value>2</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Syringe Size</Name>
+									<ID>ICF.INJ2_Syringe_Size</ID>
+									<Value>10</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Solvent Prewash A</Name>
+									<ID>ICF.INJ2_Solvent_Prewash_A</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Solvent Prewash B</Name>
+									<ID>ICF.INJ2_Solvent_Prewash_B</ID>
+									<Value>5</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Solvent Postwash A</Name>
+									<ID>ICF.INJ2_Solvent_Postwash_A</ID>
+									<Value>5</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Solvent Postwash B</Name>
+									<ID>ICF.INJ2_Solvent_Postwash_B</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Viscosity Delay</Name>
+									<ID>ICF.INJ2_Viscosity_Delay</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Pre-Injection Dwell</Name>
+									<ID>ICF.INJ2_Preinj_Dwell</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Post-Injection Dwell</Name>
+									<ID>ICF.INJ2_Postinj_Dwell</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Sample Skim Depth</Name>
+									<ID>ICF.INJ2_Sample_Skim_Depth</ID>
+									<Value>0</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Sample Skim</Name>
+									<ID>ICF.INJ2_Sample_Skim_On</ID>
+									<Value>Off</Value>
+								</Parameter>
+								<Parameter>
+									<Name>Injector 2 Plunger Speed</Name>
+									<ID>ICF.INJ2_Slow_Plunger_On</ID>
+									<Value>Fast</Value>
+								</Parameter>
+							</Section>
+							<Section>
+								<Name>ALS ERRORS</Name>
+								<ID>ALS_Err_Section</ID>
+								<Parameter>
+									<Name>Action when ALS errors occur</Name>
+									<ID>ICF.ASMP_AlsErrorAction</ID>
+									<Value>Pause</Value>
+								</Parameter>
+							</Section>
+						</Section>
+					</Section>
+				</MethodDescription>
+			</MethodConfiguration>
+		</Content>
+	</Doc>
+</ACAML>

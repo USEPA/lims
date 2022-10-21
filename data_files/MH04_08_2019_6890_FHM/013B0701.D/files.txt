@@ -1,0 +1,22 @@
+ Volume in drive O has no label.
+ Volume Serial Number is 7462-9C1A
+
+ Directory of O:\PRIV\NERL_LIMS_Pilot\1 CEMM\GEMMD-EDEB - Wan\LIMS_Documents_GEMMD\Agilent Data\MH04_08_2019_6890_FHM\013B0701.D
+
+07/05/2022  03:55 PM    <DIR>          .
+07/05/2022  03:55 PM    <DIR>          ..
+04/09/2019  10:41 AM            13,310 013B0701.pdf
+04/08/2019  08:31 PM            26,041 acq.macaml
+04/08/2019  08:31 PM             8,152 acq.txt
+04/08/2019  08:31 PM             5,810 ACQRES.REG
+02/01/2022  01:17 PM    <DIR>          DA.M
+04/09/2019  10:41 AM            46,624 da.macaml
+04/08/2019  08:31 PM            99,266 ECD2B.ch
+04/09/2019  10:41 AM             3,694 FHM0408.TXT
+07/05/2022  03:55 PM                 0 files.txt
+04/09/2019  10:41 AM             3,330 RUN.LOG
+04/09/2019  10:41 AM               940 SAMPLE.XML
+04/08/2019  08:18 PM               764 SAMPLE.XML.bak
+04/09/2019  10:41 AM            25,675 sequence.acam_
+              12 File(s)        233,606 bytes
+               3 Dir(s)  38,114,480,128 bytes free
