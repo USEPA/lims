@@ -47,7 +47,7 @@ namespace Chlorophyll
 
                 //Rows and columns start at 1 not 0
                 //First row is header data
-                for (int row = 2; row < numRows; row++)
+                for (int row = 2; row <= numRows; row++)
                 {                    
                     string aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
                     //Lets check for empty cell, assume we are done if we hit one

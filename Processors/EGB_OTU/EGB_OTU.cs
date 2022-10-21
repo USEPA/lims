@@ -58,7 +58,7 @@ namespace EGB_OTU
                 for (int idxCol=ColumnIndex1.C;idxCol<numCols;idxCol++)
                 {
                     aliquot = GetXLStringValue(worksheet.Cells[2, idxCol]);
-                    for (int idxRow = 3; idxRow < numRows; idxRow++)
+                    for (int idxRow = 3; idxRow <= numRows; idxRow++)
                     {
                         analyteID = GetXLStringValue(worksheet.Cells[idxRow, ColumnIndex1.A]);
                         userDefined1 = GetXLStringValue(worksheet.Cells[idxRow, ColumnIndex1.B]);

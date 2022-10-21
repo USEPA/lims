@@ -54,7 +54,7 @@ namespace Agilent_7900_ICPMS
                     string dateTime = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
                     analysisDateTime = Convert.ToDateTime(dateTime);
 
-                    for (int colIdx = ColumnIndex1.H; colIdx < numCols; colIdx=colIdx+2)
+                    for (int colIdx = ColumnIndex1.H; colIdx <= numCols; colIdx=colIdx+2)
                     {
                         analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
                         string mval = GetXLStringValue(worksheet.Cells[current_row, colIdx]);

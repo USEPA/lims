@@ -78,7 +78,7 @@ namespace EGB_YSI6600
                 Dictionary<string, int> dctCount = new Dictionary<string, int>();
                 string currentAliquot = "";
                 AliquotData aliquot = null;
-                for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 3; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
                     currentAliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);

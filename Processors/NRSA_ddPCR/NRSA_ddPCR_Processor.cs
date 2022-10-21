@@ -53,7 +53,7 @@ namespace NRSA_ddPCR
                 int numCols = worksheet.Dimension.End.Column;                
 
                 //We get 4 measured values from each row. Data will be in columns D,P,Q,R
-                for (int rowIdx = 1; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 1; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
                     if (rowIdx == 1)

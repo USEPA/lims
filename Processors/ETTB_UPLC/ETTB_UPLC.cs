@@ -50,7 +50,7 @@ namespace ETTB_UPLC
                 int numCols = worksheet.Dimension.End.Column;                
 
                 //First row just says Column1, Column2, etc...
-                for (int rowIdx = 2; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
 

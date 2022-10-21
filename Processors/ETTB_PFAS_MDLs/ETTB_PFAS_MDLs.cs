@@ -51,7 +51,7 @@ namespace ETTB_PFAS_MDLs
 
                 aliquot = GetXLStringValue(worksheet.Cells[1, ColumnIndex1.L]);
 
-                for (int rowIdx = 2; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
 
