@@ -54,17 +54,35 @@ namespace ACESD_IRMS
                 int numCols = worksheet.Dimension.End.Column;
 
                 List<string> analyteIDs = new List<string>();
-                for (int colIdx= ColumnIndex1.I;colIdx < numCols; colIdx++)
+                for (int colIdx = ColumnIndex1.I; colIdx < numCols; colIdx++)
                 {
                     string analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
                     if (string.IsNullOrWhiteSpace(analyteID))
                         break;
                 }
 
-                for (int rowIdx = 4; rowIdx < numRows; rowIdx++)
+                for (int rowIdx = 2; rowIdx < numRows; rowIdx++)
                 {
                     current_row = rowIdx;
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
+                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
+
+                    for (int colIdx = ColumnIndex1.I; colIdx < numCols; colIdx++)
+                    {
+                        string analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
+                        if (string.IsNullOrWhiteSpace(analyteID))
+                            break;
+
+                        measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
+
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+
+                        dt.Rows.Add(dr);
+                    }
                 }
             }
 
