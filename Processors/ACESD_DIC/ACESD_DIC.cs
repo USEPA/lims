@@ -44,13 +44,11 @@ namespace ACESD_DOC
 
                     while ((line = sr.ReadLine()) != null)
                     {
+                        idxRow++;
                         current_row = idxRow;
                         //Data starts in row 12
-                        if (idxRow < 12)
-                        {
-                            idxRow++;
-                            continue;
-                        }
+                        if (idxRow < 12)                                                    
+                            continue;                        
 
                         //We are finished when we reach and empty row
                         line = line.Trim();
