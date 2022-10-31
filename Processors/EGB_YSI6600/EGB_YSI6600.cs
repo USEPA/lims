@@ -81,10 +81,16 @@ namespace EGB_YSI6600
                 for (int rowIdx = 3; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
+                    //If this value is 'QAC' then skip it
+                    string sID = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.D]);
+                    if (string.Compare("QAC", sID, StringComparison.OrdinalIgnoreCase) == 0)
+                        continue;
+
                     currentAliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
                     //Add this aliquot if its the first time we've seen it
                     if (!dctAliquots.ContainsKey(currentAliquot))
                     {
+                                                
                         aliquot = new AliquotData(currentAliquot);
                         dctAliquots.Add(currentAliquot, aliquot);
                         string sDate = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
