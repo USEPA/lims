@@ -76,9 +76,13 @@ namespace ETTB_UPLC
 
                     //Date and time are in two different columns
                     string date = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.O]);
-                    string time = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.P]);
+                    DateTime dtDate = DateTime.Parse(date);
 
-                    if (!DateTime.TryParse(date + " " + time, out analysisDateTime))
+                    string time = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.P]);
+                    DateTime dtTime = DateTime.Parse(time);
+
+
+                    if (!DateTime.TryParse(dtDate.ToShortDateString() + " " + dtTime.ToLongTimeString(), out analysisDateTime))
                         throw new Exception("Invalid analysis DateTime: " + date + " " + time);
 
                     //There are a lot of empty cells in measured value column
@@ -93,12 +97,16 @@ namespace ETTB_UPLC
 
                     dataDescription = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
 
+                    userDefined1 = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.J]);
+
+
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
                     dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Measured Value"] = measuredVal;
                     dr["Description"] = dataDescription;
+                    dr["User Defined 1"] = userDefined1;
 
                     dt.Rows.Add(dr);
 
