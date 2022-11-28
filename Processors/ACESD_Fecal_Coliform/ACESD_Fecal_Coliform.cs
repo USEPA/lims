@@ -184,7 +184,7 @@ namespace ACESD_Fecal_Coliform
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = record["Sample Description"];
                     dr["Analyte Identifier"] = record["Sample Number"];
-                    dr["Analysis Date/Time"] = record["Sample Date / Time"];
+                    dr["Analysis Date/Time"] = FormatDate(record["Sample Date / Time"]);
                     dr["Measured Value"] = record["RESULTS"];
                     dr["Units"] = record["UNITS"];
                     dr["User Defined 1"] = record["Sample Type"];
@@ -208,6 +208,27 @@ namespace ACESD_Fecal_Coliform
             rm.TemplateData = dt;
 
             return rm;
+        }
+
+        private string FormatDate(string dateString)
+        {
+            // assuming that the incoming time in military 0-23
+            string[] splitDate = dateString.Split("@");
+            string date = splitDate[0].Trim();
+            string time = splitDate[1].Trim();
+            string[] hoursMinutes = time.Split(":");
+            int hour = int.Parse(hoursMinutes[0]);
+            string meridiem = "AM";
+            if (hour > 11)
+            {
+                meridiem = "PM";
+            }
+            if (hour > 12)
+            {
+                hour -= 12;
+            }
+
+            return string.Format("{0} {1}:{2} {3}", date, hour, hoursMinutes[1], meridiem);
         }
     }
 
