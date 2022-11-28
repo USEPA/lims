@@ -78,7 +78,10 @@ namespace ACESD_Fecal_Coliform
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("Failed to read input file! " + ex.Message);
+                    string errorMsg = string.Format("Problem creating PDF reader for input file {0}.", input_file);
+                    errorMsg = errorMsg + Environment.NewLine;
+                    errorMsg = errorMsg + ex.Message;
+                    rm.ErrorMessage = errorMsg;
                 }
 
                 // parse PDF pages
@@ -87,7 +90,6 @@ namespace ACESD_Fecal_Coliform
                     try
                     {
                         // pages are numberd 1 -> n
-                        int pagesRead = 0;
                         for (var i = 0; i < reader.NumberOfPages; i++)
                         {
                             // get the body of the PDF
@@ -148,13 +150,14 @@ namespace ACESD_Fecal_Coliform
                                     extractedDataRows.Add(dataRow);
                                 }
                             }
-                            pagesRead++;
                         }
-                        Console.WriteLine("Total pages read: " + pagesRead);
                     }
                     catch (Exception ex)
                     {
-                        Console.Write(ex.Message);
+                        string errorMsg = string.Format("Problem parsing input file {0}.", input_file);
+                        errorMsg = errorMsg + Environment.NewLine;
+                        errorMsg = errorMsg + ex.Message;
+                        rm.ErrorMessage = errorMsg;
                     }
                 }
 
