@@ -38,7 +38,9 @@ namespace ACESD_Fecal_Coliform
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
+#nullable enable
                 PdfReader? reader = null;
+#nullable disable
 
                 string tableHeaderRowStart = "PARAMETER";
                 string tableDataRowStart = "Fecal";
