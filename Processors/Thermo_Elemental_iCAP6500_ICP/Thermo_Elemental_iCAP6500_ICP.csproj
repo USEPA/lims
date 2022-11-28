@@ -18,6 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="itextsharp.netstandard" Version="5.5.13.2" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\PluginBase\PluginBase.csproj">
 			<Private>false</Private>
 		</ProjectReference>

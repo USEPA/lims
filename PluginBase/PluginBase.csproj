@@ -12,6 +12,7 @@
     <PackageReference Include="EPPlus" Version="6.0.6" />
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="itextsharp.netstandard" Version="5.5.13.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
