@@ -217,6 +217,26 @@ namespace PluginBase
             { }
             return retVal;
         }
+
+        protected double GetStringDoubleValue(string cell)
+        {
+            double dval = double.NaN;    
+            try
+            {
+                if (cell == null)
+                    return dval;
+                if (string.IsNullOrWhiteSpace(cell))
+                    return dval;
+
+                string temp = cell.Trim();
+
+                bool bval = Double.TryParse(temp, out dval);                
+            }
+            catch (Exception ex)
+            { }
+            return dval;
+
+        }
     }
 
     public class ResponseMessage
@@ -336,6 +356,7 @@ namespace PluginBase
         public readonly static int AA = 26;
         public readonly static int AB = 27;
         public readonly static int AC = 28;
+        public readonly static int AD = 29;
     }
 
     public static class ColumnIndex1

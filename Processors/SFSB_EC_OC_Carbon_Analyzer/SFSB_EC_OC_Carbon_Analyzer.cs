@@ -19,6 +19,10 @@ namespace SFSB_EC_OC_Carbon_Analyzer
         {
         }
 
+        //There are possible multiple blocks of data in the CSV file
+        //Block starts with 'Sample ID' in column A
+        //Block ends with blank row
+
         public override DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = null;
@@ -36,62 +40,86 @@ namespace SFSB_EC_OC_Carbon_Analyzer
 
                 string line;
                 string[] colNames;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    idxRow++;
-                    if (idxRow ==1)
-                        continue;
-                    //Assume blank line is end of data in file
-                    if (string.IsNullOrWhiteSpace(line))
-                        break;
+                bool bStartDataBlock = false;
+                string sampleID = "Sample ID";
 
-                    //First row is headers
-                    if (idxRow == 0)
+                string analysisDate = "";
+                string analysisTime = "";
+                current_row = 0;
+                DataRow dr = null;
+                while ((line = sr.ReadLine()) != null)
+                {                    
+                    current_row++;
+                    if (string.IsNullOrWhiteSpace(line))
                     {
-                        colNames = line.Split(',');
-                        idxRow++;
+                        bStartDataBlock = false;
+                        analysisDate = "";
+                        analysisTime = "";
+                        continue;
+                    }
+                    
+                    string[] tokens = line.Split(",");
+                    if (sampleID.Equals(tokens[0],StringComparison.OrdinalIgnoreCase))
+                    {
+                        bStartDataBlock = true;
+                        analysisDate = tokens[ColumnIndex0.AA];
+                        analysisTime = tokens[ColumnIndex0.AB];
                         continue;
                     }
 
-                    idxRow++;
-                    current_row = idxRow;
+                    if (!bStartDataBlock)
+                        continue;
 
-                    string[] data = line.Split(',');
-                    //Column P is the last column that contains data we need
-                    if (data.Length < 16)
-                        throw new Exception("File does not contain necessary number of columns. Less than 16.");
+                    //Used for block of data
+                    analysisDateTime = DateTime.Parse(analysisDate + " " + analysisTime);
 
-                    string aliquot = data[0];
+                    //Used for records in this row
+                    aliquot = tokens[0];
 
-                    string element = data[7].Trim();
-                    string waveLength = data[8].Trim();
-                    string radialView = data[15].Trim();
-                    if (radialView == "0")
-                        radialView = " R";
-                    else
-                        radialView = "";
+                    //Individual measurement
+                    analyteID = "OC";
+                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.C]);                                       
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Analysis Date/Time"] = analysisDateTime;                    
+                    dt.Rows.Add(dr);
 
-                    string analyteID = element + " " + waveLength + radialView;
-
-                    double measuredVal;
-                    //string tmpMeasuredVal = data[9].Trim();
-                    string tmpMeasuredVal = data[ColumnIndex0.L].Trim();
-                    if (string.IsNullOrWhiteSpace(tmpMeasuredVal))
-                        measuredVal = 0.0;
-                    else if (!double.TryParse(tmpMeasuredVal, out measuredVal))
-                        measuredVal = 0.0;
-
-                    DateTime analysisDateTime;
-                    if (!DateTime.TryParse(data[1] + " " + data[2], out analysisDateTime))
-                        throw new Exception("Invalid date-time value: " + data[1]);
-
-                    DataRow dr = dt.NewRow();
+                    analyteID = "EC";
+                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.E]);
+                    dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Measured Value"] = measuredVal;
                     dr["Analysis Date/Time"] = analysisDateTime;
-                    //dr["Dilution Factor"] = dilutionFactor;
+                    dt.Rows.Add(dr);
 
+                    analyteID = "TC";
+                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.I]);
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dt.Rows.Add(dr);
+
+                    analyteID = "EC/TC";
+                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.K]);
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dt.Rows.Add(dr);
+
+                    analyteID = "Punch Area";
+                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.AD]);
+                    dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
+                    dr["Analysis Date/Time"] = analysisDateTime;
                     dt.Rows.Add(dr);
                 }
                 
