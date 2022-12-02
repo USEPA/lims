@@ -36,13 +36,13 @@ namespace ACESD_IRMS
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
 
-                var worksheet = package.Workbook.Worksheets["Compiled"];  //Worksheets are zero-based index                
+                var worksheet = package.Workbook.Worksheets["IRMS"];  //Worksheets are zero-based index
                 string name = worksheet.Name;
 
                 //File validation
                 if (worksheet.Dimension == null)
                 {
-                    string msg = string.Format("No data in Sheet 1 in InputFile:  {0}", input_file);
+                    string msg = string.Format("No data in Sheet IRMS in InputFile:  {0}", input_file);
                     rm.LogMessage = msg;
                     rm.ErrorMessage = msg;
                     return rm;
@@ -56,25 +56,18 @@ namespace ACESD_IRMS
                 for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
-                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
-
-                    for (int colIdx = ColumnIndex1.I; colIdx <= numCols; colIdx++)
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    for (int colIdx = ColumnIndex1.H; colIdx <=numCols; colIdx++)
                     {
-                        string analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
-                        if (string.IsNullOrWhiteSpace(analyteID))
-                            break;
-
+                        analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
                         measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
 
                         DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;
-                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Aliquot"] = aliquot;                        
                         dr["Analyte Identifier"] = analyteID;
                         dr["Measured Value"] = measuredVal;
-
                         dt.Rows.Add(dr);
-                    }
+                    }                    
                 }
             }
 
