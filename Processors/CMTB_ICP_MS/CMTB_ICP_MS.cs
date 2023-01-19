@@ -114,8 +114,9 @@ namespace CMTB_ICP_MS
             string output = "";
             string retVal = "";
 
-            if (input.Contains("(KED)"))
-                output = input.Replace("(KED)", "");
+            int idx = input.IndexOf("(KED");
+            if (idx > 0)           
+                output = input.Substring(0, idx);
             else
                 output = input;
 
@@ -125,7 +126,7 @@ namespace CMTB_ICP_MS
                     retVal += c;
             }
 
-            return retVal;
+            return retVal.Trim();
         }
     }
  }
