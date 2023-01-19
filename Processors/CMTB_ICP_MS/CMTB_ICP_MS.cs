@@ -3,13 +3,14 @@ using System.Data;
 using System.IO;
 using PluginBase;
 using OfficeOpenXml;
-using System.Linq;
+using System.Collections.Generic;
+
 
 namespace CMTB_ICP_MS
 {
     public class CMTB_ICP_MS : DataProcessor
     {
-        public override string id { get => "cmtb_icp_ms.0"; }
+        public override string id { get => "cmtb_icp_ms1.0"; }
         public override string name { get => "CMTB_ICP_MS"; }
         public override string description { get => "Processor used for CMTB ICP-MS translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
@@ -48,25 +49,42 @@ namespace CMTB_ICP_MS
                     return rm;
                 }
 
+
+
                 //Rows start at 1 not 0
                 int startRow = worksheet.Dimension.Start.Row;
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                List<string> lstAnalyteIDs = new List<string>();
+                for (int colIdx= ColumnIndex1.C; colIdx <= ColumnIndex1.H; colIdx++) 
+                {
+                    string temp = GetXLStringValue(worksheet.Cells[3, colIdx]);
+                    temp = GetAnalyteID(temp);
+                    lstAnalyteIDs.Add(temp);
+                }
+                
+               
                 for (int rowIdx = 5; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
-                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]);
-                    for (int colIdx = ColumnIndex1.H; colIdx <= numCols; colIdx++)
+                    aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
+                    string tempAnalysisDateTime = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.I]);
+                    tempAnalysisDateTime = tempAnalysisDateTime.Trim();
+                    analysisDateTime = DateTime.Parse(tempAnalysisDateTime);
+                    int analyteIDIdx = 0;
+                    for (int colIdx = ColumnIndex1.C; colIdx <= ColumnIndex1.H; colIdx++)
                     {
-                        analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
+                        analyteID = lstAnalyteIDs[analyteIDIdx];
+                        analyteIDIdx++;                        
                         measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
-
+                        
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
                         dr["Analyte Identifier"] = analyteID;
                         dr["Measured Value"] = measuredVal;
+                        dr["Analysis Date/Time"] = analysisDateTime;
                         dt.Rows.Add(dr);
                     }
                 }
