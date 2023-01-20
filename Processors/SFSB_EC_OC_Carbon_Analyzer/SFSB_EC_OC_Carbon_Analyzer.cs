@@ -1,7 +1,9 @@
-﻿using System.IO;
-using System.Data;
+﻿using System;
 using PluginBase;
-
+using System.Reflection;
+using System.IO;
+using System.Data;
+using System.Globalization;
 
 namespace SFSB_EC_OC_Carbon_Analyzer
 {
@@ -61,15 +63,15 @@ namespace SFSB_EC_OC_Carbon_Analyzer
                     string[] tokens = line.Split(",");
                     if (sampleID.Equals(tokens[0],StringComparison.OrdinalIgnoreCase))
                     {
-                        bStartDataBlock = true;
-                        analysisDate = tokens[ColumnIndex0.AA];
-                        analysisTime = tokens[ColumnIndex0.AB];
+                        bStartDataBlock = true;                        
                         continue;
                     }
 
                     if (!bStartDataBlock)
                         continue;
 
+                    analysisDate = tokens[ColumnIndex0.AA];
+                    analysisTime = tokens[ColumnIndex0.AB];
                     //Used for block of data
                     analysisDateTime = DateTime.Parse(analysisDate + " " + analysisTime);
 
