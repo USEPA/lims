@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="itextsharp.netstandard" Version="5.5.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PluginBase\PluginBase.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Condition="'$(OS)' == 'Windows_NT'" Command="xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*&#xD;&#xA;xcopy /i /s /h /q /y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)LIMSDesktop\bin\$(ConfigurationName)\$(TargetFramework)-windows\app_files\processors\$(ProjectName)\$(ProjectName).dll&quot;*" />
+    <Exec Condition="'$(OS)' != 'Windows_NT'" Command="rsync -vhr &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)lims_server/app_files/processors/$(ProjectName)/$(ProjectName).dll&quot;&#xD;&#xA;" />
+  </Target>
+
+</Project>

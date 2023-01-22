@@ -1,21 +1,25 @@
-﻿using PluginBase;
-using OfficeOpenXml;
-using System.Data;
+﻿using System;
 using System.IO;
-using System;
-using System.Collections.Generic;
+using System.Data;
+using PluginBase;
+using OfficeOpenXml;
 
-namespace ACESD_IRMS
+
+namespace EGB_Qubit
 {
-    public class ACESD_IRMS : DataProcessor
+    public class EGB_Qubit : DataProcessor
     {
-        public override string id { get => "acesd_irms.0"; }
-        public override string name { get => "ACESD_IRMS"; }
-        public override string description { get => "Processor used for ACESD_IRMS translation to universal template"; }
+        public override string id { get => "egb_qubit1.0"; }
+        public override string name { get => "EGB_Qubit"; }
+        public override string description { get => "Processor used for EGB Qubit translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
         public override string version { get => "1.0"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
+
+        public EGB_Qubit()
+        {
+        }
 
         public override DataTableResponseMessage Execute()
         {
@@ -36,13 +40,13 @@ namespace ACESD_IRMS
                 //This is a new way of using the 'using' keyword with braces
                 using var package = new ExcelPackage(fi);
 
-                var worksheet = package.Workbook.Worksheets["IRMS"];  //Worksheets are zero-based index
+                var worksheet = package.Workbook.Worksheets[0];  //Worksheets are zero-based index                
                 string name = worksheet.Name;
 
                 //File validation
                 if (worksheet.Dimension == null)
                 {
-                    string msg = string.Format("No data in Sheet IRMS in InputFile:  {0}", input_file);
+                    string msg = string.Format("No data in Sheet 1 in InputFile:  {0}", input_file);
                     rm.LogMessage = msg;
                     rm.ErrorMessage = msg;
                     return rm;
@@ -53,24 +57,29 @@ namespace ACESD_IRMS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
+                //This value is used for every sample
+                analysisDateTime = GetXLDateTimeValue(worksheet.Cells[2, ColumnIndex1.G]);
+                                                
+                for (int rowIdx = 5; rowIdx <= numRows; rowIdx++)
                 {
-                    current_row = rowIdx;
                     aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);
-                    for (int colIdx = ColumnIndex1.H; colIdx <=numCols; colIdx++)
-                    {
-                        analyteID = GetXLStringValue(worksheet.Cells[1, colIdx]);
-                        measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
+                    //Number of rows extends beyond data
+                    //if (string.IsNullOrWhiteSpace(aliquot))
+                    //    break;
 
-                        DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;                        
-                        dr["Analyte Identifier"] = analyteID;
-                        dr["Measured Value"] = measuredVal;
-                        dt.Rows.Add(dr);
-                    }                    
+                    measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.C]);
+
+                    userDefined1 = Convert.ToString(GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.B]));
+                    
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dr["Measured Value"] = measuredVal;
+                    dr["User Defined 1"] = userDefined1;
+
+                    dt.Rows.Add(dr);
                 }
             }
-
             catch (Exception ex)
             {
                 string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
@@ -84,7 +93,6 @@ namespace ACESD_IRMS
             rm.TemplateData = dt;
 
             return rm;
-
         }
     }
 }

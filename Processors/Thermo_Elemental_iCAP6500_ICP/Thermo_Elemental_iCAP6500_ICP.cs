@@ -50,6 +50,7 @@ namespace Thermo_Elemental_iCAP6500_ICP
                         continue;
 
                     aliquot = worksheet.Rows[rowIdx][ColumnIndex0.B].ToString();
+                    aliquot = GetLeadingCharacters(aliquot);
                     string? dateTime = worksheet.Rows[rowIdx][ColumnIndex0.A].ToString();
                     analysisDateTime = Convert.ToDateTime(dateTime);
 
@@ -94,6 +95,29 @@ namespace Thermo_Elemental_iCAP6500_ICP
             return rm;
 
 
+        }
+
+        //Put this in to trim non numeric characters from aliquot
+        //e.g. Al3961 will return Al
+        //e.g. K_7664  returns K
+        private string GetLeadingCharacters(string sval)
+        {
+            string retVal = "";
+            if (string.IsNullOrWhiteSpace(sval))
+                return retVal;
+
+            for (int idx = 0; idx < sval.Length; idx++)
+            {
+                if (Char.IsLetter(sval, idx))
+                    continue;
+                else
+                {
+                    retVal = sval.Substring(0, idx);
+                    break;
+                }
+            }
+
+            return retVal;
         }
     }
 }
