@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -33,19 +34,28 @@ namespace CMTB_TOC
                 FileInfo fi = new FileInfo(input_file);
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
 
-                //KW - Jan 20, 2022
-                //Data file changed to tab delimited - no longer Excel
-
                 using (StreamReader sr = new StreamReader(input_file))
                 {
                     int idxRow = 0;
                     string line;
+                    string[] dataTableColumnNames = null;
 
                     while ((line = sr.ReadLine()) != null)
                     {
                         current_row = idxRow;
-                        //Data starts in row 12
-                        if (idxRow < 12)
+                        // this mapping from Jakob Fox assume the first row is 1
+                        // 'Row 11[-1]; Column E through Column J These cells will read “Result( )” The value in the parenthesis will need to be used for the analyte identifier'
+
+                        // store data table column names
+                        if (idxRow == 10)
+                        {
+                            dataTableColumnNames = line.Split("\t");
+                            idxRow++;
+                            continue;
+                        }
+
+                        //Data starts in row 12[-1]
+                        if (idxRow < 11)
                         {
                             idxRow++;
                             continue;
@@ -59,16 +69,6 @@ namespace CMTB_TOC
                         //Parse the string - tab delimited
                         string[] tokens = line.Split("\t");
 
-                        //Analyte ID
-                        string analyteTmp = tokens[ColumnIndex0.B].Trim();
-                        string analyteID = "";
-                        if (string.Compare(analyteTmp, "IC", true) == 0)
-                            analyteID = "DIC";
-                        else if (string.Compare(analyteTmp, "NPOC", true) == 0)
-                            analyteID = "DOC";
-                        else //Analyte ID in file is not IC or NPOC
-                            throw new Exception(String.Format("File: {0} - Analyte ID is not IC or NPOC. column B, row {1}: {2}", input_file, idxRow, analyteTmp));
-
                         //Aliquot                        
                         string aliquot = tokens[ColumnIndex0.C].Trim();
 
@@ -78,22 +78,27 @@ namespace CMTB_TOC
                         if (!DateTime.TryParse(tokens[ColumnIndex0.M].Trim(), out analysisDateTime))
                             throw new Exception(String.Format("File: {0} - Analysis DateTime is not valid. Row {1}", input_file, idxRow));
 
-                        //Maps to column N
-                        string measuredValTmp = tokens[ColumnIndex0.I].Trim();
-                        double measuredVal;
-                        if (!double.TryParse(measuredValTmp, out measuredVal))
-                            throw new Exception("Invalid measured value in row: " + idxRow.ToString());
-
                         units = tokens[ColumnIndex0.K].Trim();
 
-                        DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;
-                        dr["Analyte Identifier"] = analyteID;
-                        dr["Measured Value"] = measuredVal;
-                        dr["Units"] = units;
-                        dr["Analysis Date/Time"] = analysisDateTime;
-                        dt.Rows.Add(dr);
+                        for (int colIndex = ColumnIndex0.E; colIndex <= ColumnIndex0.J; colIndex++)
+                        {
+                            string analyteId = dataTableColumnNames[colIndex].Split('(', ')')[1];
+                            string measuredValTmp = tokens[colIndex].Trim();
+                            double measuredVal;
+                            // if measuredValTmp = "" measuredVal will be set to 0, but parsed will be false
+                            bool parsed = double.TryParse(measuredValTmp, out measuredVal);
+                            if (measuredValTmp.Length > 0 && !parsed)
+                                throw new Exception("Invalid measured value for " + analyteId + " in row: " + idxRow.ToString());
 
+                            DataRow dr = dt.NewRow();
+                            dr["Aliquot"] = aliquot;
+                            dr["Analyte Identifier"] = analyteId;
+                            dr["Measured Value"] = measuredVal;
+                            dr["Units"] = units;
+                            dr["Analysis Date/Time"] = analysisDateTime;
+                            dt.Rows.Add(dr);
+
+                        }
                     }
                 }
             }
