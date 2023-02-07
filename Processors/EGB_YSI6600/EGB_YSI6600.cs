@@ -10,11 +10,11 @@ namespace EGB_YSI6600
 {
     public class EGB_YSI6600 : DataProcessor
     {
-        public override string id { get => "egb_ysi66001.0"; }
+        public override string id { get => "egb_ysi66001.1"; }
         public override string name { get => "EGB_YSI6600"; }
         public override string description { get => "Processor used for EGB_YSI6600 translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
-        public override string version { get => "1.0"; }
+        public override string version { get => "1.1"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
 

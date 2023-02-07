@@ -9,11 +9,11 @@ namespace EGB_Qubit
 {
     public class EGB_Qubit : DataProcessor
     {
-        public override string id { get => "egb_qubit1.0"; }
+        public override string id { get => "egb_qubit1.1"; }
         public override string name { get => "EGB_Qubit"; }
         public override string description { get => "Processor used for EGB Qubit translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
-        public override string version { get => "1.0"; }
+        public override string version { get => "1.1"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
 
@@ -73,6 +73,7 @@ namespace EGB_Qubit
                     
                     DataRow dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = "dsDNA HS";
                     dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Measured Value"] = measuredVal;
                     dr["User Defined 1"] = userDefined1;
