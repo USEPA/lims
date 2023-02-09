@@ -59,7 +59,7 @@ namespace EGB_YSI6600
                 int numCols = worksheet.Dimension.End.Column;
                                 
                 List<string> lstAnalyteIDs = new List<string>();
-                for (int i = ColumnIndex1.L; i <= ColumnIndex1.V; i++)                
+                for (int i = ColumnIndex1.K; i <= ColumnIndex1.U; i++)                
                     lstAnalyteIDs.Add(GetXLStringValue(worksheet.Cells[2, i]));
                 
                 //string analyteID_K = Convert.ToString(GetXLDoubleValue(worksheet.Cells[2, ColumnIndex1.K]));
@@ -78,7 +78,7 @@ namespace EGB_YSI6600
                 Dictionary<string, int> dctCount = new Dictionary<string, int>();
                 string currentAliquot = "";
                 AliquotData aliquot = null;
-                for (int rowIdx = 2; rowIdx <= numRows; rowIdx++)
+                for (int rowIdx = 3; rowIdx <= numRows; rowIdx++)
                 {
                     current_row = rowIdx;
                     //If this value is 'QAC' then skip it
@@ -112,7 +112,7 @@ namespace EGB_YSI6600
                     //Keep track of how many aliquots need to be averaged
                     aliquot.Count += 1;
                     int lstIdx = 0;
-                    for (int colIdx = ColumnIndex1.L; colIdx <= ColumnIndex1.V; colIdx++)
+                    for (int colIdx = ColumnIndex1.K; colIdx <= ColumnIndex1.U; colIdx++)
                     {
                         double dval = GetXLDoubleValue(worksheet.Cells[rowIdx, colIdx]);
                         aliquot.MeasuredValues[lstIdx] += dval;
