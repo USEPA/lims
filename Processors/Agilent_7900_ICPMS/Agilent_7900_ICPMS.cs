@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using PluginBase;
 using OfficeOpenXml;
+using iTextSharp.text;
 
 namespace Agilent_7900_ICPMS
 {
@@ -47,10 +48,17 @@ namespace Agilent_7900_ICPMS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                for (int rowIdx = 3; rowIdx < numRows; rowIdx++)
+                List<string> lstAnalyteIds = new List<string>();
+
+                for (int colIdx=ColumnIndex1.J; colIdx <= ColumnIndex1.AP; colIdx++)
+                {
+
+                }
+
+                for (int rowIdx = 5; rowIdx < numRows; rowIdx++)
                 {
                     current_row = rowIdx;
-                    aliquot = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.G]);
+                    aliquot = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
                     string dateTime = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);
                     analysisDateTime = Convert.ToDateTime(dateTime);
 
