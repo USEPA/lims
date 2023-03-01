@@ -387,5 +387,21 @@ namespace PluginBase
         public readonly static int X = 24;
         public readonly static int Y = 25;
         public readonly static int Z = 26;
+        public readonly static int AA = 27;
+        public readonly static int AB = 28;
+        public readonly static int AC = 29;
+        public readonly static int AD = 30;
+        public readonly static int AE = 31;
+        public readonly static int AF = 32;
+        public readonly static int AG = 33;
+        public readonly static int AH = 34;
+        public readonly static int AI = 35;
+        public readonly static int AJ = 36;
+        public readonly static int AK = 37;
+        public readonly static int AL = 38;
+        public readonly static int AM = 39;
+        public readonly static int AN = 40;
+        public readonly static int AO = 41;
+        public readonly static int AP = 42;
     }
 }

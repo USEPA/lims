@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Linq;
 using PluginBase;
 using OfficeOpenXml;
 
@@ -48,6 +50,31 @@ namespace IRSB_ICP_OES
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                for (int rowIdx = 5; rowIdx <= numRows; rowIdx++)
+                {
+                    current_row= rowIdx;
+                    aliquot = GetXLStringValue(worksheet.Cells[current_row, ColumnIndex1.D]);                    
+                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[current_row, ColumnIndex1.C]);
+
+                    for (int colIdx = ColumnIndex1.J; colIdx <= ColumnIndex1.AP; colIdx++)
+                    {
+                        analyteID = GetXLStringValue(worksheet.Cells[4, colIdx]);
+                        string tmpMeasuredVal = GetXLStringValue(worksheet.Cells[current_row, colIdx]);
+                        tmpMeasuredVal = GetNumbers(tmpMeasuredVal);
+                        if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
+                            measuredVal = 0.0;
+
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analysis Date/Time"] = analysisDateTime;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+
+                        dt.Rows.Add(dr);
+                    }
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -60,6 +87,12 @@ namespace IRSB_ICP_OES
             }
             rm.TemplateData = dt;
             return rm;
+        }
+
+        private string GetNumbers(string input)
+        {
+            string output = Regex.Replace(input, "[^0-9.-]", "");
+            return output;
         }
     }
 }
