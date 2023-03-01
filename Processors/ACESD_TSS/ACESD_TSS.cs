@@ -57,7 +57,7 @@ namespace ACESD_TSS
                 string E3_analyteID = "Final Weight";
                 string F3_analyteID = "Ashed Weight";
 
-                for (int rowIdx=4;rowIdx<numRows;rowIdx++)
+                for (int rowIdx=4;rowIdx<=numRows;rowIdx++)
                 {
                     current_row = rowIdx;
                     aliquot = GetXLStringValue(worksheet.Cells[rowIdx, ColumnIndex1.A]);

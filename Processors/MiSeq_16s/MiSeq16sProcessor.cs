@@ -78,7 +78,7 @@ namespace MiSeq_16s
 
                 int numAliquots = lstAliquots.Count;
                 //Get description row range            
-                for (int row = numAliquots + 2; row < numRows + 1; row++)
+                for (int row = numAliquots + 2; row <= numRows + 1; row++)
                 {
                     string cell_val = Convert.ToString(worksheet.Cells[row, 1].Value);
 

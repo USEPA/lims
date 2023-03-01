@@ -60,7 +60,7 @@ namespace ACESD_Chlorophyll
                 // in response to email from Jakob Fox on Jan 19,2022
                 string analyteID = "Raw Fluorescence";
 
-                for (int rowIdx=7; rowIdx<numRows; rowIdx++)
+                for (int rowIdx=7; rowIdx<=numRows; rowIdx++)
                 {
                     string aliquot = GetXLStringValue(worksheet.Cells[rowIdx, 1]);
                     //Number of rows extends beyond data
