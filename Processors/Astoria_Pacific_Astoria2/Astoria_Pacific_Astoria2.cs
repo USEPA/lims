@@ -83,8 +83,11 @@ namespace Astoria_Pacific_Astoria2
 
                     for (int idxRow=7;idxRow<=numRows;idxRow++)
                     {
+                        current_row = idxRow;
                         //We skip row 10, it has 'NO3 Efficiency' and no measured values
-                        if (idxRow == 10)
+                        //Switched to 12
+                        //if (idxRow == 10)
+                        if (idxRow == 12)
                             continue;
 
                         string aliquot_id = GetXLStringValue(worksheet.Cells[idxRow, 3]);
@@ -108,8 +111,12 @@ namespace Astoria_Pacific_Astoria2
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             rm.TemplateData = dt;

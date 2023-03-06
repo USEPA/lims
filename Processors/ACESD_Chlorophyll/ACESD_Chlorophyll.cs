@@ -62,6 +62,7 @@ namespace ACESD_Chlorophyll
 
                 for (int rowIdx=7; rowIdx<=numRows; rowIdx++)
                 {
+                    current_row= rowIdx;
                     string aliquot = GetXLStringValue(worksheet.Cells[rowIdx, 1]);
                     //Number of rows extends beyond data
                     if (string.IsNullOrWhiteSpace(aliquot))
@@ -84,8 +85,12 @@ namespace ACESD_Chlorophyll
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             rm.TemplateData = dt;
