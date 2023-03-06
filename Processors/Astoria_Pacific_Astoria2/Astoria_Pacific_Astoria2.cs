@@ -94,7 +94,7 @@ namespace Astoria_Pacific_Astoria2
                         
                         string measure_val_tmp = GetXLStringValue(worksheet.Cells[idxRow, colIdx]);
                         if (string.IsNullOrWhiteSpace(measure_val_tmp) || string.Compare(measure_val_tmp, "???") == 0)
-                            break;
+                            continue;
 
                         double measured_val = Convert.ToDouble(measure_val_tmp);
 
