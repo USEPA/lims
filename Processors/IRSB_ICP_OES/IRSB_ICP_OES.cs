@@ -58,7 +58,12 @@ namespace IRSB_ICP_OES
 
                     for (int colIdx = ColumnIndex1.J; colIdx <= ColumnIndex1.AP; colIdx++)
                     {
-                        analyteID = GetXLStringValue(worksheet.Cells[4, colIdx]);
+                        //Will look like this: Ag (328.068 nm) ppm
+                        //Just want to pull of letters before parentheses so: Ag
+                        string tmpAnalyteID = GetXLStringValue(worksheet.Cells[4, colIdx]);
+                        string[] tokens = tmpAnalyteID.Split('(');
+                        analyteID = tokens[0].Trim();
+
                         string tmpMeasuredVal = GetXLStringValue(worksheet.Cells[current_row, colIdx]);
                         tmpMeasuredVal = GetNumbers(tmpMeasuredVal);
                         if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
