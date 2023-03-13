@@ -48,7 +48,8 @@ namespace Chlorophyll
                 //Rows and columns start at 1 not 0
                 //First row is header data
                 for (int row = 2; row <= numRows; row++)
-                {                    
+                {
+                    current_row = row;
                     string aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
                     //Lets check for empty cell, assume we are done if we hit one
                     if (string.IsNullOrWhiteSpace(aliquot))
@@ -95,8 +96,12 @@ namespace Chlorophyll
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;
             }
 
             return rm;
