@@ -115,6 +115,7 @@ namespace LimsServer.Services
             {
                 result = await ProcessMultiFile(task, workflow, dirs[0]);
                 result.OutputFile = workflow.outputFolder;
+                result.TemplateData.TableName = Path.GetFileName(dirs[0]);
             }
             else
             {
