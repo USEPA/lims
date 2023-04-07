@@ -52,6 +52,7 @@ namespace SFSB_Light_Hydrocarbons
                         {
                             tokens = currentLine.Split(":");
                             aliquot = tokens[1].Trim();
+                            aliquot = aliquot.Split(".")[0];
                             bDataFile = true;
                             continue;
                         }
