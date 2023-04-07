@@ -101,7 +101,8 @@ namespace SFSB_Light_Hydrocarbons
                     tokens = Regex.Split(currentLine, @"\s{1,}");
                     analyteID = tokens[1].Trim();
 
-                    string measuredValTmp = tokens[4].Trim();                    
+                    //string measuredValTmp = tokens[4].Trim();                    
+                    string measuredValTmp = tokens[3].Trim();
                     if (!Double.TryParse(measuredValTmp, out measuredVal))
                         measuredVal = 0.0;
 
