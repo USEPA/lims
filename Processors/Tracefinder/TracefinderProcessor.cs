@@ -14,14 +14,16 @@ namespace Tracefinder
         public string AnalyteID { get; set; }
         public string MeasuredValue { get; set; }
         public string AnalysisDateTime { get; set; }
+        public double DilutionFactor { get; set; }
         public string UserDefined1 { get; set; }
 
-        public AliquotAnalyte(string aliquot, string analyteID, string measuredVal="", string analysisDateTime="", string userDefined1 = "")
+        public AliquotAnalyte(string aliquot, string analyteID, string measuredVal="", string analysisDateTime="", double dilutionFactor = double.NaN, string userDefined1 = "")
         {
             Aliquot = aliquot;
             AnalyteID = analyteID;
             MeasuredValue = measuredVal;
             AnalysisDateTime = analysisDateTime;
+            DilutionFactor = dilutionFactor;
             UserDefined1 = userDefined1;
         }
     }
@@ -128,6 +130,28 @@ namespace Tracefinder
                 //    return rm;   
                 //}
 
+                // JD: 4/2023
+                // The dilution factor will be a column [on] Sheet2 towards the end titled “Dilution Factor”
+                string dilutionFactorHeader = "";
+                int dilutionFactorColNum = -1;
+                for (int i = numCols; i > 1; i--)
+                {
+                    dilutionFactorHeader = GetXLStringValue(worksheet2.Cells[8, i]);
+                    if (dilutionFactorHeader.Equals("Dilution Factor", StringComparison.OrdinalIgnoreCase))
+                    {
+                        dilutionFactorColNum = i;
+                        break;
+                    }
+                }
+
+                if (dilutionFactorColNum < 0)
+                {
+                    string msg = "Dilution Factor not found: Row {0}, Column {1}. File: {2}";
+                    rm.LogMessage = string.Format(msg, 8, numCols, input_file);
+                    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);
+                    return rm;
+                }
+
                 int numAnalytes = lstAnalyteIDs.Count;
 
                 //Sheet 2, Row 9 down, Column 1 contains Aliquot name
@@ -137,6 +161,7 @@ namespace Tracefinder
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
                     analyzeDate = GetXLStringValue(worksheet2.Cells[row, analyzeDateColNum]);
+                    double dilutionFactor = GetXLDoubleValue(worksheet2.Cells[row, dilutionFactorColNum]);
                     for (int col = 2; col < numAnalytes; col++)
                     {
                         DataRow dr = dt.NewRow();
@@ -148,7 +173,7 @@ namespace Tracefinder
                         string measuredVal = GetXLStringValue(worksheet2.Cells[row, col]);
                         //dt.Rows.Add(dr);
 
-                        AliquotAnalyte al = new AliquotAnalyte(aliquot, analyteID, measuredVal, analyzeDate);
+                        AliquotAnalyte al = new AliquotAnalyte(aliquot, analyteID, measuredVal, analyzeDate, dilutionFactor, "");
                         lstAliquotAnalytes.Add(al);
                     }
 
@@ -210,7 +235,7 @@ namespace Tracefinder
                             //dr["Analyte Identifier"] = analyte;
                             //dr["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
                             string userDefined1= GetXLStringValue(worksheet4.Cells[row, col]);
-                            AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "", "", userDefined1);
+                            AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "", "", double.NaN, userDefined1);
                             lstAliquotAnalytes.Add(al2);
                         }
                         else
@@ -230,6 +255,11 @@ namespace Tracefinder
 
                     if (!string.IsNullOrWhiteSpace(lstAliquotAnalytes[i].MeasuredValue))
                         dr["Measured Value"] = lstAliquotAnalytes[i].MeasuredValue;
+
+                    if (!double.IsNaN(lstAliquotAnalytes[i].DilutionFactor))
+                    {
+                        dr["Dilution Factor"] = lstAliquotAnalytes[i].DilutionFactor;
+                    }
 
                     dr["User Defined 1"] = lstAliquotAnalytes[i].UserDefined1;
 
