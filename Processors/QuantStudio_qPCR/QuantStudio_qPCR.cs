@@ -43,7 +43,8 @@ namespace QuantStudio_qPCR
                 dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
                 TemplateField[] fields = Fields;
 
-                var worksheet = tables[0];
+                //var worksheet = tables[0];
+                var worksheet = tables["Results"];
                 int numRows = worksheet.Rows.Count;
                 int numCols = worksheet.Columns.Count;
 
