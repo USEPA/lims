@@ -548,16 +548,17 @@ namespace LimsServer.Services
                         Directory.CreateDirectory(workflow.archiveFolder);
                     // Move input file to archive folder
                     string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
-                    if (workflow.multiFile)
-                    {
-                        Directory.Move(inputPath, archivePath);
-                    }
-                    else
-                    {
-                        File.Move(inputPath, archivePath);
-                    }
-                    
-                    
+
+                    //if (workflow.multiFile)
+                    //{
+                    //    Directory.Move(inputPath, archivePath);
+                    //}
+                    //else
+                    //{
+                    //    File.Move(inputPath, archivePath);
+                    //}
+                    archivePath = MoveFileOrDirectory(inputPath, archivePath, workflow.multiFile);
+
                     // Set task archiveFile location
                     task.archiveFile = archivePath;
                     await _context.SaveChangesAsync();
@@ -574,6 +575,30 @@ namespace LimsServer.Services
                     }
                 }
             }
+        }
+
+        protected string MoveFileOrDirectory(string inputPath, string archivePath, bool multi)
+        {
+            int existingPathCount = 0;
+            if (multi)
+            {
+                while (Directory.Exists(archivePath))
+                {
+                    existingPathCount++;
+                    archivePath = archivePath + "_" + existingPathCount;
+                }
+                Directory.Move(inputPath, archivePath);
+            }
+            else
+            {
+                while (File.Exists(archivePath))
+                {
+                    existingPathCount++;
+                    archivePath = archivePath + "_" + existingPathCount;
+                    File.Move(inputPath, archivePath);
+                }
+            }
+            return archivePath;
         }
 
         /// <summary>
