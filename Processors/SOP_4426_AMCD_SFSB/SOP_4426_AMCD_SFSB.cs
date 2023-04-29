@@ -4,6 +4,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using PluginBase;
 using System.Globalization;
+using Microsoft.Extensions.Primitives;
 
 namespace SOP_4426_AMCD_SFSB
 {
@@ -97,13 +98,18 @@ namespace SOP_4426_AMCD_SFSB
 
 
                     //numID will be like 1)
-                    string numID = currentLine.Substring(0,7).Trim();
+                    //string numID = currentLine.Substring(0,7).Trim();
 
-                    analyteID = currentLine.Substring(8, 26).Trim();
+                    tokens = Regex.Split(currentLine.Trim(), @"\s{2,}");
+                    analyteID = Regex.Split(tokens[0], @"\s{1,}")[1];
 
-                    userDefined1 = currentLine.Substring(47, 9).Trim();
+                    //analyteID = currentLine.Substring(8, 26).Trim();
 
-                    string measuredValTmp = currentLine.Substring(57, 15).Trim();
+                    //userDefined1 = currentLine.Substring(47, 9).Trim();
+                    userDefined1 = tokens[3].Trim();
+
+                    //string measuredValTmp = currentLine.Substring(57, 15).Trim();
+                    string measuredValTmp = tokens[4].Trim();
                     tokens = Regex.Split(measuredValTmp, @"\s{1,}");
 
                     measuredValTmp = tokens[0].Trim();
