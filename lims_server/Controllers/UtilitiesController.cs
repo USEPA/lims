@@ -12,8 +12,8 @@ using Newtonsoft.Json;
 using System.Data.SQLite;
 using LimsServer.Services;
 using LimsServer.Entities;
-using LimsServer.Helpers.DB;
 using PluginBase;
+using LimsServer.Helpers;
 
 namespace LimsServer.Controllers
 {
@@ -67,7 +67,7 @@ namespace LimsServer.Controllers
         /// <returns>All workflows</returns>
         [AllowAnonymous]
         [HttpGet("dbpurge")]
-        public async System.Threading.Tasks.Task<IActionResult> Get([FromQuery] LimsServer.Helpers.DB.DBPurge pInput)
+        public async System.Threading.Tasks.Task<IActionResult> Get([FromQuery] DBPurge pInput)
         {
             if (pInput == null)
             {

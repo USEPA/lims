@@ -7,7 +7,7 @@ using PluginBase;
 //using OfficeOpenXml;
 
 
-namespace ACESD_DOC
+namespace ACESD_DIC
 {
     public class ACESD_DOC : DataProcessor
     {
@@ -29,10 +29,10 @@ namespace ACESD_DOC
                 rm = VerifyInputFile();
                 if (!rm.IsValid)
                     return rm;
-                
+
                 dt = GetDataTable();
                 FileInfo fi = new FileInfo(input_file);
-                dt.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
+                dt.TableName = Path.GetFileNameWithoutExtension(fi.FullName);
 
                 //KW - Jan 20, 2022
                 //Data file changed to tab delimited - no longer Excel
@@ -47,8 +47,8 @@ namespace ACESD_DOC
                         idxRow++;
                         current_row = idxRow;
                         //Data starts in row 12
-                        if (idxRow < 12)                                                    
-                            continue;                        
+                        if (idxRow < 12)
+                            continue;
 
                         //We are finished when we reach and empty row
                         line = line.Trim();
@@ -66,7 +66,7 @@ namespace ACESD_DOC
                         else if (string.Compare(analyteTmp, "NPOC", true) == 0)
                             analyteID = "DOC";
                         else //Analyte ID in file is not IC or NPOC
-                            throw new Exception(String.Format("File: {0} - Analyte ID is not IC or NPOC. column B, row {1}: {2}", input_file, idxRow, analyteTmp));
+                            throw new Exception(string.Format("File: {0} - Analyte ID is not IC or NPOC. column B, row {1}: {2}", input_file, idxRow, analyteTmp));
 
                         //Aliquot                        
                         string aliquot = tokens[ColumnIndex0.C].Trim();
@@ -75,7 +75,7 @@ namespace ACESD_DOC
                         //Date time in column M - e.g. 5/27/2021 14:25
                         DateTime analysisDateTime;
                         if (!DateTime.TryParse(tokens[ColumnIndex0.M].Trim(), out analysisDateTime))
-                            throw new Exception(String.Format("File: {0} - Analysis DateTime is not valid. Row {1}", input_file, idxRow));
+                            throw new Exception(string.Format("File: {0} - Analysis DateTime is not valid. Row {1}", input_file, idxRow));
 
                         //Maps to column N
                         string measuredValTmp = tokens[ColumnIndex0.G].Trim();

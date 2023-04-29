@@ -595,8 +595,8 @@ namespace LimsServer.Services
                 {
                     existingPathCount++;
                     archivePath = archivePath + "_" + existingPathCount;
-                    File.Move(inputPath, archivePath);
                 }
+                File.Move(inputPath, archivePath);
             }
             return archivePath;
         }

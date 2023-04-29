@@ -11,8 +11,8 @@ using LimsServer.Services;
 using Microsoft.Data.Sqlite;
 using Serilog;
 
-namespace LimsServer.Helpers.DB
-{ 
+namespace LimsServer.Helpers
+{
     public class DBPurge
     {
         public int secret { get; set; }
@@ -30,10 +30,10 @@ namespace LimsServer.Helpers.DB
         string dbName = "lims.db";
         string secret = null;
 
-	    public DBManagement(DBPurge purge)
-	    {
-            this.details = purge;
-            this.secret = "A1D0C6E83F027327D8461063F4AC58A6";
+        public DBManagement(DBPurge purge)
+        {
+            details = purge;
+            secret = "A1D0C6E83F027327D8461063F4AC58A6";
 
         }
 
@@ -41,49 +41,49 @@ namespace LimsServer.Helpers.DB
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(value);
+                byte[] inputBytes = Encoding.ASCII.GetBytes(value);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
                 return Convert.ToHexString(hashBytes);
             }
         }
 
-	    public Dictionary<string, string> dbCleanup()
+        public Dictionary<string, string> dbCleanup()
         {
             Dictionary<string, string> results = new Dictionary<string, string>();
 
             // Simple safeguard against accidently purging the db.
-            if (this.generateSecret(this.details.secret.ToString()) != this.secret)
+            if (generateSecret(details.secret.ToString()) != secret)
             {
                 results.Add("error", "The power to delete is denied to you who knows not the secret.");
                 return results;
             }
 
-            string purgeDate = DateTime.Now.AddDays(-1 * this.details.saveDays).ToString("yyyy-MM-dd HH:mm:ss");
+            string purgeDate = DateTime.Now.AddDays(-1 * details.saveDays).ToString("yyyy-MM-dd HH:mm:ss");
             // Date purge
-            string dateQuery = String.Format("DELETE FROM Logs WHERE strftime('%s', time) < strftime('%s', @purgeDate)");
-            if (!this.dbDeleteQuery(dateQuery, "@purgeDate", purgeDate))
+            string dateQuery = string.Format("DELETE FROM Logs WHERE strftime('%s', time) < strftime('%s', @purgeDate)");
+            if (!dbDeleteQuery(dateQuery, "@purgeDate", purgeDate))
             {
                 results.Add("DateLogPurge", "Error attempting to purge logs by date with query: " + dateQuery);
             }
-            string taskDateQuery = String.Format("DELETE FROM Tasks WHERE strftime('%s', start) < strftime('%s', @purgeDate)");
-            if (!this.dbDeleteQuery(taskDateQuery, "@purgeDate", purgeDate))
+            string taskDateQuery = string.Format("DELETE FROM Tasks WHERE strftime('%s', start) < strftime('%s', @purgeDate)");
+            if (!dbDeleteQuery(taskDateQuery, "@purgeDate", purgeDate))
             {
                 results.Add("DateTaskPurge", "Error attempting to purge tasks by date with query: " + taskDateQuery);
             }
 
-            if (this.details.allCancelled)          // Delete all cancelled tasks
+            if (details.allCancelled)          // Delete all cancelled tasks
             {
                 string cancelledQuery = "DELETE FROM Tasks WHERE status='CANCELLED'";
-                if (!this.dbDeleteQuery(cancelledQuery))
+                if (!dbDeleteQuery(cancelledQuery))
                 {
                     results.Add("Cancelled", "Error attempting to delete all cancelled tasks with query: " + cancelledQuery);
                 }
             }
-            if (this.details.allCompleted)          // Delete all completed tasks
+            if (details.allCompleted)          // Delete all completed tasks
             {
                 string completedQuery = "DELETE FROM Tasks WHERE status='COMPLETED'";
-                if (!this.dbDeleteQuery(completedQuery))
+                if (!dbDeleteQuery(completedQuery))
                 {
                     results.Add("Completed", "Error attempting to delete all completed tasks with query: " + completedQuery);
                 }
@@ -101,10 +101,10 @@ namespace LimsServer.Helpers.DB
             //        this.dbDeleteQuery(setWorkflowsInactive);
             //    }
             //}
-            if (this.details.deleteWorkflows)       // Delete all inactive workflows
+            if (details.deleteWorkflows)       // Delete all inactive workflows
             {
                 string deleteWorkflows = "DELETE FROM Workflows WHERE active=0";
-                if (!this.dbDeleteQuery(deleteWorkflows))
+                if (!dbDeleteQuery(deleteWorkflows))
                 {
                     results.Add("DeleteWorkflows", "Error attempting to delete all inactive workflows with query: " + deleteWorkflows);
                 }
@@ -112,15 +112,15 @@ namespace LimsServer.Helpers.DB
 
             // Dangling task purge
             string danglingQuery = "DELETE FROM Tasks WHERE Tasks.workflowId NOT IN (SELECT id FROM Workflows)";
-            if (!this.dbDeleteQuery(danglingQuery))
+            if (!dbDeleteQuery(danglingQuery))
             {
                 results.Add("DanglingPurge", "Error attempting to purge dangling tasks with query: " + danglingQuery);
             }
 
-            if (this.details.deleteAllLogs)         // Delete all logs
+            if (details.deleteAllLogs)         // Delete all logs
             {
                 string allLogsQuery = "DELETE FROM Logs";
-                if (!this.dbDeleteQuery(allLogsQuery))
+                if (!dbDeleteQuery(allLogsQuery))
                 {
                     results.Add("DeleteAllLogs", "Error attempting to delete all logs with query: " + allLogsQuery);
                 }
@@ -128,19 +128,19 @@ namespace LimsServer.Helpers.DB
             else // Delete all logs which don't have a task or workflow in the database
             {
                 string logsQuery = "DELETE FROM Logs WHERE taskID NOT IN (SELECT id FROM Tasks)";
-                if (!this.dbDeleteQuery(logsQuery))
+                if (!dbDeleteQuery(logsQuery))
                 {
                     results.Add("DeleteLogs", "Error attempting to delete logs with query: " + logsQuery);
                 }
             }
-            
+
             return results;
         }
 
         private bool dbDeleteQuery(string query, string key = null, string value = null)
         {
             var conStrBuilder = new SqliteConnectionStringBuilder();
-            conStrBuilder.DataSource = this.dbName;
+            conStrBuilder.DataSource = dbName;
             try
             {
                 using (SqliteConnection con = new SqliteConnection(conStrBuilder.ConnectionString))
@@ -148,7 +148,7 @@ namespace LimsServer.Helpers.DB
                     con.Open();
                     SqliteCommand com = con.CreateCommand();
                     com.CommandText = query;
-                    if (!String.IsNullOrEmpty(value) && !String.IsNullOrEmpty(key))
+                    if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(key))
                     {
                         com.Parameters.Add(key, SqliteType.Text).Value = value;
                     }
@@ -156,7 +156,7 @@ namespace LimsServer.Helpers.DB
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Warning(ex, "Error attempting to execute query the database. Query: " + query);
                 return false;
