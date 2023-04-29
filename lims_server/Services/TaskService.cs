@@ -580,25 +580,26 @@ namespace LimsServer.Services
         protected string MoveFileOrDirectory(string inputPath, string archivePath, bool multi)
         {
             int existingPathCount = 0;
+            string validPath = archivePath;
             if (multi)
             {
-                while (Directory.Exists(archivePath))
+                while (Directory.Exists(validPath))
                 {
                     existingPathCount++;
-                    archivePath = archivePath + "_" + existingPathCount;
+                    validPath = archivePath + "_" + existingPathCount;
                 }
-                Directory.Move(inputPath, archivePath);
+                Directory.Move(inputPath, validPath);
             }
             else
             {
-                while (File.Exists(archivePath))
+                while (File.Exists(validPath))
                 {
                     existingPathCount++;
-                    archivePath = archivePath + "_" + existingPathCount;
+                    validPath = archivePath + "_" + existingPathCount;
                 }
-                File.Move(inputPath, archivePath);
+                File.Move(inputPath, validPath);
             }
-            return archivePath;
+            return validPath;
         }
 
         /// <summary>
