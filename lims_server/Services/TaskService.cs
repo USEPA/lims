@@ -588,31 +588,39 @@ namespace LimsServer.Services
         /// <returns>the resolved path as a string</returns>
         protected string MoveFileOrDirectory(string inputPath, string archivePath, bool multi)
         {
-            int existingPathCount = 0;
-
-            DateTime date = DateTime.Now;
-            string timestamp = date.ToString("yyyy-MM-dd") + "H" + date.ToString("HH-mm-ss");
+            int existingPathCount = 1;
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
             if (multi)
             {
-                string archivePathTimestamped = archivePath + "_" + timestamp;
-                while (Directory.Exists(archivePath))
+                if (Directory.Exists(archivePath))
                 {
-                    existingPathCount++;
-                    archivePath = archivePathTimestamped + "_" + existingPathCount;
+                    string archivePathTimestamped = archivePath + "_" + timestamp;
+                    while (Directory.Exists(archivePathTimestamped))
+                    {
+                        existingPathCount++;
+                        archivePathTimestamped = archivePathTimestamped + "(" + existingPathCount + ")";
+                    }
+                    archivePath = archivePathTimestamped;
                 }
                 Directory.Move(inputPath, archivePath);
             }
             else
             {
-                string archivePathDir = Path.GetDirectoryName(archivePath);
-                string archiveFileName = Path.GetFileNameWithoutExtension(archivePath);
-                string archivePathTimestamped = Path.Join(archivePathDir, archiveFileName + "_" + timestamp);
-                string archiveFileExt = Path.GetExtension(archivePath);
-                while (File.Exists(archivePath))
+                if (File.Exists(archivePath))
                 {
-                    existingPathCount++;
-                    archivePath = archivePathTimestamped + "_" + existingPathCount + archiveFileExt;
+                    string archivePathDir = Path.GetDirectoryName(archivePath);
+                    string archiveFileName = Path.GetFileNameWithoutExtension(archivePath);
+                    string archiveFileExt = Path.GetExtension(archivePath);
+
+                    string archivePathTimestamped = Path.Join(archivePathDir, archiveFileName + "_" + timestamp);
+                    string archiveFullPath = archivePathTimestamped + archiveFileExt;
+                    while (File.Exists(archiveFullPath))
+                    {
+                        existingPathCount++;
+                        archiveFullPath = archivePathTimestamped + "(" + existingPathCount + ")" + archiveFileExt;
+                    }
+                    archivePath = archiveFullPath;
                 }
                 File.Move(inputPath, archivePath);
             }
