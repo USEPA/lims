@@ -588,7 +588,7 @@ namespace LimsServer.Services
         /// <returns>the resolved path as a string</returns>
         protected string MoveFileOrDirectory(string inputPath, string archivePath, bool multi)
         {
-            int existingPathCount = 1;
+            int existingPathCount = 0;
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
             if (multi)
