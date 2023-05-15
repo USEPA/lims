@@ -162,7 +162,7 @@ namespace Tracefinder
                     string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
                     analyzeDate = GetXLStringValue(worksheet2.Cells[row, analyzeDateColNum]);
                     double dilutionFactor = GetXLDoubleValue(worksheet2.Cells[row, dilutionFactorColNum]);
-                    for (int col = 2; col < numAnalytes; col++)
+                    for (int col = 2; col <= numAnalytes + 1; col++)
                     {
                         DataRow dr = dt.NewRow();
                         //dr["Aliquot"] = aliquot;
@@ -217,17 +217,24 @@ namespace Tracefinder
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);                    
-                    for (int col = 2; col < numAnalytes; col++)
+                    for (int col = 2; col <= numAnalytes + 1; col++)
                     {
                         string analyte = lstAnalyteIDs[col - 2];
                         //string[] keys = new string[2];
                         //keys[0] = aliquot;
                         //keys[1] = analyte;
-                        var al = lstAliquotAnalytes.Find(x => x.Aliquot.Equals(aliquot, StringComparison.OrdinalIgnoreCase)
-                            && x.AnalyteID.Equals(analyte, StringComparison.OrdinalIgnoreCase));
+
+                        //An early note on parser development
+
+                        //Note: Analytes that are only present on sheet 4 will
+                        //have no measured value to report so this cell will be blank (e.g. M2-4:2FTS, etc.)
+
+                        //I dont think above statement is true anymore
+                        //var al = lstAliquotAnalytes.Find(x => x.Aliquot.Equals(aliquot, StringComparison.OrdinalIgnoreCase)
+                       //    && x.AnalyteID.Equals(analyte, StringComparison.OrdinalIgnoreCase));
                         //DataRow drow = dt.Rows.Find(keys);
                         //DataRow[] rows = dt.Select(qry);
-                        if (al == null)
+                        //if (al == null)
                         {
                             //DataRow dr = dt.NewRow();
                             
@@ -238,11 +245,11 @@ namespace Tracefinder
                             AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "", "", double.NaN, userDefined1);
                             lstAliquotAnalytes.Add(al2);
                         }
-                        else
-                        {
+                        //else
+                        //{
                             //drow["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
-                            al.UserDefined1 = GetXLStringValue(worksheet4.Cells[row, col]);
-                        }                                                                           
+                        //    al.UserDefined1 = GetXLStringValue(worksheet4.Cells[row, col]);
+                        //}                                                                           
                     }                    
                 }
 
