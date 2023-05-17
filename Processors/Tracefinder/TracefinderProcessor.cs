@@ -87,6 +87,8 @@ namespace Tracefinder
                 }
 
                 List<string> lstAnalyteIDs = new List<string>();
+                List<string> lstAliquotNum = new List<string>();
+
                 //Sheet 2, Row 8, starting at column 2 contains Aliquots 
                 for (int col = 2; col <= numCols; col++)
                 {
@@ -121,14 +123,6 @@ namespace Tracefinder
                     return rm;
                 }
 
-                //string analyzeDate = GetXLStringValue(worksheet2.Cells[8, numCols]);
-                //if (!analyzeDate.Equals("Sample Acquisition Date", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    string msg = "Sample Acquisition Date not in right column: Row {0}, Column {1}. File: {2}";
-                //    rm.LogMessage = string.Format(msg, 8, numCols, input_file);
-                //    rm.ErrorMessage = string.Format(msg, 8, numCols, input_file);                    
-                //    return rm;   
-                //}
 
                 // JD: 4/2023
                 // The dilution factor will be a column [on] Sheet2 towards the end titled “Dilution Factor”
@@ -160,19 +154,13 @@ namespace Tracefinder
                 {
                     //Sheet 2, Row 9 down, Column 1 contains Aliquot name
                     string aliquot = GetXLStringValue(worksheet2.Cells[row, 1]);
+                                      
                     analyzeDate = GetXLStringValue(worksheet2.Cells[row, analyzeDateColNum]);
                     double dilutionFactor = GetXLDoubleValue(worksheet2.Cells[row, dilutionFactorColNum]);
                     for (int col = 2; col <= numAnalytes + 1; col++)
-                    {
-                        DataRow dr = dt.NewRow();
-                        //dr["Aliquot"] = aliquot;
-                        //dr["Analyte Identifier"] = lstAnalyteIDs[col - 2];
+                    {                        
                         string analyteID = lstAnalyteIDs[col - 2];
-                        //dr["Analysis Date/Time"] = analyzeDate;
-                        //dr["Measured Value"] = GetXLStringValue(worksheet2.Cells[row, col]);
                         string measuredVal = GetXLStringValue(worksheet2.Cells[row, col]);
-                        //dt.Rows.Add(dr);
-
                         AliquotAnalyte al = new AliquotAnalyte(aliquot, analyteID, measuredVal, analyzeDate, dilutionFactor, "");
                         lstAliquotAnalytes.Add(al);
                     }
@@ -220,36 +208,27 @@ namespace Tracefinder
                     for (int col = 2; col <= numAnalytes + 1; col++)
                     {
                         string analyte = lstAnalyteIDs[col - 2];
-                        //string[] keys = new string[2];
-                        //keys[0] = aliquot;
-                        //keys[1] = analyte;
-
-                        //An early note on parser development
+                        //Sheet 2, Row 9 down, Column 1 contains Aliquot name
+                        aliquot = GetXLStringValue(worksheet4.Cells[row, 1]);
+                        //string measuredVal = GetXLStringValue(worksheet4.Cells[row, col]);
 
                         //Note: Analytes that are only present on sheet 4 will
                         //have no measured value to report so this cell will be blank (e.g. M2-4:2FTS, etc.)
 
                         //I dont think above statement is true anymore
-                        //var al = lstAliquotAnalytes.Find(x => x.Aliquot.Equals(aliquot, StringComparison.OrdinalIgnoreCase)
-                       //    && x.AnalyteID.Equals(analyte, StringComparison.OrdinalIgnoreCase));
-                        //DataRow drow = dt.Rows.Find(keys);
-                        //DataRow[] rows = dt.Select(qry);
-                        //if (al == null)
+                        var al = lstAliquotAnalytes.Find(x => x.Aliquot.Equals(aliquot, StringComparison.OrdinalIgnoreCase)
+                            && x.AnalyteID.Equals(analyte, StringComparison.OrdinalIgnoreCase));
+                        
+                        if (al == null)
                         {
-                            //DataRow dr = dt.NewRow();
-                            
-                            //dr["Aliquot"] = aliquot;
-                            //dr["Analyte Identifier"] = analyte;
-                            //dr["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
                             string userDefined1= GetXLStringValue(worksheet4.Cells[row, col]);
-                            AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "", "", double.NaN, userDefined1);
+                            AliquotAnalyte al2 = new AliquotAnalyte(aliquot, analyte, "0", "", double.NaN, userDefined1);
                             lstAliquotAnalytes.Add(al2);
                         }
-                        //else
-                        //{
-                            //drow["User Defined 1"] = GetXLStringValue(worksheet4.Cells[row, col]);
-                        //    al.UserDefined1 = GetXLStringValue(worksheet4.Cells[row, col]);
-                        //}                                                                           
+                        else
+                        {                            
+                            al.UserDefined1 = GetXLStringValue(worksheet4.Cells[row, col]);
+                        }                                                                           
                     }                    
                 }
 
