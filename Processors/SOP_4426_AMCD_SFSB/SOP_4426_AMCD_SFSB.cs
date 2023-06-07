@@ -102,17 +102,21 @@ namespace SOP_4426_AMCD_SFSB
 
                     tokens = Regex.Split(currentLine.Trim(), @"\s{2,}");
                     analyteID = Regex.Split(tokens[0], @"\s{1,}")[1];
-
-                    //analyteID = currentLine.Substring(8, 26).Trim();
-
-                    //userDefined1 = currentLine.Substring(47, 9).Trim();
+                    
                     userDefined1 = tokens[3].Trim();
 
-                    //string measuredValTmp = currentLine.Substring(57, 15).Trim();
-                    string measuredValTmp = tokens[4].Trim();
-                    tokens = Regex.Split(measuredValTmp, @"\s{1,}");
-
-                    measuredValTmp = tokens[0].Trim();
+                    //Deal with a non detect record - token array length == 4
+                    //     3) Tetrafluoromethane          0.000             0      N.D. d
+                    string measuredValTmp = ""; ;
+                    if (tokens.Length == 4)
+                        measuredValTmp = "0.0";
+                    else
+                    {
+                        measuredValTmp = tokens[4].Trim();
+                        tokens = Regex.Split(measuredValTmp, @"\s{1,}");
+                        measuredValTmp = tokens[0].Trim();
+                    }
+                    
                     //if (string.Compare(tokens[0].Trim(), "n.d.", true) ==0 || string.Compare(tokens[1].Trim(), "n.d.", true) == 0)
                     //    measuredVal = 0.0;
                     if (!Double.TryParse(measuredValTmp, out measuredVal))
