@@ -317,6 +317,11 @@ namespace LimsServer.Services
             Match match;
             foreach (string fullFilename in files)
             {
+                //In multifile processing skip folders containing the string 'archive'
+                int ival = fullFilename.IndexOf("archive", StringComparison.OrdinalIgnoreCase);
+                if (ival < 0)
+                    continue;
+
                 string filename = Path.GetFileName(fullFilename);
                 match = Regex.Match(filename, regexFilter, RegexOptions.IgnoreCase);
                 if (match.Success)

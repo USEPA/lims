@@ -48,8 +48,12 @@ namespace SOP_4426_AMCD_SFSB
                     if (currentLine.Contains("Data File", StringComparison.OrdinalIgnoreCase))
                     {
                         //e.g.  Data File : 101421_6.d
+                        //or 
+                        //      Data File : AB-230517-04 CCV 1.d
+                        //Need to remove the '.d' from end of string
                         tokens = currentLine.Split(":");
                         aliquot = tokens[1].Trim();
+                        aliquot = aliquot.Replace(".d", "", StringComparison.OrdinalIgnoreCase);
                         bDataFile = true;
                         continue;
                     }
