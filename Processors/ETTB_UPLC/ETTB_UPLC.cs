@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using PluginBase;
 using OfficeOpenXml;
+using System.Globalization;
 
 namespace ETTB_UPLC
 {
@@ -82,7 +83,7 @@ namespace ETTB_UPLC
                     DateTime dtTime = DateTime.Parse(time);
 
 
-                    if (!DateTime.TryParse(dtDate.ToShortDateString() + " " + dtTime.ToLongTimeString(), out analysisDateTime))
+                    if (!DateTime.TryParse(dtDate.ToShortDateString() + " " + dtTime.ToLongTimeString(), CultureInfo.InvariantCulture, DateTimeStyles.None, out analysisDateTime))
                         throw new Exception("Invalid analysis DateTime: " + date + " " + time);
 
                     //There are a lot of empty cells in measured value column
