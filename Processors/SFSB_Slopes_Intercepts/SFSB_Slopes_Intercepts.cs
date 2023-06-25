@@ -92,7 +92,7 @@ namespace SFSB_Slopes_Intercepts
 
                     dr = dt.NewRow();
                     measuredVal = GetXLDoubleValue(worksheet.Cells[rowIdx, ColumnIndex1.E]);
-                    dr["Aliquot"] = aliquotD;
+                    dr["Aliquot"] = aliquotE;
                     dr["Analyte Identifier"] = analyteID;
                     dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Measured Value"] = measuredVal;
