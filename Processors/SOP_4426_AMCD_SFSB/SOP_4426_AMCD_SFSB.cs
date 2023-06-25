@@ -5,6 +5,10 @@ using System.Text.RegularExpressions;
 using PluginBase;
 using System.Globalization;
 using Microsoft.Extensions.Primitives;
+using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.Utilities;
+using System.Drawing;
+using System.Diagnostics.Metrics;
 
 namespace SOP_4426_AMCD_SFSB
 {
@@ -40,6 +44,12 @@ namespace SOP_4426_AMCD_SFSB
                 //bool bStart = false;
                 bool bDataFile = false;
                 bool bQuantTime = false;
+
+                /* JD - request from Richard Osborne 6/22/23 */
+                // For the Internal Standards, we would like to bring in the Response rather
+                // than the Concentration as the “Measured Value” in the Universal Parser
+                int measuredValCol = ColumnIndex0.D;
+
                 while ((line = sr.ReadLine()) != null)
                 {
                     rowIdx++;
@@ -79,6 +89,12 @@ namespace SOP_4426_AMCD_SFSB
                     if (!bDataFile || !bQuantTime)
                         continue;
 
+                    // change measuredValCol in there
+                    if (currentLine.Trim().StartsWith("Target Compounds"))
+                    {
+                        measuredValCol = ColumnIndex0.E;
+                    }
+
                     //This regular expression will match any number of digits at the beginning of the string followed by a )
                     string regexExp = @"^[0-9]+[)]";
                     Match regexMatch = Regex.Match(currentLine.Trim(), regexExp);
@@ -106,8 +122,18 @@ namespace SOP_4426_AMCD_SFSB
 
                     tokens = Regex.Split(currentLine.Trim(), @"\s{2,}");
                     analyteID = Regex.Split(tokens[0], @"\s{1,}")[1];
-                    
-                    userDefined1 = tokens[3].Trim();
+
+                    /* JD - request from Richard Osborne 6/22/23 */
+                    // there will sometimes be a suffix of “m” on values in the Response column, remove it.
+                    string value = tokens[3].Trim();
+                    if (value.IndexOf("m") != -1)
+                    {
+                        value = value.Remove(value.Length - 1, 1);
+                    }
+                    userDefined1 = value;
+
+                    userDefined2 = tokens[1].Trim();
+                    userDefined3 = tokens[2].Trim();
 
                     //Deal with a non detect record - token array length == 4
                     //     3) Tetrafluoromethane          0.000             0      N.D. d
@@ -116,7 +142,7 @@ namespace SOP_4426_AMCD_SFSB
                         measuredValTmp = "0.0";
                     else
                     {
-                        measuredValTmp = tokens[4].Trim();
+                        measuredValTmp = tokens[measuredValCol].Trim();
                         tokens = Regex.Split(measuredValTmp, @"\s{1,}");
                         measuredValTmp = tokens[0].Trim();
                     }
@@ -132,6 +158,8 @@ namespace SOP_4426_AMCD_SFSB
                     dr["Analysis Date/Time"] = analysisDateTime;
                     dr["Measured Value"] = measuredVal;
                     dr["User Defined 1"] = userDefined1;
+                    dr["User Defined 2"] = userDefined2;
+                    dr["User Defined 3"] = userDefined3;
 
                     dt.Rows.Add(dr);
 
