@@ -81,7 +81,11 @@ namespace ACESD_DIC
                         string measuredValTmp = tokens[ColumnIndex0.G].Trim();
                         double measuredVal;
                         if (!double.TryParse(measuredValTmp, out measuredVal))
-                            throw new Exception("Invalid measured value in row: " + idxRow.ToString());
+                            // jd 08/22/2023 - per Richard Osborne:
+                            // update to skip lines that have invalid values
+
+                            // throw new Exception("Invalid measured value in row: " + idxRow.ToString());
+                            continue;
 
                         units = tokens[ColumnIndex0.K].Trim();
 
