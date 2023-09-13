@@ -319,7 +319,7 @@ namespace LimsServer.Services
             {
                 //In multifile processing skip folders containing the string 'archive'
                 int ival = fullFilename.IndexOf("archive", StringComparison.OrdinalIgnoreCase);
-                if (ival < 0)
+                if (ival >= 0)
                     continue;
 
                 string filename = Path.GetFileName(fullFilename);
