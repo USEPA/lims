@@ -37,89 +37,47 @@ namespace SFSB_P9_P10
 
                 using StreamReader sr = new StreamReader(input_file);
 
-                string line;
-                string[] colNames;
-                bool bStartDataBlock = false;
-                string sampleID = "Sample ID";
 
-                string analysisDate = "";
-                string analysisTime = "";
                 current_row = 0;
                 DataRow dr = null;
+
+                List<string> lstAliquots = null;
+                string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    current_row++;
-                    if (string.IsNullOrWhiteSpace(line))
-                    {
-                        bStartDataBlock = false;
-                        analysisDate = "";
-                        analysisTime = "";
-                        continue;
-                    }
-
+                    current_row++;                    
                     string[] tokens = line.Split(",");
-                    if (sampleID.Equals(tokens[0], StringComparison.OrdinalIgnoreCase))
+
+                    //Row 1 contains Aliquots
+                    if (current_row == 1)
                     {
-                        bStartDataBlock = true;
+                        lstAliquots = new List<string>(tokens);
                         continue;
                     }
-
-                    if (!bStartDataBlock)
+                    //Row 2 - skip
+                    if (current_row == 2)
                         continue;
 
-                    analysisDate = tokens[ColumnIndex0.AA];
-                    analysisTime = tokens[ColumnIndex0.AB];
-                    //Used for block of data
-                    analysisDateTime = DateTime.Parse(analysisDate + " " + analysisTime);
+                    analyteID = tokens[0];
+                    //Skip first column because we already have analyteID
+                    for (int i = 1; i < lstAliquots.Count; i+=2)
+                    {
+                        aliquot = lstAliquots[i];
+                        if (!double.TryParse(tokens[i], out measuredVal))
+                            measuredVal = double.NaN;
 
-                    //Used for records in this row
-                    aliquot = tokens[0];
+                        double user_defined1;
+                        if (!double.TryParse(tokens[i+1], out user_defined1))
+                            user_defined1 = double.NaN;
 
-                    //Individual measurement
-                    analyteID = "OC";
-                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.C]);
-                    dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dt.Rows.Add(dr);
+                        dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Analyte Identifier"] = analyteID;
+                        dr["Measured Value"] = measuredVal;
+                        dr["User Defined 1"] = user_defined1;
 
-                    analyteID = "EC";
-                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.E]);
-                    dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dt.Rows.Add(dr);
-
-                    analyteID = "TC";
-                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.I]);
-                    dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dt.Rows.Add(dr);
-
-                    analyteID = "EC/TC";
-                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.K]);
-                    dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dt.Rows.Add(dr);
-
-                    analyteID = "Punch Area";
-                    measuredVal = GetStringDoubleValue(tokens[ColumnIndex0.AD]);
-                    dr = dt.NewRow();
-                    dr["Aliquot"] = aliquot;
-                    dr["Analyte Identifier"] = analyteID;
-                    dr["Measured Value"] = measuredVal;
-                    dr["Analysis Date/Time"] = analysisDateTime;
-                    dt.Rows.Add(dr);
+                        dt.Rows.Add(dr);
+                    }                     
                 }
 
                 rm.TemplateData = dt;
