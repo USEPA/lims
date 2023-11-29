@@ -15,7 +15,6 @@
     <PackageReference Include="Hangfire.Heartbeat" Version="0.5.1" />
     <PackageReference Include="Hangfire.JobsLogger" Version="0.2.1" />
     <PackageReference Include="Hangfire.Storage.SQLite" Version="0.3.2" />
-    <PackageReference Include="itextsharp.netstandard" Version="5.5.13.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
