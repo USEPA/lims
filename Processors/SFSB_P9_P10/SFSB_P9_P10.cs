@@ -54,7 +54,7 @@ namespace SFSB_P9_P10
                         lstAliquots = new List<string>(tokens);
                         continue;
                     }
-                    //Row 2 - skip
+                    //Row 2 - skip!
                     if (current_row == 2)
                         continue;
 
