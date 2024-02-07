@@ -10,3 +10,10 @@
         <button mat-button class="control" (click)="logout()">Logout</button>
     </span>
 </mat-toolbar>
+
+<!-- Banner for LabLAN Deploy Environment -->
+<mat-toolbar class="lablan-banner" *ngIf="envName == 'lablan'">
+    <span id="banner-title-span">
+        <h1 id="banner-title">>>>>> LabLAN Edition <<<<<</h1>
+    </span>
+</mat-toolbar>

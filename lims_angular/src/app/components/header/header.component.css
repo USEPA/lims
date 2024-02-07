@@ -14,3 +14,20 @@
 md-toolbar {
     z-index: 10;
 }
+
+.lablan-banner {
+	background-color: #840000;
+}
+
+#banner-title-span {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#banner-title {
+  text-align: center;
+  margin: 0;
+}
