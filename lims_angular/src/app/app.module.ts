@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, APP_INITIALIZER } from "@angular/core";
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { CookieService } from "ngx-cookie-service";
+import { EnvService } from './services/env.service';
 
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
@@ -21,7 +22,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -100,6 +101,12 @@ import { LimsManagementComponent } from './admin/lims-management/lims-management
             useClass: UnauthorizedRedirect,
             multi: true,
         },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (envService: EnvService) => () => envService.loadConfig(),
+            deps: [EnvService],
+            multi: true
+        }
     ],
     bootstrap: [AppComponent],
 })

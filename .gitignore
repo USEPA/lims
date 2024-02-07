@@ -276,3 +276,6 @@ __pycache__/
 # tools/
 
 # End of https://www.gitignore.io/api/aspnetcore
+
+# Custom env stuff
+env.json
