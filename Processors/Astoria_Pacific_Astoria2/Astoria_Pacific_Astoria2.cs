@@ -68,9 +68,11 @@ namespace Astoria_Pacific_Astoria2
 
                 //These are the analytes that map to the following values in the spreadsheet in row 5:
                 //Orthophosphate, Ammonia, Nitrate+Nitrite, Nitrite
-                //string[] analyteIDs = new string[] { "OP", "NH3", "NO3/NO2", "NO2" };
+                //KW Sept 14 2023 - going back
+
+                string[] analyteIDs = new string[] { "OP", "NH3", "NO3/NO2", "NO2" };
                 //KW Sept 11 2023 - change order of analytes
-                string[] analyteIDs = new string[] { "NO3/NO2", "NO2", "OP", "NH3" };
+                //string[] analyteIDs = new string[] { "NO3/NO2", "NO2", "OP", "NH3" };
 
                 //There are 4 analytes in this file
                 //Measured values are in columns G, J, M, P                

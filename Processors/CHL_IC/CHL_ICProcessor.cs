@@ -42,25 +42,19 @@ namespace CHL_IC
                 }
 
                 //We are looking for a worksheet named: 'Summary - INJ. vs ANION'
-                string tableName = "Summary - INJ. vs ANION";
                 DataTable worksheet = null;
-                foreach (DataTable table in tables)
-                {
-                    int i = 1;
-                    if (string.Compare(table.TableName, tableName, true) == 0)
-                    {
-                        worksheet = table;
-                        break;
-                    }
-                }
+                string tableName = "Summary - INJ. vs ANION";                
+                worksheet = tables[tableName];
+
+                DataTable dtDateTime = tables["Integration"];
+                string tmpDateTime = dtDateTime.Rows[5][3].ToString();
+                if (!DateTime.TryParse(tmpDateTime, out analysisDateTime))
+                    throw new Exception(string.Format("Invalid analysis datetime {0}", tmpDateTime));
+
 
                 //We have a problem if we can't find the right worksheet
-                if (worksheet == null)
-                {
-                    rm.ErrorMessage = $"Processor: {name},  InputFile: {input_file}, Worksheet {tableName} not found.";
-                    rm.LogMessage = $"Processor: {name},  InputFile: {input_file}, Worksheet {tableName} not found.";
-                    return rm;
-                }
+                if (worksheet == null)                
+                    throw new Exception($"Processor: {name},  InputFile: {input_file}, Worksheet {tableName} not found.");                
 
                 DataTable dtReturn = GetDataTable();
                 dtReturn.TableName = System.IO.Path.GetFileNameWithoutExtension(fi.FullName);
@@ -111,6 +105,8 @@ namespace CHL_IC
 
                         dr["Measured Value"] = measuredVal;
 
+                        dr["Analysis Date/Time"] = analysisDateTime;
+
                         dtReturn.Rows.Add(dr);
                     }
                 }
@@ -119,8 +115,12 @@ namespace CHL_IC
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;                
             }
             return rm;
         }

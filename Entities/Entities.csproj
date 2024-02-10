@@ -5,8 +5,4 @@
     <RootNamespace>LimsServer.Entities</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="itextsharp.netstandard" Version="5.5.13.2" />
-  </ItemGroup>
-
 </Project>

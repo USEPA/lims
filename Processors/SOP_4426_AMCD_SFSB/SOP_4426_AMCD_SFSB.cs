@@ -4,11 +4,6 @@ using System.Data;
 using System.Text.RegularExpressions;
 using PluginBase;
 using System.Globalization;
-using Microsoft.Extensions.Primitives;
-using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Utilities;
-using System.Drawing;
-using System.Diagnostics.Metrics;
 
 namespace SOP_4426_AMCD_SFSB
 {
