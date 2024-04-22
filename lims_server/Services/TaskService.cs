@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -121,7 +122,23 @@ namespace LimsServer.Services
             {
                 result = await ProcessSingleFile(task, workflow, files[0]);
             }
-            
+
+            //If the Aliquot has a @ in, parse the string. Dilution Factor is after the @
+            if ((result != null) && result.TemplateData != null)
+            {
+                foreach (DataRow dr in result.TemplateData.Rows)
+                {
+                    string analyte = dr["Aliquot"].ToString();
+                    if (analyte.Contains("@"))
+                    {
+                        string[] tokens = analyte.Split("@");
+                        dr["Aliquot"] = tokens[0];
+                        double dval = Convert.ToDouble(tokens[1]);
+                        dr["Dilution Factor"] = dval;
+                    }
+                }
+            }
+
             //outputs.Add(result.InputFile, result);
 
             if (result != null && string.IsNullOrWhiteSpace(result!.ErrorMessage) && result!.TemplateData != null)
