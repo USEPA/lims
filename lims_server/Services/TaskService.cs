@@ -128,13 +128,15 @@ namespace LimsServer.Services
             {
                 foreach (DataRow dr in result.TemplateData.Rows)
                 {
-                    string analyte = dr["Aliquot"].ToString();
-                    if (analyte.Contains("@"))
+                    string aliquot = dr["Aliquot"].ToString();
+                    if (aliquot.Contains("@"))
                     {
-                        string[] tokens = analyte.Split("@");
+                        string[] tokens = aliquot.Split("@");
                         dr["Aliquot"] = tokens[0];
-                        double dval = Convert.ToDouble(tokens[1]);
-                        dr["Dilution Factor"] = dval;
+
+                        double dval = 0.0;
+                        if (Double.TryParse(tokens[1], out dval))
+                            dr["Dilution Factor"] = dval;
                     }
                 }
             }
