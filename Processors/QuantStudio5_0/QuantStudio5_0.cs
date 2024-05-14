@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ExcelDataReader;
 
-namespace QuantStudio_qPCR
+namespace QuantStudio_5_0
 {
-    public class QuantStudio_qPCR : DataProcessor
+    public class QuantStudio_5_0 : DataProcessor
     {
         public override string id { get => "quantstudio_5_0"; }
         public override string name { get => "QuantStudio_5_0"; }
@@ -94,7 +94,7 @@ namespace QuantStudio_qPCR
                         measuredVal = 0.0;
 
                     userDefined1 = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
-                    userDefined2 = worksheet.Rows[row][ColumnIndex0.J].ToString().Trim();
+                    userDefined2 = worksheet.Rows[row][ColumnIndex0.I].ToString().Trim();
 
                     dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
