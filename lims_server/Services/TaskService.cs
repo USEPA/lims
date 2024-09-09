@@ -366,6 +366,7 @@ namespace LimsServer.Services
                 {
                     totalResult.TemplateData = null;
                     totalResult.ErrorMessage = $"Unable to process: {filename} for multifile data in: {dataPath}";
+                    _logService.Warning($"Unable to process: {filename} for multifile data in: {dataPath}", task);
                     return totalResult;
                 }
                 
@@ -436,7 +437,9 @@ namespace LimsServer.Services
 
             Dictionary<string, ResponseMessage> outputs = new Dictionary<string, ResponseMessage>();
             string file = task.inputFile;
+            _logService.Warning($"Processing single file: {file}", task);
             DataTableResponseMessage result = pm.ExecuteProcessor(processor.Path, processor.Name, file);
+            _logService.Warning($"Finished processing single file: {file}", task);
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -582,6 +585,7 @@ namespace LimsServer.Services
                     //    File.Move(inputPath, archivePath);
                     //}
                     archivePath = MoveFileOrDirectory(inputPath, archivePath, workflow.multiFile);
+                    _logService.Information($"Success archiving file {inputPath} to {archivePath}", task);
 
                     // Set task archiveFile location
                     task.archiveFile = archivePath;
