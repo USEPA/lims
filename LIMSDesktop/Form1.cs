@@ -91,11 +91,20 @@ namespace LIMSDesktop
                     //UserMessage(dtRespMsg.ErrorMessage);
                     return;
                 }
-                    //LogMessage(dtRespMsg.ErrorMessage);                
 
+                foreach (DataRow dr in dtRespMsg.TemplateData.Rows)
+                {
+                    string aliquot = dr["Aliquot"].ToString();
+                    if (aliquot.Contains("@"))
+                    {
+                        string[] tokens = aliquot.Split("@");
+                        dr["Aliquot"] = tokens[0].Trim(); ;
 
-                //if (!string.IsNullOrWhiteSpace(dtRespMsg.LogMessage))
-                //    LogMessage(dtRespMsg.LogMessage);
+                        double dval = 0.0;
+                        if (Double.TryParse(tokens[1].Trim(), out dval))
+                            dr["Dilution Factor"] = dval;
+                    }
+                }
 
                 if (dtRespMsg.TemplateData != null)
                 {
