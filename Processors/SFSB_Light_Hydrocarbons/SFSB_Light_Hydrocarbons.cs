@@ -102,8 +102,8 @@ namespace SFSB_Light_Hydrocarbons
                     tokens = Regex.Split(currentLine, @"\s{1,}");
                     analyteID = tokens[1].Trim();
 
-                    string measuredValTmp = tokens[4].Trim();                    
-                    //string measuredValTmp = tokens[3].Trim();
+                    //string measuredValTmp = tokens[4].Trim();                    
+                    string measuredValTmp = tokens[3].Trim();
                     int idx2 = measuredValTmp.LastIndexOf("m", StringComparison.OrdinalIgnoreCase);
                     if (idx2 != -1)                    
                         measuredValTmp = measuredValTmp.Substring(0, idx2).Trim();
