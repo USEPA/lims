@@ -70,21 +70,30 @@ namespace QuantStudio_5_0
                     string tmpMeasuredVal = "";
                     
                     aliquot = worksheet.Rows[row][ColumnIndex0.D].ToString().Trim();
-                    analyteID = worksheet.Rows[row][ColumnIndex0.E].ToString().Trim();
-                    userDefined1 = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
+                    analyteID = worksheet.Rows[row][ColumnIndex0.E].ToString().Trim();                    
+                    
+                    
+                    //This column might not exist
+                    if (numCols > ColumnIndex0.AF)
+                        userDefined1 = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
+                    
                     userDefined2 = worksheet.Rows[row][ColumnIndex0.I].ToString().Trim();
 
-                    if (aliquot.Contains("Pos Ctrl",StringComparison.CurrentCultureIgnoreCase))
-                    {                        
-                        double tmpdPosCtrl;
-                        string colAF = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
-                        if (!Double.TryParse(colAF, out tmpdPosCtrl))
-                            throw new Exception("Unable to parse User Defined1 value for column AF: " + aliquot);
-                        dPosCtrl += tmpdPosCtrl;
-                        numPosCtrl++;
-                        posCtrlAliquot = aliquot;
-                        posCtrlAnalyteId = analyteID;
-                        continue;
+                    //This column might not exist
+                    if (numCols > ColumnIndex0.AF)
+                    {
+                        if (aliquot.Contains("Pos Ctrl", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            double tmpdPosCtrl;
+                            string colAF = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
+                            if (!Double.TryParse(colAF, out tmpdPosCtrl))
+                                throw new Exception("Unable to parse User Defined1 value for column AF: " + aliquot);
+                            dPosCtrl += tmpdPosCtrl;
+                            numPosCtrl++;
+                            posCtrlAliquot = aliquot;
+                            posCtrlAnalyteId = analyteID;
+                            continue;
+                        }
                     }
 
                     
@@ -93,8 +102,8 @@ namespace QuantStudio_5_0
                     if (!Double.TryParse(tmpMeasuredVal, out measuredVal))
                         measuredVal = 0.0;
 
-                    userDefined1 = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
-                    userDefined2 = worksheet.Rows[row][ColumnIndex0.I].ToString().Trim();
+                    //userDefined1 = worksheet.Rows[row][ColumnIndex0.AF].ToString().Trim();
+                    //userDefined2 = worksheet.Rows[row][ColumnIndex0.I].ToString().Trim();
 
                     dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
