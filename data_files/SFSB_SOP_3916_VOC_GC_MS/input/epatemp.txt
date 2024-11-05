@@ -1,0 +1,183 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : C:\gcms\1\data\BS-Integrations\Regular\Group 1\042624\
+  Data File : WO-24095-01-A-3                                         
+  Acq On    : 26 Apr 2024  04:55 pm
+  Operator  :  
+  Sample    : 041624-S-C-01B
+  Misc      :  
+  ALS Vial  : 1   Sample Multiplier: 1
+
+  Quant Time: Jul 08 14:08:06 2024
+  Quant Method : C:\gcms\1\methods\Entech2_ICAL_041924.M
+  Quant Title  : APRIL 2024 CAL
+  QLast Update : Tue Apr 23 21:44:02 2024
+  Response via : Initial Calibration
+
+          Compound                   R.T. QIon  Response  Conc Units Dev(Min)
+   --------------------------------------------------------------------------
+   Internal Standards
+     1) Hexafluoropropane           3.878   69   565168m   20.00 ppbv     0.00
+    24) Hexane-d14                 10.243   66   212430m   20.00 ppbv     0.00
+    99) 1,4-Difluorobenzene        15.447  114  1341172m   20.00 ppbv     0.00
+   120) Chlorobenzene-d5           22.997  117  1130230m   20.00 ppbv     0.00
+
+   Target Compounds                                                   Qvalue
+     2] Formaldehyde                3.932   29   214452m    5.27 ppbv        
+     3] Acetaldehyde                5.026   29   440957m    8.90 ppbv        
+     4] Methanol                    5.367   29   604417    23.50 ppbv #    64
+     5] Furan                       7.481   68   657252     2.32 ppbv      93
+     6] Propanal                    7.909   58    58453m    1.42 ppbv        
+     7] Methacrolein               10.878   41    35972     0.38 ppbv #    87
+     8] 2-Methylfuran              11.620   82   572385m    4.40 ppbv        
+     9] Butanal                    11.979   44    15436m    0.14 ppbv        
+    10] Methyl_Vinyl_Ketone        12.056   55   150037m    0.64 ppbv        
+    11] 3-Methylfuran              12.168   82    70153     0.47 ppbv #    15
+    12] Crotonaldehyde             15.262   69    21430m    9.72 ppbv        
+    13] Pentanal                   16.799   44    11192     0.05 ppbv #     1
+    14] Hexanal                    21.316   44    12341m    0.13 ppbv        
+    15] Heptanal                   25.367   70     2979m    0.02 ppbv        
+    16] Benzaldehyde               28.006  106    67661m    0.13 ppbv        
+    17] mo-Tolualdehyde            30.716   91    19893     0.03 ppbv #    71
+    18] p-tolualdehyde             31.095   91     2579     0.01 ppbv #    30
+    19] 3-Methyl-3-Butene-2-one    15.747   43   125810m    1.86 ppbv        
+    20] 2-Ethylfuran               16.020   81    51900m    0.21 ppbv        
+    21] 2,5-Dimethylfuran          16.248   96   158321     0.77 ppbv      95
+    22] 2-Furaldeyde               22.741   95    22208m    0.16 ppbv        
+    23] 3-Furaldehyde              23.798   95   341119m    2.50 ppbv        
+    25] Benzofuran                 28.568  118   167615m    0.48 ppbv        
+    26] 2-Methylbenzofuran         31.139  131    43370m    0.10 ppbv        
+    27] 3-Methylbenzofuran         31.212  131    51268m    0.14 ppbv        
+    28] Propylene                   3.833   41   879144m    9.70 ppbv        
+    29] Propane                     3.833   29   172334     3.60 ppbv #    27
+    30] Dichlorodifluoromethane     3.923   85    17907m    0.06 ppbv        
+    31] Dichlorotetrafluoroethane   4.305   85     1803m    0.00 ppbv        
+    32] Isobutane                   4.305   43    33793m    0.18 ppbv        
+    33] Chloromethane               4.404   50    17274m    0.13 ppbv        
+    34] 1-Butene                    4.642   56    75063m    2.63 ppbv        
+    35] Vinyl_Chloride              0.000             0      N.D.       
+    36] Butane                      4.694   43    38140m    0.68 ppbv        
+    37] 1,3-Butadiene               4.813   54    52136     0.87 ppbv #    82
+    38] trans-2-butene              4.915   41    74211m    0.70 ppbv        
+    39] cis-2-butene                5.179   41    59634m    0.43 ppbv        
+    40] Ethylene-D4_Oxide           5.566   48     6664m    3.51 ppbv        
+    41] Ethylene_oxide44            5.586   44     7600m    0.15 ppbv        
+    42] Ethylene_oxide29            5.586   29     4140m    0.16 ppbv        
+    43] Bromomethane                5.615   94      323m    0.00 ppbv        
+    44] Chloroethane                5.910   64      105m    0.00 ppbv        
+    45] iso-Pentane                 6.126   43    16779m    0.12 ppbv        
+    46] Vinyl_Bromide               0.000             0      N.D. d     
+    47] Trichlorofluoromethane      6.620  101     7375m    0.02 ppbv        
+    48] 1-Pentene                   6.677   42    35549m    0.23 ppbv        
+    49] n-Pentane                   6.839   43    59599     0.23 ppbv #   100
+    50] trans-2-pentene             7.214   55    52126m    0.21 ppbv        
+    51] Ethanol                     7.192   31    23889m    0.37 ppbv        
+    52] Isoprene                    7.459   67   109722m    0.60 ppbv        
+    53] cis-2-pentene               7.514   55    31798m    0.14 ppbv        
+    54] Propylene_oxide             7.570   58     1646    Below Cal  #    47
+    55] Acrolein                    7.737   56   272719     3.78 ppbv #     1
+    56] 1,1-Dichloroethene          0.000             0      N.D. d     
+    57] 1,1,2-Trichloro-1,2,2-...   8.014  101     2655m    0.01 ppbv        
+    58] 2,2-Dimethylbutane          8.022   71     1190m    0.00 ppbv        
+    59] Acetone                     8.144   43  1047445     6.30 ppbv      91
+    60] Carbon_Disulfide            8.501   76    14451m    0.01 ppbv        
+    61] Isopropyl_Alcohol           8.582   45    13953m    0.07 ppbv        
+    62] Acetonitrile                8.833   41   112971     1.12 ppbv #    96
+    63] 3-Chloro-1-Propene          0.000             0      N.D. d     
+    64] 2,3-Dimethylbutane          0.000             0      N.D. d     
+    65] Methylene_Chloride          9.222   84     1828m    0.01 ppbv        
+    66] 2-Methylpentane             9.287   43     5035m    0.02 ppbv        
+    67] Cyclopentane                9.392   42     5618m    0.02 ppbv        
+    68] Tert-Butanol                9.620   59     3181m    0.01 ppbv        
+    69] Acrylonitrile               9.846   53     6491m    0.05 ppbv        
+    70] trans-1,2-Dichloroethene    9.905   61       68m    0.00 ppbv        
+    71] 3-Methylpentane             9.915   56     3851m    0.01 ppbv        
+    72] Methyl_Tert-Butyl_Ether     0.000             0      N.D. d     
+    73] 1-Hexene                   10.387   56    27885m    0.17 ppbv        
+    74] n-Hexane                   10.602   57    19848m    0.08 ppbv        
+    75] 1,1-Dichloroethane          0.000             0      N.D. d     
+    76] Vinyl_Acetate              11.117   43     3389m    0.01 ppbv        
+    77] 2-Chloroprene               0.000             0      N.D. d     
+    78] Diisopropyl_ether           0.000             0      N.D.       
+    79] 2,4-Dimethylpentane         0.000             0      N.D. d     
+    80] Ethyl_Tert-Butyl_Ether      0.000             0      N.D. d     
+    81] Methylcyclopentane          0.000             0      N.D. d     
+    82] cis-1,2-Dichloroethene      0.000             0      N.D.       
+    83] 2-Butanone                 12.445   43   396355     1.53 ppbv #    37
+    84] Ethyl_Acetate              12.601   43     1137m    0.00 ppbv        
+    85] 1-Bromopropane              0.000             0      N.D. d     
+    86] Chloroform                 13.149   83     1216m    0.00 ppbv        
+    87] Tetrahydrofuran            13.141   42    26184m    0.16 ppbv        
+    88] 1,1,1-Trichloroethane      13.604   97       65m    0.00 ppbv        
+    89] 2-Methylhexane             13.632   43     1520m    0.00 ppbv        
+    90] Cyclohexane                13.735   84     1272m    0.00 ppbv        
+    91] 2,3-Dimethylpentane        13.829   56     4343m    0.02 ppbv        
+    92] Carbon_Tetrachloride       14.008  117     2531m    0.01 ppbv        
+    93] 3-Methylhexane             14.073   43     2201m    0.01 ppbv        
+    94] Benzene                    14.512   78  1534440m    2.77 ppbv        
+    95] 1,2-Dichloroethane         14.500   62     8213m    0.06 ppbv        
+    96] Isooctane                  14.696   57     3495     0.00 ppbv #    54
+    97] Tert_Amyl-Methyl_Ether      0.000             0      N.D. d     
+    98] Heptane                    15.147   43     8883     0.04 ppbv #     1
+   100] Trichloroethene            16.092  130      201m    0.00 ppbv        
+   101] Ethyl_acrylate              0.000             0      N.D. d     
+   102] Methylcyclohexane          16.571   83     2201     0.01 ppbv #     1
+   103] 1,2-Dichloropropane        16.679   63      505m    0.00 ppbv        
+   104] Methyl_Methacrylate        16.955   69     6323m    0.03 ppbv        
+   105] 1,4-Dioxane                17.044   88      422m    0.00 ppbv        
+   106] Bromodichloromethane        0.000             0      N.D.       
+   107] 2,3,4-Trimethylpentane     17.618   43      744m    0.00 ppbv        
+   108] 2-Methylheptane            18.126   57     1285m    0.00 ppbv        
+   109] cis-1,3-Dichloropropene    18.466   75     1010m    0.00 ppbv        
+   110] 3-Methylheptane            18.507   43      445m    0.00 ppbv        
+   111] 4-Methy-2-Pentanone        18.888   43     2065     0.01 ppbv #    49
+   112] Toluene                    19.333   91  1167121m    1.69 ppbv        
+   113] Octane                     19.625   43     7647     0.03 ppbv #     1
+   114] trans-1,3-Dichloropropene  19.892   75      571     0.00 ppbv #    90
+   115] 1,1,2-Trichloroethane      20.396   97      649m    0.00 ppbv        
+   116] Tetrachloroethene          20.781  166      651m    0.00 ppbv        
+   117] 2-Hexanone                 21.070   43     4950     0.02 ppbv #    50
+   118] Dibromochloromethane       21.423  129      189m    0.00 ppbv        
+   119] 1,2-Dibromoethane          21.734  107     1177m    0.00 ppbv        
+   121] Chlorobenzene              23.079  112     1468     0.00 ppbv #     1
+   122] 1,1,1,2-Tetrachloroethane  23.295  131       43m    0.00 ppbv        
+   123] Ethylbenzene               23.377   91   172661     0.19 ppbv #    58
+   124] mp-Xylene                  23.695   91   356941m    0.31 ppbv        
+   125] Nonane                     23.757   57     4880     0.01 ppbv #    76
+   126] Butyl_Acrylate             24.701   55      264m    0.00 ppbv        
+   127] o-Xylene                   24.785   91   112105m    0.15 ppbv        
+   128] Styrene                    24.816  104   174748m    0.24 ppbv        
+   129] Bromoform                  25.286  173      392m    0.00 ppbv        
+   130] a-Pinene                   25.682   93   239160     0.21 ppbv #     1
+   131] Cumene                     25.709  105    41266m    0.04 ppbv        
+   132] Bromofluorobenzene         26.104  176   946363m   20.95 ppbv        
+   133] 1,1,2,2-Tetrachloroethane  26.478   83      468m    0.00 ppbv        
+   134] n-Propylbenzene            26.721   91    29221m    0.03 ppbv        
+   135] Chlorotoluenes              0.000             0      N.D. d     
+   136] m-Ethyltoluene             26.928  105   123420m    0.19 ppbv        
+   137] 1-Ethyl-4-Methyl_Benzene   26.958  105    39062m    0.04 ppbv        
+   138] 1,3,5-Trimethylbenzene     27.133  105    22081m    0.03 ppbv        
+   139] n-Decane                   27.143   57     4791m    0.01 ppbv        
+   140] b-Pinene                   27.267   93    91017m    0.10 ppbv        
+   141] 1,2,4-Trimethylbenzene     27.595  105    39026    Below Cal  #    99
+   142] Tert-Butyl_Benzene         27.872  119      780     0.00 ppbv #    65
+   143] o-Ethyltoluene             27.996  105   123167m    0.10 ppbv        
+   144] Sec-Butyl_Benzene          28.349  105     2827     0.00 ppbv #    85
+   145] 1,3-Dichlorobenzene        28.591  146     5382     0.01 ppbv #    92
+   146] 1,4-Dichlorobenzene        28.788  146     6998m    0.01 ppbv        
+   147] 1,2,3-Trimethylbenzene     28.892  105    40561m    0.05 ppbv        
+   148] o-Cymene                   29.111  119     3510m    0.00 ppbv        
+   149] 1,3-Diethylbenzene         29.296  119     5561m    0.01 ppbv        
+   150] 1,2-Diethylbenzene         29.470  119    14445m    0.02 ppbv        
+   151] n-Butyl_Benzene            29.516   91    17380m    0.02 ppbv        
+   152] 1,2-Dichlorobenzene        29.562  146     3885m    0.00 ppbv        
+   153] Undecane                   29.689   57     3846m    0.02 ppbv        
+   154] Dodecane                   31.767   57     2578m    0.01 ppbv        
+   155] 1,2,4-Trichlorobenzene     32.628  180     8317m    0.01 ppbv        
+   156] Hexachlorobutadiene        32.919  225     1131m    0.00 ppbv        
+   157] Naphthalene                33.080  128   362073m    0.33 ppbv        
+   --------------------------------------------------------------------------
+
+   (#) = qualifier out of range (m) = manual integration (+) = signals summed
+
+Entech2_ICAL_041924.M Thu Sep 05 17:00:02 2024   
