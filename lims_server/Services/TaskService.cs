@@ -114,7 +114,7 @@ namespace LimsServer.Services
             DataTableResponseMessage result;
             if (workflow.multiFile)
             {
-                result = await ProcessMultiFile(task, workflow, dirs[0]);
+                result = await ProcessMultiFile(task, workflow, workflow.inputFolder);
                 result.OutputFile = workflow.outputFolder;
                 result.TemplateData.TableName = Path.GetFileName(dirs[0]);
             }
@@ -331,7 +331,12 @@ namespace LimsServer.Services
             }
 
             string regexFilter = workflow.filter;
-            List<string> files = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
+            Regex regex = new Regex(regexFilter, RegexOptions.IgnoreCase);
+
+            List<string> files = Directory.GetFiles(dataPath, "*", SearchOption.AllDirectories)
+                                            .Where(path => regex.IsMatch(path))
+                                            .ToList();
+
             List<string> lstFiles = new List<string>();
             Match match;
             foreach (string fullFilename in files)
@@ -342,7 +347,13 @@ namespace LimsServer.Services
                     continue;
 
                 string filename = Path.GetFileName(fullFilename);
+
+                int ival2 = 0;
+                if (filename.Equals("epatemp.txt"))
+                    ival++;
+
                 match = Regex.Match(filename, regexFilter, RegexOptions.IgnoreCase);
+                                
                 if (match.Success)
                     lstFiles.Add(fullFilename);
             }

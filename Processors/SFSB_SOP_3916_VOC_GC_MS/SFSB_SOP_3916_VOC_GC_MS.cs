@@ -80,6 +80,51 @@ namespace SFSB_SOP_3916_VOC_GC_MS
                     if (!bDataFile || !bQuantTime)
                         continue;
 
+                    //This regular expression will match any number of digits at the beginning of the string followed by a ) or ]
+                    string regexExp = @"^[0-9]+[)\]]";
+                    Match regexMatch = Regex.Match(currentLine, regexExp);
+                    if (!regexMatch.Success)
+                        continue;
+
+                    /*
+                     * 
+                        Target Compounds                                                   Qvalue
+                            2] Formaldehyde                3.932   29   214452m    5.27 ppbv        
+                            3] Acetaldehyde                5.026   29   440957m    8.90 ppbv        
+                            4] Methanol                    5.367   29   604417    23.50 ppbv #    64
+                            5] Furan                       7.481   68   657252     2.32 ppbv      93
+                            6] Propanal                    7.909   58    58453m    1.42 ppbv        
+                            7] Methacrolein               10.878   41    35972     0.38 ppbv #    87
+                     * 
+                     */
+                                                   
+                    tokens = Regex.Split(currentLine, @"\s{1,}");
+                    analyteID = tokens[1].Trim();
+
+                    string measuredValTmp = tokens[4].Trim();
+                    int idx2 = measuredValTmp.LastIndexOf("m", StringComparison.OrdinalIgnoreCase);
+                    if (idx2 != -1)
+                        measuredValTmp = measuredValTmp.Substring(0, idx2).Trim();
+
+                    if (!Double.TryParse(measuredValTmp, out measuredVal))
+                        measuredVal = 0.0;
+
+                    userDefined2 = tokens[2].Trim();
+                    userDefined3 = tokens[3].Trim();
+
+                    DataRow dr = dt.NewRow();
+                    dr["Aliquot"] = aliquot;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Analysis Date/Time"] = analysisDateTime;
+                    dr["Measured Value"] = measuredVal;
+                    dr["User Defined 2"] = userDefined2;
+                    dr["User Defined 3"] = userDefined3;
+                    if (idx2 != -1)
+                        dr["User Defined 1"] = "m";
+                    
+
+                    dt.Rows.Add(dr);
+
                 }
             }
 
