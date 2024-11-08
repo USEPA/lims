@@ -116,7 +116,7 @@ namespace LimsServer.Services
             {
                 result = await ProcessMultiFile(task, workflow, workflow.inputFolder);
                 result.OutputFile = workflow.outputFolder;
-                result.TemplateData.TableName = Path.GetFileName(dirs[0]);
+                result.TemplateData.TableName = Path.GetFileName(workflow.inputFolder);
             }
             else
             {
@@ -198,9 +198,10 @@ namespace LimsServer.Services
                     processed = true;
                     task.outputFile = result.OutputFile;
 
-                    // Get input file path
                     string fileName = System.IO.Path.GetFileName(result.InputFile);
-                    inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
+                    if (!workflow.multiFile)
+                        inputPath = System.IO.Path.Combine(workflow.inputFolder, fileName);
+                                                                           
 
                     // If archive folder exists archive input file, otherwise delete
                     await ArchiveOrDeleteInputFile(fileName, inputPath, workflow, task);
@@ -346,11 +347,7 @@ namespace LimsServer.Services
                 if (ival >= 0)
                     continue;
 
-                string filename = Path.GetFileName(fullFilename);
-
-                int ival2 = 0;
-                if (filename.Equals("epatemp.txt"))
-                    ival++;
+                string filename = Path.GetFileName(fullFilename);                
 
                 match = Regex.Match(filename, regexFilter, RegexOptions.IgnoreCase);
                                 
@@ -587,14 +584,11 @@ namespace LimsServer.Services
                     // Move input file to archive folder
                     string archivePath = System.IO.Path.Combine(workflow.archiveFolder, fileName);
 
-                    //if (workflow.multiFile)
-                    //{
-                    //    Directory.Move(inputPath, archivePath);
-                    //}
-                    //else
-                    //{
+                    //if (workflow.multiFile)                    
+                    //    Directory.Move(inputPath, archivePath);                    
+                    //else                    
                     //    File.Move(inputPath, archivePath);
-                    //}
+                    
                     archivePath = MoveFileOrDirectory(inputPath, archivePath, workflow.multiFile);
                     _logService.Information($"Success archiving file {inputPath} to {archivePath}", task);
 
