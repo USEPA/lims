@@ -114,9 +114,9 @@ namespace LimsServer.Services
             DataTableResponseMessage result;
             if (workflow.multiFile)
             {
-                result = await ProcessMultiFile(task, workflow, workflow.inputFolder);
+                result = await ProcessMultiFile(task, workflow, dirs[0]);
                 result.OutputFile = workflow.outputFolder;
-                result.TemplateData.TableName = Path.GetFileName(workflow.inputFolder);
+                result.TemplateData.TableName = Path.GetFileName(dirs[0]);
             }
             else
             {
