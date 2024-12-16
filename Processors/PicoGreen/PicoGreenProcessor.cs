@@ -93,13 +93,18 @@ namespace PicoGreen
                     //if the cell contains 'Well ID' then start new data block 
                     if (wellID.Equals("Well ID", StringComparison.OrdinalIgnoreCase))
                         continue;
-                    
-                    string[] aliquot_dilFactor = GetAliquotDilutionFactor(GetXLStringValue(worksheet.Cells[row, 2]));
-                    string aliquot = aliquot_dilFactor[0];
-                    
-                    
+
+                    //string[] aliquot_dilFactor = GetAliquotDilutionFactor(GetXLStringValue(worksheet.Cells[row, 2]));                    
+                    //string aliquot = aliquot_dilFactor[0];
+                    string aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
+
                     string description = GetXLStringValue(worksheet.Cells[row, 3]);
-                    string measuredVal = GetXLStringValue(worksheet.Cells[row, 5]);
+
+                    string measuredVal = GetXLStringValue(worksheet.Cells[row, 6]);
+
+                    string dilFactor = GetXLStringValue(worksheet.Cells[row, 4]);
+                    
+
                     //Need to account for empty cell
                     if (string.IsNullOrWhiteSpace(measuredVal))
                         continue;
@@ -107,7 +112,7 @@ namespace PicoGreen
                     //string dilFactor = aliquot_dilFactor[1];
                     //KW June 9, 2021
                     //This change implemented at the request of Curtis Callahan
-                    string dilFactor = GetXLStringValue(worksheet.Cells[row, 6]);
+                    //string dilFactor = GetXLStringValue(worksheet.Cells[row, 6]);
                     //If measured value is “<0.0” report value as 0
                     //If measured value is “>1050.0” report value as 1050
                     if (measuredVal.Contains("<"))

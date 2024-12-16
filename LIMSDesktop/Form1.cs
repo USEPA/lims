@@ -16,6 +16,7 @@ namespace LIMSDesktop
         public Form1()
         {
             InitializeComponent();
+            templateDataGridView.DataBindingComplete += templateDataGridView_DataBindingComplete;
         }
 
         private void btnSelectFile_Click(object sender, EventArgs e)
@@ -29,6 +30,11 @@ namespace LIMSDesktop
 
         private void templateDataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            foreach (DataGridViewRow row in templateDataGridView.Rows)
+            {
+                row.HeaderCell.Value = (row.Index + 1).ToString();
+            }
+            templateDataGridView.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
             //foreach (DataGridViewRow row in templateDataGridView.Rows)
             //    row.HeaderCell.Value = String.Format("{0}", row.Index + 1);
         }
