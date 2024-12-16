@@ -10,11 +10,11 @@ namespace CHL_IC
 {
     public class CHL_ICProcessor : DataProcessor
     {
-        public override string id { get => "chl_ic_version1.0"; }
+        public override string id { get => "chl_ic_version1.1"; }
         public override string name { get => "CHL_IC"; }
         public override string description { get => "Processor used for CHL IC translation to universal template"; }
         public override string file_type { get => ".XLS"; }
-        public override string version { get => "1.0"; }
+        public override string version { get => "1.1"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
 
