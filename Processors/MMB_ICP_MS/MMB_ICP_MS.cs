@@ -45,22 +45,36 @@ namespace MMB_ICP_MS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                List<string> analytes = new List<string>();
-                for (int col = 7; col <= numCols; col+=2)
-                {
-                    string analyte = GetXLStringValue(worksheet.Cells[1, col]);
-                    analytes.Add(analyte);
-                }
+                //List<string> analytes = new List<string>();
+                //for (int col = 7; col <= numCols; col+=2)
+                //{
+                //    string analyte = GetXLStringValue(worksheet.Cells[1, col]);
+                //    analytes.Add(analyte);
+                //}
 
-                for (int row = 2; row <= numRows; row+=5)
+                //There are a couple of extra rows at the end of the file that we need to skip
+                for (int row = 7; row <= numRows - 3; row += 5)
                 {
+                    aliquot = GetXLStringValue(worksheet.Cells[row, 1]);
+                    if (string.IsNullOrWhiteSpace(aliquot))
+                        continue;
+
                     current_row = row;
-                    for (int col = 1; col <= numCols; col++)
+                    for (int col = 7; col <= numCols; col += 2)
                     {
-                        string aliquot = GetXLStringValue(worksheet.Cells[row, 1]);
+                        analyteID = GetXLStringValue(worksheet.Cells[1, col]);
+                        measuredVal = GetXLDoubleValue(worksheet.Cells[row, col]);
+
+                        DataRow dr = dt.NewRow();
+                        dr["Aliquot"] = aliquot;
+                        dr["Measured Value"] = measuredVal;
+                        dr["Analyte Identifier"] = analyteID;
+
+                        dt.Rows.Add(dr);
                     }
-                    
                 }
+                rm.TemplateData = dt;
+
             }
             catch (Exception ex)
             {
@@ -78,3 +92,4 @@ namespace MMB_ICP_MS
 
         }
     }
+}
