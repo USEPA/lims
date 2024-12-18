@@ -45,13 +45,6 @@ namespace MMB_ICP_MS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
-                //List<string> analytes = new List<string>();
-                //for (int col = 7; col <= numCols; col+=2)
-                //{
-                //    string analyte = GetXLStringValue(worksheet.Cells[1, col]);
-                //    analytes.Add(analyte);
-                //}
-
                 //There are a couple of extra rows at the end of the file that we need to skip
                 for (int row = 7; row <= numRows - 3; row += 5)
                 {
@@ -63,7 +56,8 @@ namespace MMB_ICP_MS
                     for (int col = 7; col <= numCols; col += 2)
                     {
                         analyteID = GetXLStringValue(worksheet.Cells[1, col]);
-                        measuredVal = GetXLDoubleValue(worksheet.Cells[row, col]);
+                        //Measured value is below the analyte ID
+                        measuredVal = GetXLDoubleValue(worksheet.Cells[row+2, col]);
 
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
