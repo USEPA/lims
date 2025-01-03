@@ -11,11 +11,11 @@ namespace CHL_IC
 {
     public class CHL_ICProcessor : DataProcessor
     {
-        public override string id { get => "chl_ic_version1.2"; }
+        public override string id { get => "chl_ic_version1.3"; }
         public override string name { get => "CHL_IC"; }
         public override string description { get => "Processor used for CHL IC translation to universal template"; }
         public override string file_type { get => ".xlsx"; }
-        public override string version { get => "1.2"; }
+        public override string version { get => "1.3"; }
         public override string input_file { get; set; }
         public override string path { get; set; }
 
@@ -44,40 +44,41 @@ namespace CHL_IC
                 int startCol = worksheet.Dimension.Start.Column;
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
-                
-                //Data starts with first non blank cell in row 3                
-                int startMeasuredValCol = 0;
-                for (int col = startCol; col < numCols; col++)
-                {
-                    string analyteID = GetXLStringValue(worksheet.Cells[3, col]);
-                    if (string.IsNullOrEmpty(analyteID))
-                        continue;
-                    else
-                    {
-                        startMeasuredValCol = col;
-                        break;
-                    }
-                }
 
-                for (int row = 2; row <= numRows; row++)
+                //Each sample has 2 values that need to be averaged
+                //that's why we increment by 2
+                for (int row = 5; row <= numRows; row+=2)
                 {
-                    aliquot = GetXLStringValue(worksheet.Cells[row, 4]);
+                    aliquot = GetXLStringValue(worksheet.Cells[row, ColumnIndex1.D]);
                     if (string.IsNullOrWhiteSpace(aliquot))
                         continue;
 
-                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[row, 5]);
-
-                    for (int col = startMeasuredValCol; col <= numCols; col++)
+                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[row, ColumnIndex1.E]);
+                    
+                    for (int col = ColumnIndex1.F; col <= numCols; col++)
                     {
                         string analyteID = GetXLStringValue(worksheet.Cells[3, col]);
                         if (string.Compare(analyteID, "Phosphate", true) == 0)
                             analyteID = "Ortho-Phosphate";
-                        
-                        string valTmp = GetXLStringValue(worksheet.Cells[row, col]);                        
+
+                        //Each sample has 2 values that need to be averaged
+                        string valTmp = GetXLStringValue(worksheet.Cells[row, col]);
+                        string valTmp2 = GetXLStringValue(worksheet.Cells[row+1, col]);
+                        double measuredVal1 = 0.0;
+                        double measuredVal2 = 0.0;
                         if (string.Compare(valTmp, "n.a.", true) == 0)
-                            measuredVal = 0.0;
-                        else if (!double.TryParse(valTmp, out measuredVal))
-                            measuredVal = 0.0;
+                            measuredVal1 = 0.0;
+                        else if (!double.TryParse(valTmp, out measuredVal1))
+                            measuredVal1 = 0.0;
+
+                        if (string.IsNullOrWhiteSpace(valTmp2))
+                            valTmp2 = valTmp;
+                        if (string.Compare(valTmp2, "n.a.", true) == 0)
+                            measuredVal2 = 0.0;
+                        else if (!double.TryParse(valTmp2, out measuredVal2))
+                            measuredVal2 = 0.0;
+
+                        measuredVal = (measuredVal1 + measuredVal2) / 2.0;
 
                         DataRow dr = dt.NewRow();
                         dr["Aliquot"] = aliquot;
