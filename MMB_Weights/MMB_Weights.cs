@@ -45,24 +45,38 @@ namespace MMB_Weights
                 //There are a couple of extra rows at the end of the file that we need to skip
                 for (int row = 3; row <= numRows; row++)
                 {
-                    analysisDateTime = GetXLDateTimeValue(worksheet.Cells[row, 1]);
+                    //analysisDateTime = GetXLDateTimeValue(worksheet.Cells[row, 1]);
                     aliquot = GetXLStringValue(worksheet.Cells[row, 2]);
                     analyteID = "Weight 1";
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[row, 3]);
+
+                    //Measured value is will have the unit in the string - e.g. 14.18061 g
+                    string tmpVal = GetXLStringValue(worksheet.Cells[row, 3]);
+                    if (!string.IsNullOrWhiteSpace(tmpVal))
+                    {
+                        tmpVal = tmpVal.Trim().Remove(tmpVal.Length - 2, 2);
+                        measuredVal = Double.Parse(tmpVal);
+                    }
 
                     DataRow dr = dt.NewRow();
-                    dr["AnalysisDateTime"] = analysisDateTime;
+                    //dr["AnalysisDateTime"] = analysisDateTime;
                     dr["Aliquot"] = aliquot;
-                    dr["AnalyteID"] = analyteID;
-                    dr["MeasuredValue"] = measuredVal;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
                     dt.Rows.Add(dr);
 
                     analyteID = "Weight 2";
-                    measuredVal = GetXLDoubleValue(worksheet.Cells[row, 5]);
-                    dr["AnalysisDateTime"] = analysisDateTime;
+                    tmpVal = GetXLStringValue(worksheet.Cells[row, 5]);
+                    if (!string.IsNullOrWhiteSpace(tmpVal))
+                    {
+                        tmpVal = tmpVal.Trim().Remove(tmpVal.Length - 2, 2);
+                        measuredVal = Double.Parse(tmpVal);
+                    }
+
+                    //dr["AnalysisDateTime"] = analysisDateTime;
+                    dr = dt.NewRow();
                     dr["Aliquot"] = aliquot;
-                    dr["AnalyteID"] = analyteID;
-                    dr["MeasuredValue"] = measuredVal;
+                    dr["Analyte Identifier"] = analyteID;
+                    dr["Measured Value"] = measuredVal;
                     dt.Rows.Add(dr);
                 }
                 rm.TemplateData = dt;
