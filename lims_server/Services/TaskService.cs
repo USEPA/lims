@@ -124,17 +124,25 @@ namespace LimsServer.Services
             }
 
             //If the Aliquot has a @ in, parse the string. Dilution Factor is after the @
+            //case where a .D at end of string and Dilution Factor is integer  -e.g. WO-24095-01-A-3@5.D
+            //case where a .D at end of string and Dilution Factor is double   -e.g. WO-24095-01-A-3@5.DWO-24095-01-A-3@3.7114.D
             if ((result != null) && result.TemplateData != null)
             {
                 foreach (DataRow dr in result.TemplateData.Rows)
                 {
-                    string aliquot = dr["Aliquot"].ToString();
+                    string aliquot = dr["Aliquot"].ToString().Trim();
+                    if (string.IsNullOrWhiteSpace(aliquot))
+                        continue;
+
                     if (aliquot.Contains("@"))
-                    {
+                    {                        
+                        if (aliquot.EndsWith(".d", StringComparison.OrdinalIgnoreCase))
+                            aliquot = aliquot.Remove(aliquot.Length - 2, 2);
+
                         string[] tokens = aliquot.Split("@");
                         dr["Aliquot"] = tokens[0];
 
-                        double dval = 0.0;
+                        double dval = 0.0;                                               
                         if (Double.TryParse(tokens[1], out dval))
                             dr["Dilution Factor"] = dval;
                     }
