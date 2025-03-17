@@ -45,8 +45,18 @@ namespace MMB_ICP_MS
                 int numRows = worksheet.Dimension.End.Row;
                 int numCols = worksheet.Dimension.End.Column;
 
+                Dictionary<string, string> analyteMap = new Dictionary<string, string>
+                {
+                    {"In115(LR)", "In115(LR)"},
+                    {"In115(MR)", "In115(MR)"},
+                    {"In115(HR)", "In115(HR)"},
+                    {"Ir193(LR)", "Ir193(LR)"},
+                    {"Ir193(MR)", "Ir193(MR)"},
+                    {"Ir193(HR)", "Ir193(HR)"}
+                };
+
                 //There are a couple of extra rows at the end of the file that we need to skip
-                for (int row = 7; row <= numRows - 3; row += 5)
+                for (int row = 2; row <= numRows - 3; row += 5)
                 {
                     aliquot = GetXLStringValue(worksheet.Cells[row, 1]);
                     if (string.IsNullOrWhiteSpace(aliquot))
@@ -56,15 +66,18 @@ namespace MMB_ICP_MS
                     for (int col = 7; col <= numCols; col += 2)
                     {
                         analyteID = GetXLStringValue(worksheet.Cells[1, col]);
-                        //Measured value is below the analyte ID
-                        measuredVal = GetXLDoubleValue(worksheet.Cells[row+2, col]);
-
-                        DataRow dr = dt.NewRow();
-                        dr["Aliquot"] = aliquot;
-                        dr["Measured Value"] = measuredVal;
-                        dr["Analyte Identifier"] = analyteID;
-
-                        dt.Rows.Add(dr);
+                        if (analyteMap.ContainsKey(analyteID))
+                        {
+                            //Measured value is below the analyte ID
+                            measuredVal = GetXLDoubleValue(worksheet.Cells[row, col]);
+                            if (double.IsNaN(measuredVal))
+                                continue;
+                            DataRow dr = dt.NewRow();
+                            dr["Aliquot"] = aliquot;
+                            dr["Measured Value"] = measuredVal;
+                            dr["Analyte Identifier"] = analyteID;
+                            dt.Rows.Add(dr);
+                        }                                                
                     }
                 }
                 rm.TemplateData = dt;
