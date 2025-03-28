@@ -77,6 +77,16 @@ namespace MMB_ICP_MS
                             dr["Measured Value"] = measuredVal;
                             dr["Analyte Identifier"] = analyteID;
                             dt.Rows.Add(dr);
+
+                            //Measured value is below the analyte ID
+                            measuredVal = GetXLDoubleValue(worksheet.Cells[row+2, col]);
+                            if (double.IsNaN(measuredVal))
+                                continue;
+                            dr = dt.NewRow();
+                            dr["Aliquot"] = aliquot;
+                            dr["Measured Value"] = measuredVal;
+                            dr["Analyte Identifier"] = analyteID;
+                            dt.Rows.Add(dr);
                         }                                                
                     }
                 }
