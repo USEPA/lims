@@ -1,7 +1,7 @@
 Creating a new LIMS processor
 
 Clone Git repo from: 
-https://github.com/kurtw555/lims
+https://github.com/USEPA/lims
 
 Launch Visual Studio 2019
 Open the LIMS Visual Studio Solution file:
