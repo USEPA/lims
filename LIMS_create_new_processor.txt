@@ -1,13 +1,20 @@
 Creating a new LIMS processor
 
 Clone Git repo from: 
-https://github.com/kurtw555/lims
+https://github.com/USEPA/lims
 
-Launch Visual Studio 2019
+Launch Visual Studio 2022
 Open the LIMS Visual Studio Solution file:
 lims_server.sln
 
 Add new C# class library project in Processors folder.
+
+Currently processors handle .xlsx, .xls, and text files. Here are some representative examples
+File Type	Processor Example
+.xlsx		MMB_Weights	
+.xls		PicoGreen		
+.txt		ACESD_DIC		Tab delimited
+.csv		CPHEA_IC		Comma delimited
 
 You can use the MyInstrument_template.cs.txt file as the basis for the new processor.
 

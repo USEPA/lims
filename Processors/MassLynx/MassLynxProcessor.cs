@@ -16,12 +16,7 @@ namespace MassLynx
         public override string input_file { get; set; }
         public override string path { get; set; }
 
-        public MassLynxProcessor()
-        {
-            
-        }
-        
-
+      
         public override DataTableResponseMessage Execute()
         {
             DataTableResponseMessage rm = null;
@@ -40,6 +35,7 @@ namespace MassLynx
                 using (StreamReader sr = new StreamReader(input_file))
                 {
                     int idxRow = 1;
+                    current_row = idxRow;
                     string line;
 
                     while ((line = sr.ReadLine()) != null)
@@ -116,8 +112,12 @@ namespace MassLynx
             }
             catch (Exception ex)
             {
-                rm.LogMessage = string.Format("Processor: {0},  InputFile: {1}, Exception: {2}", name, input_file, ex.Message);
-                rm.ErrorMessage = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                string errorMsg = string.Format("Problem executing processor {0} on input file {1}.", name, input_file);
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + ex.Message;
+                errorMsg = errorMsg + Environment.NewLine;
+                errorMsg = errorMsg + string.Format("Error occurred on row: {0}", current_row);
+                rm.ErrorMessage = errorMsg;                
             }
             
             return rm;

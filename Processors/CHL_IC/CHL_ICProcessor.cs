@@ -49,6 +49,7 @@ namespace CHL_IC
                 //that's why we increment by 2
                 for (int row = 5; row <= numRows; row+=2)
                 {
+                    current_row = row;
                     aliquot = GetXLStringValue(worksheet.Cells[row, ColumnIndex1.D]);
                     if (string.IsNullOrWhiteSpace(aliquot))
                         continue;
