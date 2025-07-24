@@ -8,6 +8,8 @@ Open the LIMS Visual Studio Solution file:
 lims_server.sln
 
 Add new C# class library project in Processors folder.
+Include project reference for PluginBase. This gives access to DataProcessor base class.
+All processors are derived from DataProcessor base class located in the PluginBase project.
 
 Currently processors handle .xlsx, .xls, and text files. Here are some representative examples
 File Type	Processor Example
@@ -21,7 +23,7 @@ You can use the MyInstrument_template.cs.txt file as the basis for the new proce
 Use the OfficeOpenXml package for working with .xlsx files.
 Use the ExcelDataReader package for working with older .xls files.
 
-Include project reference for PluginBase. This gives access to DataProcessor base class.
+
 
 
 
