@@ -1,0 +1,111 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : C:\msdchem\1\DATA\2022\Oct. 17, 2022\
+  Data File : 101722_P9L4.D                                       
+  Acq On    : 17 Oct 2022  11:55 am
+  Operator  : JMM/BTP
+  Sample    : standards
+  Misc      : A042688
+  ALS Vial  : 1   Sample Multiplier: 1
+
+  Quant Time: Mar 01 15:08:27 2023
+  Quant Method : C:\msdchem\1\METHODS\2022\P9 Carbotrap SCAN TIC Current Base May 9 CC.M
+  Quant Title  : WS labs
+  QLast Update : Fri Oct 14 10:37:23 2022
+  Response via : Initial Calibration
+
+   Internal Standards                R.T. QIon  Response  Conc Units Dev(Min)
+   --------------------------------------------------------------------------
+     1) d8-Naphthalene             15.964  TIC  1828461m    1.90 ng     -0.01
+     3) d10-Acenapthalene          20.848  TIC  2445774m    2.05 ng      0.00
+    17) d32-n-Pentadecane          20.670  TIC  7750156     8.50 ng      0.00
+    32) d42-Eicosane               26.101  TIC  3446987     3.95 ng      0.00
+    38) d50-Tetracosane            29.609  TIC  2802401     3.85 ng      0.00
+    48) d62-Triacontane            33.953  TIC  2444346     5.65 ng      0.00
+    51) d66-Dotriacontane          35.571  TIC  3546278m   13.10 ng      0.00
+    56) d74-Hexatriacontane        40.718  TIC   972546m   15.65 ng      0.00
+    60) d10-Pyrene                 27.766  TIC  1261798     0.90 ng      0.00
+    64) d12-Benz(a)anthracene      30.634  TIC   878042m    1.00 ng      0.00
+    76) d12-Coronene                0.000  TIC        0m    1.80 ng     -43.15
+    79) AAA-d4-Cholestane          33.543  TIC   714756m    0.90 ng      0.00
+
+   Target Compounds                                                   Qvalue
+     2) Naphthalene                16.021  TIC  5555088     4.39 ng   #   100
+     4) 1-Methylnapthalene         18.122  TIC  4741967m    6.29 ng          
+     5) 2-Methylnapthalene         18.385  TIC  2851068m    1.57 ng          
+     6) 2,6-Dimethylnapthalene     19.793  TIC  2884038     2.38 ng   #   100
+     7) Acenaphthylene             20.449  TIC  9502917m    9.74 ng          
+     8) Acenaphthene               20.953  TIC 12067695m   10.63 ng          
+     9) Dibenzofuran               21.326  TIC  2433913     0.25 ng       100
+    10) Fluorene                   22.177  TIC  3539000m    2.47 ng          
+    11) Methylfluorene             23.606  TIC  1446126     1.48 ng   #   100
+    12) Phenanthrene               24.436  TIC   763078m    0.06 ng          
+    13) Anthracene                 24.551  TIC   379178m    0.02 ng          
+    14) 9-Methylanthracene         26.311  TIC  3790843m    6.04 ng          
+    15) Fluoranthene               27.356  TIC  5780547     5.36 ng   #   100
+    16) Retene                     28.669  TIC  1464375m    3.14 ng          
+    18) Decane                     10.165  TIC  7680559m   11.34 ng          
+    19) Undecane                   14.036  TIC  4973775     6.57 ng   #    91
+    20) Dodecane                   16.352  TIC  5283126     6.43 ng        97
+    21) Tridecane                  18.122  TIC  6050928m    6.60 ng          
+    22) Tetradecane                19.625  TIC  5664457     6.18 ng        96
+    23) Pentadecane                20.953  TIC  6124328     6.36 ng   #   100
+    24) Hexadecane                 22.183  TIC  7260793     6.46 ng        96
+    25) Heptadecane                23.333  TIC  6389845m    6.01 ng          
+    26) Octadecane                 24.415  TIC  6444512     5.23 ng   #    90
+    27) Phytane                    24.520  TIC  7645551m    5.58 ng          
+    28) Dodecylcyclohexane         25.140  TIC  1097550     1.03 ng   #    72
+    29) Nonadecane                 25.439  TIC  6070359     5.77 ng        97
+    30) 2-Methylnonadecane         26.064  TIC   810839m    1.28 ng          
+    31) 3-Methylnonadecane         26.148  TIC   788824m    1.07 ng          
+    33) Eicosane                   26.421  TIC  6063838     6.30 ng        96
+    34) Heneicosane                27.356  TIC  5807967     5.99 ng        96
+    35) Pentadecylcyclohexane      28.102  TIC   994811m    1.18 ng          
+    36) Docosane                   28.249  TIC  5673126     6.04 ng        97
+    37) Tricosane                  29.105  TIC  5417906     5.88 ng        96
+    39) Tetracosane                29.935  TIC  5564084     6.07 ng   #    95
+    40) Pentacosane                30.723  TIC  5209193m    5.65 ng          
+    41) Hexacosane                 31.490  TIC  6430571     6.80 ng   #    95
+    42) Nonadecylcyclohexane       31.490  TIC  6430571     1.36 ng   #    98
+    43) Squalane                   31.920  TIC   651938m    1.46 ng          
+    44) Heptacosane                32.225  TIC  5161823     7.18 ng        97
+    45) Pristane                   23.333  TIC  6357839m    6.72 ng          
+    46) Octacosane                 32.934  TIC  4715612     7.63 ng   #    92
+    47) Nonacosane                 33.622  TIC  4005243     9.79 ng   #   100
+    49) Triacontane                34.352  TIC  3384392     5.90 ng   #    94
+    50) Hentriacontane             35.172  TIC  1927254     6.28 ng   #    80
+    52) Dotriacontane              36.117  TIC  1801073    39.77 ng        97
+    53) Tritriacontane             37.220  TIC  1017697m   23.84 ng          
+    54) Tetratriacontane           38.528  TIC   527188m   16.31 ng          
+    55) Pentatriacontane            0.000  TIC        0      N.D. d     
+    57) Hexatriacontane-MW of 506  40.718  TIC   944765m    1.65 ng          
+    58) Heptatriacontane-MW of...  44.253  TIC   210281m   Below Cal         
+    59) Octatricontane-MW of 536   47.021  TIC   172748m   Below Cal         
+    61) Pyrene                     27.803  TIC   715732m    0.51 ng          
+    62) Benzo(ghi)fluoranthene     38.833  TIC    13121   No Calib   #
+    63) Cyclopenta(cd)pyrene       36.548  TIC    30170   No Calib   #
+    65) Benz(a)anthracene          30.681  TIC   455359m    0.36 ng          
+    66) Chrysene                   30.775  TIC   632950m    0.06 ng          
+    67) 1-Methylchysene            31.983  TIC   725211m    0.71 ng          
+    68) Benzo(b)fluoranthene       33.097  TIC   559270m    1.11 ng          
+    69) Benzo(k)fluoranthene       33.139  TIC   340503m    0.88 ng          
+    70) Benzo(e)pyrene              0.000  TIC        0      N.D. d     
+    71) Benzo(a)pyrene              0.000  TIC        0      N.D. d     
+    72) Perylene                   33.932  TIC   228655m    0.51 ng          
+    73) Indeno[1,2,3-cd]pyrene      0.000  TIC        0      N.D. d     
+    74) Dibenzo[a,h]anthracene     36.432  TIC     6859     0.16 ng   #   100
+    75) Benzo[ghi]perylene         37.178  TIC    88643m    0.30 ng          
+    77) Coronene                    0.000  TIC        0      N.D. d     
+    78) Dibenzo(a,e)pyrene          0.000  TIC        0      N.D.       
+    80) ABB-20R-C27 Cholestane     33.270  TIC   245298m    0.42 ng          
+    81) AAA-20S-Cholestame         33.339  TIC   217511     0.43 ng   #   100
+    82) ABB-Methylcholestane       34.074  TIC   359107m   Below Cal         
+    83) ABBEthylcholestane         34.736  TIC   166605     0.45 ng   #    93
+    84) 17A(H)-22,29,30-Trisno...  34.179  TIC   335695m    0.94 ng          
+    85) 17B(H)-21A(H)-30-Norho...  35.266  TIC   498105m    0.98 ng          
+    86) 17A-(H-21B(H)-Hopane       36.096  TIC   377184m    1.72 ng          
+   --------------------------------------------------------------------------
+
+   (#) = qualifier out of range (m) = manual integration (+) = signals summed
+
+P9 Carbotra...e May 9 CC.M Wed Mar 01 15:08:41 2023   

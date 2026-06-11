@@ -1,0 +1,1279 @@
+C:\msdchem\1\DATA\2022\Oct. 17, 2022\101722_PelletBKG2.D\Audit.txt 
+Created Mon Oct 17 18:14:42 2022
+
+
+ Modified : Mon Oct 17 18:14:42 2022
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: Sept 21 2022 Scan PAH and VBS 20 gas no gas save.RES
+ User     : Sequence:  
+ Why      : Sequence 
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:06:55 2022
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 1.03554e+006 d8-Naphthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 625137 d10-Acenapthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 1.26349e+006 d32-n-Pentadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 515386 d42-Eicosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 552525 d50-Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 710658 d62-Triacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 871107 d66-Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 252262 d74-Hexatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 712076 d10-Pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 311826 d12-Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 5520 d12-Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:06:58 2022
+ Event    : ISTD Area 
+ Message  : 144884 AAA-d4-Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:04 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d8-Naphthalene from 1.9ng to 1.9ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:15 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Naphthalene from 0.409169ng to 0.420615ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:21 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 1-Methylnapthalene from 0.207654ng to 0.222239ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:37 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acenaphthylene from 0.157142ng to 0.154709ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:48 2022
+ Event    : QDEL
+ Message  : QDEL'ed Acenaphthene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:55 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Dibenzofuran from 0.0101348ng to 0.010141ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:07:58 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Dibenzofuran from 0.010141ng to 0.0101595ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:08:07 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Fluorene from 0.051774ng to 0.0527764ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:08:10 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Fluorene from 0.0527764ng to 0.0550895ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:08:22 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methylfluorene from 0.0234589ng to 0.0250568ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:08:48 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Phenanthrene from 0.0367613ng to 0.0619426ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:17 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Anthracene from 0.013002ng to 0.0210255ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:24 2022
+ Event    : QDEL
+ Message  : QDEL'ed 9-Methylanthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:32 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Retene from 0.0979287ng to 0.111227ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:39 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Decane from 0.171919ng to 0.671173ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:45 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Decane from 0.671173ng to 0.572604ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:46 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Decane from 0.572604ng to 0.546235ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:55 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Undecane from 0.246655ng to 2.3032ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:09:59 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Undecane from 2.3032ng to 1.69175ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:05 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Dodecane from 0.778965ng to 0.796524ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:25 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Octadecane from 0.678191ng to 0.6731ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:32 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Phytane from 0.390802ng to 0.583402ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:35 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Phytane from 0.583402ng to 0.528783ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:46 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Dodecylcyclohexane from 0.0396032ng to 0.346125ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:55 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Nonadecane from 0.769654ng to 0.732481ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:10:58 2022
+ Event    : QDEL
+ Message  : QDEL'ed 2-Methylnonadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:11:09 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 3-Methylnonadecane from 3.29012ng to 0.728524ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:11:17 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d42-Eicosane from 3.95ng to 3.95ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:11:27 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Eicosane from -3.95ng to 1.10674ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:11:49 2022
+ Event    : QDEL
+ Message  : QDEL'ed Docosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:11:55 2022
+ Event    : QDEL
+ Message  : QDEL'ed Tricosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:03 2022
+ Event    : QDEL
+ Message  : QDEL'ed Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:15 2022
+ Event    : QDEL
+ Message  : QDEL'ed Pentacosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:24 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Hexacosane from 0.13534ng to 0.123048ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:30 2022
+ Event    : QDEL
+ Message  : QDEL'ed Nonadecylcyclohexane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:36 2022
+ Event    : QDEL
+ Message  : QDEL'ed Squalane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:12:43 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Pentacosane from 0ng to 0.218833ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:13:22 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Pristane from 1.05569ng to 1.03502ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:13:43 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Nonacosane from -1ng to -1ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:13:48 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d62-Triacontane from 5.65ng to 5.65ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:13:59 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Triacontane from 0.497669ng to 0.505912ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:02 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Triacontane from 0.505912ng to 0.508484ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:12 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Hentriacontane from 0.873958ng to 0.886565ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:22 2022
+ Event    : QDEL
+ Message  : QDEL'ed Hentriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:30 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d66-Dotriacontane from 13.1ng to 13.1ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:42 2022
+ Event    : QDEL
+ Message  : QDEL'ed Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:45 2022
+ Event    : QDEL
+ Message  : QDEL'ed Tritriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:48 2022
+ Event    : QDEL
+ Message  : QDEL'ed Tetratriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:53 2022
+ Event    : QDEL
+ Message  : QDEL'ed Pentatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:14:57 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d74-Hexatriacontane from 15.65ng to 15.65ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:01 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d74-Hexatriacontane from 15.65ng to 15.65ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:04 2022
+ Event    : QDEL
+ Message  : QDEL'ed Hexatriacontane-MW of 506
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:08 2022
+ Event    : QDEL
+ Message  : QDEL'ed Heptatriacontane-MW of 520
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:11 2022
+ Event    : QDEL
+ Message  : QDEL'ed Octatricontane-MW of 536
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:17 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Pyrene from 0.0432321ng to 0.0452245ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:21 2022
+ Event    : QDEL
+ Message  : QDEL'ed Cyclopenta(cd)pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:25 2022
+ Event    : QDEL
+ Message  : QDEL'ed Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:33 2022
+ Event    : QDEL
+ Message  : QDEL'ed Chrysene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:35 2022
+ Event    : QDEL
+ Message  : QDEL'ed 1-Methylchysene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:38 2022
+ Event    : QDEL
+ Message  : QDEL'ed Benzo(b)fluoranthene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:40 2022
+ Event    : QDEL
+ Message  : QDEL'ed Benzo(k)fluoranthene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:43 2022
+ Event    : QDEL
+ Message  : QDEL'ed Benzo(e)pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:48 2022
+ Event    : QDEL
+ Message  : QDEL'ed Benzo(a)pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:51 2022
+ Event    : QDEL
+ Message  : QDEL'ed Perylene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:15:59 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for d12-Coronene from 1.8ng to 1.8ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:02 2022
+ Event    : QDEL
+ Message  : QDEL'ed Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:10 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for AAA-d4-Cholestane from 0.9ng to 0.9ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:26 2022
+ Event    : QDEL
+ Message  : QDEL'ed ABB-20R-C27 Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:28 2022
+ Event    : QDEL
+ Message  : QDEL'ed AAA-20S-Cholestame
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:31 2022
+ Event    : QDEL
+ Message  : QDEL'ed ABB-Methylcholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:34 2022
+ Event    : QDEL
+ Message  : QDEL'ed ABBEthylcholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:51 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 17A(H)-22,29,30-Trisnorhopane from 0.0490276ng to 0.0810581ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:53 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 17A(H)-22,29,30-Trisnorhopane from 0.0810581ng to 0.0780799ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:54 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 17A(H)-22,29,30-Trisnorhopane from 0.0780799ng to 0.0751952ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:16:56 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 17A(H)-22,29,30-Trisnorhopane from 0.0751952ng to 0.0859222ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:08 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for 17A-(H-21B(H)-Hopane from 0.067124ng to 0.0563646ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 1.05273e+006 d8-Naphthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 625137 d10-Acenapthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 1.26349e+006 d32-n-Pentadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 530755 d42-Eicosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 552525 d50-Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 736422 d62-Triacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 913791 d66-Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 376133 d74-Hexatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 712076 d10-Pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 311826 d12-Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 54000 d12-Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:17:12 2022
+ Event    : ISTD Area 
+ Message  : 146744 AAA-d4-Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:16 2022
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:25:16 2022
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:25:16 2022
+ Event    : ISTD Area 
+ Message  : 130647 C13 (ring)-vanllin
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:22 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for C13 (ring)-vanllin from 1.9ng to 1.9ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:25 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Phenol from -4.26782ng to 13.673ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:30 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Phenol from 13.673ng to 11.165ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:36 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for o-Cresol from 0.59038ng to 99.6862ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:50 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.867668ng to -0.483261ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:54 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.483261ng to -0.496628ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:55 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.496628ng to -0.621113ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:56 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.621113ng to -0.674347ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:56 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.674347ng to -0.68682ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:57 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.68682ng to -0.740862ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:25:59 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for m,p-Cresols from -0.740862ng to -0.543487ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:26:04 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Guaiacol from 1.15751ng to 1.35344ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:26:18 2022
+ Event    : QDEL
+ Message  : QDEL'ed Guaiacol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:26:46 2022
+ Event    : QDEL
+ Message  : QDEL'ed 2-Methoxymethylphenol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:26:52 2022
+ Event    : QDEL
+ Message  : QDEL'ed Ethylguaiacol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:26:56 2022
+ Event    : QDEL
+ Message  : QDEL'ed Eugenol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:27:17 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propylguaiacol from 0.586719ng to 0.595004ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:27:33 2022
+ Event    : Manual Integration
+ Message  : Changed peak amount for Vanillin from 1.21513ng to 0.275033ng
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:27:37 2022
+ Event    : QDEL
+ Message  : QDEL'ed Isoeugenol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:27:41 2022
+ Event    : QDEL
+ Message  : QDEL'ed 3,5-Dimethoxyphenol
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:27:47 2022
+ Event    : QDEL
+ Message  : QDEL'ed Syringealdehyde
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Nov 29 16:28:00 2022
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 0
+
+
+ Modified : Tue Nov 29 16:28:00 2022
+ Event    : ISTD Area 
+ Message  : 134670 C13 (ring)-vanllin
+ QuantFile:  P10 Carbotrap Scan 111422.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 1.05273e+006 d8-Naphthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 625137 d10-Acenapthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 1.26349e+006 d32-n-Pentadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 530755 d42-Eicosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 552525 d50-Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 736422 d62-Triacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 913791 d66-Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 376133 d74-Hexatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 712076 d10-Pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 311826 d12-Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 54000 d12-Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:34:46 2023
+ Event    : ISTD Area 
+ Message  : 146744 AAA-d4-Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:35:24 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acenaphthylene from 0.154709ng to 0.1577ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:36:10 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Decane from 0.546235ng to 0.617819ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:36:56 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Undecane from 1.69175ng to 0.730669ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:36:59 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Undecane from 0.730669ng to 0.660737ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:38:14 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Hexacosane from 0.123048ng to 0.13052ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:38:34 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Pristane from 1.03502ng to 1.05904ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:38:39 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Octacosane from -1ng to -1ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:38:45 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Nonacosane from -1ng to -1ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:04 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Triacontane from 0.508484ng to 0.544604ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:09 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for d74-Hexatriacontane from 15.65ng to 15.65ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:24 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for d12-Coronene from 1.8ng to 1.8ng
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:36 2023
+ Event    : QDEL
+ Message  : QDEL'ed 17A(H)-22,29,30-Trisnorhopane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:38 2023
+ Event    : QDEL
+ Message  : QDEL'ed 17B(H)-21A(H)-30-Norhopane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 1.05273e+006 d8-Naphthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 625137 d10-Acenapthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 1.26349e+006 d32-n-Pentadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 530755 d42-Eicosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 552525 d50-Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 736422 d62-Triacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 913791 d66-Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 406253 d74-Hexatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 712076 d10-Pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 311826 d12-Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 72976 d12-Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 13:39:48 2023
+ Event    : ISTD Area 
+ Message  : 146744 AAA-d4-Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 0
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : ISTD Area 
+ Message  : 1.05273e+006 d8-Naphthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : ISTD Area 
+ Message  : 625137 d10-Acenapthalene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : ISTD Area 
+ Message  : 1.26349e+006 d32-n-Pentadecane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : ISTD Area 
+ Message  : 530755 d42-Eicosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:36 2023
+ Event    : ISTD Area 
+ Message  : 552525 d50-Tetracosane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 736422 d62-Triacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 913791 d66-Dotriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 406253 d74-Hexatriacontane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 712076 d10-Pyrene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 311826 d12-Benz(a)anthracene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 72976 d12-Coronene
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+
+
+ Modified : Tue Feb 28 14:13:37 2023
+ Event    : ISTD Area 
+ Message  : 146744 AAA-d4-Cholestane
+ QuantFile: P9 Carbotrap SCAN 09262022 CC.RES
+ Severity : 1
+

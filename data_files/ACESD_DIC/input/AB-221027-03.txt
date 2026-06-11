@@ -1,0 +1,60 @@
+[Header]	
+System	TOCL 	
+S/W Version	1.00	
+User		
+Date/Time	10/26/2022 4:24:50 PM	
+
+[System]	
+Instrument Options	TOC/ASI/IC Unit/	
+
+[Data]	
+Type	Anal.	Sample Name	Sample ID	Result(TOC)	Result(TC)	Result(IC)	Result(POC)	Result(NPOC)	Result(TN)	Unit	Vial	Date / Time	
+Standard	IC	DIC standard	50 mg/L			50.00				mg/L	1, 2, 2, 2, 2	10/25/2022 2:14:21 PM	
+Unknown	IC	AB-221027-03 ICB 1	MilliQ Water			0.05961				mg/L	1	10/25/2022 3:25:37 PM	
+Unknown	IC	AB-221027-03 ICV 1	50 mg/L			51.47				mg/L	2	10/25/2022 3:35:00 PM	
+Unknown	IC	WO-22386-01-D-1	1			20.82				mg/L	3	10/25/2022 3:43:05 PM	
+Unknown	IC	WO-22386-02-D-1	2			22.26				mg/L	4	10/25/2022 3:52:04 PM	
+Unknown	IC	WO-22386-03-D-1	3			22.93				mg/L	5	10/25/2022 4:00:29 PM	
+Unknown	IC	WO-22386-04-D-1	4			23.05				mg/L	6	10/25/2022 4:08:43 PM	
+Unknown	IC	WO-22386-05-D-1	5			22.13				mg/L	7	10/25/2022 4:16:48 PM	
+Unknown	IC	WO-22386-06-D-1	6			22.75				mg/L	8	10/25/2022 4:25:32 PM	
+Unknown	IC	WO-22386-07-D-1	7			22.93				mg/L	9	10/25/2022 4:34:06 PM	
+Unknown	IC	WO-22386-08-D-1	8			23.56				mg/L	10	10/25/2022 4:42:16 PM	
+Unknown	IC	WO-22386-09-D-1	9			21.32				mg/L	11	10/25/2022 4:50:16 PM	
+Unknown	IC	WO-22386-10-D-1	10			22.26				mg/L	12	10/25/2022 4:58:25 PM	
+Unknown	IC	Wigand October 2022	1			24.00				mg/L	13	10/25/2022 5:07:03 PM	
+Unknown	IC	Wigand October 2022	2			23.30				mg/L	14	10/25/2022 5:15:12 PM	
+Unknown	IC	AB-221027-03 CCV 1	50 mg/L			51.19				mg/L	15	10/25/2022 5:24:22 PM	
+Unknown	IC	AB-221027-03 CCB 1	MilliQ Water			0.09771				mg/L	16	10/25/2022 5:31:48 PM	
+Unknown	IC	Wigand October 2022	3			23.02				mg/L	17	10/25/2022 5:39:50 PM	
+Unknown	IC	Wigand October 2022	4			22.86				mg/L	18	10/25/2022 5:47:53 PM	
+Unknown	IC	Wigand October 2022	5			22.55				mg/L	19	10/25/2022 5:55:57 PM	
+Unknown	IC	Wigand October 2022	6			23.18				mg/L	20	10/25/2022 6:04:20 PM	
+Unknown	IC	Wigand October 2022	7			23.82				mg/L	21	10/25/2022 6:12:49 PM	
+Unknown	IC	Wash	MilliQ Water			0.1174				mg/L	37	10/26/2022 12:59:21 PM	
+Unknown	IC	Wash	MilliQ Water			0.1552				mg/L	37	10/26/2022 1:05:47 PM	
+Unknown	IC	Wash	MilliQ Water			0.06953				mg/L	37	10/26/2022 1:12:06 PM	
+Unknown	IC	DIC standard	50 mg/L			51.08				mg/L	38	10/26/2022 1:21:37 PM	
+Unknown	IC	DIC standard	50 mg/L			51.37				mg/L	38	10/26/2022 1:29:51 PM	
+Unknown	IC	Wash	MilliQ Water			0.1534				mg/L	39	10/26/2022 1:37:20 PM	
+Unknown	IC	Wash	MilliQ Water			0.09889				mg/L	39	10/26/2022 1:43:39 PM	
+Unknown	IC	Wash	MilliQ Water			0.1319				mg/L	39	10/26/2022 1:49:58 PM	
+Unknown	IC	Wigand October 2022	8			23.24				mg/L	22	10/26/2022 1:57:39 PM	
+Unknown	IC	Wigand October 2022	8			0.000				mg/L	22		
+Unknown	IC	Wigand October 2022	9			23.56				mg/L	23	10/26/2022 2:08:41 PM	
+Unknown	IC	Wigand October 2022	10			23.13				mg/L	24	10/26/2022 2:17:06 PM	
+Unknown	IC	Wigand October 2022	11			22.68				mg/L	25	10/26/2022 2:25:09 PM	
+Unknown	IC	Wigand October 2022	12			22.85				mg/L	26	10/26/2022 2:33:10 PM	
+Unknown	IC	Wigand October 2022	13			22.68				mg/L	27	10/26/2022 2:41:43 PM	
+Unknown	IC	Wigand October 2022	14			22.97				mg/L	28	10/26/2022 2:49:51 PM	
+Unknown	IC	Wigand October 2022	15			23.65				mg/L	29	10/26/2022 2:58:02 PM	
+Unknown	IC	DIC standard	50 mg/L			50.61				mg/L	30	10/26/2022 3:07:15 PM	
+Unknown	IC	Wash	MilliQ Water			0.1127				mg/L	31	10/26/2022 3:14:43 PM	
+Unknown	IC	DIC Std 25Jul2022	50 mg/L			63.83				mg/L	32	10/26/2022 3:23:53 PM	
+Unknown	IC	DIC Std 01Sep2022	50 mg/L			54.99				mg/L	33	10/26/2022 3:33:46 PM	
+Unknown	IC	DIC Std 05Oct2022	50 mg/L			52.04				mg/L	34	10/26/2022 3:43:31 PM	
+Unknown	IC	DIC standard	50 mg/L			51.89				mg/L	35	10/26/2022 3:53:14 PM	
+Unknown	IC	Wash	MilliQ Water			0.07580				mg/L	36	10/26/2022 4:00:42 PM	
+Unknown	IC	Wash	MilliQ Water			0.05080				mg/L	36	10/26/2022 4:07:00 PM	
+Unknown	IC	Wash	MilliQ Water			0.05677				mg/L	36	10/26/2022 4:13:19 PM	
+Unknown	IC	Wash	MilliQ Water			0.03863				mg/L	36	10/26/2022 4:19:37 PM	

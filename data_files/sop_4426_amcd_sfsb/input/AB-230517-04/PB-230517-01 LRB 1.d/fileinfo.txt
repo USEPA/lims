@@ -1,0 +1,22 @@
+
+           Data File Information
+
+     Data File     : C:\TOF data\2023\051223\051223_2 .d\data.ms
+     Operator:     :  unknown
+     Acquired On   :  12 May 2023  12:18    
+     Instrument    :  625-485-7
+     Method File   :   
+     Sample Name   :   
+     Misc Info     :  Batch Blank 3 Can 40879
+     Vial Number   :  0
+     Sample Mult.  :  1.00
+     Sample Amount :  0.00
+     Exp. Barcode  :   
+     Act.  Barcode :   
+
+
+
+     Files in Data Directory
+
+
+     * = File time stamp is before latest quant update

@@ -1,0 +1,40 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : E:\LIMS DATA 2.0\032223\
+  Data File : WO-23110-07-A-1                         
+  Signal(s) : data.cdf
+  Acq On    : 20230322182705-0400
+  Operator  :  
+  Sample    :  
+  Misc      :  
+  ALS Vial  : 0   Sample Multiplier: 1   Samp. Amt.: 1
+
+  Integration File: events.e
+  Quant Time: Jul 31 14:14:04 2023
+  Quant Method : G:\LIMS DATA 2.0\FIDa_BTP_Dec20_22 linear.m
+  Quant Title  : FID_BTP_Dec 12_22_single level
+  QLast Update : Mon Jan 23 15:50:46 2023
+  Response via : Initial Calibration
+  Integrator: ChemStation
+
+  Volume Inj.  : 
+  Signal Phase : 
+  Signal Info  : 
+
+          Compound                     R.T.       Response    Conc Units
+   ---------------------------------------------------------------------------
+
+   Target Compounds
+   1)     Methane                     8.802          10851 17128.342 %    m
+   2)     Ethane                     10.180         282040  557.396 %    m
+   3)     Ethylene                   10.569         104392  146.651 %    m
+   4)     Acetylene                  11.920          60824  103.031 %    m
+   5)     Propane                    14.011         321831  437.953 %    m
+   6)     Propylene                  16.342          68701   35.872 %    m
+   7)     Butane                     19.787        3036138 3554.882 %    m
+   8)     Propyne	             21.770           8956    3.976 %    m
+   ---------------------------------------------------------------------------
+
+  (f)=RT Delta > 1/2 Window                                (m)=manual int.
+
+FIDa_BTP_De..._22 linear.m Wed Aug 02 13:53:50 2023   

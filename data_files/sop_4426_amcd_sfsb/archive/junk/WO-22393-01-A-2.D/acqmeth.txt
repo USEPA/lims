@@ -1,0 +1,237 @@
+
+
+                                       INSTRUMENT CONTROL PARAMETERS:    Gerstel 6890 5973
+                                       ---------------------------------------------------
+
+   C:\MSDCHEM\1\METHODS\2021\Sept 21 2022 Scan PAH and VBS 20 gas no gas save.M
+
+Control Information
+------- -----------
+       Sample Inlet : GC
+   Injection Source : External Device
+ Injection Location : Front
+             Use MS : Yes
+
+=============================================================================
+                                6890 GC METHOD
+=============================================================================
+
+OVEN
+   Initial temp:  65 'C (On)               Maximum temp:  450 'C
+   Initial time:  10.00 min                Equilibration time:  0.50 min
+   Ramps:
+      #  Rate  Final temp  Final time
+      1 10.00      300       15.00
+      2   0.0(Off)
+   Post temp:  0 'C
+   Post time:  0.00 min
+   Run time:  48.50 min
+
+FRONT INLET (HP PTV)                    BACK INLET (SPLIT/SPLITLESS)
+   Mode:  Solvent Vent                     Mode:  Split
+   Initial temp:  250 'C (Off)             Initial temp:  50 'C (Off)
+   Pressure:  8.31 psi (On)                Pressure:  0.00 psi (Off)
+   Vent time:  0.00 min                    Total flow:  45.0 mL/min
+   Vent flow:  50.0 mL/min                 Gas saver:  Off
+   Vent Pressure:  8.5 psi                 Gas type:  Helium
+   Purge flow:  50.0 mL/min
+   Purge time:  2.00 min
+   Total flow:  54.4 mL/min
+   Gas saver:  Off
+   Gas type:  Helium
+
+COLUMN 1                                COLUMN 2
+   Capillary Column                        (not installed)
+   Model Number:  Agilent 19091S-433
+   HP-5MS  5% Phenyl Methyl Siloxane
+   Max temperature:  325 'C
+   Nominal length:  30.0 m
+   Nominal diameter:  250.00 um
+   Nominal film thickness:  0.25 um
+   Mode:  constant flow
+   Initial flow:  1.0 mL/min
+   Nominal init pressure:  8.32 psi
+   Average velocity:  36 cm/sec
+   Inlet:  Front Inlet
+   Outlet:  MSD
+   Outlet pressure:  vacuum
+
+FRONT DETECTOR (TCD)                    BACK DETECTOR (NO DET)
+   Temperature:  250 'C (Off)
+   Reference flow:  20.0 mL/min (Off)
+   Mode:  Constant makeup flow
+   Makeup flow:  7.0 mL/min (Off)
+   Makeup Gas Type: Helium
+   Filament:  Off
+   Negative polarity:  Off
+
+SIGNAL 1                                SIGNAL 2
+   Data rate:  20 Hz                       Data rate:  20 Hz
+   Type:  front detector                   Type:  front detector
+   Save Data:  Off                         Save Data:  Off
+   Zero:  0.0 (Off)                        Zero:  0.0 (Off)
+   Range:  0                               Range:  0
+   Fast Peaks:  Off                        Fast Peaks:  Off
+   Attenuation:  0                         Attenuation:  0
+
+COLUMN COMP 1                           COLUMN COMP 2
+   Derive from front detector              Derive from front detector
+
+THERMAL AUX 2
+   Use:  MSD Transfer Line Heater
+   Description:
+   Initial temp:  300 'C (On)
+   Initial time:  0.00 min
+      #  Rate  Final temp  Final time
+      1   0.0(Off)
+
+                                        POST RUN
+                                           Post Time: 0.00 min
+
+TIME TABLE
+   Time       Specifier                     Parameter & Setpoint
+
+
+                               GC Injector
+
+
+     Front Injector:
+        Sample Washes                 0
+        Sample Pumps                  6
+        Injection Volume           1.00 microliters
+        Syringe Size               10.0 microliters
+        Nanoliter Adapter           Off
+        PostInj Solvent A Washes      0
+        PostInj Solvent B Washes      0
+        Viscosity Delay               0 seconds
+        Plunger Speed              Fast
+
+     Back Injector:
+        Sample Washes                 0
+        Sample Pumps                  6
+        Injection Volume           1.00 microliters
+        Syringe Size               10.0 microliters
+        Nanoliter Adapter           Off
+        PostInj Solvent A Washes      0
+        PostInj Solvent B Washes      0
+        Viscosity Delay               0 seconds
+        Plunger Speed              Fast
+
+ Column 1 Inventory Number : 1
+ Column 2 Inventory Number :  
+
+
+
+                            GERSTEL MAESTRO
+
+
+SYSTEM SETTINGS
+   Maestro Runtime         : 48.50 min
+   GC Cool Down Time       : 0.00 min
+   Cryo Timeout            : 40.00 min
+
+
+
+                               GERSTEL CIS
+
+
+   CIS                     : used
+
+CRYO COOLING
+   Cryo Cooling            : used
+
+TEMPERATURE PROGRAM
+   Heater Mode             : Standard
+
+   Initial Temperature     : -100 'C
+   Equilibration Time      : 0.20 min
+   Initial Time            : 0.00 min
+   Ramp 1                 
+       Rate                : 12.00 'C/s
+       End Temp            : 300 'C
+       Hold Time           : 6.00 min
+   Ramp 2                 
+       Rate                : 0.0 'C/s
+
+
+
+                               GERSTEL TDS
+
+
+TEMPERATURE PROGRAM
+   Initial Temperature     : 25 'C
+   Delay Time              : 1.00 min
+   Initial Time            : 0.00 min
+   Ramp 1                 
+       Rate 1              : 50.0 'C/min
+       End Temp 1          : 300 'C
+       Hold Time 1         : 11.00 min
+   Ramp 2                 
+       Rate 2              : 0.0 'C/min
+
+TDS SETTINGS
+   Transfer Temp           : 325 'C
+   Desorption Mode         : Splitless
+   Sample Mode             : Retain Tube - no Standby Cooling
+   Standby Temp            : 50 'C
+
+                                MS ACQUISITION PARAMETERS
+
+
+General Information
+------- -----------
+
+Tune File                : atune092122.u
+Acquistion Mode          : Scan
+
+
+MS Information
+-- -----------
+
+Solvent Delay            : 5.46 min
+
+EM Absolute              : True
+Resulting EM Voltage     : 1329.4
+
+[Scan Parameters]
+
+Low Mass                 : 44.0
+High Mass                : 500.0
+Threshold                : 150
+Sample #                 : 2       A/D Samples    4
+
+[MSZones]
+
+MS Quad                  : 150 C   maximum 200 C
+MS Source                : 230 C   maximum 250 C
+
+
+                             END OF MS ACQUISITION PARAMETERS
+
+
+                              TUNE PARAMETERS for SN:  
+                        -----------------------------
+
+ EMISSION    :      34.610
+ ENERGY      :      69.922
+ REPELLER    :      24.594
+ IONFOCUS    :      66.431
+ ENTRANCE_LE :       0.000
+ EMVOLTS     :    1482.353
+ AMUGAIN     :    2156.000
+ AMUOFFSET   :     120.000
+ FILAMENT    :       1.000
+ DCPOLARITY  :       0.000
+ ENTLENSOFFS :     10.541@  3    10.541@ 50    10.541@ 69    10.541@131    13.804@219    12.047@414    21.584@502    21.584@799 
+ MASSGAIN    :     199.000   
+ MASSOFFSET  :     -12.000   
+
+
+                           END OF TUNE PARAMETERS
+                      ------------------------------------
+
+
+
+                                               END OF INSTRUMENT CONTROL PARAMETERS
+                                               ------------------------------------
+

@@ -1,0 +1,40 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : D:\markes FID\OTAQ 2023\January 18_FID\
+  Data File : 011824_2.D                                          
+  Signal(s) : FID1A.ch
+  Acq On    : 18 Jan 2024  06:33 pm
+  Operator  : Lillian Alston/Bill Preston
+  Sample    : C1C4_ DCC_ Mix 5 pbbv_can37649
+  Misc      :  
+  ALS Vial  : 1   Sample Multiplier: 1
+
+  Integration File: events.e
+  Quant Time: Jan 19 10:01:12 2024
+  Quant Method : C:\GCMS\1\methods\FIDa_BTP_Jan10_24 linear.m
+  Quant Title  : FID_BTP_Dec 12_22_single level
+  QLast Update : Wed Jan 10 11:27:16 2024
+  Response via : Initial Calibration
+  Integrator: ChemStation
+
+  Volume Inj.  : 
+  Signal Phase : 
+  Signal Info  : 
+
+          Compound                     R.T.       Response    Conc Units
+   ---------------------------------------------------------------------------
+
+   Target Compounds
+   1)     Methane                     8.185          51674 4678.493 ppbv m
+   2)     Ethane                      9.725         124819    5.039 ppbv m
+   3)     Ethylene                   10.194         122116    5.054 ppbv m
+   4)     Acetylene                  11.808         125419    4.916 ppbv m
+   5)     Propane                    13.850         179105    5.017 ppbv m
+   6)     Propylene                  16.473         167573    4.917 ppbv m
+   7)     Butane                     19.893         209765    4.988 ppbv m
+   8)     Propyne                    22.168         148915    5.067 ppbv m
+   ---------------------------------------------------------------------------
+
+  (f)=RT Delta > 1/2 Window                                (m)=manual int.
+
+FIDa_BTP_Ja..._24 linear.m Mon Jun 03 22:10:26 2024   

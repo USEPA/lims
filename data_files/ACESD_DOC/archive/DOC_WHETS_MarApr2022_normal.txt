@@ -1,0 +1,42 @@
+[Header]	
+System	TOCL 	
+S/W Version	1.00	
+User		
+Date/Time	5/4/2022 9:58:04 AM	
+
+[System]	
+Instrument Options	TOC/ASI/IC Unit/	
+
+[Data]	
+Type	Anal.	Sample Name	Sample ID	Result(TOC)	Result(TC)	Result(IC)	Result(POC)	Result(NPOC)	Result(TN)	Unit	Vial	Date / Time	
+Unknown	TC	flush blanks	Untitled		0.000					mg/L	0, 0	5/3/2022 12:49:31 PM	
+Standard	NPOC	Standard	10mg/L					10.00		mg/L	1, 2, 2, 2, 2	5/3/2022 2:04:55 PM	
+Unknown	NPOC	Wash	Milli Q water					-0.04303		mg/L	1	5/3/2022 2:24:02 PM	
+Unknown	NPOC	DOC Check Std	10 mg/L					10.07		mg/L	2	5/3/2022 2:35:46 PM	
+Unknown	NPOC	Whets March 2022	1					2.832		mg/L	3	5/3/2022 2:46:28 PM	
+Unknown	NPOC	Whets March 2022	2					1.625		mg/L	4	5/3/2022 2:59:31 PM	
+Unknown	NPOC	Whets March 2022	3					1.613		mg/L	5	5/3/2022 3:12:36 PM	
+Unknown	NPOC	Whets March 2022	4					1.541		mg/L	6	5/3/2022 3:25:47 PM	
+Unknown	NPOC	Whets March 2022	5					1.940		mg/L	7	5/3/2022 3:39:05 PM	
+Unknown	NPOC	Whets March 2022	6					2.022		mg/L	8	5/3/2022 3:52:24 PM	
+Unknown	NPOC	Whets March 2022	7					1.768		mg/L	9	5/3/2022 4:05:31 PM	
+Unknown	NPOC	Whets March 2022	8					1.608		mg/L	10	5/3/2022 4:15:55 PM	
+Unknown	NPOC	Whets March 2022	9					3.225		mg/L	11	5/3/2022 4:29:50 PM	
+Unknown	NPOC	Whets March 2022	10					1.601		mg/L	12	5/3/2022 4:43:06 PM	
+Unknown	NPOC	Whets April 2022	1					2.123		mg/L	13	5/3/2022 4:56:39 PM	
+Unknown	NPOC	Whets April 2022	2					2.119		mg/L	14	5/3/2022 5:10:00 PM	
+Unknown	NPOC	DOC Check Std	10 mg/L					10.22		mg/L	15	5/3/2022 5:24:43 PM	
+Unknown	NPOC	Wash	Milli Q water					0.1491		mg/L	16	5/3/2022 5:34:25 PM	
+Unknown	NPOC	Whets April 2022	3					1.820		mg/L	17	5/3/2022 5:44:55 PM	
+Unknown	NPOC	Whets April 2022	4					1.927		mg/L	18	5/3/2022 5:58:00 PM	
+Unknown	NPOC	Whets April 2022	5					2.345		mg/L	19	5/3/2022 6:12:02 PM	
+Unknown	NPOC	Whets April 2022	6					2.551		mg/L	20	5/3/2022 6:22:47 PM	
+Unknown	NPOC	Whets April 2022	7					1.923		mg/L	21	5/3/2022 6:36:02 PM	
+Unknown	NPOC	Whets April 2022	8					1.801		mg/L	22	5/3/2022 6:49:18 PM	
+Unknown	NPOC	Whets April 2022	9					2.022		mg/L	23	5/3/2022 7:02:34 PM	
+Unknown	NPOC	Whets April 2022	10					2.998		mg/L	24	5/3/2022 7:16:07 PM	
+Unknown	NPOC	DOC Check Std	10 mg/L					9.958		mg/L	25	5/3/2022 7:30:56 PM	
+Unknown	NPOC	Wash	Milli Q water					0.1363		mg/L	26	5/3/2022 7:40:41 PM	
+Unknown	NPOC	Wash	Milli Q water					-0.02057		mg/L	0	5/3/2022 7:49:11 PM	
+Unknown	NPOC	Wash	Milli Q water					0.01177		mg/L	0	5/3/2022 7:57:40 PM	
+Unknown	NPOC	Wash	Milli Q water					-0.04178		mg/L	0	5/3/2022 8:06:09 PM	

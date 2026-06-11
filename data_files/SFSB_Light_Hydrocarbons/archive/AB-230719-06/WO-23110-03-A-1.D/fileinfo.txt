@@ -1,0 +1,22 @@
+
+           Data File Information
+
+     Data File     : G:\LIMS DATA 2.0\032223\032223_9_Fuel C.D\data.cdf
+     Operator:     :   
+     Acquired On   :  20230323000817-0400
+     Instrument    :  TOF-E10193
+     Method File   :   
+     Sample Name   :   
+     Misc Info     :   
+     Vial Number   :  0
+     Sample Mult.  :  1.00
+     Sample Amount :  1.00
+     Exp. Barcode  :   
+     Act.  Barcode :   
+
+
+
+     Files in Data Directory
+
+
+     * = File time stamp is before latest quant update

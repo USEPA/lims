@@ -1,0 +1,52 @@
+Type	Anal.	Sample Name	Sample ID	Result(TOC)	Result(TC)	Result(IC)	Result(POC)	Result(NPOC)	Result(TN)	Unit	Vial	Date / Time
+Unknown	NPOC	Overnight acid blank	5% acid add					0		mg/L	"0, 0"	7/27/2023 10:57
+Unknown	IC	blank	Pure Water			0				mg/L	1	7/27/2023 11:21
+Standard	IC	DIC standard	50 mg/L			50				mg/L	"1, 2, 2, 2, 2"	7/27/2023 13:06
+Standard	IC	DIC standard	50 mg/L			50				mg/L	"1, 2, 2, 2, 2"	7/27/2023 15:46
+Unknown	IC	AB-230802-01 CCV 1	50 mg/L			51.29				mg/L	1	7/27/2023 16:37
+Unknown	IC	AB-230802-01 CCB 1	UP Water			0.2676				mg/L	2	7/27/2023 16:44
+Unknown	IC	WO-23109-01-D-1 @4	1			23.15				mg/L	3	7/27/2023 16:52
+Unknown	IC	WO-23109-02-D-1	2			24.06				mg/L	4	7/27/2023 17:01
+Unknown	IC	WO-23109-03-D-1	3			24.31				mg/L	5	7/27/2023 17:10
+Unknown	IC	WO-23109-04-D-1	@5 4			24.26				mg/L	6	7/27/2023 17:19
+Unknown	IC	WO-23109-06-D-1	6			23.29				mg/L	7	7/27/2023 17:27
+Unknown	IC	WO-23109-07-D-1	7			24.15				mg/L	8	7/27/2023 17:39
+Unknown	IC	WO-23109-08-D-1	@10 8			20.89				mg/L	9	7/27/2023 17:48
+Unknown	IC	WO-23109-09-D-1	9			19.4				mg/L	10	7/27/2023 17:59
+Unknown	IC	WO-23109-10-D-1	10			22.35				mg/L	11	7/27/2023 18:10
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												

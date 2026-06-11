@@ -1,0 +1,27 @@
+
+           Data File Information
+
+     Data File     : C:\msdchem\1\DATA\2022\Oct. 17, 2022\101722_P9L4.D\data.ms
+     Operator:     :  JMM/BTP
+     Acquired On   :  17 Oct 2022  11:55 am
+     Instrument    :  Gerstel 6890 5973
+     Method File   :  Sept 21 2022 Scan PAH and VBS 20 gas no gas save.M
+     Sample Name   :  standards
+     Misc Info     :  A042688
+     Vial Number   :  1
+     Sample Mult.  :  1.00
+     Exp. Barcode  :   
+     Act.  Barcode :   
+
+
+
+     Files in Data Directory
+
+   Quant Results File:
+
+   P9 Carbotrap SCAN 09262022 CC.RES Nov 29 15:26 2022  351324 bytes
+
+   --Other Files--
+
+
+     * = File time stamp is before latest quant update

@@ -1,0 +1,143 @@
+G:\LIMS DATA 2.0\032223\032223_10_Fuel D.D\audit.txt 
+Created Tue Aug 01 14:01:43 2023
+
+
+ Modified : Tue Aug 01 14:01:43 2023
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Tue Aug 01 14:01:44 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: S
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Tue Aug 01 14:02:50 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 0ppbv to 114.017ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:02:54 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 114.017ppbv to 212.781ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:14 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 212.781ppbv to 254.097ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:19 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 254.097ppbv to 258.179ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:26 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 0ppbv to 5.77382ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:34 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 5.77382ppbv to 5.75664ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:42 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0ppbv to 72.0971ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:03:58 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 72.0971ppbv to 71.7109ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:04 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acetylene from 0 to 69.8779
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:11 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acetylene from 69.8779 to 69.0377
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:14 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propane from 0 to 0.954072
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:28 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propane from 0.954072 to 0.98589
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:37 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propylene from 0ppbv to 18.1207ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:44 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propylene from 18.1207ppbv to 18.1002ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:49 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Butane from 0 to 11.3532
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:04:59 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0ppbv to 2.56612ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Tue Aug 01 14:05:04 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 2.56612ppbv to 2.5634ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Wed Aug 02 13:53:04 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+

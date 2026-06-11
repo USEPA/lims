@@ -1,0 +1,339 @@
+E:\LIMS DATA 2.0\032223\032223_4_Tunnel BLK 1.D\audit.txt 
+Created Mon Jul 31 13:48:08 2023
+
+
+ Modified : Mon Jul 31 13:48:08 2023
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Mon Jul 31 13:48:08 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: S
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Mon Jul 31 13:48:31 2023
+ Event    : Quantitation 
+ Message  : Calculation using initial calibration
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Mon Jul 31 13:48:32 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: S
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+
+
+ Modified : Mon Jul 31 13:48:44 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 0ppbv to 47.9008ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:48:59 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 47.9008ppbv to 133.103ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:11 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 133.103ppbv to 135.025ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:27 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 135.025ppbv to 141.369ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:32 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 141.369ppbv to 133.455ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:42 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 0ppbv to 1.88594ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:50 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 1.88594ppbv to 1.79823ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:49:58 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 1.79823ppbv to 1.76986ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:50:08 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0ppbv to 0.766065ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:50:19 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0.766065ppbv to 0.669569ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:50:32 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0.669569ppbv to 0.69626ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:50:43 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acetylene from 0 to 0.635464
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:50:53 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acetylene from 0.635464 to 0.622077
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:51:20 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propane from 0 to 2.56792
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:53:27 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propylene from 0ppbv to 0.136264ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:53:38 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propylene from 0.136264ppbv to 0.152721ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:54:33 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Butane from 56.9344 to 64.1723
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:54:48 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Butane from 64.1723 to 63.3081
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:55:00 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Butane from 63.3081 to 64.7168
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:55:11 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0ppbv to -0.0330601ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:55:21 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from -0.0330601ppbv to 0.0414542ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:55:34 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0414542ppbv to -0.0634506ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:55:37 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from -0.0634506ppbv to 0.05336ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:56:44 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.05336ppbv to 0.0497428ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:56:54 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0497428ppbv to -0.00365867ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 13:57:00 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from -0.00365867ppbv to 0.00435725ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:06:19 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 133.455ppbv to 149.88ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:06:27 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 149.88ppbv to 152.841ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:06:36 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for methane from 152.841ppbv to 158.676ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:07:03 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for ethane from 1.76986ppbv to 1.78517ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:07:21 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0.69626ppbv to 0.719222ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:07:34 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Ethylene from 0.719222ppbv to 0.743545ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:08:01 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Acetylene from 0.622077 to 0.617108
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:08:23 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Propane from 2.56792 to 2.6111
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:01 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.00435725ppbv to 0.0144965ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:13 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0144965ppbv to 0.0248349ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:18 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0248349ppbv to 0.0543054ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:22 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0543054ppbv to 0.0818028ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:26 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0818028ppbv to 0.583754ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:09:51 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.583754ppbv to 0.0137557ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:10:06 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0137557ppbv to 0.0301483ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:10:25 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0301483ppbv to 0.0129678ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Mon Jul 31 14:13:54 2023
+ Event    : Manual Integration
+ Message  : Changed peak amount for Methy Acetylene from 0.0129678ppbv to 0.00332527ppbv
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 1
+
+
+ Modified : Wed Aug 02 13:53:42 2023
+ Event    : Report Generation 
+ Message  : Generated Report using option: 
+ QuantFile: FIDa_BTP_Dec20_22 linear.RES
+ Severity : 0
+

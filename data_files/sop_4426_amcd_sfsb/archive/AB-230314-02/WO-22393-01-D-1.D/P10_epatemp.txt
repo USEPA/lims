@@ -1,0 +1,40 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : C:\msdchem\1\DATA\2022\Oct. 17, 2022\
+  Data File : 101722_PelletBKG2.D                                 
+  Acq On    : 17 Oct 2022   5:26 pm
+  Operator  : JMM/BTP
+  Sample    : standards
+  Misc      : A042682
+  ALS Vial  : 4   Sample Multiplier: 1
+
+  Quant Time: Nov 29 16:27:47 2022
+  Quant Method : C:\msdchem\1\METHODS\2022\ P10 Carbotrap Scan 111422.M
+  Quant Title  : Methoxyphenol work Chris Geron
+  QLast Update : Mon Nov 28 14:13:17 2022
+  Response via : Initial Calibration
+
+   Internal Standards                R.T. QIon  Response  Conc Units Dev(Min)
+   --------------------------------------------------------------------------
+     1) C13 (ring)-vanllin         19.709  157   134670m    1.90 ng      0.00
+
+   Target Compounds                                                   Qvalue
+     2) Phenol                      9.193   94  1677011m   11.16 ng          
+     3) o-Cresol                   11.951  107  6680869m   99.69 ng          
+     4) m,p-Cresols                13.411  107    31030m   Below Cal         
+     5) Guaiacol                    0.000  109        0      N.D. d     
+     6) 2-Methoxymethylphenol       0.000  123        0      N.D. d     
+     7) Ethylguaiacol               0.000  137        0      N.D. d     
+     8) Eugenol                     0.000  164        0      N.D. d     
+     9) Propylguaiacol             19.094  137     7468m    0.60 ng          
+    10) Vanillin                   19.724  151    21784m    0.28 ng          
+    11) Isoeugenol                  0.000  164        0      N.D. d     
+    12) 3,5-Dimethoxyphenol         0.000  154        0      N.D. d     
+    13) Syringealdehyde             0.000  182        0      N.D. d     
+    14) 3,5-Dimethoxy-4-hydrox...  23.989  181     5094     0.36 ng   #     1
+    15) 4-Hydroxy-3-Methoxy ci...  24.462  178    52287     5.43 ng   #    90
+   --------------------------------------------------------------------------
+
+   (#) = qualifier out of range (m) = manual integration (+) = signals summed
+
+ P10 Carbot...can 111422.M Tue Nov 29 16:28:00 2022   

@@ -1,0 +1,58 @@
+                                        Quantitation Report    (QT Reviewed)
+
+  Data Path : C:\TOF data\2023\051223\
+  Data File : WO-23074-06-A-1.d                                        
+  Acq On    : 13 May 2023   5:25
+  Operator  : unknown
+  Sample    :  
+  Misc      : Rainbow Ltwater Post Comb Blk can 40882
+  ALS Vial  : 0   Sample Multiplier: 1
+
+  Quant Time: May 13 14:59:16 2023
+  Quant Method : C:\gcms\1\methods\Latest PFAS method May 2021\30 component PFAS ODS 1min purge April 28th,2023.m
+  Quant Title  : 30 component In house PFAS GasPro
+  QLast Update : Mon May 01 10:52:27 2023
+  Response via : Initial Calibration
+
+          Compound                   R.T. QIon  Response  Conc Units Dev(Min)
+   --------------------------------------------------------------------------
+   Internal Standards
+     1) d5-Chlorobenzene           33.955  117   690895    20.00 ppb     -0.04
+     2) 1,4-Difluorobenzene        30.021  114  1566067    20.00 ppb     -0.05
+
+   Target Compounds                                                   Qvalue
+     3) Tetrafluoromethane          0.000             0      N.D. d     
+     4) Hexafluoroethane            0.000             0      N.D. d     
+     5) Chlorotrifluoromethane      0.000             0      N.D. d     
+     6) Trifluoromethane            0.000             0      N.D. d     
+     7) Octafluoropropane          10.913   69   470214     1.15 ppb      100
+     8) Difluoromethane             0.000             0      N.D. d     
+     9) Pentafluoroethane          12.579   51     6637m    0.04 ppb         
+    10) Octafluorocyclobutane       0.000             0      N.D. d     
+    11) Fluoromethane               0.000             0      N.D. d     
+    12) Tetrafluoroethylene         0.000             0      N.D. d     
+    13) Hexafluoropropene           0.000             0      N.D. d     
+    14) 1,1,1-Trifluoroethane       0.000             0      N.D. d     
+    15) Hexafluoropropene_Oxide     0.000             0      N.D. d     
+    16) Chlorodifluoromethane       0.000             0      N.D. d     
+    17) 1,1,1,2-Tetrafluoroethane  15.596   33     2998m    0.03 ppb         
+    18) Decafluorobutane           15.713  119     2364m    0.02 ppb         
+    19) 1H-Heptafluoropropane       0.000             0      N.D. d     
+    20) Octafluorocyclopentene      0.000             0      N.D. d     
+    21) Trichlorofluoromethane     20.888  101     2632     0.01 ppb  #    82
+    22) Dodecafluoro-n-pentane     20.521   69    12978m    0.02 ppb         
+    23) 1H-Nonafluorobutane        22.355   51     7919m    0.02 ppb         
+    24) Tetradecafluorohexane       0.000             0      N.D. d     
+    25) 1H-Perfluoropentane         0.000             0      N.D. d     
+    26) E1                          0.000             0      N.D. d     
+    27) Hexadecafluoroheptane       0.000             0      N.D. d     
+    28) 1H-Perfluorohexane          0.000             0      N.D. d     
+    29) Perfluorooctane             0.000             0      N.D. d     
+    30) 1H-Perfluoroheptane         0.000             0      N.D. d     
+    31) 1H-Perfluorooctane          0.000             0      N.D. d     
+    32) E2                          0.000             0      N.D. d     
+   --------------------------------------------------------------------------
+
+   (#) = qualifier out of range (m) = manual integration (+) = signals summed
+
+30 componen... 28th,2023.m Sat May 13 15:59:07 2023   
