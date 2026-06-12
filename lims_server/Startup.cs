@@ -19,7 +19,7 @@ using Hangfire.Heartbeat;
 using Hangfire.Heartbeat.Server;
 using Serilog;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 using System.IO;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +54,7 @@ namespace LimsServer
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(_ => { }, typeof(Startup));
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
