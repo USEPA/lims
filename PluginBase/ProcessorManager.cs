@@ -209,7 +209,9 @@ namespace PluginBase
 
                 FileInfo fi = new FileInfo(fileName);
                 //New in version 5 - must deal with License
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //New way to handle license in version 8
+                ExcelPackage.License.SetNonCommercialPersonal("Curtis Calahan");
 
                 using ExcelPackage xlPkg = new ExcelPackage(fi);
                                    

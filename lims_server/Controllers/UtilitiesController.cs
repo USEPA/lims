@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 using LimsServer.Services;
 using LimsServer.Entities;
 using PluginBase;

@@ -37,7 +37,9 @@ namespace Qubit2_0
                 FileInfo fi = new FileInfo(input_file);
 
                 //New in version 5 - must deal with License
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                //New way to handle license in version 8
+                ExcelPackage.License.SetNonCommercialPersonal("Curtis Calahan");
                 using var package = new ExcelPackage(fi);
                 
                 //Data is in the 2nd sheet
